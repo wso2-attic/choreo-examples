@@ -1,8 +1,8 @@
 export interface Book {
-  id: string;
-  name: string;
+  id?: string;
+  title: string;
   author: string;
-  status?: Status;
+  status?: string;
 }
 
 export enum Status {

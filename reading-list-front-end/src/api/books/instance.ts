@@ -6,7 +6,7 @@ export const getReadingListInstance = () => {
     host: "6de500af-4608-46ca-944b-9f9810807bda-dev.e1-us-east-azure.choreoapis",
     env: "dev",
     service: "reading-list-service",
-    version: "1.0.0",
+    version: "0.3.0",
   };
   return initInstance(createBaseURL(config));
 };
