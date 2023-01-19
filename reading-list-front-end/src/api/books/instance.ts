@@ -3,7 +3,7 @@ import { initInstance } from "../instance";
 
 export const getReadingListInstance = () => {
   const config = {
-    host: import.meta.env.VITE,
+    host: import.meta.env.VITE_RESOURCE_HOST,
     env: import.meta.env.VITE_RESOURCE_ENV,
     service: import.meta.env.VITE_RESOURCE_SERVICE_NAME,
     version: import.meta.env.VITE_RESOURCE_VERSION,
