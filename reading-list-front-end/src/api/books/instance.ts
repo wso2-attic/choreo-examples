@@ -3,10 +3,11 @@ import { initInstance } from "../instance";
 
 export const getReadingListInstance = () => {
   const config = {
-    host: "6de500af-4608-46ca-944b-9f9810807bda-dev.e1-us-east-azure.choreoapis",
-    env: "dev",
-    service: "reading-list-service",
-    version: "0.3.0",
+    host: import.meta.env.VITE,
+    env: import.meta.env.VITE_RESOURCE_ENV,
+    service: import.meta.env.VITE_RESOURCE_SERVICE_NAME,
+    version: import.meta.env.VITE_RESOURCE_VERSION,
+    handle: import.meta.env.VITE_RESOURCE_HANDLE,
   };
   return initInstance(createBaseURL(config));
 };
