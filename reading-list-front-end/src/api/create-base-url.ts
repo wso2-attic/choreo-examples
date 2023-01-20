@@ -3,9 +3,11 @@ export const createBaseURL = ({
   env,
   service,
   version,
+  handle,
 }: {
   host: string;
   env: string;
   service: string;
   version: string;
-}) => `https://${host}.${env}/pera/${service}/${version}`;
+  handle: string;
+}) => `https://${host}.${env}/${handle}/${service}/${version}`;
