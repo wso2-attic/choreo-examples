@@ -4,7 +4,7 @@
         <inSequence>
             <send>
                 <endpoint>
-                    <address uri="$SYSTEM:petstoreendpoint">
+                    <address uri="$SYSTEM:PET_STORE_ENDPOINT">
                         <suspendOnFailure>
                             <initialDuration>-1</initialDuration>
                             <progressionFactor>1</progressionFactor>
@@ -25,7 +25,7 @@
         <inSequence>
             <send>
                 <endpoint>
-                    <address uri="$SYSTEM:petstoreendpoint">
+                    <address uri="$SYSTEM:PET_STORE_ENDPOINT">
                         <suspendOnFailure>
                             <initialDuration>-1</initialDuration>
                             <progressionFactor>1</progressionFactor>
