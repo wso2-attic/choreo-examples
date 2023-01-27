@@ -8,7 +8,7 @@
         <parameter name="transport.jms.CacheLevel">1</parameter>
         <parameter name="transport.jms.ConnectionFactoryJNDIName">QueueConnectionFactory</parameter>
         <parameter name="java.naming.factory.initial">org.apache.activemq.jndi.ActiveMQInitialContextFactory</parameter>
-        <parameter name="java.naming.provider.url">tcp://0.tcp.ap.ngrok.io:17168</parameter>
+        <parameter name="java.naming.provider.url">tcp://0.tcp.ap.ngrok.io:10088</parameter>
         <parameter name="transport.jms.SessionAcknowledgement">AUTO_ACKNOWLEDGE</parameter>
         <parameter name="transport.jms.SessionTransacted">false</parameter>
         <parameter name="transport.jms.ConnectionFactoryType">queue</parameter>
