@@ -11,6 +11,6 @@
         <parameter name="rabbitmq.queue.name">SalesOrderQueue</parameter>
         <parameter name="rabbitmq.exchange.name">amq.direct</parameter>
         <parameter name="rabbitmq.server.virtual.host">$SYSTEM:VHOST</parameter>
-        <parameter name="rabbitmq.message.content.type">application/xml</parameter>
+        <parameter name="rabbitmq.message.content.type">application/json</parameter>
     </parameters>
 </inboundEndpoint>
