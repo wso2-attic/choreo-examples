@@ -9,7 +9,7 @@ stored in Database as a REST API. First, for this sample repository to use it wi
 - Identify the public accessible connection url and credentials
 
 ## Create a MI Integration
-- Login to Choreo console
+- Login to [Choreo console](https://console.choreo.dev/)
 - Select iPaaS profile and create new component with name `Integration as an API`
 - Give a name and description
 - Authorize and select the GitHub details
