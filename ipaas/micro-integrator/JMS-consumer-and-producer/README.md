@@ -8,7 +8,7 @@ This samples show how to create a integration which consume message from a JMS q
 ## Setting up additional configurations
 - JMS transport details should be added to the deployment.toml
 - Create new deployment.toml file in the project root if it not present
-- Add the following JMS sender and receiver configurations accordingly
+- Add/Edit the following JMS sender and receiver configurations accordingly
 ```
 [[transport.jms.sender]]
 name = "myQueueSender"
