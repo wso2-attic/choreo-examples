@@ -17,7 +17,7 @@ stored in Database as a REST API. First, for this sample repository to use it wi
 - Select the forked repository for `GitHub Repository`
 - Select the `Branch` as `main`
 - Select `WSO2 MI` as `Build Preset`
-- Enter `ipaas/micro-integrator/data-service/` for the `Project Path`
+- Enter `ipaas/micro-integrator/data-service` for the `Project Path`
 - Enter `ipaas/micro-integrator/data-service/openapi.yaml` for the `OpenAPI File Path`
 - Then click on create
 - Once done, go to `Deploy` section and click on `Deploy Manually` button
