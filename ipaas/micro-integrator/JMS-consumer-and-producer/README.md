@@ -1,4 +1,4 @@
-# Data service integration
+# JMS producer and consumer integration
 
 This samples show how to create a integration which consume message from a JMS queue and send those messages to another JMS queue.
 
@@ -13,7 +13,7 @@ This samples show how to create a integration which consume message from a JMS q
 [[transport.jms.sender]]
 name = "myQueueSender"
 parameter.initial_naming_factory = "org.apache.activemq.jndi.ActiveMQInitialContextFactory"
-parameter.provider_url = "tcp://localhost:61616"
+parameter.provider_url = "tcp://<public IP or hostname>:61616"
 parameter.connection_factory_name = "QueueConnectionFactory"
 parameter.connection_factory_type = "queue"
 parameter.cache_level = "producer"
@@ -21,7 +21,7 @@ parameter.cache_level = "producer"
 [[transport.jms.listener]]
 name = "myQueueListener"
 parameter.initial_naming_factory = "org.apache.activemq.jndi.ActiveMQInitialContextFactory"
-parameter.provider_url = "tcp://localhost:61616"
+parameter.provider_url = "tcp://<public IP or hostname>:61616"
 parameter.connection_factory_name = "QueueConnectionFactory"
 parameter.connection_factory_type = "queue"
 parameter.cache_level = "consumer"
