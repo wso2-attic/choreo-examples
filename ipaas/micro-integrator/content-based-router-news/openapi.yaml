@@ -6,7 +6,7 @@ info:
 servers:
   - url: http://localhost:8290/services/newsapi
 paths:
-  /services/newsapi:
+  /newsapi:
     post:
       requestBody:
         required: true
