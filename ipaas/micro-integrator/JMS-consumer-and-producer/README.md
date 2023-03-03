@@ -40,6 +40,7 @@ parameter.cache_level = "consumer"
 - Enter `ipaas/micro-integrator/JMS-consumer-and-producer` for the `Project Path`
 - Then click on create
 - Once done, go to `Deploy` section and click on `Deploy Manually` button
+- JMS connection url is configure to read from environment variable. Hence configure `JMS_PROVIDER_URL` as a variable. ex: `JMS_PROVIDER_URL=tcp://<hostname or public IP>:61616`
 
 ## Testing
 - Once done go to the ActiveMQ web console or to a JMS client to send message to `SimpleStockQuoteServiceSource`
