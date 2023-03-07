@@ -4,7 +4,7 @@ The "Data Service Integration" sample demonstrates how to create an integration 
 
 ## Setting up the database
 - Start a MySQL instance and create a database (for example, `misampledb`).
-- Import the script to create the schema and populate employee data.
+- Import the [script](resources/misampledb.sql) to create the schema and populate employee data.
 - Identify the publicly accessible connection URL and credentials for the database.
 
 ## Create a MI Integration
