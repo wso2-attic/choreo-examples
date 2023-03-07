@@ -9,17 +9,16 @@ The "Data Service Integration" sample demonstrates how to create an integration 
 
 ## Create a MI Integration
 - Login to [Choreo console](https://console.choreo.dev/)
-- Select iPaaS profile and create new component with name `Integration as an API`
-- Give a name and description
+- Select the iPaaS profile and create a new component named `Integration as an API`
+- Provide a name and description for the component.
 - Authorize and select the GitHub details
-- Select the `GitHub Account`
-- Select the forked repository for `GitHub Repository`
+- Select the `GitHub Account` and the forked repository for `GitHub Repository`
 - Select the `Branch` as `main`
 - Select `WSO2 MI` as `Build Preset`
-- Enter `ipaas/micro-integrator/data-service` for the `Project Path`
-- Enter `ipaas/micro-integrator/data-service/openapi.yaml` for the `OpenAPI File Path`
-- Then click on create
-- Once done, go to `Deploy` section and click on `Deploy Manually` button
+- Enter `ipaas/micro-integrator/data-service` as the `Project Path`
+- Enter `ipaas/micro-integrator/data-service/openapi.yaml` as the `OpenAPI File Path`
+- Click on "Create" to create the component.
+- Once the component is created, go to the "Deploy" section and click on the "Deploy Manually" button.
 
 ### Setting up Environment variables
 - Database details need to be passed as environment variables
