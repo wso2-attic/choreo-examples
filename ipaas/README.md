@@ -1,3 +1,3 @@
 # Choreo iPaaS examples
 
-This repository contain iPaaS integrations examples based on Micro Integrator and ballerina that can be deploy on Choreo.
+This repository contains examples of iPaaS integrations based on Micro Integrator and Ballerina that can be deployed on Choreo.
