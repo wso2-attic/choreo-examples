@@ -29,18 +29,17 @@ parameter.cache_level = "consumer"
 ```
 
 ## Create a MI Integration
-- Login to [Choreo console](https://console.choreo.dev/)
-- Select iPaaS profile and create new component with name `Event-Triggeredd Integration`
-- Give a name and description
+- Login to the [Choreo console](https://console.choreo.dev/)
+- Select the iPaaS profile and create a new component with name `Event-Triggeredd Integration`
+- Provide a name and description for the component.
 - Authorize and select the GitHub details
-- Select the `GitHub Account`
-- Select the forked repository for `GitHub Repository`
+- Select the `GitHub Account` and the forked repository for `GitHub Repository`
 - Select the `Branch` as `main`
 - Select `WSO2 MI` as `Build Preset`
-- Enter `ipaas/micro-integrator/JMS-consumer-and-producer` for the `Project Path`
-- Then click on create
-- Once done, go to `Deploy` section and click on `Deploy Manually` button
-- JMS connection url is configure to read from environment variable. Hence configure `JMS_PROVIDER_URL` as a variable. ex: `JMS_PROVIDER_URL=tcp://<hostname or public IP>:61616`
+- Enter ipaas/micro-integrator/JMS-consumer-and-producer as the project path.
+- Click on "Create" to create the component.
+- Once the component is created, go to the "Deploy" section and click on the "Deploy Manually" button.
+- The JMS connection URL is configured to read from an environment variable. Therefore, configure the `JMS_PROVIDER_URL` as a variable, for example: `JMS_PROVIDER_URL=tcp://<hostname or public IP>:61616`.
 
 ## Testing
 - Once done go to the ActiveMQ web console or to a JMS client to send message to `SimpleStockQuoteServiceSource`
