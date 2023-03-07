@@ -1,6 +1,6 @@
 # JMS producer and consumer integration
 
-This samples show how to create a integration which consume message from a JMS queue and send those messages to another JMS queue.
+These samples demonstrate how to create an integration that consumes messages from a JMS queue and sends those messages to another JMS queue.
 
 ## Setting up ActiveMQ
 - For this sample, [ActiveMQ](https://activemq.apache.org/download.html) is used as the broker.
