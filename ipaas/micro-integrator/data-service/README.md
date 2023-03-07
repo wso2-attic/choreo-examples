@@ -21,11 +21,11 @@ The "Data Service Integration" sample demonstrates how to create an integration 
 - Once the component is created, go to the "Deploy" section and click on the "Deploy Manually" button.
 
 ### Setting up Environment variables
-- Database details need to be passed as environment variables
-- For that, go to the DevOps portal and select the component and `Configs & Secrets` to configure the env variables
-- Click on `Create` button and select `Environment Variables` as the `Configuration Type`
+- The database details need to be passed as environment variables.
+- To do this, go to the DevOps portal and select the component and "Configs & Secrets" to configure the environment variables.
+- Click on "Create" and select "Environment Variables" as the configuration type.
 - Give a name for the `Config Name`
-- Add Key value pairs to register them as environment variables. ex:
+- Add key-value pairs to register them as environment variables. For example:
   - `DB_DRIVER_CLASS` for `Key` and `com.mysql.jdbc.Driver` for `Value`
   - `DB_CONNECTION_URL` for `Key` and `jdbc:mysql://<public ip or hostname>:3306/misampledb` for `Value`
   - `DB_USER` for `Key` and db username for `Value`
