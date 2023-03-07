@@ -1,7 +1,6 @@
 # Data service integration
 
-This samples show how to create a integration which integrate with RDBMS. This example expose Employee information
-stored in Database as a REST API. First, for this sample repository to use it with choreo.
+The "Data Service Integration" sample demonstrates how to create an integration that integrates with a relational database management system (RDBMS) and exposes employee information stored in the database as a REST API. To use this sample with Choreo, follow these steps:
 
 ## Setting up database
 - Start a MySQL instance and create Database(ex: misampledb).
