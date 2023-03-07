@@ -3,7 +3,7 @@
 These samples demonstrate how to create an integration that consumes messages from a JMS queue and sends those messages to another JMS queue.
 
 ## Setting up ActiveMQ
-- For this sample, [ActiveMQ](https://activemq.apache.org/download.html) is used as the broker.
+- In this sample, ActiveMQ is used as the broker. You can download ActiveMQ from their official website: [ActiveMQ](https://activemq.apache.org/download.html).
 
 ## Setting up additional configurations
 - JMS transport details should be added to the deployment.toml
