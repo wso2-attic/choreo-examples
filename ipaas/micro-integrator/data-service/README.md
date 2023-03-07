@@ -2,10 +2,10 @@
 
 The "Data Service Integration" sample demonstrates how to create an integration that integrates with a relational database management system (RDBMS) and exposes employee information stored in the database as a REST API. To use this sample with Choreo, follow these steps:
 
-## Setting up database
-- Start a MySQL instance and create Database(ex: misampledb).
-- Import the script to create schema and populate employee data
-- Identify the public accessible connection url and credentials
+## Setting up the database
+- Start a MySQL instance and create a database (for example, `misampledb`).
+- Import the script to create the schema and populate employee data.
+- Identify the publicly accessible connection URL and credentials for the database.
 
 ## Create a MI Integration
 - Login to [Choreo console](https://console.choreo.dev/)
