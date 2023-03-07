@@ -42,6 +42,6 @@ parameter.cache_level = "consumer"
 - The JMS connection URL is configured to read from an environment variable. Therefore, configure the `JMS_PROVIDER_URL` as a variable, for example: `JMS_PROVIDER_URL=tcp://<hostname or public IP>:61616`.
 
 ## Testing
-- Once done go to the ActiveMQ web console or to a JMS client to send message to `SimpleStockQuoteServiceSource`
-- This service will listen messages on `SimpleStockQuoteServiceSource` and send them to `SimpleStockQuoteService` queue.
+
+Once you have completed the setup, you can go to the ActiveMQ web console or use a JMS client to send a message to the `SimpleStockQuoteServiceSource` queue. This service will listen to messages on `SimpleStockQuoteServiceSource` and send them to `SimpleStockQuoteService` queue
 
