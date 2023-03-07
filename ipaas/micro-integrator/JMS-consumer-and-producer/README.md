@@ -6,9 +6,9 @@ These samples demonstrate how to create an integration that consumes messages fr
 - In this sample, ActiveMQ is used as the broker. You can download ActiveMQ from their official website: [ActiveMQ](https://activemq.apache.org/download.html).
 
 ## Setting up additional configurations
-- JMS transport details should be added to the deployment.toml
-- Create new deployment.toml file in the project root if it not present
-- Add/Edit the following JMS sender and receiver configurations accordingly
+- The JMS transport details should be added to the deployment.toml file.
+- If a deployment.toml file is not present in the project root, create a new one.
+- Add or edit the following JMS sender and receiver configurations as needed:
 ```
 [[transport.jms.sender]]
 name = "myQueueSender"
