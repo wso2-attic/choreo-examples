@@ -13,3 +13,4 @@ RUN chmod -x /app/consumer.py;
 
 USER 10014
 CMD [ "python", "-u", "/app/consumer.py" ]
+
