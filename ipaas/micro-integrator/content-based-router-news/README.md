@@ -30,6 +30,6 @@ these steps:
 - Set the following payload to get general news
 ```
 {
-"type":"news"
+    "type":"news"
 }
 ```
