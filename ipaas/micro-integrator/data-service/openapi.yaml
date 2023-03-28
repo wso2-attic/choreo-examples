@@ -4,7 +4,7 @@ info:
   description: API Definition of Data service integration
   version: 1.0.0
 servers:
-  - url: http://localhost:8290/HelloWorld
+  - url: http://localhost:8290
 paths:
   /services/RDBMSDataService/Employee/{EmployeeId}:
     get:

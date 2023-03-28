@@ -4,7 +4,7 @@ info:
   description: Content based router example using news service
   version: 1.0.0
 servers:
-  - url: http://localhost:8290/services/newsapi
+  - url: http://localhost:8290
 paths:
   /newsapi:
     post:

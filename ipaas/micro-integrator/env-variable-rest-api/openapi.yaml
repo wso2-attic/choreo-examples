@@ -4,7 +4,7 @@ info:
   description: API Definition of PetStore
   version: 1.0.0
 servers:
-  - url: "http://localhost:8290/"
+  - url: "http://localhost:8290"
 paths:
   /petstore/pets:
     get:
