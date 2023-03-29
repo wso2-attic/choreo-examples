@@ -40,11 +40,12 @@
 						</format>
                         <args/>
                     </payloadFactory>
+                    <respond/>
                 </default>
             </switch>
-            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
         </inSequence>
         <outSequence>
+            <property name="messageType" value="application/json" scope="axis2"></property>
             <send/>
         </outSequence>
         <faultSequence/>
