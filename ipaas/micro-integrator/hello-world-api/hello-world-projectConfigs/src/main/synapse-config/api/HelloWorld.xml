@@ -3,7 +3,7 @@
     <resource methods="GET">
         <inSequence>
             <payloadFactory media-type="json">
-                <format>{"Hello":"Integation"}</format>
+                <format>{"Hello":"Integration"}</format>
                 <args/>
             </payloadFactory>
             <respond/>
