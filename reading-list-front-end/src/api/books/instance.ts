@@ -4,8 +4,8 @@ import { initInstance } from "../instance";
 export const getReadingListInstance = () => {
   const config = {
     host: import.meta.env.VITE_RESOURCE_HOST,
-    env: import.meta.env.VITE_RESOURCE_ENV,
     service: import.meta.env.VITE_RESOURCE_SERVICE_NAME,
+    endpointContext: import.meta.env.VITE_RESOURCE_ENDPOINT_CONTEXT,
     version: import.meta.env.VITE_RESOURCE_VERSION,
     handle: import.meta.env.VITE_RESOURCE_HANDLE,
   };

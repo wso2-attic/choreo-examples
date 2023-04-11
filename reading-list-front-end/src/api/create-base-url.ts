@@ -1,13 +1,14 @@
 export const createBaseURL = ({
   host,
-  env,
   service,
   version,
   handle,
+  endpointContext,
 }: {
   host: string;
   env: string;
   service: string;
   version: string;
   handle: string;
-}) => `https://${host}.${env}/${handle}/${service}/${version}`;
+  endpointContext?: string;
+}) => `https://${host}/${handle}/${service}/${endpointContext}/${version}`;

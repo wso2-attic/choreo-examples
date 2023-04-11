@@ -119,7 +119,7 @@ export default function App() {
           <div className="flex justify-between items-center">
             {user && (
               <a href="#" className="font-bold text-xl text-[#36d1dc]">
-                {user.username}
+                {user?.orgName}
               </a>
             )}
             <button
