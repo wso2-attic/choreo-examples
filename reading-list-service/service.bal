@@ -1,4 +1,5 @@
 import ballerina/uuid;
+import ballerina/log;
 import ballerina/http;
 
 enum Status {
@@ -22,9 +23,12 @@ map<Book> books = {};
 
 service /readinglist on new http:Listener(9090) {
 
-    resource function get books() returns Book[]|error? {
+
+    resource function get books(@http:Header string X\-JWT\-Assertion) returns Book[]|error? {
+        log:printInfo("JWT: " + X\-JWT\-Assertion);
         return books.toArray();
     }
+
 
     resource function post books(@http:Payload BookItem newBook) returns record {|*http:Ok;|}|error? {
         string bookId = uuid:createType1AsString();
