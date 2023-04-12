@@ -87,7 +87,7 @@ export default function App() {
     setIsLoading(false);
   };
 
-  const hanldeSignIn = async () => {
+  const handleSignIn = async () => {
     signIn()
       .then(() => {
         setSignedIn(true);
@@ -105,7 +105,7 @@ export default function App() {
     return (
       <button
         className="float-right bg-black bg-opacity-20 p-2 rounded-md text-sm my-3 font-medium text-white"
-        onClick={hanldeSignIn}
+        onClick={handleSignIn}
       >
         Login
       </button>
