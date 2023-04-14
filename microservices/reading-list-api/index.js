@@ -22,7 +22,7 @@ app.post("/readinglist", (req, res) => {
   const newBook = req.body;
   const bookId = uuidv4();
   books[bookId] = { ...newBook, id: bookId };
-  res.status(201).json({});
+  res.status(201).json(books[bookId]);
 });
 
 app.delete("/readinglist/:id", (req, res) => {
