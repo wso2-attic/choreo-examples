@@ -28,3 +28,7 @@ hs_err_pid*
 **/target/
 **/Dependencies.toml
 **/Config.toml
+
+# Ignore webapp files
+**/node_modules/
+**/dist/

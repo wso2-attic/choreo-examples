@@ -1,0 +1,19 @@
+{
+    "baseUrl": "https://api.asgardeo.io/t/shalkiwenushika",
+    "clientID": "g5MNv3b67xZ5jpWcd196IGt58NEa",
+    "scope": [
+        "openid",
+        "profile",
+        "email"
+    ],
+    "signInRedirectURL": "https://477ea372-b412-4058-96c3-3d60373ced46.e1-us-east-azure.choreoapps.dev",
+    "signOutRedirectURL": "https://477ea372-b412-4058-96c3-3d60373ced46.e1-us-east-azure.choreoapps.dev",
+    "resourceServerURLs": [
+        "https://4f80b73c-1552-42ef-b4cd-59ca3e312ddd-dev.e1-us-east-azure.choreoapis.dev/a02k/pet-management-service/pet-management-service-803/1.0.0"
+    ],
+    "stsConfig": {
+        "scope": ["openid", "profile", "email"],
+        "orgHandle": "shalkiwenushika"
+    },
+    "stsTokenEndpoint": "https://api.asgardeo.io/t/shalkiwenushika/oauth2/token"
+}
