@@ -19,7 +19,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import "./pets.css";
-import { Button } from "@material-ui/core";
 
 interface ModalProps {
     isOpen: boolean;

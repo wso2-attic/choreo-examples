@@ -250,7 +250,7 @@
   }  
 
 .save-button {
-    background-color: #09b6d0;
+    background-color: #4AD6DB;
     border: none;
     color: white;
     padding: 9px 17px;
@@ -377,7 +377,7 @@
 }
 
 .update-form-save-btn {
-    background-color: #09b6d0;
+    background-color: #4AD6DB;
     border-radius: 3px;
     border: none;
     color: #ffffff;
@@ -514,7 +514,7 @@
 .plus-button-style {
     height: 5vh;
     width: 5vh;
-    background-color: #09b6d0; 
+    background-color: #4AD6DB; 
     border: none;
     border-radius: 1vh;
     color: white;
@@ -535,7 +535,7 @@
 }
 
 .vcc-info-div {
-    background-color: #09b6d0;
+    background-color: #4AD6DB;
     width: 500px;
 }
 
@@ -573,7 +573,7 @@
 }
 
 .save-btn-style {
-    background-color: #09b6d0;
+    background-color: #4AD6DB;
     border: none;
     width: 7vw;
     height: 5vh;
@@ -583,7 +583,7 @@
 }
 
 .upload-btn-style {
-    background-color: #09b6d0;
+    background-color: #4AD6DB;
     border: none;
     color: white;
     padding: 1vh 1vh;
@@ -606,7 +606,7 @@
     padding: 1vh 2vh;
     margin-right: 1vw;
     font-size: 2vh;
-    background-color: #09b6d0;
+    background-color: #4AD6DB;
     color: #fff;
     border-radius: 5px;
     box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);

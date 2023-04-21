@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { Button, List, ListItem, ListItemIcon, ListItemText, Menu, Theme, Typography, createStyles, makeStyles } from "@material-ui/core";
+import { Button, List, ListItem, ListItemIcon, ListItemText, Menu, Theme, Typography, createStyles, makeStyles } from "@mui/material";
 import React from "react";
 import getSettingsView from "../pages/settings";
 import GetSettings from "../pages/settings";

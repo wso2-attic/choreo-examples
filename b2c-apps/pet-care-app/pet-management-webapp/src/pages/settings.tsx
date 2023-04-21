@@ -18,9 +18,9 @@
 
 import { useAuthContext } from "@asgardeo/auth-react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Grid, Switch, Typography, withStyles } from "@material-ui/core";
-import { blue, green, red } from "@material-ui/core/colors";
-import React, { Fragment, useEffect, useState } from "react";
+import { Grid, Switch } from "@mui/material";
+import { alpha, styled } from '@mui/material/styles';
+import React, { Fragment } from "react";
 import { Notification } from "../types/pet";
 import { postNotification } from "../components/Notifications/post-notification";
 
@@ -38,23 +38,21 @@ export default function GetSettings(props: SettingsProps) {
     const { isOpen, setIsOpen, enabled, email, setEnabled, setEmail } = props;
     const { getAccessToken } = useAuthContext();
 
-    const CustomSwitch = withStyles({
-        switchBase: {
-            color: "#09b6d0",
-            '&$checked': {
-                color: "#09b6d0",
-            },
-            '&$checked + $track': {
-                backgroundColor: "#5aebed",
-            },
+    const CustomSwitch = styled(Switch)(({ theme }) => ({
+        '& .MuiSwitch-switchBase.Mui-checked': {
+          color: "#09b6d0",
+          '&:hover': {
+            backgroundColor: alpha("#09b6d0", theme.palette.action.hoverOpacity),
+          },
         },
-        checked: {},
-        track: {},
-    })(Switch);
+        '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+          backgroundColor: "#09b6d0",
+        },
+      }));
 
     const toggleSwitch = () => {
         setEnabled(!enabled);
-      }
+    }
 
     const handleOnSave = () => {
         async function setNotification() {
@@ -102,26 +100,30 @@ export default function GetSettings(props: SettingsProps) {
                                 <label className="notification-label">Notifications</label>
                                 <div className="settings-grid">
                                     <Grid container spacing={2}>
-                                        <Grid item xs={6} style={{ textAlign: "right", fontSize:"2.7vh" }}>
+                                        <Grid item xs={6} style={{ textAlign: "right", fontSize: "2.7vh" }}>
                                             <label>Enable</label>
                                         </Grid>
-                                        <Grid item xs={6} style={{ textAlign: "left",  fontSize:"2.7vh" }}>
-                                            <CustomSwitch defaultChecked={enabled} onChange={toggleSwitch} className="switch-style"/>
+                                        <Grid item xs={6} style={{ textAlign: "left", fontSize: "2.7vh" }}>
+                                            <CustomSwitch
+                                                checked={enabled}
+                                                onChange={toggleSwitch}
+                                                className="switch-style"
+                                            />
                                         </Grid>
-                                        <Grid item xs={6} style={{ textAlign: "right",  fontSize:"2.7vh" }}>
+                                        <Grid item xs={6} style={{ textAlign: "right", fontSize: "2.7vh" }}>
                                             <label>Email Address</label>
                                         </Grid>
-                                        <Grid item xs={6} style={{ textAlign: "left" , fontSize:"2.7vh"}}>
+                                        <Grid item xs={6} style={{ textAlign: "left", fontSize: "2.7vh" }}>
                                             <input
-                                            className="input-style"
-                                            id="email"
-                                            type="text"
-                                            placeholder={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                        />
+                                                className="input-style"
+                                                id="email"
+                                                type="text"
+                                                placeholder={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                            />
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </div>
+                                </div>
                             </div>
                             <button className="settings-save-btn" onClick={() => handleOnSave()}>Save</button>
                         </Dialog.Panel>

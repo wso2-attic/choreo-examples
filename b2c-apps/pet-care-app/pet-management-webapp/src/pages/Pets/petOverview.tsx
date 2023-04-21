@@ -19,7 +19,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useEffect, useState } from "react";
 import { Pet } from "../../types/pet";
-import { Box, Card, CardContent, Checkbox, Divider, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
+import { Checkbox, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import PET_IMAGE from "../../images/thumbnail.png";
 import UpdatePet from "./updatePet";
 import { useAuthContext } from "@asgardeo/auth-react";

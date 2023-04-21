@@ -17,7 +17,7 @@
  */
 
 import { BasicUserInfo, Hooks, useAuthContext } from "@asgardeo/auth-react";
-import { Box, Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import React, { FunctionComponent, ReactElement, useCallback, useEffect, useState } from "react";
 import { default as authConfig } from "../config.json";
 import LOGO_IMAGE from "../images/pet_care_logo.png";

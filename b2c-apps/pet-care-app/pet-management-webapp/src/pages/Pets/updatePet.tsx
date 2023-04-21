@@ -19,11 +19,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Pet, VaccineInfo, updatePetInfo } from "../../types/pet";
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography, colors } from "@material-ui/core";
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import FileUploadSingle from "./fileUploader";
 import PET_IMAGE from "../../images/thumbnail.png";
 import { useAuthContext } from "@asgardeo/auth-react";
-import { blue } from "@material-ui/core/colors";
 import { updatePet } from "../../components/UpdatePet/update-pet";
 
 interface UpdateProps {

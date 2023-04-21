@@ -10,7 +10,10 @@
         "experimentalDecorators": true,
         "typeRoots": [
             "./typings"
-        ]
+        ],
+        "types": [
+            "node"
+        ],
     },
     "include": [
         "typings/**/*",

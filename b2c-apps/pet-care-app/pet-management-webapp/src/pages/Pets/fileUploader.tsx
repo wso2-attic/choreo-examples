@@ -19,7 +19,6 @@
 import { useAuthContext } from '@asgardeo/auth-react';
 import React from 'react';
 import { ChangeEvent, useState } from 'react';
-import { Button } from '@material-ui/core';
 import { updateThumbnail } from '../../components/UploadThumbnail/put-thumbnail';
 import { getThumbnail } from '../../components/GetThumbnail/get-thumbnail';
 

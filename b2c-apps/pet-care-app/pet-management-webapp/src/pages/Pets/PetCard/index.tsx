@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { Avatar, Card, CardContent, CardHeader, Typography } from "@material-ui/core";
+import { Card, CardContent } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PET_IMAGE from "../../../images/thumbnail.png";
 import { useAuthContext } from "@asgardeo/auth-react";
