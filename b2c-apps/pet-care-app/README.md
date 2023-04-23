@@ -241,7 +241,7 @@ In this step, you are going to deploy the pet management front-end application i
 
 ## Step 3.2: Update config.json of the front-end application
 
-1. Navigate to [config.json](https://github.com/wso2/choreo-examples/blob/main/b2c-apps/pet-care-app/pet-management-webapp/src/config.json) and take a copy of this file to your machine. 
+1. Navigate to [config.json](pet-management-webapp/src/config.json) and take a copy of this file to your machine. 
 2. Fill the config.json values as follows.
 
     - BASE-URL
