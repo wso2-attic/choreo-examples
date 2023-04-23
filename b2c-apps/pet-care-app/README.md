@@ -1,10 +1,12 @@
 # Pet Management Application User Guide
 
+The Pet Management Application is a B2C (business-to-consumer) application that allows users to sign up and maintain their pets. They can enter basic information and vaccination information for their pets into the system. They can then set up email alerts for their pets' upcoming vaccination dates. The instructions below will walk you through deploying and managing the pet management service's backend service and front end application in [Choreo](https://wso2.com/choreo/). [Asgardeo](https://wso2.com/asgardeo/) assists you in addressing your application's CIAM capabilities. 
+
 ---
 
 # Step 1: Create and publish a Service
 
-In this step, you are playing the role of the API developer. You will create and publish the Service that the web application needs to consume.
+In this step, you are playing the role of the API developer. You will create and publish the Service that the web application needs to consume. Before you proceed, sign into [**Choreo Console**](https://console.choreo.dev/).
 
 ## Step 1.1: Create the Service
 
