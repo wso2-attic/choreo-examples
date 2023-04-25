@@ -40,7 +40,7 @@ public function main() returns error?|error {
     github:Repository repo = check githubClient->getRepository(GITHUB_USERNAME, GITHUB_REPO_NAME);
     RepoData repoData = {name: repo.name, repo: repo, prs: [], issues: []};
     do {
-        // fetch issues and pull requests of each repository 
+        // fetch issues and pull requests of the repository 
         stream<github:PullRequest, github:Error?> PRs = check githubClient->getPullRequests(GITHUB_USERNAME, repo.name, github:PULL_REQUEST_OPEN);
         stream<github:Issue, github:Error?> issues = check githubClient->getIssues(GITHUB_USERNAME, repo.name);
 
@@ -56,7 +56,7 @@ public function main() returns error?|error {
 
     io:println("Writing to the Google Sheet");
 
-    // add overviwe sheet
+    // rename the default sheet
     do {
         check spreadsheetClient->renameSheet(GOOGLE_SHEET_ID, DEFAULT_SHEET_NAME, GITHUB_REPO_NAME);
     } on fail var e {
