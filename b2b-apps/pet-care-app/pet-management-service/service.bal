@@ -56,7 +56,7 @@ service / on new http:Listener(9090) {
     # Update a pet
     # + petId - ID of the pet
     # + updatedPetItem - Updated pet details
-    # + return - Pet details or not found 
+    # + return - Pet details or not found
     resource function put pets/[string petId](http:Headers headers, @http:Payload PetItem updatedPetItem) returns Pet|http:NotFound|error? {
 
         choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
