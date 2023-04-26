@@ -165,7 +165,7 @@ Let's test the Pet Management Service via Choreo's Open API Console by following
     ```
 
 4. Click **Execute**.
-5. Check the Server Response section. On successful invocation, you will receive the 200 HTTP code.
+5. Check the Server Response section. On successful invocation, you will receive the **201** HTTP code.
 Similarly, you can expand and try out the other methods.
 
 ## Step 1.6: Publish the Service
@@ -174,7 +174,7 @@ Now that yourService is tested, let's publish it and make it available for appli
 
 1. In the **Manage** tab, click **Lifecycle**.
 2. Click **Publish** to publish the Service to the **Developer Portal**. External applications can subscribe to the API via the Developer Portal.
-3. To access the Developer Portal, click **Go to DevPortal**.
+3. To access the Developer Portal, click **Go to DevPortal** in the top right corner.
 4. The Pet Management Service will open in the Developer Portal.
 
 &nbsp;<br>
@@ -220,7 +220,18 @@ Now you have generated keys for the application.
 &nbsp;<br>
 # Step 3: Deploy the Pet Management Web application
 
-## Step 3.1: Configure the front-end application
+## Step 3.1: Enable Web Application Creation feature
+
+You can skip this step if you are new to Choreo. If not, follow the below steps to **Enable Web Application Creation feature**.
+
+1. Navigate to **Choreo Console**.
+2. Click on the **User Profile**in the top right corner.
+3. Click on the **Feature Preview** in the user menu.
+4. Toggle the **Web Application Creation** Switch.
+
+![Alt text](readme-resources/feature-preview.png?raw=true "Feature Preview")
+
+## Step 3.2: Configure the front-end application
 
 In this step, you are going to deploy the pet management front-end application in Choreo.
 
@@ -251,7 +262,7 @@ In this step, you are going to deploy the pet management front-end application i
 9. Click on the **Create** button.
 10. The Web Application opens on a separate page where you can see its overview.
 
-## Step 3.2: Update config.json of the front-end application
+## Step 3.3: Update config.json of the front-end application
 
 1. Navigate to [config.json](pet-management-webapp/src/config.json) and take a copy of this file to your machine. 
 2. Fill the config.json values as follows.
@@ -286,7 +297,7 @@ In this step, you are going to deploy the pet management front-end application i
 
      Upload the locally saved config.json in the **Upload** section.
 
-## Step 3.3: Deploy the front-end application
+## Step 3.4: Deploy the front-end application
 
 1. Navigate to **Build and Deploy** section on the left navigation menu.
 2. Click **Deploy Manually** on the **Build Area**.
