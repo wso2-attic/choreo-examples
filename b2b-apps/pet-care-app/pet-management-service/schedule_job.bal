@@ -9,8 +9,7 @@ import ballerina/io;
 configurable string emailHost = "smtp.email.com";
 configurable string emailUsername = "admin";
 configurable string emailPassword = "admin";
-const string emailTemplateFilePath = "/Users/pubudugunatilaka/wso2/choreo-projects/choreo-examples/b2b-apps/pet-care-app/pet-management-service/resources/email_template.html";
-// const string emailTemplateFilePath = "/home/ballerina/resources/email_template.html";
+const string emailTemplateFilePath = "/home/ballerina/resources/email_template.html";
 
 map<string> emailOutbox = {};
 
@@ -20,8 +19,6 @@ class Job {
     string emailTemplate = "";
 
     public function execute() {
-
-        log:printInfo("Job is running every 10....");
 
         time:Utc currentUtc = time:utcNow();
         time:Civil currentTime = time:utcToCivil(currentUtc);
