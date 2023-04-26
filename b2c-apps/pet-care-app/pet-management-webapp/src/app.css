@@ -334,6 +334,8 @@ code {
     min-width:30vw;
     min-height: 35vw;
     align-items: center;
+    height: fit-content;
+    width: fit-content;
 }
 
 .user-menu-div {

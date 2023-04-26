@@ -12,18 +12,19 @@ In this step, you are playing the role of the API developer. You will create and
 
 Let's create your first Service.
 1. On the **Home** page, click on the project you created.
-2. Click **Create** in the Service card.
-3. Enter a unique name and a description for the Service. For example, you can enter the name and the description given below:
+2. To add a new component, select **Components** from the left-side menu and click **Create**.
+3. Click **Create** in the **Service** card.
+4. Enter a unique name and a description for the Service. For example, you can enter the name and the description given below:
 
     | Field | Value |
     | -------- | -------- |
     | Name | Pet Management Service |
     | Description | Manage your pets |
 
-4. Click **Next**.
-5. To allow Choreo to connect to your GitHub account, click **Authorize with GitHub**.
-6. If you have not already connected your GitHub repository to Choreo, enter your GitHub credentials, and select the repository you created by forking https://github.com/wso2/choreo-examples to install the Choreo GitHub App.
-7. In the Connect Repository dialog box, enter the following information:
+5. Click **Next**.
+6. To allow Choreo to connect to your GitHub account, click **Authorize with GitHub**.
+7. If you have not already connected your GitHub repository to Choreo, enter your GitHub credentials, and select the repository you created by forking https://github.com/wso2/choreo-examples to install the Choreo GitHub App.
+8. In the Connect Repository dialog box, enter the following information:
 
     | Field | Value |
     | -------- | -------- |
@@ -33,7 +34,7 @@ Let's create your first Service.
     | Build Preset | Click **Ballerina** because you are creating the REST API from a Ballerina project and Choreo needs to run a Ballerina build to build it. |
     | Path | /b2c-apps/pet-care-app/pet-management-service |
 
-8. Click **Create** to initialize a Service with the implementation from your GitHub repository.
+9. Click **Create** to initialize a Service with the implementation from your GitHub repository.
 
 The Service opens on a separate page where you can see its overview.
 
@@ -130,7 +131,7 @@ For the Service to be invokable, you need to deploy it. To deploy the Service, f
 If you are not connecting the service to a MySQL database and storing the service's data in memory, then you must follow the steps below to ensure that only one container is running for the service.
 
 1. In the left pane, click **Runtime**.
-2. Make the Min replicas and Max replicas count to **1**.
+2. Make the Min replicas and Max replicas count to **1** and click **Update**.
 3. Click **Redeploy Release** button.
 
 ## Step 1.4: Update API settings
@@ -179,7 +180,16 @@ Now that yourService is tested, let's publish it and make it available for appli
 &nbsp;<br>
 # Step 2: Consume the Service from Developer Portal
 
-## Step 2.1: Create an application
+## Step 2.1: Enable Asgardeo Key Manager
+
+You can skip this step if you are new to Choreo. If not, follow the below steps to **Enable Asgardeo Key Manager**.
+
+1. Go to the **Choreo Console**, click **Settings**, and then click **API Management**.
+2. On the API Management page, click **Enable Asgardeo Key Manager**.
+
+![Alt text](readme-resources/enable-km.png?raw=true "Enable Asgardeo Key Manager")
+
+## Step 2.2: Create an application
 
 An application in the Developer Portal is a logical representation of a physical application such as a mobile app, web app, device, etc.
 Let's create the application to consume the Pet Management Service by following the steps given below:
@@ -190,7 +200,7 @@ Let's create the application to consume the Pet Management Service by following 
 
 Your Application will open on a separate page.
 
-## Step 2.2: Subscribe to the Service
+## Step 2.3: Subscribe to the Service
 
 To consume the Service, the `Pet Management App` application needs to subscribe to it. To subscribe your application to the Service, follow the steps given below:
 1. In the left navigation menu, click **Subscriptions**.
@@ -199,7 +209,7 @@ To consume the Service, the `Pet Management App` application needs to subscribe 
 
 Now your application has subscribed to the `Pet Management Service` Service.
 
-## Step 2.3: Generate Credentials for the Application
+## Step 2.4: Generate Credentials for the Application
 
 To consume the Service, you need to use the application keys. The below steps specify how you can generate keys for the application.
 1. In the left navigation menu, click **Production** on **Credentials**.
