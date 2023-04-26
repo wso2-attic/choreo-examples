@@ -268,18 +268,19 @@ In this step, you are going to deploy the pet management front-end application i
 2. Fill the config.json values as follows.
 
     - BASE-URL
-        - Open the application you created previously via **Developer Portal**.
+        - Open the **application**(`Pet Management App`) you created previously via **Developer Portal**.
         - Click **Production** Keys in the left navigation menu.
         - Go to the **Endpoints** section.
         - Copy and paste the **Token Endpoint** value and remove `/oauth2/token` part from the url. eg: https://api.asgardeo.io/t/{organization_name}
 
     - CLIENT-ID
-        - Open the application you created previously via **Developer Portal**.
+        - Open the **application**(`Pet Management App`) you created previously via **Developer Portal**.
         - Click **Production** Keys in the left navigation menu.
         - Copy and paste the value of the **Consumer Key**.
       
     - API-ENDPOINT-OF-PET-MGT-SERVICE
-        - Open the API you created previously via **Developer Portal**.
+        - Open the **API** you created previously via **Developer Portal**.
+        - In the **Overview** section of the API, you can find the **Endpoint(s)**.
         - Copy and paste the value of On the **Endpoint(s)** section.
 
     - SIGN-IN-REDIRECT-URL and SIGN-OUT-REDIRECT-URL
@@ -304,7 +305,7 @@ In this step, you are going to deploy the pet management front-end application i
 3. When the application is deployed successfully you will get an url in the section **Web App URL**.
 4. Copy and paste the url as the **SIGN-IN-REDIRECT-URL** and **SIGN-OUT-REDIRECT-URL** in the config.json in **step 3.2**.
 5. Navigate to **Configs & Secrets** section on the left navigation menu.
-6. Click edit on the secret, webapp-configs you created.
+6. On the secret, webapp-configs you created, click the **edit icon** on the right side corner.
 7. Provide the config.json content and click **Save**.
 
 &nbsp;<br>
