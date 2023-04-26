@@ -290,12 +290,12 @@ export default function UpdatePet(props: UpdateProps) {
                                 <div className="pet-image-style">
                                     {imageUrl ? (
                                     <img
-                                        style={{ width: "100%", height: "100%", borderRadius: "10%" }}
+                                        style={{ width: "20vw", height: "20vw", borderRadius: "10%"}}
                                         src={imageUrl}
                                         alt="pet-image"
                                     />) : (
                                         <img
-                                            style={{ width: "100%", height: "100%", borderRadius: "10%" }}
+                                            style={{ width: "20vw", height: "20vw", borderRadius: "10%"}}
                                             src={PET_IMAGE}
                                             alt="pet-image"
                                         />
