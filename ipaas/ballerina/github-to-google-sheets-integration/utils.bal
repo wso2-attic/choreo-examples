@@ -1,8 +1,8 @@
 import ballerinax/github;
 import ballerinax/googleapis.sheets;
-import ballerina/io;
+import ballerina/log;
 
-// to Issue[]
+// Convert stream of Issues to an array of Issues
 function convertIssueStreamToArray(stream<github:Issue, github:Error?> streamInput) returns github:Issue[]|error {
     github:Issue[] outputArray = [];
     _ = check streamInput.forEach(function(github:Issue r) {
@@ -11,7 +11,7 @@ function convertIssueStreamToArray(stream<github:Issue, github:Error?> streamInp
     return outputArray;
 }
 
-// to PullRequest[]
+// Convert stream of PullRequests to an array of PullRequests
 function convertPullRequestStreamToArray(stream<github:PullRequest, github:Error?> streamInput) returns github:PullRequest[]|error {
     github:PullRequest[] outputArray = [];
     _ = check streamInput.forEach(function(github:PullRequest r) {
@@ -20,7 +20,7 @@ function convertPullRequestStreamToArray(stream<github:PullRequest, github:Error
     return outputArray;
 }
 
-// process and write data to the google sheet
+// Process and write data to the Google Sheet
 function createRepoSheet(RepoData repoData) {
     do {
         github:Repository repo = repoData.repo;
@@ -46,11 +46,13 @@ function createRepoSheet(RepoData repoData) {
             ["Open Issues"]
         ];
 
+        // Iterate through open issues and add them to rangeData
         foreach github:Issue issue in openIssues {
             rangeData.push([issue.title ?: "", issue.url ?: ""]);
         }
 
         rangeData.push([], ["Open PRs"]);
+        // Iterate through open pull requests and add them to rangeData
         foreach github:PullRequest pr in openPRs {
             rangeData.push([pr.title ?: "", pr.url ?: ""]);
         }
@@ -63,12 +65,12 @@ function createRepoSheet(RepoData repoData) {
         check spreadsheetClient->setRange(GOOGLE_SHEET_ID, GITHUB_REPO_NAME, range);
 
     } on fail var e {
-        io:println("Error occurred while processing repo: " + repoData.name + " " + e.message());
+        log:printError("An error occurred while processing the repo: " + repoData.name, e);
     }
 
 }
 
-// get open issues
+// Get open issues
 function getOpenIssues(github:Issue[] issues) returns github:Issue[] {
     github:Issue[] openIssues = [];
     foreach github:Issue issue in issues {
@@ -79,7 +81,7 @@ function getOpenIssues(github:Issue[] issues) returns github:Issue[] {
     return openIssues;
 }
 
-// get open PRs
+// Get open PRs
 function getOpenPRs(github:PullRequest[] prs) returns github:PullRequest[] {
     github:PullRequest[] openPRs = [];
     foreach github:PullRequest pr in prs {
