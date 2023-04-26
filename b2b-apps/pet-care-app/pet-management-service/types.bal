@@ -8,7 +8,7 @@ type PetItem record {|
 type Pet record {|
     *PetItem;
     readonly string id;
-    readonly string owner;
+    *OwnerInfo;
 |};
 
 type Thumbnail record {|
@@ -31,8 +31,8 @@ type PetRecord record {|
 |};
 
 type PetVaccinationRecord record {|
+    *OwnerInfo;
     string id;
-    string owner;
     string name;
     string breed;
     string dateOfBirth;
@@ -52,11 +52,16 @@ type Settings record {|
 |};
 
 type SettingsRecord record {|
-    readonly string owner;
+    *OwnerInfo;
     *Settings;
 |};
 
 type PetAlert record {|
     *Pet;
     string emailAddress;
+|};
+
+type OwnerInfo record {|
+    readonly string owner;
+    readonly string org;
 |};

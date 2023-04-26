@@ -254,12 +254,15 @@ components:
       - $ref: '#/components/schemas/PetItem'
       - required:
         - id
+        - org
         - owner
         type: object
         properties:
           id:
             type: string
           owner:
+            type: string
+          org:
             type: string
     Settings:
       required:

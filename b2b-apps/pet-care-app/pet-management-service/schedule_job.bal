@@ -9,6 +9,8 @@ import ballerina/io;
 configurable string emailHost = "smtp.email.com";
 configurable string emailUsername = "admin";
 configurable string emailPassword = "admin";
+const string emailTemplateFilePath = "/Users/pubudugunatilaka/wso2/choreo-projects/choreo-examples/b2b-apps/pet-care-app/pet-management-service/resources/email_template.html";
+// const string emailTemplateFilePath = "/home/ballerina/resources/email_template.html";
 
 map<string> emailOutbox = {};
 
@@ -18,6 +20,8 @@ class Job {
     string emailTemplate = "";
 
     public function execute() {
+
+        log:printInfo("Job is running every 10....");
 
         time:Utc currentUtc = time:utcNow();
         time:Civil currentTime = time:utcToCivil(currentUtc);
@@ -72,13 +76,11 @@ class Job {
 public function main() returns error? {
 
     decimal jobIntervalInSeconds = 10;
-    string filePath = "/home/ballerina/resources/email_template.html";
-
-    string|io:Error emailTemplate = io:fileReadString(filePath);
+    string|io:Error emailTemplate = io:fileReadString(emailTemplateFilePath);
 
     if (emailTemplate is io:Error) {
         log:printError("Error while loading the email template: " + emailTemplate.toString());
-        log:printError("Please mount the file to the container. Mount location: /home/ballerina/resources/email_template.html");
+        log:printError("Please mount the file to the container. Mount location: " + emailTemplateFilePath);
         emailTemplate = "";
     } else {
         log:printInfo("Email template loaded successfully.");

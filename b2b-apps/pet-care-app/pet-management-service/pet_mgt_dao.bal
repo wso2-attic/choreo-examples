@@ -324,6 +324,7 @@ function getPetsForPetsStream(stream<PetVaccinationRecord, sql:Error?> petsStrea
 
                 Pet p = {
                     id: pet.id,
+                    org: pet.org,
                     owner: pet.owner,
                     name: pet.name,
                     breed: pet.breed,

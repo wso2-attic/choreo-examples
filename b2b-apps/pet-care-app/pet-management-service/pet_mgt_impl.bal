@@ -11,8 +11,8 @@ configurable string dbPassword = "admin";
 configurable string dbDatabase = "PET_DB";
 configurable int dbPort = 3306;
 
-table<PetRecord> key(owner, id) petRecords = table [];
-table<SettingsRecord> key(owner) settingsRecords = table [];
+table<PetRecord> key(org, owner, id) petRecords = table [];
+table<SettingsRecord> key(org, owner) settingsRecords = table [];
 final mysql:Client|error dbClient;
 boolean useDB = false;
 map<Thumbnail> thumbnailMap = {};
@@ -54,7 +54,7 @@ function getConnection() returns jdbc:Client|error {
     return dbClient;
 }
 
-function getPets(string owner) returns Pet[]|error {
+function getPets(string org, string owner) returns Pet[]|error {
 
     Pet[] pets = [];
     if (useDB) {
@@ -62,7 +62,7 @@ function getPets(string owner) returns Pet[]|error {
     } else {
         petRecords.forEach(function(PetRecord petRecord) {
 
-            if petRecord.owner == owner {
+            if petRecord.org == org && petRecord.owner == owner {
                 Pet pet = getPetDetails(petRecord);
                 pets.push(pet);
             }
@@ -71,12 +71,12 @@ function getPets(string owner) returns Pet[]|error {
     return pets;
 }
 
-function getPetByIdAndOwner(string owner, string petId) returns Pet|()|error {
+function getPetByIdAndOwner(string org, string owner, string petId) returns Pet|()|error {
 
     if (useDB) {
         return dbGetPetByOwnerAndPetId(owner, petId);
     } else {
-        PetRecord? petRecord = petRecords[owner, petId];
+        PetRecord? petRecord = petRecords[org, owner, petId];
         if petRecord is () {
             return ();
         }
@@ -95,11 +95,18 @@ function getPetById(string petId) returns Pet|() {
             return ();
         }
     } else {
-        string owner = from var petRecord in petRecords
+        OwnerInfo[] ownerInfo = from var petRecord in petRecords
             where petRecord.id == petId
-            select petRecord.owner;
+            select {org: petRecord.org, owner: petRecord.owner};
 
-        PetRecord? petRecord = petRecords[owner, petId];
+        if ownerInfo.length() == 0 {
+            return ();
+        }
+
+        string org = ownerInfo[0]["org"];
+        string owner = ownerInfo[0]["owner"];
+
+        PetRecord? petRecord = petRecords[org, owner, petId];
         if petRecord is () {
             return ();
         }
@@ -108,7 +115,7 @@ function getPetById(string petId) returns Pet|() {
     }
 }
 
-function updatePetById(string owner, string email, string petId, PetItem updatedPetItem) returns Pet|()|error {
+function updatePetById(string org, string owner, string email, string petId, PetItem updatedPetItem) returns Pet|()|error {
 
     if (useDB) {
         Pet|() oldPet = check dbGetPetByOwnerAndPetId(owner, petId);
@@ -116,61 +123,61 @@ function updatePetById(string owner, string email, string petId, PetItem updated
             return ();
         }
 
-        Pet pet = {id: petId, owner: owner, ...updatedPetItem};
+        Pet pet = {id: petId, org: org, owner: owner, ...updatedPetItem};
         Pet|error updatedPet = dbUpdatePet(pet);
 
         if updatedPet is error {
             return updatedPet;
         }
-        enableAlerts(email, owner, updatedPet);
+        enableAlerts(org, owner, email, updatedPet);
         return updatedPet;
 
     } else {
-        PetRecord? oldePetRecord = petRecords[owner, petId];
+        PetRecord? oldePetRecord = petRecords[org, owner, petId];
         if oldePetRecord is () {
             return ();
         }
-        petRecords.put({id: petId, owner: owner, ...updatedPetItem});
-        PetRecord petRecord = <PetRecord>petRecords[owner, petId];
+        petRecords.put({id: petId, org: org, owner: owner, ...updatedPetItem});
+        PetRecord petRecord = <PetRecord>petRecords[org, owner, petId];
         Pet pet = getPetDetails(petRecord);
-        enableAlerts(email, owner, pet);
+        enableAlerts(org, owner, email, pet);
         return pet;
     }
 }
 
-function deletePetById(string owner, string petId) returns string|()|error {
+function deletePetById(string org, string owner, string petId) returns string|()|error {
 
     if (useDB) {
         return dbDeletePetById(owner, petId);
     } else {
-        PetRecord? oldePetRecord = petRecords[owner, petId];
+        PetRecord? oldePetRecord = petRecords[org, owner, petId];
         if oldePetRecord is () {
             return ();
         }
-        _ = petRecords.remove([owner, petId]);
+        _ = petRecords.remove([org, owner, petId]);
         return "Pet deleted successfully";
     }
 }
 
-function addPet(PetItem petItem, string owner, string email) returns Pet|error {
+function addPet(PetItem petItem, string org, string owner, string email) returns Pet|error {
 
     string petId = uuid:createType1AsString();
 
     if (useDB) {
-        Pet pet = {id: petId, owner: owner, ...petItem};
+        Pet pet = {id: petId, org: org, owner: owner, ...petItem};
         Pet addedPet = check dbAddPet(pet);
-        enableAlerts(email, owner, addedPet);
+        enableAlerts(org, owner, email, addedPet);
         return addedPet;
     } else {
-        petRecords.put({id: petId, owner: owner, ...petItem});
-        PetRecord petRecord = <PetRecord>petRecords[owner, petId];
+        petRecords.put({id: petId, org: org, owner: owner, ...petItem});
+        PetRecord petRecord = <PetRecord>petRecords[org, owner, petId];
         Pet pet = getPetDetails(petRecord);
-        enableAlerts(email, owner, pet);
+        enableAlerts(org, owner, email, pet);
         return pet;
     }
 }
 
-function updateThumbnailByPetId(string owner, string petId, Thumbnail thumbnail) returns string|()|error {
+function updateThumbnailByPetId(string org, string owner, string petId, Thumbnail thumbnail) returns string|()|error {
 
     if (useDB) {
 
@@ -191,20 +198,22 @@ function updateThumbnailByPetId(string owner, string petId, Thumbnail thumbnail)
         return "Thumbnail updated successfully";
     } else {
 
+        string thumbnailKey = getThumbnailKey(org, owner, petId);
+
         if thumbnail.fileName == "" {
-            if thumbnailMap.hasKey(owner + "-" + petId) {
-                _ = thumbnailMap.remove(owner + "-" + petId);
+            if thumbnailMap.hasKey(thumbnailKey) {
+                _ = thumbnailMap.remove(thumbnailKey);
             }
 
         } else {
-            thumbnailMap[owner + "-" + petId] = thumbnail;
+            thumbnailMap[thumbnailKey] = thumbnail;
         }
 
         return "Thumbnail updated successfully";
     }
 }
 
-function getThumbnailByPetId(string owner, string petId) returns Thumbnail|()|string|error {
+function getThumbnailByPetId(string org, string owner, string petId) returns Thumbnail|()|string|error {
 
     if (useDB) {
 
@@ -220,8 +229,9 @@ function getThumbnailByPetId(string owner, string petId) returns Thumbnail|()|st
 
     } else {
 
-        if thumbnailMap.hasKey(owner + "-" + petId) {
-            Thumbnail thumbnail = <Thumbnail>thumbnailMap[owner + "-" + petId];
+        string thumbnailKey = getThumbnailKey(org, owner, petId);
+        if thumbnailMap.hasKey(thumbnailKey) {
+            Thumbnail thumbnail = <Thumbnail>thumbnailMap[thumbnailKey];
             return thumbnail;
         } else {
             return ();
@@ -245,7 +255,7 @@ function updateSettings(SettingsRecord settingsRecord) returns string|error {
     return "Settings updated successfully";
 }
 
-function getSettings(string owner, string email) returns Settings|error {
+function getSettings(string org, string owner, string email) returns Settings|error {
 
     if (useDB) {
 
@@ -255,7 +265,7 @@ function getSettings(string owner, string email) returns Settings|error {
             return settings;
         } else if settings is () {
             Settings newSettings = getDefaultSettings(email);
-            SettingsRecord settingsRecord = {owner: owner, ...newSettings};
+            SettingsRecord settingsRecord = {org: org, owner: owner, ...newSettings};
             string|error updatedResult = dbUpdateSettingsByOwner(settingsRecord);
             if updatedResult is error {
                 return updatedResult;
@@ -266,11 +276,11 @@ function getSettings(string owner, string email) returns Settings|error {
         }
 
     } else {
-        SettingsRecord? settingsRecord = settingsRecords[owner];
+        SettingsRecord? settingsRecord = settingsRecords[org, owner];
 
         if settingsRecord is () {
             Settings settings = getDefaultSettings(email);
-            settingsRecords.put({owner: owner, ...settings});
+            settingsRecords.put({org: org, owner: owner, ...settings});
             return settings;
         }
         return {notifications: settingsRecord.notifications};
@@ -278,7 +288,7 @@ function getSettings(string owner, string email) returns Settings|error {
 
 }
 
-function getSettingsByOwner(string owner) returns Settings|() {
+function getSettingsByOwner(string org, string owner) returns Settings|() {
 
     if (useDB) {
 
@@ -291,7 +301,7 @@ function getSettingsByOwner(string owner) returns Settings|() {
         }
 
     } else {
-        SettingsRecord? settingsRecord = settingsRecords[owner];
+        SettingsRecord? settingsRecord = settingsRecords[org, owner];
 
         if settingsRecord is () {
             return ();
@@ -311,7 +321,7 @@ function getAvailableAlerts(string nextDay) returns PetAlert[] {
         Pet|() pet = getPetById(petId);
 
         if pet != () {
-            Settings|() settings = getSettingsByOwner(pet.owner);
+            Settings|() settings = getSettingsByOwner(pet.org, pet.owner);
 
             if settings != () && settings.notifications.enabled && settings.notifications.emailAddress != "" {
 
@@ -371,6 +381,7 @@ function getPetDetails(PetRecord petRecord) returns Pet {
 
     Pet pet = {
         id: petRecord.id,
+        org: petRecord.org,
         owner: petRecord.owner,
         name: petRecord.name,
         breed: petRecord.breed,
@@ -392,7 +403,7 @@ function getDefaultSettings(string email) returns Settings {
     return settings;
 }
 
-function enableAlerts(string email, string owner, Pet pet) {
+function enableAlerts(string org, string owner, string email, Pet pet) {
 
     Vaccination[]? vaccinations = pet.vaccinations;
 
@@ -403,7 +414,7 @@ function enableAlerts(string email, string owner, Pet pet) {
     foreach var vac in vaccinations {
 
         if vac.enableAlerts == true {
-            Settings|error settings = getSettings(owner, email);
+            Settings|error settings = getSettings(org, owner, email);
             if settings is error {
                 log:printError("Error getting settings", 'error = settings);
             }
@@ -411,4 +422,8 @@ function enableAlerts(string email, string owner, Pet pet) {
         }
     }
 
+}
+
+function getThumbnailKey(string org, string owner, string petId) returns string {
+    return org + "-" + owner + "-" + petId;
 }
