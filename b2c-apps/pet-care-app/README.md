@@ -1,6 +1,6 @@
 # Pet Management Application User Guide
 
-The Pet Management Application is a B2C (Business-to-Consumer) application that allows users to easily register and manage their pets. Users can enter vital information such as their pets' basic information and vaccination records into the app. They can then set up email alerts for their pets' upcoming vaccination dates. This guide will show you how to use [Choreo]((https://wso2.com/choreo/)) to expose a service endpoint as a REST API and safely consume the API from a web application. To secure user authentication to the web application and add CIAM features to your web application, you will use [Asgardeo](https://wso2.com/asgardeo/), WSO2's SaaS Customer IAM (CIAM) solution.
+The Pet Management Application is a B2C (Business-to-Consumer) application that allows users to easily register and manage their pets. Users can enter vital information such as their pets' basic information and vaccination records into the app. They can then set up email alerts for their pets' upcoming vaccination dates. This guide will show you how to use [Choreo](https://wso2.com/choreo/) to expose a service endpoint as a REST API and safely consume the API from a web application. To secure user authentication to the web application and add CIAM features to your web application, you will use [Asgardeo](https://wso2.com/asgardeo/), WSO2's SaaS Customer IAM (CIAM) solution.
 
 This guide walks you through the following steps:
 
