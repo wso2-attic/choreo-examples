@@ -36,7 +36,7 @@ sheets:Client spreadsheetClient = check new (spreadsheetConfig);
 // Create a GitHub client object using the connection configuration
 github:Client githubClient = check new (githubConfigs);
 
-public function main() returns error?|error {
+public function main() returns error? {
 
     log:printInfo("Fetching data from GitHub...");
 
