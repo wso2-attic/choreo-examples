@@ -42,7 +42,7 @@ Let's create your first Service.
     | Field | Value |
     | -------- | -------- |
     | GitHub Account | Your account |
-    | GitHub Repository | microservices-demo |
+    | GitHub Repository | gcp-microservices-demo |
     | Branch | main |
     | Build Preset | Click **Dockerfile**  |
     | Dockerfile Path | /src/emailservice/Dockerfile |
@@ -86,11 +86,11 @@ Let's create your first Service.
 
             | Environment Variable Name     | Environment Variable Value |
             | ---------------- | --------------- | 
+            | EMAIL_SERVICE_ADDR | Email service endpoint. eg: email-service-3192360657:8080 |  
+            | CURRENCY_SERVICE_ADDR | Currency service endpoint. eg: currency-service-3192360657:7000 |
             | PRODUCT_CATALOG_SERVICE_ADDR | Product catalog service endpoint. eg: product-catalog-service-3192360657:3550 |
             | SHIPPING_SERVICE_ADDR | Shipping service endpoint. eg: shipping-service-3192360657:3550 |
             | PAYMENT_SERVICE_ADDR | Payment service endpoint. eg: payment-service-3192360657:50051 |
-            | EMAIL_SERVICE_ADDR | Email service endpoint. eg: email-service-3192360657:8080 |
-            | CURRENCY_SERVICE_ADDR | Currency service endpoint. eg: currency-service-3192360657:7000 |
             | CART_SERVICE_ADDR | Cart service endpoint. eg: cart-service-3192360657:7070 |
 
 3. After adding environment variables, you can click **Deploy Manually** on the **Build Area** to deploy the services.
@@ -129,7 +129,7 @@ You can skip this step if you are new to Choreo. If not, follow the below steps 
     | Field | Value |
     | -------- | -------- |
     | GitHub Account | Your account |
-    | GitHub Repository | microservices-demo |
+    | GitHub Repository | gcp-microservices-demo |
     | Branch | main |
     | Dockerfile Path | /src/frontend/Dockerfile |
     | Docker Context Path | /src/frontend|
@@ -147,13 +147,13 @@ You can skip this step if you are new to Choreo. If not, follow the below steps 
 
       | Environment Variable Name     | Environment Variable Value |
       | ---------------- | --------------- | 
+      | CURRENCY_SERVICE_ADDR | Currency service endpoint. eg: currency-service-3192360657:7000 | 
       | PRODUCT_CATALOG_SERVICE_ADDR | Product catalog service endpoint. eg: product-catalog-service-3192360657:3550 |
       | SHIPPING_SERVICE_ADDR | Shipping service endpoint. eg: shipping-service-3192360657:3550 |
-      | CURRENCY_SERVICE_ADDR | Currency service endpoint. eg: currency-service-3192360657:7000 |
+      | AD_SERVICE_ADDR | Ad service endpoint. eg: adservice-3192360657:9555 |
       | CART_SERVICE_ADDR | Cart service endpoint. eg: cart-service-3192360657:7070 |
       | RECOMMENDATION_SERVICE_ADDR | Recommendation service endpoint. eg: recommendationservice-3192360657:8080 |
       | CHECKOUT_SERVICE_ADDR | Checkout service endpoint. eg: checkoutservice-3192360657:5050 |
-      | AD_SERVICE_ADDR | Ad service endpoint. eg: adservice-3192360657:9555 |
 
 ## Step 2.4: Deploy the front-end application
 
