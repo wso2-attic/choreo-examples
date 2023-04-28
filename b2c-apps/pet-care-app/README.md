@@ -1,12 +1,19 @@
 # Pet Management Application User Guide
 
-The Pet Management Application is a B2C (business-to-consumer) application that allows users to sign up and maintain their pets. They can enter basic information and vaccination information for their pets into the system. They can then set up email alerts for their pets' upcoming vaccination dates. The instructions below will walk you through deploying and managing the pet management service's backend service and front end application in [Choreo](https://wso2.com/choreo/). [Asgardeo](https://wso2.com/asgardeo/) assists you in addressing your application's CIAM capabilities. 
+The Pet Management Application is a B2C (Business-to-Consumer) application that allows users to easily register and manage their pets. Users can enter vital information such as their pets' basic information and vaccination records into the app. They can then set up email alerts for their pets' upcoming vaccination dates. This guide will show you how to use [Choreo]((https://wso2.com/choreo/)) to expose a service endpoint as a REST API and safely consume the API from a web application. To secure user authentication to the web application and add CIAM features to your web application, you will use [Asgardeo](https://wso2.com/asgardeo/), WSO2's SaaS Customer IAM (CIAM) solution.
 
+This guide walks you through the following steps:
+
+1. Develop, deploy, and test a service component.
+2. Publish the service endpoint as a REST API for your web application to consume.
+3. Expose the REST API via Choreo API management.
+4. Securely consume the published REST API via your web application.
+5. Deploy your web application and enhance the customer experience with Asgardeo's CIAM features. 
 ---
 
 # Step 1: Create and publish a Service
 
-In this step, you are playing the role of the API developer. You will create and publish the Service that the web application needs to consume. Before you proceed, sign into [**Choreo Console**](https://console.choreo.dev/).
+In this step, you will play the role of the API developer. You will create and publish the Service that the web application needs to consume. Before you proceed, sign in to [**Choreo Console**](https://console.choreo.dev/).
 
 ## Step 1.1: Create the Service
 
@@ -313,22 +320,23 @@ In this step, you are going to deploy the pet management front-end application i
 
 ## Step 4.1: Configure Asgardeo to integrate with your web application
 
-1. Access **Asgardeo** at https://console.asgardeo.io/ and log in with the same credentials with which you logged in to Choreo.
-2. Click the **Develop** tab in the top and then select **Applications**.
-3. You can see the application you created before from the devportal(`Pet Management App`).
-4. Click the `Pet Management App`.
-5. Click the **Protocol** tab.
-6. Scroll down to the **Allowed grant types** and tick **Refresh Token** and **Code**.
-7. Tick **Public client** on the next section.
-8. Use **Web App URL** in the step 3.3 as the **Authorized redirect URLs** and **Allowed origins**.
-9. Keep the rest of the default configurations and click **Update**.
-10. Go to the **User Attributes** tab.
-11. Tick on the **Email** section.
-12. Expand the **Profile** section.
-13. Add a tick on the Requested Column for the **Full Name** and click **Update**.
-14. Then go to the **Sign-In Method** tab.
-15. Configure **Google login** as described in https://wso2.com/asgardeo/docs/guides/authentication/social-login/add-google-login/
-16. As shown in the below, add **Username & Password** as an **Authentication** step.
+1. Access **Asgardeo** at https://console.asgardeo.io/ and log in with the same credentials with which you logged in to Choreo. 
+2. Verify that you are logged into the **organization** you used for Choreo. Otherwise, select the appropriate **organization** by clicking on the organization menu at the top.
+3. Click the **Develop** tab in the top and then select **Applications**.
+4. You can see the application you created before from the devportal(`Pet Management App`).
+5. Click the `Pet Management App`.
+6. Click the **Protocol** tab.
+7. Scroll down to the **Allowed grant types** and tick **Refresh Token** and **Code**.
+8. Tick **Public client** on the next section.
+9. Use **Web App URL** in the step 3.3 as the **Authorized redirect URLs** and **Allowed origins**.
+10. Keep the rest of the default configurations and click **Update**.
+11. Go to the **User Attributes** tab.
+12. Tick on the **Email** section.
+13. Expand the **Profile** section.
+14. Add a tick on the Requested Column for the **Full Name** and click **Update**.
+15. Then go to the **Sign-In Method** tab.
+16. Configure **Google login** as described in https://wso2.com/asgardeo/docs/guides/authentication/social-login/add-google-login/
+17. As shown in the below, add **Username & Password** as an **Authentication** step.
 
 ![Alt text](readme-resources/sign-in-methods.png?raw=true "Sign In Methods")
 
