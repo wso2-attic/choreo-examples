@@ -19,6 +19,33 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useRef } from "react";
 import "./doctor.css";
+import styled from 'styled-components';
+
+interface buttonProps {
+    isDisabled: boolean;
+}
+
+const Button = styled.button<buttonProps>`
+background-color: #4e40ed;
+color: #ffffff;
+border: none;
+width: 7vw;
+height: 5vh;
+border-radius: 5px;
+font-size: 2vh;
+color: ${props => props.isDisabled ? '#727372' : '#ffffff'};
+background-color: ${props => props.isDisabled ? '#cacccb' : '#4e40ed'};
+`;
+
+const CancelButton = styled.button`
+background-color: #cacccb;
+color: #727372;
+border: none;
+width: 7vw;
+height: 5vh;
+border-radius: 5px;
+font-size: 2vh;
+`;
 
 export interface AddDoctorsProps {
     isOpen: boolean;
@@ -28,13 +55,16 @@ export interface AddDoctorsProps {
 export default function AddDoctors(props: AddDoctorsProps) {
     const { isOpen, setIsOpen } = props;
     const dateInputRef = useRef(null);
-    
+    const [doctorName, setDoctorName] = React.useState("");
+    const [registrationNo, setRegistrationNo] = React.useState("");
+    const [availableDate, setAvailableDate] = React.useState("");
+
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
                 <Dialog
                     as="div"
-                    className="center-outline-blue"
+                    className="add-doctor-div"
                     onClose={() => setIsOpen(false)}
                 >
                     <Transition.Child
@@ -58,7 +88,7 @@ export default function AddDoctors(props: AddDoctorsProps) {
                                 <form>
                                     <div className="align-left">
                                         <div className="label-style">
-                                            <label style={{ fontSize: "3vh" }}>
+                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
                                                 Name
                                             </label>
                                         </div>
@@ -67,12 +97,12 @@ export default function AddDoctors(props: AddDoctorsProps) {
                                             id="name"
                                             type="text"
                                             placeholder="Name"
-                                            // onChange={(e) => setName(e.target.value)}
+                                            onChange={(e) => setDoctorName(e.target.value)}
                                         />
                                     </div>
                                     <div className="align-left">
                                         <div className="label-style">
-                                            <label style={{ fontSize: "3vh" }}>
+                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
                                                 Registration Number
                                             </label>
                                         </div>
@@ -81,12 +111,12 @@ export default function AddDoctors(props: AddDoctorsProps) {
                                             id="registration number"
                                             type="text"
                                             placeholder="Registration number"
-                                            // onChange={(e) => setName(e.target.value)}
+                                            onChange={(e) => setRegistrationNo(e.target.value)}
                                         />
                                     </div>
                                     <div className="align-left">
                                         <div className="label-style">
-                                            <label style={{ fontSize: "3vh" }}>
+                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
                                                 Available Date
                                             </label>
                                         </div>
@@ -96,15 +126,20 @@ export default function AddDoctors(props: AddDoctorsProps) {
                                             type="date"
                                             ref={dateInputRef}
                                             placeholder="Available Date"
-                                            // onChange={(e) => setDoB(e.target.value)}
+                                            onChange={(e) => setAvailableDate(e.target.value)}
                                         />
                                     </div>
                                 </form>
                             </div>
-                            <div className="save-btn-div">
-                                <button className="save-btn-style">
+                            <div className="add-doc-save-btn-div">
+                                <Button isDisabled={doctorName == '' || registrationNo == '' || availableDate == '' ? true : false}>
                                     Save
-                                </button>
+                                </Button>
+                            </div>
+                            <div className="add-doc-cancel-btn-div">
+                                <CancelButton onClick={() => setIsOpen(false)}>
+                                    Cancel
+                                </CancelButton>
                             </div>
                         </Dialog.Panel>
                     </div>

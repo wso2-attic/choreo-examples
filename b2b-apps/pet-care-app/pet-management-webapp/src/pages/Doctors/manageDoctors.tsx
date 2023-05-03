@@ -23,6 +23,7 @@ import { default as authConfig } from "../config.json";
 import NavBar from "../../components/navBar";
 import MenuListComposition from "../../components/UserMenu";
 import AddDoctors from "./addDoctors";
+import DoctorCard from "./doctorCard";
 
 interface DerivedState {
     authenticateResponse: BasicUserInfo,
@@ -51,20 +52,45 @@ export const ManageDoctorsPage: FunctionComponent = (): ReactElement => {
     } = useAuthContext();
     const [user, setUser] = useState<BasicUserInfo | null>(null);
     const [isAddDoctorOpen, setIsAddDoctorOpen] = useState(false);
+    const doctors = ["doc1", "doc2", "doc3", "doc4", "doc5", "doc6", "doc7", "doc8", "doc9", "doc10"];
 
-  
+
     return (
         <>
-            <NavBar />
+            <NavBar isBlur={isAddDoctorOpen} />
 
-            <div className="home-div">
-                <div className="doctors-div">
+            <div className={isAddDoctorOpen ? "home-div-blur" : "home-div"}>
+                {/* <div className="doctors-div">
                     <label className="home-wording">
-                        Doctors
+                        Manage Doctors
                     </label>
                     <button className="add-pet-btn" onClick={() => setIsAddDoctorOpen(true)}>
                         +
                     </button>
+                </div> */}
+                <div className="manage-users-div">
+                    <label className="home-wording">
+                        Manage Doctors
+                    </label>
+                </div>
+                <div className="manage-users-description">
+                    <label className="manage-users-description-label">
+                        Manage doctors in the organization
+                    </label>
+                </div>
+                <div>
+                    <button className="add-doctor-btn" onClick={() => setIsAddDoctorOpen(true)}>
+                        Add doctor
+                    </button>
+                </div>
+                <div className="doctor-grid-div">
+                <Grid container spacing={2}>
+                    {doctors.map((doctor) => (
+                        <Grid item xs={3} sm={4} md={3}>
+                            <DoctorCard/>
+                        </Grid>
+                    ))}
+                </Grid>
                 </div>
             </div>
             <div>

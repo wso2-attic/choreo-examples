@@ -42,14 +42,13 @@
 
 .label-style {
     margin-bottom: 2vh;
-    font-weight: bold;
     font-size: medium;
 }    
 
 .input-style-2 {
-    width: 22vw;
+    width: 40vw;
     height: 2vh;
-    font-size: 2.7vh;
+    font-size: 2.5vh;
     padding: 1vh;
 }
 .child-div {
@@ -62,5 +61,103 @@
 .doctor-title {
     font-weight: bold;
     font-size: 8vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-doctor-btn {
+    background-color: #4e40ed;
+    border-radius: 3px;
+    border: none;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 3vh;
+    text-align: center;
+    text-decoration: none;
+    width: 14vw;
+    cursor: pointer;
+    -webkit-text-size-adjust: none;
+    padding: .78571429em 1.5em .78571429em;
+    position: absolute;
+    margin-top: 5vh;
+    right: 5vw;
+    outline: none;
+}
+
+.add-doctor-div {
+    width: 50vw;
+    height: 65vh;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    /* outline: 1px solid #6d7273; */
+    box-shadow: rgba(0, 0, 0, 0.35) 0vh 1vh 1vh;
+    border-radius: 20px;
+    position: absolute;
+    align-items: left;
+    left: 50%;
+    transform: translate(-50%, 13vh);
+}
+
+.add-doctor-save-btn-style {
+    background-color: #4e40ed;
+    color: #ffffff;
+    border: none;
+    width: 7vw;
+    height: 5vh;
+    border-radius: 5px;
+    font-size: 2vh;
+    
+}
+
+.add-doc-save-btn-div {
+    width: 30vw;
+    height: 10vh;
+    object-fit: contain;
+    left:50%;
+    position: absolute;
+    transform: translate(-35%, 56vh);
+}
+
+.add-doc-cancel-btn-div {
+    width: 30vw;
+    height: 10vh;
+    object-fit: contain;
+    left:50%;
+    position: absolute;
+    transform: translate(-65%, 56vh);
+}
+
+.doctor-grid-div {
+    position: absolute;
+    top: 25vh;
+    left: 2vw;
+    width: 72vw;
+}
+
+.doctor-icon {
+    position: absolute;    
+}
+
+.doctor-card {
+    height: 20vh;
+}
+
+.doctor-summary {
+    width: 10vw;
+    margin-left: 5vw;
+    margin-top: 1vh;
+    text-align: left;
+}
+
+.doc-title-in-card {
+    font-size: 2.5vh;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.doc-summary-in-card {
+    font-size: 2vh;
+    color: rgb(145, 143, 143);
+    font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
 }

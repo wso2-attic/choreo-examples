@@ -83,22 +83,9 @@ export const ManageUsersPage: FunctionComponent = (): ReactElement => {
 
 
     return (
-        <><nav className="header">
-            <div>
-                {user && (
-                    <MenuListComposition user={user} signout={signOut} />
-                )}
-            </div>
-            <div className="app-title-style">
-                <img
-                    style={{ width: "12vw", height: "8vh" }}
-                    src={LOGO_IMAGE}
-                    alt="pet-care-logo"
-                />
-            </div>
-        </nav>
-            <NavBar />
-            <div className="home-div">
+        <>
+            <NavBar isBlur={isAddUserOpen}/>
+            <div className={isAddUserOpen ? "home-div-blur" : "home-div"}>
                 <div className="manage-users-div">
                     <label className="home-wording">
                         Manage Users
@@ -115,9 +102,10 @@ export const ManageUsersPage: FunctionComponent = (): ReactElement => {
                     </button>
                 </div>
             </div>
-            <div>
+             <div>
                 <AddUsers isOpen={isAddUserOpen} setIsOpen={setIsAddUserOpen}/>
             </div>
+            
         </>
     );
 };

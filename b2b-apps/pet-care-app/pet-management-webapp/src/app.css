@@ -693,6 +693,17 @@ code {
     background-color: #e9e6e6;
 }
 
+.home-div-blur {
+    overflow-y: scroll;
+    width: 80%;
+    height: 100vh;
+    position: absolute;
+    right: 0px;
+    margin-top: 0vh;
+    background-color: #e9e6e6;
+    filter: blur(0.5vw);
+}
+
 .manage-users-div {
     position: absolute;
     margin-top: 3vh;
@@ -728,4 +739,9 @@ code {
     margin-top: 5vh;
     right: 5vw;
     outline: none;
+}
+
+.add-user-modal {
+    background-color: #4AD6DB;
+
 }

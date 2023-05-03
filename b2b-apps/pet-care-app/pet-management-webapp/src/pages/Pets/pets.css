@@ -664,6 +664,7 @@
     font-size: 4vh;
     left:50%;
     transform: translate(-50%, 2vh);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .child-div {

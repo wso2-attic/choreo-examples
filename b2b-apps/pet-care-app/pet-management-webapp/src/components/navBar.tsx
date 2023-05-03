@@ -30,12 +30,18 @@ interface LinkProps {
     isSelected: boolean;
 }
 
-export const Nav = styled.nav`
+interface NavBarProps {
+    isBlur: boolean;
+}
+
+export const Nav = styled.nav<NavBarProps>`
 background-color: #4e40ed;
 width: 20vw;
 height: 100%;
 position: absolute;
-margin-top: 0vh;`;
+margin-top: 0vh;
+filter: ${props => props.isBlur ? 'blur(0.5vw)' : 'blur(0vw)'};
+`;
 
 export const NavLink = styled(Link) <LinkProps>`
 color: #ffffff;
@@ -52,9 +58,9 @@ cursor: pointer;
 &:hover {
 	transition: all 0.2s ease-in-out;
 	background: #fff;
-	color: #808080;
+	color: #4e40ed;
 }
-color: ${props => props.isSelected ? '#808080' : '#ffffff'};
+color: ${props => props.isSelected ? '#4e40ed' : '#ffffff'};
 background-color: ${props => props.isSelected ? '#fff' : 'transparent'};
 `;
 
@@ -156,15 +162,15 @@ font-weight: bold;
 cursor: pointer;
 `;
 
-
-function NavBar() {
+function NavBar(props: NavBarProps) {
+    const {isBlur} = props;
     const [selectedItem, setSelectedItem] = useState(0);
     const location = useLocation();
     const path = location.pathname;
 
     return (
         <>
-            <Nav>
+            <Nav isBlur={isBlur}>
                 <Bars />
                 <NavMenu>
                     <NavLogo>
