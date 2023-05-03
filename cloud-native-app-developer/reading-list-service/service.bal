@@ -16,6 +16,7 @@
 
 import ballerina/uuid;
 import ballerina/http;
+import ballerina/jwt;
 
 enum Status {
     reading = "reading",
@@ -34,22 +35,40 @@ type Book record {|
     string id;
 |};
 
-map<Book> books = {};
+map<map<Book>> books = {};
+const string DEFAULT_USER = "default";
 
 service /readinglist on new http:Listener(9090) {
 
-    resource function get books() returns Book[]|error? {
-        return books.toArray();
+    resource function get books(@http:Header string x\-jwt\-assertion) returns Book[]|error {
+        map<Book> usersBooks = check getUsersBooks(x\-jwt\-assertion);
+        return usersBooks.toArray();
     }
 
-    resource function post books(@http:Payload BookItem newBook) returns record {|*http:Ok;|}|error? {
+    resource function post books(@http:Header string x\-jwt\-assertion,
+                                 @http:Payload BookItem newBook) returns record {|*http:Ok;|}|error {
+
         string bookId = uuid:createType1AsString();
-        books[bookId] = {...newBook, id: bookId};
+        map<Book> usersBooks = check getUsersBooks(x\-jwt\-assertion);
+        usersBooks[bookId] = {...newBook, id: bookId};
         return {};
     }
 
-    resource function delete books(string id) returns record {|*http:Ok;|}|error? {
-        _ = books.remove(id);
+    resource function delete books(@http:Header string x\-jwt\-assertion,
+                                   string id) returns record {|*http:Ok;|}|error? {
+        map<Book> usersBooks = check getUsersBooks(x\-jwt\-assertion);
+        _ = usersBooks.remove(id);
         return {};
     }
 }
+
+// This function is used to get the books of the user who is logged in.
+// User information is extracted from the JWT token.
+function getUsersBooks(string jwtAssertion) returns map<Book>|error {
+        [jwt:Header, jwt:Payload] [_, payload] = check jwt:decode(jwtAssertion);
+        string username = payload.sub is string ? <string>payload.sub : DEFAULT_USER;
+        if (books[username] is ()) {
+            books[username] = {};
+        }
+        return <map<Book>>books[username];
+    }
