@@ -251,7 +251,7 @@ export const HomePageForAdmin: FunctionComponent = (): ReactElement => {
 
     return (
         <>
-            <NavBar />
+            <NavBar isBlur={isAddDoctorOpen} />
 
             <div className="home-div">
                 <div className="header">

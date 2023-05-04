@@ -68,7 +68,7 @@ export const ManageDoctorsPage: FunctionComponent = (): ReactElement => {
                         +
                     </button>
                 </div> */}
-                <div className="manage-users-div">
+                <div className="heading-div">
                     <label className="home-wording">
                         Manage Doctors
                     </label>

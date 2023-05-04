@@ -16,9 +16,42 @@
  * under the License.
  */
 
+.create-role-btn {
+    background-color: #4e40ed;
+    border-radius: 3px;
+    border: none;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 3vh;
+    text-align: center;
+    text-decoration: none;
+    width: 14vw;
+    cursor: pointer;
+    -webkit-text-size-adjust: none;
+    padding: .78571429em 1.5em .78571429em;
+    position: absolute;
+    margin-top: 5vh;
+    left: 60vw;
+    outline: none;
+}
 
-.add-user-div {
-    width: 45vw;
+.role-table-div {
+    position: absolute;
+    margin-left: 2vw;
+    top: 25vh;
+}
+
+.table-row:hover {
+    background-color: #efefef;
+}
+
+.edit-icon {
+    position: absolute;
+    right: -52vw;
+}
+
+.add-role-div {
+    width: 55vw;
     height: 80vh;
     background-color: white;
     margin-left: auto;
@@ -32,39 +65,35 @@
     transform: translate(-50%, 13vh);
 }
 
-.add-user-form {
+
+.add-role-form {
     position: absolute;
     margin-top: 15vh;
     margin-left: 2vw;
     text-align: left;
     padding: 1vh;
-    width: 40vw;
+    width: 50vw;
     height: 58vh;
     overflow-y: scroll;
 }
 
-.invite-description {
-    position: absolute;
-    width: 30vw;
-    transform: translate(22%);
-    border: #6d7273;
-    margin-top: 0.3vh;
-}
-
-.invite-para {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 2.2vh;
-    color: #6d7273;
-}
-
-.email-invite-div {
-    width: 38vw;
+.role-creation-basic {
+    margin: auto;
+    width: 90%;
     height: 10vh;
-    border-radius: 1vh;
-    border: 0.2vh solid #b5b8b8;
+    margin-top: 5vh;
 }
 
-.add-user-submit-button {
+.role-creation-main-div {
+    margin: auto;
+    width: 90%;
+    height: 20vh;
+    border: 0.2vh solid rgb(196, 196, 196);
+    margin-top: 5vh;
+    border-radius: 1vh;
+}
+
+.next-btn {
     background-color: #4e40ed;
     border-radius: 3px;
     border: none;
@@ -78,56 +107,37 @@
     -webkit-text-size-adjust: none;
     padding: 1.5vh 1.5vh 1.5vh;
     position: absolute;
-    /* margin-top: 5vh;
-    right: 5vw; */
     outline: none;
-    padding-right: 1vw;
-    transform: translate(250%);
+    left: 38.5vw;
+    top: 50vh;
 }
 
-.add-user-cancel-button {
-    background-color: #868686;
-    border-radius: 3px;
-    border: none;
-    color: #ffffff;
-    display: inline-block;
-    font-size: 2.5vh;
-    text-align: center;
-    text-decoration: none;
-    width: 8vw;
-    cursor: pointer;
-    -webkit-text-size-adjust: none;
-    padding: 1.5vh 1.5vh 1.5vh;
-    position: absolute;
-    /* margin-top: 5vh;
-    right: 5vw; */
-    left: 10vw;
-    outline: none;
-    padding-right: 1vw;
-    transform: translate(15%);
+.permission-main-div {
+    margin: auto;
+    width: 90%;
+    height: 28vh;
+    margin-top: 5vh;
+    border-radius: 1vh;
+    overflow-y: scroll;
+    background-color: rgb(244, 244, 244);
+    padding: 1vw;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.8vh;
 }
 
-.buttons {
-    width: 100%;
-    height: 4vh;
+
+.add-user-div-in-role-creation {
+    margin: auto;
+    width: 70%;
 }
 
-.users-table-div {
-    position: absolute;
-    margin-left: 2vw;
-    top: 25vh;
+.user-add-main-div {
+    margin: auto;
+    width: 90%;
+    height: 30vh;
+    margin-top: 5vh;
+    border-radius: 1vh;
+    background-color: rgb(244, 244, 244);
+    overflow-y: scroll;
 }
 
-.edit-icon-users {
-    position: absolute;
-    right: -28vw;
-}
-
-.delete-icon {
-    position: absolute;
-    right: -28vw;
-}
-
-.table-row:hover {
-    background-color: #efefef;
-}

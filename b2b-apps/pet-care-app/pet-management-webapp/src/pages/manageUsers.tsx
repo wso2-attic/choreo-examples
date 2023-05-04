@@ -17,7 +17,7 @@
  */
 
 import { BasicUserInfo, Hooks, useAuthContext } from "@asgardeo/auth-react";
-import { Grid } from '@mui/material';
+import { Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import React, { FunctionComponent, ReactElement, useCallback, useEffect, useState } from "react";
 import { default as authConfig } from "../config.json";
 import LOGO_IMAGE from "../images/pet_care_logo.png";
@@ -38,6 +38,11 @@ import { getPets } from "../components/getPetList/get-pets";
 import MenuListComposition from "../components/UserMenu";
 import NavBar from "../components/navBar";
 import AddUsers from "./Users/addUsers";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { TrendingUpRounded } from "@mui/icons-material";
+import EditUser from "./Users/editUser";
+import './Users/users.css';
 
 interface DerivedState {
     authenticateResponse: BasicUserInfo,
@@ -67,6 +72,7 @@ export const ManageUsersPage: FunctionComponent = (): ReactElement => {
 
     const [user, setUser] = useState<BasicUserInfo | null>(null);
     const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+    const [isEditUserOpen, setIsEditUserOpen] = useState(false);
 
 
     useEffect(() => {
@@ -84,9 +90,9 @@ export const ManageUsersPage: FunctionComponent = (): ReactElement => {
 
     return (
         <>
-            <NavBar isBlur={isAddUserOpen}/>
-            <div className={isAddUserOpen ? "home-div-blur" : "home-div"}>
-                <div className="manage-users-div">
+            <NavBar isBlur={isAddUserOpen || isEditUserOpen} />
+            <div className={isAddUserOpen || isEditUserOpen ? "home-div-blur" : "home-div"}>
+                <div className="heading-div">
                     <label className="home-wording">
                         Manage Users
                     </label>
@@ -101,11 +107,47 @@ export const ManageUsersPage: FunctionComponent = (): ReactElement => {
                         Add user
                     </button>
                 </div>
+                <div className="users-table-div">
+                    <Table aria-label="users table" style={{ width: "72vw", backgroundColor: 'white', borderRadius: '1vh' }}>
+                        <TableHead>
+                            <TableRow >
+                                <TableCell align="left" style={{ fontSize: "2.5vh", fontWeight: "bold" }}>User</TableCell>
+                                <TableCell align="left" style={{ fontSize: "2.5vh", fontWeight: "bold" }}>Managed By</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow className="table-row">
+                                <TableCell align="left" style={{ fontSize: "2.5vh", color: '#6d7273' }}>Shalki</TableCell>
+                                <TableCell align="left" style={{ fontSize: "2.5vh", color: '#6d7273' }}>Google
+                                    <IconButton className="edit-icon-users" onClick={() => setIsEditUserOpen(true)}>
+                                        <EditIcon style={{fontSize:'4vh'}} />
+                                    </IconButton>
+                                    <IconButton className="delete-icon">
+                                        <DeleteIcon style={{fontSize:'4vh'}}/>
+                                    </IconButton>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow className="table-row">
+                                <TableCell align="left" style={{ fontSize: "2.5vh", color: '#6d7273' }}>Wenushika</TableCell>
+                                <TableCell align="left" style={{ fontSize: "2.5vh", color: '#6d7273' }}>Google
+                                    <IconButton className="edit-icon-users" onClick={() => setIsEditUserOpen(true)}>
+                                        <EditIcon style={{fontSize:'4vh'}} />
+                                    </IconButton>
+                                    <IconButton className="delete-icon">
+                                        <DeleteIcon style={{fontSize:'4vh'}} />
+                                    </IconButton></TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </div>
+            </div >
+            <div>
+                <AddUsers isOpen={isAddUserOpen} setIsOpen={setIsAddUserOpen} />
             </div>
-             <div>
-                <AddUsers isOpen={isAddUserOpen} setIsOpen={setIsAddUserOpen}/>
+            <div>
+                <EditUser isOpen={isEditUserOpen} setIsOpen={setIsEditUserOpen} />
             </div>
-            
+
         </>
     );
 };

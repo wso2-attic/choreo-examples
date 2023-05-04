@@ -24,12 +24,12 @@ import FormSuite from "rsuite/Form";
 import { Button, ButtonToolbar, Divider, Panel, Radio, RadioGroup, Stack } from "rsuite";
 import EmailFillIcon from "@rsuite/icons/EmailFill";
 
-export interface AddUsersProps {
+export interface EditUserProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AddUsers(props: AddUsersProps) {
+export default function EditUser(props: EditUserProps) {
     const { isOpen, setIsOpen } = props;
     const dateInputRef = useRef(null);
 
@@ -97,7 +97,7 @@ export default function AddUsers(props: AddUsersProps) {
                         <Dialog.Panel>
                             <Dialog.Title
                                 as="h3" className="add-pet-div">
-                                {"Add User"}
+                                {"Edit User"}
                             </Dialog.Title>
                             <div className="add-user-form">
                                 <Form
@@ -109,25 +109,10 @@ export default function AddUsers(props: AddUsersProps) {
                                             onSubmit={event => { handleSubmit(event).then(form.restart); }}
                                             fluid>
                                             <Field
-                                                name="firstName"
+                                                name="userId"
                                                 render={({ input, meta }) => (
-                                                    <FormSuite.Group controlId="firstName">
-                                                        <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>First Name</FormSuite.ControlLabel>
-                                                        <FormSuite.Control style={{ width: '38vw', fontFamily: 'Arial, Helvetica, sans-serif', border: '0.2vh solid #757474', borderRadius: '0.5vh', fontSize: '2.5vh' }}
-                                                            {...input}
-                                                        />
-                                                        {meta.error && meta.touched && (<FormSuite.ErrorMessage show={true} >
-                                                            {meta.error}
-                                                        </FormSuite.ErrorMessage>)}
-                                                    </FormSuite.Group>
-                                                )}
-                                            />
-                                            <br />
-                                            <Field
-                                                name="familyName"
-                                                render={({ input, meta }) => (
-                                                    <FormSuite.Group controlId="familyName">
-                                                        <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>Last Name</FormSuite.ControlLabel>
+                                                    <FormSuite.Group controlId="userId">
+                                                        <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>User ID</FormSuite.ControlLabel>
                                                         <FormSuite.Control style={{ width: '38vw', fontFamily: 'Arial, Helvetica, sans-serif', border: '0.2vh solid #757474', borderRadius: '0.5vh', fontSize: '2.5vh' }}
                                                             {...input}
                                                         />
@@ -154,13 +139,11 @@ export default function AddUsers(props: AddUsersProps) {
                                                 )}
                                             />
                                             <br />
-                                            <Divider style={{ margin: '1vh 0', border: '0.1vh solid #ccc', width: '38vw' }} />
-                                            <br />
                                             <Field
-                                                name="username"
+                                                name="firstName"
                                                 render={({ input, meta }) => (
-                                                    <FormSuite.Group controlId="username">
-                                                        <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>Username</FormSuite.ControlLabel>
+                                                    <FormSuite.Group controlId="firstName">
+                                                        <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>First Name</FormSuite.ControlLabel>
                                                         <FormSuite.Control style={{ width: '38vw', fontFamily: 'Arial, Helvetica, sans-serif', border: '0.2vh solid #757474', borderRadius: '0.5vh', fontSize: '2.5vh' }}
                                                             {...input}
                                                         />
@@ -170,66 +153,66 @@ export default function AddUsers(props: AddUsersProps) {
                                                     </FormSuite.Group>
                                                 )}
                                             />
-                                            <RadioGroup
-                                                name="radioList"
-                                                value={inviteSelect}
-                                                defaultValue={InviteConst.INVITE}
-                                                onChange={inviteSelectOnChange}>
-                                                <p style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>Select the method to set the user password</p>
-                                                <Radio value={InviteConst.INVITE} style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>
-                                                    Invite the user to set their own password
-                                                </Radio>
-                                                <br />
-                                                {inviteShow === "LOADING_DISPLAY_BLOCK" && (
-                                                    <div style={{ display: 'flex' }}>
-                                                        <br />
-                                                        <EmailInvitePanel />
-                                                        <br />
-                                                    </div>
-                                                )}
-                                                <br />
-                                                <Radio value={InviteConst.PWD} style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>Set a password for the user</Radio>
-                                                {passwordShow === "LOADING_DISPLAY_BLOCK" && (
-                                                    <div>
-                                                        <br />
-                                                        <Field
-                                                            name="password"
-                                                            render={({ input, meta }) => (
-                                                                <FormSuite.Group controlId="password">
-                                                                    <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>Password</FormSuite.ControlLabel>
-                                                                    <FormSuite.Control style={{ width: '38vw', fontFamily: 'Arial, Helvetica, sans-serif', border: '0.2vh solid #757474', borderRadius: '0.5vh', fontSize: '2.5vh' }}
-                                                                        {...input}
-                                                                        type="password"
-                                                                        autoComplete="off"
-                                                                    />
-                                                                    {meta.error && meta.touched &&
-                                                                        (<FormSuite.ErrorMessage show={true}>
-                                                                            {meta.error}
-                                                                        </FormSuite.ErrorMessage>)}
-                                                                </FormSuite.Group>
-                                                            )}
+                                            <br />
+                                            <Field
+                                                name="lastName"
+                                                render={({ input, meta }) => (
+                                                    <FormSuite.Group controlId="lastName">
+                                                        <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>Last Name</FormSuite.ControlLabel>
+                                                        <FormSuite.Control style={{ width: '38vw', fontFamily: 'Arial, Helvetica, sans-serif', border: '0.2vh solid #757474', borderRadius: '0.5vh', fontSize: '2.5vh' }}
+                                                            {...input}
                                                         />
-                                                        <br />
-                                                        <Field
-                                                            name="repassword"
-                                                            render={({ input, meta }) => (
-                                                                <FormSuite.Group controlId="repassword">
-                                                                    <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>Re enter password</FormSuite.ControlLabel>
-                                                                    <FormSuite.Control style={{ width: '38vw', fontFamily: 'Arial, Helvetica, sans-serif', border: '0.2vh solid #757474', borderRadius: '0.5vh', fontSize: '2.5vh' }}
-                                                                        {...input}
-                                                                        type="password"
-                                                                        autoComplete="off"
-                                                                    />
-                                                                    {meta.error && meta.touched &&
-                                                                        (<FormSuite.ErrorMessage show={true}>
-                                                                            {meta.error}
-                                                                        </FormSuite.ErrorMessage>)}
-                                                                </FormSuite.Group>
-                                                            )}
-                                                        />
-                                                    </div>
+                                                        {meta.error && meta.touched && (<FormSuite.ErrorMessage show={true} >
+                                                            {meta.error}
+                                                        </FormSuite.ErrorMessage>)}
+                                                    </FormSuite.Group>
                                                 )}
-                                            </RadioGroup>
+                                            />
+                                            <br />
+                                            <Field
+                                                name="mobile"
+                                                render={({ input, meta }) => (
+                                                    <FormSuite.Group controlId="mobile">
+                                                        <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>Mobile</FormSuite.ControlLabel>
+                                                        <FormSuite.Control style={{ width: '38vw', fontFamily: 'Arial, Helvetica, sans-serif', border: '0.2vh solid #757474', borderRadius: '0.5vh', fontSize: '2.5vh' }}
+                                                            {...input}
+                                                        />
+                                                        {meta.error && meta.touched && (<FormSuite.ErrorMessage show={true} >
+                                                            {meta.error}
+                                                        </FormSuite.ErrorMessage>)}
+                                                    </FormSuite.Group>
+                                                )}
+                                            />
+                                            <br />
+                                            <Field
+                                                name="country"
+                                                render={({ input, meta }) => (
+                                                    <FormSuite.Group controlId="country">
+                                                        <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>Country</FormSuite.ControlLabel>
+                                                        <FormSuite.Control style={{ width: '38vw', fontFamily: 'Arial, Helvetica, sans-serif', border: '0.2vh solid #757474', borderRadius: '0.5vh', fontSize: '2.5vh' }}
+                                                            {...input}
+                                                        />
+                                                        {meta.error && meta.touched && (<FormSuite.ErrorMessage show={true} >
+                                                            {meta.error}
+                                                        </FormSuite.ErrorMessage>)}
+                                                    </FormSuite.Group>
+                                                )}
+                                            />
+                                            <br />
+                                            <Field
+                                                name="birthDate"
+                                                render={({ input, meta }) => (
+                                                    <FormSuite.Group controlId="birthDate">
+                                                        <FormSuite.ControlLabel style={{ fontFamily: 'Arial, Helvetica, sans-serif', color: '#757474', fontSize: '2.5vh' }}>Birth Date</FormSuite.ControlLabel>
+                                                        <FormSuite.Control style={{ width: '38vw', fontFamily: 'Arial, Helvetica, sans-serif', border: '0.2vh solid #757474', borderRadius: '0.5vh', fontSize: '2.5vh' }}
+                                                            {...input}
+                                                        />
+                                                        {meta.error && meta.touched && (<FormSuite.ErrorMessage show={true} >
+                                                            {meta.error}
+                                                        </FormSuite.ErrorMessage>)}
+                                                    </FormSuite.Group>
+                                                )}
+                                            />
                                             <br />
                                             <br />
                                             <div className="buttons">
@@ -249,7 +232,7 @@ export default function AddUsers(props: AddUsersProps) {
                                                             type="submit"
                                                         // disabled={submitting || pristine || !checkIfJSONisEmpty(errors)}
                                                         >
-                                                            Submit
+                                                            Update
                                                         </Button>
                                                     </ButtonToolbar>
                                                 </FormSuite.Group>

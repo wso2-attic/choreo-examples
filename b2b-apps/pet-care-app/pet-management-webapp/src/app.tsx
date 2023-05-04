@@ -26,7 +26,7 @@ import { ErrorBoundary } from "./error-boundary";
 import { HomePage, NotFoundPage } from "./pages";
 import { HomePageForAdmin } from "./pages/homePageForAdmin";
 import { ManageUsersPage } from "./pages/manageUsers";
-import { RoleManagementPage } from "./pages/roleManagement";
+import { RoleManagementPage } from "./pages/Roles/roleManagement";
 import { IdentityProvidersPage } from "./pages/identityProviders";
 import { ManageDoctorsPage } from "./pages/Doctors/manageDoctors";
 

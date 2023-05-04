@@ -704,7 +704,7 @@ code {
     filter: blur(0.5vw);
 }
 
-.manage-users-div {
+.heading-div {
     position: absolute;
     margin-top: 3vh;
     margin-left: 2vw;
@@ -737,7 +737,7 @@ code {
     padding: .78571429em 1.5em .78571429em;
     position: absolute;
     margin-top: 5vh;
-    right: 5vw;
+    left: 62vw;
     outline: none;
 }
 
