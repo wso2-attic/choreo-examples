@@ -16,6 +16,7 @@
 
 import ballerina/uuid;
 import ballerina/http;
+import ballerina/jwt;
 
 enum Status {
     reading = "reading",
@@ -34,22 +35,60 @@ type Book record {|
     string id;
 |};
 
-map<Book> books = {};
+map<map<Book>> books = {};
+const string DEFAULT_USER = "default";
 
 service /readinglist on new http:Listener(9090) {
 
-    resource function get books() returns Book[]|error? {
-        return books.toArray();
+    resource function get books(http:Headers headers) returns Book[]|http:BadRequest|error {
+        map<Book>|http:BadRequest usersBooks = check getUsersBooks(headers);
+        if (usersBooks is map<Book>) {
+            return usersBooks.toArray();
+        }
+        return <http:BadRequest>usersBooks;
     }
 
-    resource function post books(@http:Payload BookItem newBook) returns record {|*http:Ok;|}|error? {
+    resource function post books(http:Headers headers,
+                                 @http:Payload BookItem newBook) returns http:Ok|http:BadRequest|error {
+
         string bookId = uuid:createType1AsString();
-        books[bookId] = {...newBook, id: bookId};
-        return {};
+        map<Book>|http:BadRequest usersBooks = check getUsersBooks(headers);
+        if (usersBooks is map<Book>) {
+            usersBooks[bookId] = {...newBook, id: bookId};
+            return <http:Ok>{};
+        }
+        return <http:BadRequest>usersBooks;
     }
 
-    resource function delete books(string id) returns record {|*http:Ok;|}|error? {
-        _ = books.remove(id);
-        return {};
+    resource function delete books(http:Headers headers,
+                                   string id) returns http:Ok|http:BadRequest|error? {
+        map<Book>|http:BadRequest usersBooks = check getUsersBooks(headers);
+        if (usersBooks is map<Book>) {
+            _ = usersBooks.remove(id);
+            return <http:Ok>{};
+        }
+        return <http:BadRequest>usersBooks;
     }
 }
+
+// This function is used to get the books of the user who is logged in.
+// User information is extracted from the JWT token.
+function getUsersBooks(http:Headers headers) returns map<Book>|http:BadRequest|error {
+        string|error jwtAssertion = headers.getHeader("x-jwt-assertion");
+        if (jwtAssertion is error) {
+            http:BadRequest badRequest = {
+                body: {
+                    "error": "Bad Request",
+                    "error_description": "Error while getting the JWT token"
+                }
+            };
+            return badRequest;
+        }
+
+        [jwt:Header, jwt:Payload] [_, payload] = check jwt:decode(jwtAssertion);
+        string username = payload.sub is string ? <string>payload.sub : DEFAULT_USER;
+        if (books[username] is ()) {
+            books[username] = {};
+        }
+        return <map<Book>>books[username];
+    }
