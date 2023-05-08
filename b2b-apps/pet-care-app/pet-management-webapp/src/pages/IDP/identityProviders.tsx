@@ -19,45 +19,18 @@
 import { BasicUserInfo, Hooks, useAuthContext } from "@asgardeo/auth-react";
 import { Grid } from '@mui/material';
 import React, { FunctionComponent, ReactElement, useCallback, useEffect, useState } from "react";
-import { default as authConfig } from "../config.json";
-import LOGO_IMAGE from "../images/pet_care_logo.png";
-import DOG_IMAGE from "../images/dog_image.png";
-import CAT_IMAGE from "../images/cat.png";
-import RABBIT_IMAGE from "../images/rabbit.png";
-import COVER_IMAGE from "../images/nav-image.png";
-import { DefaultLayout } from "../layouts/default";
-import { AuthenticationResponse } from "../components";
-import { useLocation } from "react-router-dom";
-import { LogoutRequestDenied } from "../components/LogoutRequestDenied";
-import { USER_DENIED_LOGOUT } from "../constants/errors";
-import { Pet, PetInfo } from "../types/pet";
-import AddPet from "./Pets/addPets";
-import PetOverview from "./Pets/petOverview";
-import PetCard from "./Pets/PetCard";
-import { getPets } from "../components/getPetList/get-pets";
-import MenuListComposition from "../components/UserMenu";
-import NavBar from "../components/navBar";
+import NavBar from "../../components/navBar";
+import EmptyIDP from "./emptyIDP";
 
-interface DerivedState {
-    authenticateResponse: BasicUserInfo,
-    idToken: string[],
-    decodedIdTokenHeader: string,
-    decodedIDTokenPayload: Record<string, string | number | boolean>;
-}
-
-/**
- * Home page for the Sample.
- *
- * @param props - Props injected to the component.
- *
- * @return {React.ReactElement}
- */
 export const IdentityProvidersPage: FunctionComponent = (): ReactElement => {
+    const[isSelectIdpOpen, setIsSelectIdpOpen] = useState(false);
+    const[isAddEnterpriseIdpOpen, setIsAddEnterpriseIdpOpen]= useState(false);
+    const [isAddGoogleIdpOpen, setIsAddGoogleIdpOpen] = useState(false);
 
     return (
         <>
-            <NavBar isBlur={false} />
-            <div className="home-div">
+            <NavBar isBlur={isSelectIdpOpen || isAddEnterpriseIdpOpen || isAddGoogleIdpOpen} />
+            <div className={isSelectIdpOpen || isAddEnterpriseIdpOpen || isAddGoogleIdpOpen ? "home-div-blur" : "home-div"}>
                 <div className="heading-div">
                     <label className="home-wording">
                         Identity Providers
@@ -68,6 +41,14 @@ export const IdentityProvidersPage: FunctionComponent = (): ReactElement => {
                         Manage identity providers in the organization
                     </label>
                 </div>
+                <EmptyIDP 
+                isSelectIdpOpen={isSelectIdpOpen} 
+                setIsSelectIdpOpen={setIsSelectIdpOpen} 
+                isAddEnterpriseIdpOpen={isAddEnterpriseIdpOpen}
+                setIsAddEnterpriseIdpOpen={setIsAddEnterpriseIdpOpen}
+                isAddGoogleIdpOpen={isAddGoogleIdpOpen}
+                setIsAddGoogleIdpOpen={setIsAddGoogleIdpOpen}
+                />
             </div>
         </>
     );

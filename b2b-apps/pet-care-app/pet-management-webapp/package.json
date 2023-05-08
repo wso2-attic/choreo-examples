@@ -41,6 +41,8 @@
         "@headlessui/react": "^1.7.13",
         "@mui/icons-material": "^5.11.16",
         "@mui/material": "^5.12.1",
+        "@syncfusion/ej2-base": "^21.2.3",
+        "@syncfusion/ej2-react-navigations": "^21.2.3",
         "@textea/json-viewer": "^2.14.0",
         "mdb-react-ui-kit": "^6.0.0",
         "react": "^18.2.0",

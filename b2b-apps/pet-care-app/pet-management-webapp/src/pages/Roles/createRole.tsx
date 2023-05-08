@@ -74,6 +74,11 @@ export default function CreateRole(props: CreateRoleProps) {
         setActiveStep(newActiveStep);
     };
 
+    const handleClose = () => {
+        setIsOpen(false);
+    };
+
+
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
@@ -158,10 +163,10 @@ export default function CreateRole(props: CreateRoleProps) {
                                             <BasicDetails />
                                         )}
                                         {activeStep === 1 && (
-                                            <PermissionSelection/>
+                                            <PermissionSelection />
                                         )}
                                         {activeStep === 2 && (
-                                            <UserSelection/>
+                                            <UserSelection />
                                         )}
                                         {allStepsCompleted() ? (
                                             <React.Fragment>
@@ -186,9 +191,17 @@ export default function CreateRole(props: CreateRoleProps) {
                                                         Back
                                                     </Button> */}
                                                     <Box sx={{ flex: '1 1 auto' }} />
-                                                    <Button onClick={handleNext} className="next-btn">
-                                                        Next
-                                                    </Button>
+                                                    {activeStep === 2 ? (
+                                                        <Button onClick={handleClose} className="next-btn">
+                                                            Finish
+                                                        </Button>
+                                                    ) : (
+                                                        <Button onClick={handleNext} className="next-btn">
+                                                            Next
+                                                        </Button>
+
+                                                    )}
+
                                                     {/* {activeStep !== steps.length &&
                                                         (completed[activeStep] ? (
                                                             <Typography variant="caption" sx={{ display: 'inline-block' }}>

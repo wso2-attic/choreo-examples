@@ -27,7 +27,7 @@ import { HomePage, NotFoundPage } from "./pages";
 import { HomePageForAdmin } from "./pages/homePageForAdmin";
 import { ManageUsersPage } from "./pages/manageUsers";
 import { RoleManagementPage } from "./pages/Roles/roleManagement";
-import { IdentityProvidersPage } from "./pages/identityProviders";
+import { IdentityProvidersPage } from "./pages/IDP/identityProviders";
 import { ManageDoctorsPage } from "./pages/Doctors/manageDoctors";
 
 const AppContent: FunctionComponent = (): ReactElement => {

@@ -19,12 +19,17 @@
 import { Field, Form } from "react-final-form";
 import FormSuite from "rsuite/Form";
 import InfoOutlineIcon from "@rsuite/icons/InfoOutline";
-import React from "react";
+import React, { useState } from "react";
 import { FormApi, AnyObject } from "final-form";
 import { Checkbox, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Tab } from "@headlessui/react";
 
 export default function UserSelection() {
+    const [checked, setIsChecked] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setIsChecked(!checked);
+    };
     return (
         <div className="user-add-main-div">
             <div className="add-user-div-in-role-creation">
@@ -37,7 +42,7 @@ export default function UserSelection() {
                     </TableHead>
                     <TableBody>
                         <TableRow >
-                            <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1, width: '0vw' }}><Checkbox color="primary" disabled={false} checked={true} /></TableCell>
+                            <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1, width: '0vw' }}><Checkbox color="primary" disabled={false} checked={checked} onChange={(e) => { handleCheckboxChange() }} /></TableCell>
                             <TableCell align="left" style={{ fontSize: "1.7vh", padding: 1 }}>Shalki</TableCell>
                         </TableRow>
                     </TableBody>
