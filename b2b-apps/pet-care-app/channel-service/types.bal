@@ -62,6 +62,7 @@ type Booking record {|
     *BookingItem;
     readonly string id;
     readonly string org;
+    readonly string referenceNumber;
     readonly string emailAddress;
     readonly string createdAt;
 |};
@@ -81,4 +82,3 @@ type Property record {|
 enum EmailType {
     BOOKING_CONFIRMED = "Booking Confirmed"
 }
-

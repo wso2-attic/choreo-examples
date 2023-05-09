@@ -184,9 +184,10 @@ function connectWithEmailService(PetAlert petAlert, string currentDate, string v
         properties: properties
     };
 
-    http:Response response = check httpClient->/messages.post({
-        emailContent
-    });
+    http:Request request = new;
+    request.setJsonPayload(emailContent);
+
+    http:Response response = check httpClient->/messages.post(request);
 
     if (response.statusCode == 200) {
         return;

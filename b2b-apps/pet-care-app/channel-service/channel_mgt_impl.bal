@@ -6,6 +6,7 @@ import ballerina/log;
 import ballerinax/mysql;
 import ballerina/time;
 import ballerina/http;
+import ballerina/random;
 
 configurable string dbHost = "localhost";
 configurable string dbUsername = "admin";
@@ -302,11 +303,19 @@ function addBooking(BookingItem bookingItem, string org, string emailAddress) re
     time:Utc currentUtc = time:utcNow();
     time:Civil currentTime = time:utcToCivil(currentUtc);
     string timeString = civilToIso8601(currentTime);
+    string refNumber = getReferenceNumber();
 
     if (useDB) {
         return error("Not implemented");
     } else {
-        bookingRecords.put({id: bookingId, org: org, emailAddress: emailAddress, createdAt: timeString, ...bookingItem});
+        bookingRecords.put({
+            id: bookingId,
+            org: org,
+            referenceNumber: refNumber,
+            emailAddress: emailAddress,
+            createdAt: timeString,
+            ...bookingItem
+        });
         Booking booking = <Booking>bookingRecords[org, bookingId];
         return booking;
     }
@@ -328,6 +337,7 @@ function getBookingByIdAndOrg(string org, string bookingId) returns Booking|()|e
 
 function updateBookingById(string org, string bookingId, BookingItem updatedBookingItem) returns Booking|()|error {
 
+    string refNumber = getReferenceNumber();
     if (useDB) {
         return ();
 
@@ -339,6 +349,7 @@ function updateBookingById(string org, string bookingId, BookingItem updatedBook
         bookingRecords.put({
             id: bookingId,
             org: org,
+            referenceNumber: refNumber,
             emailAddress: oldeBookingRecord.emailAddress,
             createdAt: oldeBookingRecord.createdAt,
             ...updatedBookingItem
@@ -403,8 +414,9 @@ function sendEmail(Booking booking, Doctor doctor) returns error? {
     string emailAddress = booking.emailAddress;
 
     Property[] properties = [
+        addProperty("currentDate", getCurrentDate()),
         addProperty("emailAddress", emailAddress),
-        addProperty("bookingId", booking.id),
+        addProperty("bookingId", booking.referenceNumber),
         addProperty("appointmentDate", booking.date),
         addProperty("appointmentTimeSlot", booking.sessionStartTime + " - " + booking.sessionEndTime),
         addProperty("appointmentNo", booking.appointmentNumber.toString()),
@@ -412,7 +424,7 @@ function sendEmail(Booking booking, Doctor doctor) returns error? {
         addProperty("petName", booking.petName),
         addProperty("petType", booking.petType),
         addProperty("petDoB", booking.petDoB),
-        addProperty("doctorName", doctor.name ),
+        addProperty("doctorName", doctor.name),
         addProperty("doctorSpecialty", doctor.specialty),
         addProperty("hospitalName", "Hospital Name"),
         addProperty("hospitalAddress", "Hospital Address"),
@@ -426,13 +438,14 @@ function sendEmail(Booking booking, Doctor doctor) returns error? {
         properties: properties
     };
 
-    http:Response response = check httpClient->/messages.post({
-        emailContent
-    });
+    http:Request request = new;
+    request.setJsonPayload(emailContent);
+    http:Response response = check httpClient->/messages.post(request);
 
     if (response.statusCode == 200) {
         return;
-    } else {
+    }
+    else {
         return error("Error while sending email, " + response.reasonPhrase);
     }
 }
@@ -440,4 +453,92 @@ function sendEmail(Booking booking, Doctor doctor) returns error? {
 function addProperty(string name, string value) returns Property {
     Property prop = {name: name, value: value};
     return prop;
+}
+
+function getCurrentDate() returns string {
+    time:Utc currentUtc = time:utcNow();
+    time:Civil currentTime = time:utcToCivil(currentUtc);
+
+    string year;
+    string month;
+    string day;
+    [year, month, day] = getDateFromCivilTime(currentTime);
+
+    int|error currentMonth = int:fromString(month);
+    if (currentMonth is error) {
+        log:printError("Error while converting month to int: " + currentMonth.toString());
+        return "";
+    }
+    return getMonthName(currentMonth) + " " + day + ", " + year;
+}
+
+function getDateFromCivilTime(time:Civil time) returns [string, string, string] {
+
+    string year = time.year.toString();
+    string month = time.month < 10 ? string `0${time.month}` : time.month.toString();
+    string day = time.day < 10 ? string `0${time.day}` : time.day.toString();
+    return [year, month, day];
+}
+
+function getMonthName(int index) returns string {
+    match index {
+        1 => {
+            return "January";
+        }
+        2 => {
+            return "February";
+        }
+        3 => {
+            return "March";
+        }
+        4 => {
+            return "April";
+        }
+        5 => {
+            return "May";
+        }
+        6 => {
+            return "June";
+        }
+        7 => {
+            return "July";
+        }
+        8 => {
+            return "August";
+        }
+        9 => {
+            return "September";
+        }
+        10 => {
+            return "October";
+        }
+        11 => {
+            return "November";
+        }
+        12 => {
+            return "December";
+        }
+        _ => {
+            return "";
+        }
+    }
+}
+
+function getReferenceNumber() returns string {
+
+    time:Utc currentUtc = time:utcNow();
+    time:Civil currentTime = time:utcToCivil(currentUtc);
+
+    string year;
+    string month;
+    string day;
+    [year, month, day] = getDateFromCivilTime(currentTime);
+    int|random:Error randomInteger = random:createIntInRange(1000, 10000);
+
+    if (randomInteger is random:Error) {
+        log:printError("Error while generating random number: " + randomInteger.toString());
+        return year + month + day + "xxxxx";
+    }
+
+    return year + month + day + randomInteger.toString();
 }
