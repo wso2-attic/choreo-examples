@@ -37,6 +37,9 @@ type BookingItem record {|
     string mobileNumber?;
     string doctorId;
     string petId;
+    string petName;
+    string petType;
+    string petDoB;
     BookingStatus status;
     *Appointment;
 |};
@@ -46,7 +49,7 @@ enum Status {
     COMPLETED = "Completed"
 }
 
-type BookingStatus CONFIRMED | COMPLETED;
+type BookingStatus CONFIRMED|COMPLETED;
 
 type Appointment record {|
     string date;
@@ -62,3 +65,20 @@ type Booking record {|
     readonly string emailAddress;
     readonly string createdAt;
 |};
+
+type EmailContent record {|
+    EmailType emailType;
+    Property[] properties;
+    string receipient;
+    string emailSubject;
+|};
+
+type Property record {|
+    string name;
+    string value;
+|};
+
+enum EmailType {
+    BOOKING_CONFIRMED = "Booking Confirmed"
+}
+

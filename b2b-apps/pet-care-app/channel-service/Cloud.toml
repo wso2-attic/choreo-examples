@@ -1,3 +1,0 @@
-[[container.copy.files]]
-sourceFile="./resources/email_template.html"
-target="/home/ballerina/resources/email_template.html"

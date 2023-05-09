@@ -240,6 +240,16 @@ components:
           type: string
         enableAlerts:
           type: boolean
+    OwnerInfo:
+      required:
+      - org
+      - owner
+      type: object
+      properties:
+        owner:
+          type: string
+        org:
+          type: string
     Notifications:
       required:
       - enabled
@@ -252,17 +262,12 @@ components:
     Pet:
       allOf:
       - $ref: '#/components/schemas/PetItem'
+      - $ref: '#/components/schemas/OwnerInfo'
       - required:
         - id
-        - org
-        - owner
         type: object
         properties:
           id:
-            type: string
-          owner:
-            type: string
-          org:
             type: string
     Settings:
       required:

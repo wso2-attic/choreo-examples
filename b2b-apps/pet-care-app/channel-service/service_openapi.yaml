@@ -229,6 +229,8 @@ paths:
       responses:
         "201":
           description: Created
+        "400":
+          description: BadRequest
         "500":
           description: Internal server error
           content:
@@ -349,8 +351,11 @@ components:
       - appointmentNumber
       - date
       - doctorId
+      - petDoB
       - petId
+      - petName
       - petOwnerName
+      - petType
       - sessionEndTime
       - sessionStartTime
       - status
@@ -363,6 +368,12 @@ components:
         doctorId:
           type: string
         petId:
+          type: string
+        petName:
+          type: string
+        petType:
+          type: string
+        petDoB:
           type: string
         status:
           $ref: '#/components/schemas/BookingStatus'
@@ -411,6 +422,7 @@ components:
       allOf:
       - $ref: '#/components/schemas/BookingItem'
       - required:
+        - createdAt
         - emailAddress
         - id
         - org
@@ -422,10 +434,13 @@ components:
             type: string
           emailAddress:
             type: string
+          createdAt:
+            type: string
     Doctor:
       allOf:
       - $ref: '#/components/schemas/DoctorItem'
       - required:
+        - createdAt
         - id
         - org
         type: object
@@ -433,6 +448,8 @@ components:
           id:
             type: string
           org:
+            type: string
+          createdAt:
             type: string
     TimeSlot:
       required:

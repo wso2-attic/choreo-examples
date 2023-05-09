@@ -65,3 +65,19 @@ type OwnerInfo record {|
     readonly string owner;
     readonly string org;
 |};
+
+type EmailContent record {|
+    EmailType emailType;
+    Property[] properties;
+    string receipient;
+    string emailSubject;
+|};
+
+type Property record {|
+    string name;
+    string value;
+|};
+
+enum EmailType {
+    VACCINATION_ALERT = "Vaccination Alert"
+}

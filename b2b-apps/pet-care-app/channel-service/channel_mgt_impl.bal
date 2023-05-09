@@ -5,12 +5,14 @@ import ballerina/sql;
 import ballerina/log;
 import ballerinax/mysql;
 import ballerina/time;
+import ballerina/http;
 
 configurable string dbHost = "localhost";
 configurable string dbUsername = "admin";
 configurable string dbPassword = "admin";
-configurable string dbDatabase = "PET_DB";
+configurable string dbDatabase = "CHANNEL_DB";
 configurable int dbPort = 3306;
+configurable string emailService = "localhost:9091";
 
 table<Doctor> key(org, id) doctorRecords = table [];
 table<Booking> key(org, id) bookingRecords = table [];
@@ -88,6 +90,38 @@ function getDoctorByIdAndOrg(string org, string doctorId) returns Doctor|()|erro
     }
 }
 
+function getDoctorById(string doctorId) returns Doctor|()|error {
+
+    Doctor doctor = {
+        id: "",
+        org: "",
+        emailAddress: "",
+        address: "",
+        specialty: "",
+        gender: "",
+        registrationNumber: "",
+        name: "",
+        availability: [],
+        createdAt: ""
+    };
+    if (useDB) {
+        // return dbGetPetByOwnerAndPetId(owner, petId);
+        return ();
+    } else {
+        foreach Doctor doc in doctorRecords {
+            if doc.id == doctorId {
+                doctor = doc;
+                break;
+            }
+        }
+
+        if doctor.id == "" {
+            return ();
+        }
+        return doctor;
+    }
+}
+
 function getDoctorByEmailAndOrg(string org, string emailAddress) returns Doctor|()|error {
 
     Doctor doctor = {
@@ -120,30 +154,6 @@ function getDoctorByEmailAndOrg(string org, string emailAddress) returns Doctor|
     }
 
 }
-
-// function getPetById(string petId) returns Pet|() {
-
-//     if (useDB) {
-//         Pet|()|error petResult = dbGetPetByPetId(petId);
-
-//         if petResult is Pet {
-//             return petResult;
-//         } else {
-//             return ();
-//         }
-//     } else {
-//         string owner = from var petRecord in petRecords
-//             where petRecord.id == petId
-//             select petRecord.owner;
-
-//         PetRecord? petRecord = petRecords[owner, petId];
-//         if petRecord is () {
-//             return ();
-//         }
-
-//         return getPetDetails(petRecord);
-//     }
-// }
 
 function updateDoctorById(string org, string doctorId, DoctorItem updatedDoctorItem) returns Doctor|()|error {
 
@@ -353,144 +363,6 @@ function deleteBookingById(string org, string bookingId) returns string|()|error
     }
 }
 
-// function updateSettings(SettingsRecord settingsRecord) returns string|error {
-
-//     if (useDB) {
-//         string|error updatedResult = dbUpdateSettingsByOwner(settingsRecord);
-//         if updatedResult is error {
-//             return updatedResult;
-//         }
-
-//     } else {
-//         settingsRecords.put(settingsRecord);
-//     }
-
-//     return "Settings updated successfully";
-// }
-
-// function getSettings(string owner, string email) returns Settings|error {
-
-//     if (useDB) {
-
-//         Settings|()|error settings = dbGetOwnerSettings(owner);
-
-//         if settings is error {
-//             return settings;
-//         } else if settings is () {
-//             Settings newSettings = getDefaultSettings(email);
-//             SettingsRecord settingsRecord = {owner: owner, ...newSettings};
-//             string|error updatedResult = dbUpdateSettingsByOwner(settingsRecord);
-//             if updatedResult is error {
-//                 return updatedResult;
-//             }
-//             return newSettings;
-//         } else {
-//             return settings;
-//         }
-
-//     } else {
-//         SettingsRecord? settingsRecord = settingsRecords[owner];
-
-//         if settingsRecord is () {
-//             Settings settings = getDefaultSettings(email);
-//             settingsRecords.put({owner: owner, ...settings});
-//             return settings;
-//         }
-//         return {notifications: settingsRecord.notifications};
-//     }
-
-// }
-
-// function getSettingsByOwner(string owner) returns Settings|() {
-
-//     if (useDB) {
-
-//         Settings|()|error settings = dbGetOwnerSettings(owner);
-
-//         if settings is Settings {
-//             return settings;
-//         } else {
-//             return ();
-//         }
-
-//     } else {
-//         SettingsRecord? settingsRecord = settingsRecords[owner];
-
-//         if settingsRecord is () {
-//             return ();
-//         }
-
-//         return {notifications: settingsRecord.notifications};
-//     }
-
-// }
-
-// function getAvailableAlerts(string nextDay) returns PetAlert[] {
-
-//     PetAlert[] petAlerts = [];
-//     string[] petIds = getPetIdsForEnabledAlerts(nextDay);
-
-//     foreach var petId in petIds {
-//         Pet|() pet = getPetById(petId);
-
-//         if pet != () {
-//             Settings|() settings = getSettingsByOwner(pet.owner);
-
-//             if settings != () && settings.notifications.enabled && settings.notifications.emailAddress != "" {
-
-//                 string email = <string>settings.notifications.emailAddress;
-//                 Vaccination[] selectedVaccinations = [];
-//                 Vaccination[] vaccinations = <Vaccination[]>pet.vaccinations;
-
-//                 foreach var vac in vaccinations {
-//                     if vac.nextVaccinationDate == nextDay && vac.enableAlerts == true {
-//                         selectedVaccinations.push(vac);
-//                     }
-//                 }
-
-//                 pet.vaccinations = selectedVaccinations;
-//                 PetAlert petAlert = {...pet, emailAddress: email};
-//                 petAlerts.push(petAlert);
-//             }
-//         }
-//     }
-
-//     return petAlerts;
-// }
-
-// function getPetIdsForEnabledAlerts(string nextDay) returns string[] {
-
-//     string[] petIds = [];
-//     if (useDB) {
-//         string[]|error dbGetPetIdsForEnabledAlertsResult = dbGetPetIdsForEnabledAlerts(nextDay);
-
-//         if dbGetPetIdsForEnabledAlertsResult is error {
-//             return petIds;
-//         } else {
-//             return <string[]>dbGetPetIdsForEnabledAlertsResult;
-//         }
-
-//     } else {
-//         petRecords.forEach(function(PetRecord petRecord) {
-
-//             if petRecord.vaccinations is () {
-//                 return;
-//             }
-
-//             Vaccination[] vaccinations = <Vaccination[]>petRecord.vaccinations;
-//             vaccinations.forEach(function(Vaccination vaccination) {
-
-//                 if vaccination.nextVaccinationDate == nextDay && <boolean>vaccination.enableAlerts {
-//                     petIds.push(petRecord.id);
-//                 }
-//             });
-//         });
-//     }
-
-//     return petIds;
-// }
-
-
 # Converts time:Civil time to string 20220712T054235Z
 #
 # + time - time:Civil time record.
@@ -519,38 +391,53 @@ function civilToIso8601(time:Civil time) returns string {
     return string `${year}${month}${day}T${hour}${minute}${second}${timeZone}`;
 }
 
-// function getDefaultSettings(string email) returns Settings {
-
-//     boolean enabled = false;
-//     if email != "" {
-//         enabled = true;
-//     }
-
-//     Settings settings = {notifications: {enabled: enabled, emailAddress: email}};
-//     return settings;
-// }
-
-// function enableAlerts(string email, string owner, Pet pet) {
-
-//     Vaccination[]? vaccinations = pet.vaccinations;
-
-//     if vaccinations is () {
-//         return;
-//     }
-
-//     foreach var vac in vaccinations {
-
-//         if vac.enableAlerts == true {
-//             Settings|error settings = getSettings(owner, email);
-//             if settings is error {
-//                 log:printError("Error getting settings", 'error = settings);
-//             }
-//             break;
-//         }
-//     }
-
-// }
-
 function getThumbnailKey(string org, string doctorId) returns string {
     return org + "-" + doctorId;
+}
+
+function sendEmail(Booking booking, Doctor doctor) returns error? {
+
+    http:Client httpClient = check new (emailService);
+
+    string emailSubject = "[Pet Care App][Booking Confirmation] Your booking is confirmed.";
+    string emailAddress = booking.emailAddress;
+
+    Property[] properties = [
+        addProperty("emailAddress", emailAddress),
+        addProperty("bookingId", booking.id),
+        addProperty("appointmentDate", booking.date),
+        addProperty("appointmentTimeSlot", booking.sessionStartTime + " - " + booking.sessionEndTime),
+        addProperty("appointmentNo", booking.appointmentNumber.toString()),
+        addProperty("appointmentFee", "$30"),
+        addProperty("petName", booking.petName),
+        addProperty("petType", booking.petType),
+        addProperty("petDoB", booking.petDoB),
+        addProperty("doctorName", doctor.name ),
+        addProperty("doctorSpecialty", doctor.specialty),
+        addProperty("hospitalName", "Hospital Name"),
+        addProperty("hospitalAddress", "Hospital Address"),
+        addProperty("hospitalTelephone", "Hospital Telephone")
+    ];
+
+    EmailContent emailContent = {
+        emailType: BOOKING_CONFIRMED,
+        receipient: emailAddress,
+        emailSubject: emailSubject,
+        properties: properties
+    };
+
+    http:Response response = check httpClient->/messages.post({
+        emailContent
+    });
+
+    if (response.statusCode == 200) {
+        return;
+    } else {
+        return error("Error while sending email, " + response.reasonPhrase);
+    }
+}
+
+function addProperty(string name, string value) returns Property {
+    Property prop = {name: name, value: value};
+    return prop;
 }

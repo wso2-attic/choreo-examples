@@ -1,6 +1,7 @@
 import ballerina/http;
 import ballerina/jwt;
 import ballerina/mime;
+import ballerina/log;
 
 # A service representing a network-accessible API
 # bound to port `9090`.
@@ -187,7 +188,7 @@ service / on new http:Listener(9090) {
     # Create a new booking
     # + newBooking - basic booking details
     # + return - created booking record or error
-    resource function post bookings(http:Headers headers, @http:Payload BookingItem newBooking) returns Booking|http:Created|error? {
+    resource function post bookings(http:Headers headers, @http:Payload BookingItem newBooking) returns Booking|http:Created|http:BadRequest|error? {
 
         [string, string]|error orgInfo = getOrgWithEmail(headers);
         if orgInfo is error {
@@ -197,8 +198,28 @@ service / on new http:Listener(9090) {
         string org = orgInfo[0];
         string email = orgInfo[1];
 
-        Booking|error booking = addBooking(newBooking, org, email);
-        return booking;
+        Doctor|()|error doctor = getDoctorById(newBooking.doctorId);
+
+        if doctor is Doctor {
+
+            Booking|error booking = addBooking(newBooking, org, email);
+            if booking is error {
+                return booking;
+            }
+
+            error? sendEmailResult = sendEmail(booking, doctor);
+            if sendEmailResult is error {
+                log:printError("Error while sending email for the booking: ", sendEmailResult);
+            }
+
+            return booking;
+        } else if doctor is () {
+            log:printInfo("Doctor not found. [Booking Pet ID]:" + newBooking.petId + ", [Booking Doctor ID]:" + newBooking.doctorId);
+            return http:BAD_REQUEST;
+        } else {
+            return doctor;
+        }
+
     }
 
     # Get a booking by ID
@@ -254,45 +275,6 @@ service / on new http:Listener(9090) {
         }
         return http:NO_CONTENT;
     }
-
-    // resource function get settings(http:Headers headers) returns Settings|error {
-
-    //     [string, string, string]|error ownerInfo = getOwnerWithEmail(headers);
-    //     if ownerInfo is error {
-    //         return ownerInfo;
-    //     }
-
-    //     string owner = ownerInfo[0];
-    //     string org = ownerInfo[1];
-    //     string email = ownerInfo[2];
-
-    //     Settings|error settings = getSettings(org, owner, email);
-
-    //     if settings is error {
-    //         return settings;
-    //     }
-
-    //     return settings;
-    // }
-
-    // resource function put settings(http:Headers headers, @http:Payload Settings settings) returns http:Ok|error {
-
-    //     [string, string]|error ownerInfo = getOwner(headers);
-    //     if ownerInfo is error {
-    //         return ownerInfo;
-    //     }
-
-    //     string owner = ownerInfo[0];
-    //     string org = ownerInfo[1];
-
-    //     SettingsRecord settingsRecord = {org: org, owner: owner, ...settings};
-    //     string|error result = updateSettings(settingsRecord);
-
-    //     if result is error {
-    //         return result;
-    //     }
-    //     return http:OK;
-    // }
 
 }
 
