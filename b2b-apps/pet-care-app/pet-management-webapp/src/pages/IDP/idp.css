@@ -124,3 +124,112 @@
     width: 10%;
     height: 10%;
 }
+
+.prerequisite-div {
+    position: absolute;
+    font-weight: notmal;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2vh;
+    top: 15vh;
+    left:5%;
+    text-align: left;
+    width: 80%;
+    height: 15vh;
+    border: 1px solid #d5d5d5;
+    border-radius: 1vh;
+    padding: 1vw;
+    color: #6b6e6e;
+}
+
+.url-input {
+    width: 80%;
+}
+
+.add-ep-idp-div {
+    width: 45vw;
+    height: 88vh;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    /* outline: 1px solid #6d7273; */
+    box-shadow: rgba(0, 0, 0, 0.35) 0vh 1vh 1vh;
+    border-radius: 20px;
+    position: absolute;
+    align-items: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ep-idp-form-div {
+    width: 90%;
+    position:absolute;
+    left: 5%;
+    top: 38vh;
+    height: 35vh;
+    overflow-y: scroll;
+}
+
+.ep-idp-form-label {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+    color: #6b6e6e;
+    font-size: 2.5vh;
+    
+}
+
+.ep-idp-form {
+    text-align: left;
+}
+
+.ep-idp-form-input {
+    width: 95%;
+    font-size: 2.5vh;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+    color: #6b6e6e;
+}
+
+.buttons-div {
+    width: 100%;
+    height: 4vh;
+    bottom: 5%;
+    position: absolute;
+
+}
+
+.create-ep-idp-button {
+    background-color: #4e40ed;
+    border-radius: 3px;
+    border: none;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 2.5vh;
+    text-align: center;
+    text-decoration: none;
+    width: 8vw;
+    cursor: pointer;
+    -webkit-text-size-adjust: none;
+    padding: 1.5vh 1.5vh 1.5vh;
+    position: absolute;
+    outline: none;
+    padding-right: 0vw;
+}
+
+.cancel-ep-idp-button {
+    background-color: #868686;
+    border-radius: 3px;
+    border: none;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 2.5vh;
+    text-align: center;
+    text-decoration: none;
+    width: 8vw;
+    cursor: pointer;
+    -webkit-text-size-adjust: none;
+    padding: 1.5vh 1.5vh 1.5vh;
+    position: absolute;
+    left: 13vw;
+    outline: none;
+}
