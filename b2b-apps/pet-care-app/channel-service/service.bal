@@ -276,6 +276,37 @@ service / on new http:Listener(9090) {
         return http:NO_CONTENT;
     }
 
+    # Get information about the organization
+    # + return - Organization information or error
+    resource function get org\-info(http:Headers headers) returns OrgInfo|http:NotFound|error? {
+
+        string|error org = getOrg(headers);
+        if org is error {
+            return org;
+        }
+
+        OrgInfo|()|error orgInfo = getOrgInfo(org);
+        if orgInfo is OrgInfo {
+            return orgInfo;
+        } else if orgInfo is () {
+            return http:NOT_FOUND;
+        } else {
+            return orgInfo;
+        }
+    }
+
+    # Update organization information
+    # + updatedOrgInfo - updated organization details
+    # + return - Organization information or error
+    resource function put org\-info(http:Headers headers, @http:Payload OrgInfoItem updatedOrgInfo) returns OrgInfo|error? {
+
+        string|error org = getOrg(headers);
+        if org is error {
+            return org;
+        }
+
+        return updateOrgInfo(org, updatedOrgInfo);
+    }
 }
 
 function getOrg(http:Headers headers) returns string|error {

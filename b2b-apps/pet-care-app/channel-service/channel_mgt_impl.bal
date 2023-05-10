@@ -17,6 +17,7 @@ configurable string emailService = "localhost:9091";
 
 table<Doctor> key(org, id) doctorRecords = table [];
 table<Booking> key(org, id) bookingRecords = table [];
+table<OrgInfo> key(orgName) orgRecords = table [];
 
 final mysql:Client|error dbClient;
 boolean useDB = false;
@@ -371,6 +372,35 @@ function deleteBookingById(string org, string bookingId) returns string|()|error
         }
         _ = bookingRecords.remove([org, bookingId]);
         return "Booking deleted successfully";
+    }
+}
+
+function getOrgInfo(string org) returns OrgInfo|()|error {
+
+    if (useDB) {
+        return ();
+    } else {
+        OrgInfo? orgInfo = orgRecords[org];
+        if orgInfo is () {
+            return ();
+        }
+
+        return orgInfo;
+    }
+}
+
+function updateOrgInfo(string org, OrgInfoItem orgInfoItem) returns OrgInfo|error {
+
+    if (useDB) {
+        return error("Not implemented");
+    } else {
+        orgRecords.put({
+            orgName: org,
+            ...orgInfoItem
+        });
+
+        OrgInfo orgInfo = <OrgInfo>orgRecords[org];
+        return orgInfo;
     }
 }
 

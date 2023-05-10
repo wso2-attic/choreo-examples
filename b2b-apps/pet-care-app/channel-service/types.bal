@@ -82,3 +82,15 @@ type Property record {|
 enum EmailType {
     BOOKING_CONFIRMED = "Booking Confirmed"
 }
+
+type OrgInfo record {|
+    *OrgInfoItem;
+    readonly string orgName;
+|};
+
+type OrgInfoItem record {|
+    string name;
+    string address;
+    string telephoneNumber;
+    string registrationNumber?;
+|};

@@ -315,6 +315,47 @@ paths:
             text/plain:
               schema:
                 type: string
+  /org-info:
+    get:
+      summary: Get information about the organization
+      operationId: getOrgInfo
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgInfo'
+        "404":
+          description: NotFound
+        "500":
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+    put:
+      summary: Update organization information
+      operationId: putOrgInfo
+      requestBody:
+        description: updated organization details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgInfoItem'
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgInfo'
+        "500":
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
   schemas:
     Availability:
@@ -346,6 +387,15 @@ components:
         appointmentNumber:
           type: integer
           format: int64
+    OrgInfo:
+      allOf:
+      - $ref: '#/components/schemas/OrgInfoItem'
+      - required:
+        - orgName
+        type: object
+        properties:
+          orgName:
+            type: string
     BookingItem:
       required:
       - appointmentNumber
@@ -386,6 +436,21 @@ components:
         appointmentNumber:
           type: integer
           format: int64
+    OrgInfoItem:
+      required:
+      - address
+      - name
+      - telephoneNumber
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        telephoneNumber:
+          type: string
+        registrationNumber:
+          type: string
     DoctorItem:
       required:
       - availability
@@ -426,11 +491,14 @@ components:
         - emailAddress
         - id
         - org
+        - referenceNumber
         type: object
         properties:
           id:
             type: string
           org:
+            type: string
+          referenceNumber:
             type: string
           emailAddress:
             type: string
