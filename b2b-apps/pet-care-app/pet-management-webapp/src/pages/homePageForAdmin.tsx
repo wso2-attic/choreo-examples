@@ -277,9 +277,9 @@ export const HomePageForAdmin: FunctionComponent = (): ReactElement => {
                     </button> */}
                 </div>
             </div>
-            <div>
+            {/* <div>
                 <AddDoctors isOpen={isAddDoctorOpen} setIsOpen={setIsAddDoctorOpen} />
-            </div>
+            </div> */}
         </>
     );
 };

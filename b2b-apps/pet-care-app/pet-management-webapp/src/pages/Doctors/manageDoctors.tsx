@@ -24,50 +24,49 @@ import NavBar from "../../components/navBar";
 import MenuListComposition from "../../components/UserMenu";
 import AddDoctors from "./addDoctors";
 import DoctorCard from "./doctorCard";
+import { useLocation } from 'react-router-dom';
+import { getDoctors } from "../../components/getDoctors/get-doctors";
+import { Doctor } from "../../types/doctor";
+import DoctorOverview from "./doctorOverview";
+import { getDocThumbnail } from "../../components/GetDocThumbnail/get-doc-thumbnail";
 
-interface DerivedState {
-    authenticateResponse: BasicUserInfo,
-    idToken: string[],
-    decodedIdTokenHeader: string,
-    decodedIDTokenPayload: Record<string, string | number | boolean>;
-}
-
-/**
- * Home page for the Sample.
- *
- * @param props - Props injected to the component.
- *
- * @return {React.ReactElement}
- */
 export const ManageDoctorsPage: FunctionComponent = (): ReactElement => {
-
-    const {
-        state,
-        signIn,
-        signOut,
-        getBasicUserInfo,
-        getIDToken,
-        getDecodedIDToken,
-        on
-    } = useAuthContext();
     const [user, setUser] = useState<BasicUserInfo | null>(null);
     const [isAddDoctorOpen, setIsAddDoctorOpen] = useState(false);
+    const [isDoctorOverviewOpen, setIsDoctorOverviewOpen] = useState(false);
+    const [isDoctorEditOpen, setIsDoctorEditOpen] = useState(false);
     const doctors = ["doc1", "doc2", "doc3", "doc4", "doc5", "doc6", "doc7", "doc8", "doc9", "doc10"];
+    const location = useLocation();
+    const { getAccessToken } = useAuthContext();
+    const [doctorList, setDoctorList] = useState<Doctor[] | null>(null);
+    const [doctor, setDoctor] = useState<Doctor | null>(null);
+
+    async function getDoctorList() {
+        const accessToken = await getAccessToken();
+        getDoctors(accessToken)
+            .then((res) => {
+                if (res.data instanceof Array) {
+                    setDoctorList(res.data);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    useEffect(() => {
+        getDoctorList();
+    }, [location.pathname === "/manage_doctors", isAddDoctorOpen, isDoctorEditOpen]);
+
+    useEffect(() => {
+        getDoctorList();
+    }, [isDoctorEditOpen]);
 
 
     return (
         <>
-            <NavBar isBlur={isAddDoctorOpen} />
-
-            <div className={isAddDoctorOpen ? "home-div-blur" : "home-div"}>
-                {/* <div className="doctors-div">
-                    <label className="home-wording">
-                        Manage Doctors
-                    </label>
-                    <button className="add-pet-btn" onClick={() => setIsAddDoctorOpen(true)}>
-                        +
-                    </button>
-                </div> */}
+            <NavBar isBlur={isAddDoctorOpen || isDoctorOverviewOpen || isDoctorEditOpen} />
+            <div className={isAddDoctorOpen || isDoctorOverviewOpen || isDoctorEditOpen ? "home-div-blur" : "home-div"}>
                 <div className="heading-div">
                     <label className="home-wording">
                         Manage Doctors
@@ -84,17 +83,28 @@ export const ManageDoctorsPage: FunctionComponent = (): ReactElement => {
                     </button>
                 </div>
                 <div className="doctor-grid-div">
-                <Grid container spacing={2}>
-                    {doctors.map((doctor) => (
-                        <Grid item xs={3} sm={4} md={3}>
-                            <DoctorCard/>
-                        </Grid>
-                    ))}
-                </Grid>
+                    <Grid container spacing={2}>
+                        {doctorList && doctorList.map((doctor) => (
+                            <Grid item xs={3} sm={4} md={3}
+                                onClick={() => { setIsDoctorOverviewOpen(true); setDoctor(doctor);}}>
+                                <DoctorCard doctor={doctor} isDoctorEditOpen={isDoctorEditOpen} />
+                            </Grid>
+                        ))}
+                    </Grid>
                 </div>
             </div>
             <div>
-                <AddDoctors isOpen={isAddDoctorOpen} setIsOpen={setIsAddDoctorOpen} />
+                <AddDoctors
+                    isOpen={isAddDoctorOpen}
+                    setIsOpen={setIsAddDoctorOpen} />
+            </div>
+            <div>
+                <DoctorOverview 
+                isOpen={isDoctorOverviewOpen} 
+                setIsOpen={setIsDoctorOverviewOpen}
+                doctor={doctor}
+                isDoctorEditOpen={isDoctorEditOpen}
+                setIsDoctorEditOpen={setIsDoctorEditOpen}/>
             </div>
         </>
     );

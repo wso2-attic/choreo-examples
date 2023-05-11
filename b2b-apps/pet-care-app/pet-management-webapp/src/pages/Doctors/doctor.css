@@ -85,7 +85,7 @@
 
 .add-doctor-div {
     width: 50vw;
-    height: 65vh;
+    height: 80vh;
     background-color: white;
     margin-left: auto;
     margin-right: auto;
@@ -94,8 +94,9 @@
     border-radius: 20px;
     position: absolute;
     align-items: left;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, 13vh);
+    transform: translate(-50%, -50%);
 }
 
 .add-doctor-save-btn-style {
@@ -110,21 +111,21 @@
 }
 
 .add-doc-save-btn-div {
-    width: 30vw;
+    width: 6vw;
     height: 10vh;
     object-fit: contain;
     left:50%;
     position: absolute;
-    transform: translate(-35%, 56vh);
+    transform: translate(-35%, 70vh);
 }
 
 .add-doc-cancel-btn-div {
-    width: 30vw;
+    width: 6vw;
     height: 10vh;
     object-fit: contain;
     left:50%;
     position: absolute;
-    transform: translate(-65%, 56vh);
+    transform: translate(-180%, 70vh);
 }
 
 .doctor-grid-div {
@@ -135,7 +136,11 @@
 }
 
 .doctor-icon {
-    position: absolute;    
+    position: absolute;
+    width: 6vh;
+    height: 6vh;
+    margin-top: 1.5vh;
+    margin-left: 1vw;
 }
 
 .doctor-card {
@@ -160,4 +165,286 @@
     color: rgb(145, 143, 143);
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.add-doctor-form-div {
+    position: absolute;
+    top: 15vh;
+    left: 2vw;
+    width: 45vw;
+    height: 50vh;
+    overflow-y: scroll;
+}
+
+.availability-header {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2.5vh;
+    font-weight: bold;
+    margin-left: 0vw;
+    margin-top: 3vh;
+    position: absolute;
+    left: 2vw;
+    text-align: left;
+    color: rgb(109, 109, 109);
+}
+
+.availability-info-grid {
+    width: 40vw;
+    left: 2vw;
+    position: absolute;
+    margin-top: 9vh;
+}
+
+.availability-input-style {
+    width: 6.5vw;
+    font-size: 1.5vh;
+    padding: 1vh;
+    margin-right: 1vw;
+}
+
+.availability-plus-button-style {
+    height: 5vh;
+    width: 5vh;
+    background-color: #4e40ed; 
+    border: none;
+    border-radius: 1vh;
+    color: white;
+    font-weight: bolder;
+    font-size: 2vh;
+}
+
+.availability-info-grid-header-style{
+    width: 6.5vw;
+    font-size: 1.5vh;
+    padding: 1vh;
+    margin-right: 3.5vw;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: rgb(101, 101, 101);
+}
+
+.availability-info-grid-headers {
+    text-align: center;
+}
+
+.availability-info-result-table {
+    width: 40vw;
+    left: 1vw;
+    position: absolute;
+    margin-top: 18vh;
+}
+
+.dialog-panel-add-doc {
+    width: 100%;
+    height: 100%;
+}
+.doctor-overview-title{
+    width: 30%;
+    position: absolute;
+    left: 25vw;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 5vh;
+}
+
+.dialog-panel-overview-doc {
+    width: 100%;
+    height: 100%;
+}
+
+.doctor-overview-div-main {
+    width: 70vw;
+    height: 80vh;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    /* outline: 1px solid #6d7273; */
+    box-shadow: rgba(0, 0, 0, 0.35) 0vh 1vh 1vh;
+    border-radius: 20px;
+    position: absolute;
+    align-items: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.doc-overview-div {
+    position: absolute;
+    top: 15vh;
+    left: 24vw;
+    width: 42vw;
+    height: 50vh;
+    overflow-y: scroll;
+    text-align: left;
+}
+
+.basic-info-div {
+    width: 25vw;
+
+}
+
+.doc-overview-font {
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(105, 105, 105);
+    font-weight: bold;
+}
+
+.typography-style-doc-overview {
+    width:25vw;
+    height:fit-content;
+    right: 120vw;
+    text-align: left;
+    padding-left: 1vw;
+}
+
+.availability-header-in-overview {
+    width: 20vw;
+    position: absolute;
+    left: 1vw;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 2vh;
+}
+
+.availability-info-div-in-overview {
+    width:30vw;
+}
+
+.edit-doc-overview-btn-div {
+    width: 6vw;
+    height: 6vh;
+    object-fit: contain;
+    right:5%;
+    position: absolute;
+    transform: translate(-35%, 70vh);
+}
+
+.close-doc-overview-btn-div {
+    width: 6vw;
+    height: 6vh;
+    object-fit: contain;
+    right:17%;
+    position: absolute;
+    transform: translate(-35%, 70vh);
+}
+
+.no-availability-info-div {
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(105, 105, 105);
+    font-weight: bold;
+    position: absolute;
+    left: 1vw;
+    margin-top: 1vw;
+}
+
+.doc-edit-input-style {
+    width: 13vw;
+    height: 2vh;
+    padding: 1vh;
+    margin-top: 1vh;
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(105, 105, 105);
+}
+
+.doc-edit-font {
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(105, 105, 105);
+    font-weight: bold;
+    padding-bottom: 0.6vh;
+}
+
+.availability-info-grid-in-edit-view {
+    width: 40vw;
+    left: 1vw;
+    position: absolute;
+    margin-top: 2vh;
+    padding-bottom: 2vh;
+}
+
+.availability-info-grid-header-style-in-edit{
+    width: 6.7vw;
+    font-size: 1.5vh;
+    padding: 1vh;
+    margin-right: 4vw;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: rgb(101, 101, 101);
+}
+
+.availability-info-grid-headers-in-edit {
+    text-align: left;
+    width: 40vw
+}
+
+.availability-info-result-table-in-edit {
+    width: 40vw;
+    left: 0vw;
+    position: absolute;
+    margin-top: 10vh;
+}
+
+.doc-edit-div {
+    position: absolute;
+    top: 15vh;
+    left: 24vw;
+    width: 44vw;
+    height: 50vh;
+    overflow-y: scroll;
+    text-align: left;
+}
+
+.doc-image-style {
+    width: 30vh;
+    height: 30vh;
+    object-fit: contain;
+    left:4vw;
+    top:17vh;
+    position: absolute;
+}
+
+.update-doc-image-div {
+    width: 15vw;
+    height: 5vh;
+    object-fit: contain;
+    left:4vw;
+    top:50vh;
+    position: absolute;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 2vh;
+    color: rgb(105, 105, 105);
+}
+
+.doc-upload-btn-div {
+    position: fixed;
+    top: 55vh;
+    left: 4vw;
+}
+
+.doc-upload-btn-div-sec {
+    position: fixed;
+    top: 61vh;
+    left: 4vw;
+}
+
+.doc-upload-btn-style-sec {
+    text-decoration: none;
+    border: none;
+    padding: 1vh 2vh;
+    margin-right: 1vw;
+    font-size: 2vh;
+    background-color: #4e40ed;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s all;
 }
