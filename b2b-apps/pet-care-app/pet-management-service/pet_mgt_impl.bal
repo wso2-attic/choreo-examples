@@ -3,7 +3,8 @@ import ballerinax/mysql.driver as _;
 import ballerina/uuid;
 import ballerina/sql;
 import ballerina/log;
-import ballerinax/mysql;
+
+// import ballerinax/mysql;
 
 configurable string dbHost = "localhost";
 configurable string dbUsername = "admin";
@@ -13,27 +14,37 @@ configurable int dbPort = 3306;
 
 table<PetRecord> key(org, owner, id) petRecords = table [];
 table<SettingsRecord> key(org, owner) settingsRecords = table [];
-final mysql:Client|error dbClient;
+// final mysql:Client|error dbClient;
+final jdbc:Client|error dbClient;
 boolean useDB = false;
 map<Thumbnail> thumbnailMap = {};
 
 function init() returns error? {
 
-    if dbHost != "localhost" && dbHost != "" {
-        useDB = true;
-    }
-
-    sql:ConnectionPool connPool = {
-        maxOpenConnections: 20,
-        minIdleConnections: 20,
-        maxConnectionLifeTime: 300
+    // if dbHost != "localhost" && dbHost != "" {
+    //     useDB = true;
+    // }
+    useDB = true;
+    jdbc:Options mysqlOptions = {
+        properties: {
+            allowPublicKeyRetrieval: true,
+            user: "root",
+            password: "root"
+        }
     };
 
-    mysql:Options mysqlOptions = {
-        connectTimeout: 10
-    };
+    // sql:ConnectionPool connPool = {
+    //     maxOpenConnections: 20,
+    //     minIdleConnections: 20,
+    //     maxConnectionLifeTime: 300
+    // };
 
-    dbClient = new (dbHost, dbUsername, dbPassword, dbDatabase, dbPort, options = mysqlOptions, connectionPool = connPool);
+    // mysql:Options mysqlOptions = {
+    //     connectTimeout: 10
+    // };
+
+    // dbClient = new (dbHost, dbUsername, dbPassword, dbDatabase, dbPort, options = mysqlOptions, connectionPool = connPool);
+    dbClient = check new ("jdbc:mysql://localhost:3306/PET_DB", options = mysqlOptions);
 
     if dbClient is sql:Error {
         if (!useDB) {
@@ -58,7 +69,7 @@ function getPets(string org, string owner) returns Pet[]|error {
 
     Pet[] pets = [];
     if (useDB) {
-        pets = check dbGetPetsByOwner(owner);
+        pets = check dbGetPetsByOwner(org, owner);
     } else {
         petRecords.forEach(function(PetRecord petRecord) {
 
@@ -259,7 +270,7 @@ function getSettings(string org, string owner, string email) returns Settings|er
 
     if (useDB) {
 
-        Settings|()|error settings = dbGetOwnerSettings(owner);
+        Settings|()|error settings = dbGetOwnerSettings(org, owner);
 
         if settings is error {
             return settings;
@@ -292,7 +303,7 @@ function getSettingsByOwner(string org, string owner) returns Settings|() {
 
     if (useDB) {
 
-        Settings|()|error settings = dbGetOwnerSettings(owner);
+        Settings|()|error settings = dbGetOwnerSettings(org, owner);
 
         if settings is Settings {
             return settings;

@@ -2,7 +2,7 @@ import ballerinax/java.jdbc;
 import ballerina/sql;
 import ballerina/log;
 
-function dbGetPetsByOwner(string owner) returns Pet[]|error {
+function dbGetPetsByOwner(string org, string owner) returns Pet[]|error {
 
     jdbc:Client|error dbClient = getConnection();
     if dbClient is error {
@@ -10,9 +10,9 @@ function dbGetPetsByOwner(string owner) returns Pet[]|error {
     }
 
     do {
-        sql:ParameterizedQuery query = `SELECT p.id, p.name, p.breed, p.dateOfBirth, p.owner, v.name as vaccinationName,
+        sql:ParameterizedQuery query = `SELECT p.id, p.name, p.breed, p.dateOfBirth, p.owner, p.org, v.name as vaccinationName,
         v.lastVaccinationDate, v.nextVaccinationDate, v.enableAlerts FROM Pet p LEFT JOIN Vaccination v 
-        ON p.id = v.petId WHERE p.owner = ${owner}`;
+        ON p.id = v.petId WHERE p.owner = ${owner} and p.org = ${org}`;
         stream<PetVaccinationRecord, sql:Error?> petsStream = dbClient->query(query);
 
         map<Pet> pets = check getPetsForPetsStream(petsStream);
@@ -32,7 +32,7 @@ function dbGetPetByOwnerAndPetId(string owner, string petId) returns Pet|()|erro
     }
 
     do {
-        sql:ParameterizedQuery query = `SELECT p.id, p.name, p.breed, p.dateOfBirth, p.owner, v.name as vaccinationName,
+        sql:ParameterizedQuery query = `SELECT p.id, p.name, p.breed, p.dateOfBirth, p.owner, p.org, v.name as vaccinationName,
         v.lastVaccinationDate, v.nextVaccinationDate, v.enableAlerts FROM Pet p LEFT JOIN Vaccination v 
         ON p.id = v.petId WHERE p.owner = ${owner} and p.id = ${petId}`;
         stream<PetVaccinationRecord, sql:Error?> petsStream = dbClient->query(query);
@@ -58,7 +58,7 @@ function dbGetPetByPetId(string petId) returns Pet|()|error {
     }
 
     do {
-        sql:ParameterizedQuery query = `SELECT p.id, p.name, p.breed, p.dateOfBirth, p.owner, v.name as vaccinationName,
+        sql:ParameterizedQuery query = `SELECT p.id, p.name, p.breed, p.dateOfBirth, p.owner, p.org, v.name as vaccinationName,
         v.lastVaccinationDate, v.nextVaccinationDate, v.enableAlerts FROM Pet p LEFT JOIN Vaccination v 
         ON p.id = v.petId WHERE p.id = ${petId}`;
         stream<PetVaccinationRecord, sql:Error?> petsStream = dbClient->query(query);
@@ -103,8 +103,8 @@ function dbAddPet(Pet pet) returns Pet|error {
     }
 
     transaction {
-        sql:ParameterizedQuery query = `INSERT INTO Pet (id, name, breed, dateOfBirth, owner)
-            VALUES (${pet.id}, ${pet.name}, ${pet.breed}, ${pet.dateOfBirth}, ${pet.owner});`;
+        sql:ParameterizedQuery query = `INSERT INTO Pet (id, name, breed, dateOfBirth, owner, org)
+            VALUES (${pet.id}, ${pet.name}, ${pet.breed}, ${pet.dateOfBirth}, ${pet.owner}, ${pet.org});`;
         _ = check dbClient->execute(query);
 
         Vaccination[]? vacs = pet.vaccinations;
@@ -243,7 +243,7 @@ function dbGetThumbnailById(string petId) returns Thumbnail|string|error {
     }
 }
 
-function dbGetOwnerSettings(string owner) returns Settings|()|error {
+function dbGetOwnerSettings(string org, string owner) returns Settings|()|error {
 
     jdbc:Client|error dbClient = getConnection();
     if dbClient is error {
@@ -251,7 +251,7 @@ function dbGetOwnerSettings(string owner) returns Settings|()|error {
     }
 
     sql:ParameterizedQuery query = `SELECT notifications_enabled as enabled, notifications_emailAddress 
-        as emailAddress FROM Settings WHERE owner = ${owner}`;
+        as emailAddress FROM Settings WHERE owner = ${owner} and org = ${org}`;
     Notifications|sql:Error result = dbClient->queryRow(query);
 
     if result is sql:NoRowsError {
@@ -273,8 +273,9 @@ function dbUpdateSettingsByOwner(SettingsRecord settingsRecord) returns string|e
     }
 
     do {
-        sql:ParameterizedQuery query = `INSERT INTO Settings (owner, notifications_enabled, notifications_emailAddress)
-            VALUES (${settingsRecord.owner}, ${settingsRecord.notifications.enabled}, ${settingsRecord.notifications.emailAddress}) 
+        sql:ParameterizedQuery query = `INSERT INTO Settings (owner, org, notifications_enabled, notifications_emailAddress)
+            VALUES (${settingsRecord.owner}, ${settingsRecord.org}, ${settingsRecord.notifications.enabled}, 
+            ${settingsRecord.notifications.emailAddress}) 
             ON DUPLICATE KEY UPDATE notifications_enabled = ${settingsRecord.notifications.enabled}
             ,notifications_emailAddress = ${settingsRecord.notifications.emailAddress};`;
 
