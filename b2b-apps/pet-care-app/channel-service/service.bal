@@ -166,7 +166,7 @@ service / on new http:Listener(9090) {
         string org = orgInfo[0];
         string email = orgInfo[1];
 
-        Doctor|()|error result = getDoctorByEmailAndOrg(org, email);
+        Doctor|()|error result = getDoctorByOrgAndEmail(org, email);
         if result is () {
             return http:NOT_FOUND;
         }

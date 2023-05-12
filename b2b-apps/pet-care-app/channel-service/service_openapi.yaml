@@ -426,7 +426,10 @@ components:
         petDoB:
           type: string
         status:
-          $ref: '#/components/schemas/BookingStatus'
+          oneOf:
+          - {}
+          - {}
+          - type: string
         date:
           type: string
         sessionStartTime:
@@ -479,10 +482,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Availability'
-    BookingStatus:
-      oneOf:
-      - {}
-      - {}
     Booking:
       allOf:
       - $ref: '#/components/schemas/BookingItem'

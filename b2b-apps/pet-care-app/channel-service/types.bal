@@ -16,6 +16,23 @@ type Doctor record {|
     readonly string createdAt;
 |};
 
+type DoctorAvailabilityRecord record {|
+    string name;
+    string gender;
+    string registrationNumber;
+    string specialty;
+    string emailAddress;
+    string dateOfBirth?;
+    string address?;
+    string id;
+    string org;
+    string createdAt;
+    string date;
+    string startTime;
+    string endTime;
+    int availableBookingCount;
+|};
+
 type Thumbnail record {|
     string fileName;
     string content;
@@ -40,7 +57,7 @@ type BookingItem record {|
     string petName;
     string petType;
     string petDoB;
-    BookingStatus status;
+    BookingStatus|string status;
     *Appointment;
 |};
 
