@@ -3,8 +3,7 @@ import ballerinax/mysql.driver as _;
 import ballerina/uuid;
 import ballerina/sql;
 import ballerina/log;
-
-// import ballerinax/mysql;
+import ballerinax/mysql;
 
 configurable string dbHost = "localhost";
 configurable string dbUsername = "admin";
@@ -14,37 +13,27 @@ configurable int dbPort = 3306;
 
 table<PetRecord> key(org, owner, id) petRecords = table [];
 table<SettingsRecord> key(org, owner) settingsRecords = table [];
-// final mysql:Client|error dbClient;
-final jdbc:Client|error dbClient;
+final mysql:Client|error dbClient;
 boolean useDB = false;
 map<Thumbnail> thumbnailMap = {};
 
 function init() returns error? {
 
-    // if dbHost != "localhost" && dbHost != "" {
-    //     useDB = true;
-    // }
-    useDB = true;
-    jdbc:Options mysqlOptions = {
-        properties: {
-            allowPublicKeyRetrieval: true,
-            user: "root",
-            password: "root"
-        }
+    if dbHost != "localhost" && dbHost != "" {
+        useDB = true;
+    }
+
+    sql:ConnectionPool connPool = {
+        maxOpenConnections: 20,
+        minIdleConnections: 20,
+        maxConnectionLifeTime: 300
     };
 
-    // sql:ConnectionPool connPool = {
-    //     maxOpenConnections: 20,
-    //     minIdleConnections: 20,
-    //     maxConnectionLifeTime: 300
-    // };
+    mysql:Options mysqlOptions = {
+        connectTimeout: 10
+    };
 
-    // mysql:Options mysqlOptions = {
-    //     connectTimeout: 10
-    // };
-
-    // dbClient = new (dbHost, dbUsername, dbPassword, dbDatabase, dbPort, options = mysqlOptions, connectionPool = connPool);
-    dbClient = check new ("jdbc:mysql://localhost:3306/PET_DB", options = mysqlOptions);
+    dbClient = new (dbHost, dbUsername, dbPassword, dbDatabase, dbPort, options = mysqlOptions, connectionPool = connPool);
 
     if dbClient is sql:Error {
         if (!useDB) {

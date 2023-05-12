@@ -3,7 +3,7 @@ import ballerinax/mysql.driver as _;
 import ballerina/uuid;
 import ballerina/sql;
 import ballerina/log;
-// import ballerinax/mysql;
+import ballerinax/mysql;
 import ballerina/time;
 import ballerina/http;
 import ballerina/random;
@@ -13,14 +13,13 @@ configurable string dbUsername = "admin";
 configurable string dbPassword = "admin";
 configurable string dbDatabase = "CHANNEL_DB";
 configurable int dbPort = 3306;
-configurable string emailService = "localhost:9091";
+configurable string emailService = "localhost:9090";
 
 table<Doctor> key(org, id) doctorRecords = table [];
 table<Booking> key(org, id) bookingRecords = table [];
 table<OrgInfo> key(orgName) orgRecords = table [];
 
-// final mysql:Client|error dbClient;
-final jdbc:Client|error dbClient;
+final mysql:Client|error dbClient;
 boolean useDB = false;
 map<Thumbnail> thumbnailMap = {};
 
@@ -29,31 +28,21 @@ const BOOKING_STATUS_COMPLETED = "Completed";
 
 function init() returns error? {
 
-    // if dbHost != "localhost" && dbHost != "" {
-    //     useDB = true;
-    // }
+    if dbHost != "localhost" && dbHost != "" {
+        useDB = true;
+    }
 
-    useDB = true;
-    jdbc:Options mysqlOptions = {
-        properties: {
-            allowPublicKeyRetrieval: true,
-            user: "root",
-            password: "root"
-        }
+    sql:ConnectionPool connPool = {
+        maxOpenConnections: 20,
+        minIdleConnections: 20,
+        maxConnectionLifeTime: 300
     };
 
-    // sql:ConnectionPool connPool = {
-    //     maxOpenConnections: 20,
-    //     minIdleConnections: 20,
-    //     maxConnectionLifeTime: 300
-    // };
+    mysql:Options mysqlOptions = {
+        connectTimeout: 10
+    };
 
-    // mysql:Options mysqlOptions = {
-    //     connectTimeout: 10
-    // };
-
-    // dbClient = new (dbHost, dbUsername, dbPassword, dbDatabase, dbPort, options = mysqlOptions, connectionPool = connPool);
-    dbClient = check new ("jdbc:mysql://localhost:3306/CHANNEL_DB", options = mysqlOptions);
+    dbClient = new (dbHost, dbUsername, dbPassword, dbDatabase, dbPort, options = mysqlOptions, connectionPool = connPool);
 
     if dbClient is sql:Error {
         if (!useDB) {
