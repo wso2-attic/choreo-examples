@@ -179,6 +179,38 @@ paths:
             text/plain:
               schema:
                 type: string
+  /doctors/{doctorId}/bookings:
+    get:
+      summary: Get all bookings of a doctor
+      operationId: getDoctorsDoctoridBookings
+      parameters:
+      - name: doctorId
+        in: path
+        description: ID of the doctor
+        required: true
+        schema:
+          type: string
+      - name: date
+        in: query
+        description: "Date of the boookings (Format: yyyy-MM-dd)"
+        schema:
+          type: string
+          nullable: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+        "500":
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
   /me:
     get:
       summary: Get doctor's details

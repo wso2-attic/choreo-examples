@@ -267,7 +267,7 @@ function dbGetThumbnailById(string doctorId) returns Thumbnail|string|error {
     }
 }
 
-function dbGetBookingsByOrg(string org) returns Booking[]|error {
+function dbGetBookingsByOrgAndEmail(string org, string email) returns Booking[]|error {
 
     jdbc:Client|error dbClient = getConnection();
     if dbClient is error {
@@ -277,7 +277,36 @@ function dbGetBookingsByOrg(string org) returns Booking[]|error {
     do {
         sql:ParameterizedQuery query = `SELECT id, org, referenceNumber, emailAddress, createdAt, petOwnerName, 
         mobileNumber, doctorId, petId, petName, petType, petDoB, status, date, sessionStartTime, sessionEndTime, 
-        appointmentNumber from Booking WHERE org = ${org}`;
+        appointmentNumber from Booking WHERE org = ${org} and emailAddress = ${email}`;
+        stream<Booking, sql:Error?> bookingStream = dbClient->query(query);
+
+        Booking[] bookings = check from Booking booking in bookingStream
+            select booking;
+        check bookingStream.close();
+        return bookings;
+    }
+    on fail error e {
+        return handleError(e);
+    }
+}
+
+function dbGetBookingsByOrgAndDoctorId(string org, string doctorId, string date) returns Booking[]|error {
+
+    jdbc:Client|error dbClient = getConnection();
+    if dbClient is error {
+        return handleError(dbClient);
+    }
+
+    do {
+        sql:ParameterizedQuery query = `SELECT id, org, referenceNumber, emailAddress, createdAt, petOwnerName, 
+        mobileNumber, doctorId, petId, petName, petType, petDoB, status, date, sessionStartTime, sessionEndTime, 
+        appointmentNumber from Booking WHERE org = ${org} and doctorId = ${doctorId}`;
+
+        if date != "" {
+            sql:ParameterizedQuery queryWithDate = ` and date = ${date}`;
+            query = sql:queryConcat(query, queryWithDate);
+        }
+
         stream<Booking, sql:Error?> bookingStream = dbClient->query(query);
 
         Booking[] bookings = check from Booking booking in bookingStream

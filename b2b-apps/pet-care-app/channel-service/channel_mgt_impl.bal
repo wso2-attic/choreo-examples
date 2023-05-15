@@ -277,17 +277,39 @@ function getThumbnailByDoctorId(string org, string doctorId) returns Thumbnail|(
     }
 }
 
-function getBookings(string org) returns Booking[]|error {
+function getBookingsByOrgAndEmail(string org, string email) returns Booking[]|error {
 
     if (useDB) {
-        return dbGetBookingsByOrg(org);
+        return dbGetBookingsByOrgAndEmail(org, email);
     } else {
         Booking[] bookingList = [];
         bookingRecords.forEach(function(Booking booking) {
-            if booking.org == org {
+            if booking.org == org && booking.emailAddress == email {
                 bookingList.push(booking);
             }
         });
+        return bookingList;
+    }
+}
+
+function getBookingsByDoctorId(string org, string doctorId, string date) returns Booking[]|error {
+
+    if (useDB) {
+        return dbGetBookingsByOrgAndDoctorId(org, doctorId, date);
+    } else {
+        Booking[] bookingList = [];
+        bookingRecords.forEach(function(Booking booking) {
+            if date is "" {
+                if booking.org == org && booking.doctorId == doctorId {
+                    bookingList.push(booking);
+                }
+            } else {
+                if booking.org == org && booking.doctorId == doctorId && booking.date == date {
+                    bookingList.push(booking);
+                }
+            }
+        });
+
         return bookingList;
     }
 }

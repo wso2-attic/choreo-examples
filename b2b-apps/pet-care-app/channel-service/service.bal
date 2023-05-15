@@ -154,6 +154,24 @@ service / on new http:Listener(9090) {
         return response;
     }
 
+    # Get all bookings of a doctor
+    # + doctorId - ID of the doctor
+    # + date - Date of the boookings (Format: yyyy-MM-dd)
+    # + return - List of bookings or error
+    resource function get doctors/[string doctorId]/bookings(http:Headers headers, string? date) returns Booking[]|error? {
+
+        string|error org = getOrg(headers);
+        if org is error {
+            return org;
+        }
+
+        string dateValue = "";
+        if date != null {
+            dateValue = date;
+        }
+        return getBookingsByDoctorId(org, doctorId, dateValue);
+    }
+
     # Get doctor's details
     # + return - Doctor details or not found 
     resource function get me(http:Headers headers) returns Doctor|http:NotFound|error? {
@@ -177,12 +195,15 @@ service / on new http:Listener(9090) {
     # + return - List of bookings or error
     resource function get bookings(http:Headers headers) returns Booking[]|error? {
 
-        string|error org = getOrg(headers);
-        if org is error {
-            return org;
+        [string, string]|error orgInfo = getOrgWithEmail(headers);
+        if orgInfo is error {
+            return orgInfo;
         }
 
-        return getBookings(org);
+        string org = orgInfo[0];
+        string email = orgInfo[1];
+
+        return getBookingsByOrgAndEmail(org, email);
     }
 
     # Create a new booking
