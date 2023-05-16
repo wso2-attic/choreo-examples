@@ -424,7 +424,7 @@ function updateOrgInfo(string org, OrgInfoItem orgInfoItem) returns OrgInfo|erro
     }
 }
 
-# Converts time:Civil time to string 20220712T054235Z
+# Converts time:Civil time to string 2022-07-12T05:42:35Z
 #
 # + time - time:Civil time record.
 # + return - Converted ISO 8601 string.

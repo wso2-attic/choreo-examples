@@ -28,6 +28,7 @@ type PetRecord record {|
     record {
         *Thumbnail;
     } thumbnail?;
+    MedicalReport[] medicalReports?;
 |};
 
 type PetVaccinationRecord record {|
@@ -81,3 +82,22 @@ type Property record {|
 enum EmailType {
     VACCINATION_ALERT = "Vaccination Alert"
 }
+
+type MedicalReportItem record {|
+    string diagnosis;
+    string treatment?;
+    Medication[] medications?;
+|};
+
+type MedicalReport record {|
+    *MedicalReportItem;
+    string createdAt;
+    string updatedAt;
+    readonly string reportId;
+|};
+
+type Medication record {|
+    string drugName;
+    string dosage;
+    string duration;
+|};

@@ -22,8 +22,8 @@ service / on new http:Listener(9090) {
     }
 
     # Create a new pet
-    # + newPet - basic pet details
-    # + return - created pet record or error
+    # + newPet - Basic pet details
+    # + return - Created pet record or error
     resource function post pets(http:Headers headers, @http:Payload PetItem newPet) returns Pet|http:Created|error? {
 
         [string, string, string]|error ownerInfo = getOwnerWithEmail(headers);
@@ -61,7 +61,7 @@ service / on new http:Listener(9090) {
 
     # Update a pet
     # + petId - ID of the pet
-    # + updatedPetItem - updated pet details
+    # + updatedPetItem - Updated pet details
     # + return - Pet details or not found 
     resource function put pets/[string petId](http:Headers headers, @http:Payload PetItem updatedPetItem) returns Pet|http:NotFound|error? {
 
@@ -83,7 +83,7 @@ service / on new http:Listener(9090) {
 
     # Delete a pet
     # + petId - ID of the pet
-    # + return - Ok response or error
+    # + return - No Content response or error
     resource function delete pets/[string petId](http:Headers headers) returns http:NoContent|http:NotFound|error? {
 
         [string, string]|error ownerInfo = getOwner(headers);
@@ -103,6 +103,9 @@ service / on new http:Listener(9090) {
         return http:NO_CONTENT;
     }
 
+    # Update thumbnail for the pet
+    # + petId - ID of the pet
+    # + return - Ok response or error
     resource function put pets/[string petId]/thumbnail(http:Request request, http:Headers headers)
     returns http:Ok|http:NotFound|http:BadRequest|error {
 
@@ -137,6 +140,9 @@ service / on new http:Listener(9090) {
         return http:OK;
     }
 
+    # Get thumbnail for the pet
+    # + petId - ID of the pet
+    # + return - Ok response or error
     resource function get pets/[string petId]/thumbnail(http:Headers headers) returns http:Response|http:NotFound|error {
 
         [string, string]|error ownerInfo = getOwner(headers);
@@ -170,6 +176,120 @@ service / on new http:Listener(9090) {
         return response;
     }
 
+    # Get medical reports of the pet
+    # + petId - ID of the pet
+    # + return - Medical report record or error
+    resource function get pets/[string petId]/medical\-reports(http:Headers headers) returns MedicalReport[]|error? {
+
+        [string, string]|error ownerInfo = getOwner(headers);
+        if ownerInfo is error {
+            return ownerInfo;
+        }
+
+        string owner = ownerInfo[0];
+        string org = ownerInfo[1];
+
+        return getMedicalReportsByPetId(org, owner, petId);
+    }
+
+    # Create a new medical report
+    # + medicalReportItem - Medical report details
+    # + return - Created medical report record or error
+    resource function post pets/[string petId]/medical\-reports(http:Headers headers,
+            @http:Payload MedicalReportItem medicalReportItem) returns MedicalReport|http:Created|http:NotFound|error? {
+
+        [string, string]|error ownerInfo = getOwner(headers);
+        if ownerInfo is error {
+            return ownerInfo;
+        }
+
+        string owner = ownerInfo[0];
+        string org = ownerInfo[1];
+
+        MedicalReport|()|error medicalReport = addMedicalReport(org, owner, petId, medicalReportItem);
+        if medicalReport is () {
+            return http:NOT_FOUND;
+        }
+
+        return medicalReport;
+    }
+
+    # Get medical reports of the pet
+    # + petId - ID of the pet
+    # + reportId - ID of the report
+    # + return - Medical report record or error
+    resource function get pets/[string petId]/medical\-reports/[string reportId](http:Headers headers) returns MedicalReport|
+    http:NotFound|error? {
+
+        [string, string]|error ownerInfo = getOwner(headers);
+        if ownerInfo is error {
+            return ownerInfo;
+        }
+
+        string owner = ownerInfo[0];
+        string org = ownerInfo[1];
+
+        MedicalReport|()|error medicalReportsByPetIdAndReportId = getMedicalReportsByPetIdAndReportId(org, owner, petId, reportId);
+        if medicalReportsByPetIdAndReportId is () {
+            return http:NOT_FOUND;
+        }
+
+        return medicalReportsByPetIdAndReportId;
+    }
+
+    # Update medical reports of the pet
+    # + petId - ID of the pet
+    # + reportId - ID of the report
+    # + updatedMedicalReportItem - Updated medical report details
+    # + return - Medical report record or error
+    resource function put pets/[string petId]/medical\-reports/[string reportId](http:Headers headers,
+            @http:Payload MedicalReportItem updatedMedicalReportItem) returns http:Ok|http:NotFound|error? {
+
+        [string, string]|error ownerInfo = getOwner(headers);
+        if ownerInfo is error {
+            return ownerInfo;
+        }
+
+        string owner = ownerInfo[0];
+        string org = ownerInfo[1];
+
+        MedicalReport|()|error medicalReport = updateMedicalReport(org, owner, petId, reportId, updatedMedicalReportItem);
+        if medicalReport is MedicalReport {
+            return http:OK;
+        } else if medicalReport is () {
+            return http:NOT_FOUND;
+        } else {
+            return medicalReport;
+        }
+    }
+
+    # Delete medical reports of the pet
+    # + petId - ID of the pet
+    # + reportId - ID of the report
+    # + return - No Content response or error
+    resource function delete pets/[string petId]/medical\-reports/[string reportId](http:Headers headers) returns
+    http:NoContent|http:NotFound|error? {
+
+        [string, string]|error ownerInfo = getOwner(headers);
+        if ownerInfo is error {
+            return ownerInfo;
+        }
+
+        string owner = ownerInfo[0];
+        string org = ownerInfo[1];
+
+        string|()|error medicalReportById = deleteMedicalReportById(org, owner, petId, reportId);
+        if medicalReportById is string {
+            return http:NO_CONTENT;
+        } else if medicalReportById is () {
+            return http:NOT_FOUND;
+        } else {
+            return medicalReportById;
+        }
+    }
+
+    # Get settings for the user
+    # + return - Settings response or error
     resource function get settings(http:Headers headers) returns Settings|error {
 
         [string, string, string]|error ownerInfo = getOwnerWithEmail(headers);
@@ -190,6 +310,9 @@ service / on new http:Listener(9090) {
         return settings;
     }
 
+    # Updated settings for the user
+    # + settings - Settings details
+    # + return - OK response or error
     resource function put settings(http:Headers headers, @http:Payload Settings settings) returns http:Ok|error {
 
         [string, string]|error ownerInfo = getOwner(headers);

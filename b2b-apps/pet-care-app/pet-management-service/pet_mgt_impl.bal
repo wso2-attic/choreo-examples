@@ -4,6 +4,7 @@ import ballerina/uuid;
 import ballerina/sql;
 import ballerina/log;
 import ballerinax/mysql;
+import ballerina/time;
 
 configurable string dbHost = "localhost";
 configurable string dbUsername = "admin";
@@ -240,6 +241,147 @@ function getThumbnailByPetId(string org, string owner, string petId) returns Thu
     }
 }
 
+function getMedicalReportsByPetId(string org, string owner, string petId) returns MedicalReport[]|error {
+
+    MedicalReport[] medicalReports = [];
+    if (useDB) {
+        return error("Not implemented");
+    } else {
+        PetRecord? petRecord = petRecords[org, owner, petId];
+        if petRecord is () {
+            log:printInfo("Pet record not found: " + petId + " " + owner + " " + org);
+            return medicalReports;
+        }
+
+        MedicalReport[]? availableMedicalReports = petRecord.medicalReports;
+
+        if availableMedicalReports is () {
+            return medicalReports;
+        }
+
+        medicalReports = <MedicalReport[]>availableMedicalReports;
+        return medicalReports;
+    }
+}
+
+function getMedicalReportsByPetIdAndReportId(string org, string owner, string petId, string reportId) returns MedicalReport|()|error {
+
+    MedicalReport[] medicalReports = [];
+    if (useDB) {
+        return error("Not implemented");
+    } else {
+        PetRecord? petRecord = petRecords[org, owner, petId];
+        if petRecord is () {
+            return ();
+        }
+
+        MedicalReport[]? availableMedicalReports = petRecord.medicalReports;
+        if availableMedicalReports is () {
+            return ();
+        }
+
+        medicalReports = <MedicalReport[]>availableMedicalReports;
+        foreach MedicalReport item in medicalReports {
+
+            if (item.reportId == reportId) {
+                return item;
+            }
+        }
+        return ();
+    }
+}
+
+function addMedicalReport(string org, string owner, string petId, MedicalReportItem medicalReportItem) returns MedicalReport|()|error {
+
+    string reportId = uuid:createType1AsString();
+    string createdAt = getCurrentDateTime();
+
+    if (useDB) {
+        return ();
+    } else {
+        PetRecord? petRecord = petRecords[org, owner, petId];
+        if petRecord is () {
+            return ();
+        }
+
+        MedicalReport medicalReport = {reportId: reportId, createdAt: createdAt, updatedAt: createdAt, ...medicalReportItem};
+        MedicalReport[]? medicalReports = petRecord.medicalReports;
+        if medicalReports is () {
+            medicalReports = [medicalReport];
+        } else {
+            medicalReports.push(medicalReport);
+        }
+
+        petRecord.medicalReports = medicalReports;
+        petRecords.put({...petRecord});
+        return medicalReport;
+    }
+}
+
+function updateMedicalReport(string org, string owner, string petId, string reportId, MedicalReportItem updatedMedicalReportItem) returns MedicalReport|()|error {
+
+    MedicalReport|()|error oldMedicalReport = getMedicalReportsByPetIdAndReportId(org, owner, petId, reportId);
+
+    if oldMedicalReport is error {
+        return oldMedicalReport;
+    } else if oldMedicalReport is () {
+        return ();
+    } else {
+
+        string updatedAt = getCurrentDateTime();
+        string createdAt = oldMedicalReport.createdAt;
+        MedicalReport medicalReport = {reportId: reportId, createdAt: createdAt, updatedAt: updatedAt, ...updatedMedicalReportItem};
+
+        if (useDB) {
+            return ();
+        } else {
+            PetRecord? petRecord = petRecords[org, owner, petId];
+            if petRecord is () {
+                return ();
+            }
+
+            MedicalReport[]? medicalReports = petRecord.medicalReports;
+            if medicalReports != () {
+                MedicalReport[] filtered = medicalReports.filter(i => i != oldMedicalReport);
+                filtered.push(medicalReport);
+                petRecord.medicalReports = filtered;
+                petRecords.put({...petRecord});
+            }
+            return medicalReport;
+        }
+    }
+}
+
+function deleteMedicalReportById(string org, string owner, string petId, string reportId) returns string|()|error {
+
+    MedicalReport|()|error oldMedicalReport = getMedicalReportsByPetIdAndReportId(org, owner, petId, reportId);
+
+    if oldMedicalReport is error {
+        return oldMedicalReport;
+    } else if oldMedicalReport is () {
+        return ();
+    } else {
+
+        if (useDB) {
+            return ();
+        } else {
+            PetRecord? petRecord = petRecords[org, owner, petId];
+            if petRecord is () {
+                return ();
+            }
+
+            MedicalReport[]? medicalReports = petRecord.medicalReports;
+            if medicalReports != () {
+                MedicalReport[] filtered = medicalReports.filter(i => i != oldMedicalReport);
+                petRecord.medicalReports = filtered;
+                petRecords.put({...petRecord});
+                return "Medical report deleted successfully";
+            }
+            return ();
+        }
+    }
+}
+
 function updateSettings(SettingsRecord settingsRecord) returns string|error {
 
     if (useDB) {
@@ -426,4 +568,38 @@ function enableAlerts(string org, string owner, string email, Pet pet) {
 
 function getThumbnailKey(string org, string owner, string petId) returns string {
     return org + "-" + owner + "-" + petId;
+}
+
+function getCurrentDateTime() returns string {
+    time:Utc currentUtc = time:utcNow();
+    time:Civil currentTime = time:utcToCivil(currentUtc);
+    return civilToIso8601(currentTime);
+}
+
+# Converts time:Civil time to string 2022-07-12T05:42:35Z
+#
+# + time - time:Civil time record.
+# + return - Converted ISO 8601 string.
+function civilToIso8601(time:Civil time) returns string {
+    string year = time.year.toString();
+    string month = time.month < 10 ? string `0${time.month}` : time.month.toString();
+    string day = time.day < 10 ? string `0${time.day}` : time.day.toString();
+    string hour = time.hour < 10 ? string `0${time.hour}` : time.hour.toString();
+    string minute = time.minute < 10 ? string `0${time.minute}` : time.minute.toString();
+
+    decimal? seconds = time.second;
+    string second = seconds is () ? "00" : (seconds < 10.0d ? string `0${seconds}` : seconds.toString());
+
+    time:ZoneOffset? zoneOffset = time.utcOffset;
+    string timeZone = "Z";
+    if zoneOffset is time:ZoneOffset {
+        if zoneOffset.hours == 0 && zoneOffset.minutes == 0 {
+            timeZone = "Z";
+        } else {
+            string hours = zoneOffset.hours.abs() < 10 ? string `0${zoneOffset.hours.abs()}` : zoneOffset.hours.abs().toString();
+            string minutes = zoneOffset.minutes.abs() < 10 ? string `0${zoneOffset.minutes.abs()}` : zoneOffset.minutes.abs().toString();
+            timeZone = zoneOffset.hours < 0 ? string `-${hours}${minutes}` : string `+${hours}${minutes}`;
+        }
+    }
+    return string `${year}-${month}-${day}T${hour}:${minute}:${second}${timeZone}`;
 }
