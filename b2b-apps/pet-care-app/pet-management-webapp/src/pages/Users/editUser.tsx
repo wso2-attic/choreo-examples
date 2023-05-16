@@ -106,7 +106,7 @@ export default function EditUser(props: EditUserProps) {
                                     render={({ handleSubmit, form, submitting, pristine, errors }) => (
                                         <FormSuite
                                             layout="vertical"
-                                            onSubmit={event => { handleSubmit(event).then(form.restart); }}
+                                            // onSubmit={event => { handleSubmit(event).then(form.restart); }}
                                             fluid>
                                             <Field
                                                 name="userId"

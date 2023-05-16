@@ -32,12 +32,10 @@ interface OverviewProps {
     isUpdateViewOpen: boolean;
     setIsUpdateViewOpen: React.Dispatch<React.SetStateAction<boolean>>;
     pet: Pet;
-    petThumbnail: any;
-    setPetThumbnail: React.Dispatch<React.SetStateAction<File>>;
 }
 
 export default function PetOverview(props: OverviewProps) {
-    const { isOpen, setIsOpen, isUpdateViewOpen, setIsUpdateViewOpen, pet, petThumbnail, setPetThumbnail } = props;
+    const { isOpen, setIsOpen, isUpdateViewOpen, setIsUpdateViewOpen, pet } = props;
     const { getAccessToken } = useAuthContext();
     const [url, setUrl] = useState(null);
 
@@ -113,35 +111,35 @@ export default function PetOverview(props: OverviewProps) {
                                 <div className="vcc-div-style">
                                     <h4 className="bold">Vaccination Details</h4>
                                     {pet.vaccinations && pet.vaccinations.length > 0 ? (
-                                    <div className="vaccine-info-box-sec">
-                                        <div >
-                                            <Table aria-label="simple table" style={{ width: "43vw" }}>
-                                                <TableHead >
-                                                    <TableRow >
-                                                        <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Vaccine Name</TableCell>
-                                                        <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Last vaccination Date</TableCell>
-                                                        <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Next Vaccination Date</TableCell>
-                                                        <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Enable Alerts</TableCell>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody>
-                                                    {pet.vaccinations.map((vaccine) => (
-                                                        <TableRow key={vaccine.name}>
-                                                            <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{vaccine.name}</TableCell>
-                                                            <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{vaccine.lastVaccinationDate}</TableCell>
-                                                            <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{vaccine.nextVaccinationDate}</TableCell>
-                                                            <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}><Checkbox color="primary" disabled={true} checked={vaccine.enableAlerts}/></TableCell>
+                                        <div className="vaccine-info-box-sec">
+                                            <div >
+                                                <Table aria-label="simple table" style={{ width: "43vw" }}>
+                                                    <TableHead >
+                                                        <TableRow >
+                                                            <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Vaccine Name</TableCell>
+                                                            <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Last vaccination Date</TableCell>
+                                                            <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Next Vaccination Date</TableCell>
+                                                            <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Enable Alerts</TableCell>
                                                         </TableRow>
-                                                    ))}
-                                                </TableBody>
-                                            </Table>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        {pet.vaccinations.map((vaccine) => (
+                                                            <TableRow key={vaccine.name}>
+                                                                <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{vaccine.name}</TableCell>
+                                                                <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{vaccine.lastVaccinationDate}</TableCell>
+                                                                <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{vaccine.nextVaccinationDate}</TableCell>
+                                                                <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}><Checkbox color="primary" disabled={true} checked={vaccine.enableAlerts} /></TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
+                                            </div>
                                         </div>
-                                    </div>
-                                ) : (
-                                    <div className="no-vacc-details">
-                                        <label className="no-detail-label">No vaccination details available</label>
-                                    </div>
-                                )}
+                                    ) : (
+                                        <div className="no-vacc-details">
+                                            <label className="no-detail-label">No vaccination details available</label>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="update-btn-div">
                                     <button className="update-button"
@@ -154,12 +152,12 @@ export default function PetOverview(props: OverviewProps) {
                                 </div>
                                 <div className="pet-image-style">
                                     {url ? (<img
-                                        style={{ width: "100%", height: "100%", borderRadius: "10%"}}
+                                        style={{ width: "100%", height: "100%", borderRadius: "10%" }}
                                         src={url}
                                         alt="pet-image"
                                     />) : (
                                         <img
-                                            style={{ width: "100%", height: "100%", borderRadius: "10%"}}
+                                            style={{ width: "100%", height: "100%", borderRadius: "10%" }}
                                             src={PET_IMAGE}
                                             alt="pet-image"
                                         />
@@ -170,7 +168,7 @@ export default function PetOverview(props: OverviewProps) {
                     </Dialog>
                 </Transition>
                 <div>
-                    <UpdatePet isOpen={isUpdateViewOpen} setIsOpen={setIsUpdateViewOpen} pet={pet} imageUrl={url} setImageUrl={setUrl}/>
+                    <UpdatePet isOpen={isUpdateViewOpen} setIsOpen={setIsUpdateViewOpen} pet={pet} imageUrl={url} setImageUrl={setUrl} />
                 </div>
             </>
         );

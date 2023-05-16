@@ -19,7 +19,7 @@
 import { initInstance } from "../../pages/instance";
 import { default as authConfig } from "../../config.json";
 
-export const getDoctorInstance = () => {
-  let conf = authConfig.resourceServerURLs[0];
+export const getUserInstance = () => {
+  let conf = authConfig.resourceServerURLs[1];
   return initInstance(conf);
 };

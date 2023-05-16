@@ -71,6 +71,10 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
     const handleClose = () => {
         setIsOpen(false);
     }
+    
+    const handleDialogClose = () => {
+        setIsOpen(true);
+    }
 
     const handleEdit = () => {
         setIsOpen(false);
@@ -111,7 +115,7 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
                     <Dialog
                         as="div"
                         className="doctor-overview-div-main"
-                        onClose={handleClose}
+                        onClose={handleDialogClose}
                     >
                         <Transition.Child
                             as={Fragment}

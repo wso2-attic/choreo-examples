@@ -25,10 +25,17 @@ import { default as authConfig } from "./config.json";
 import { ErrorBoundary } from "./error-boundary";
 import { HomePage, NotFoundPage } from "./pages";
 import { HomePageForAdmin } from "./pages/homePageForAdmin";
-import { ManageUsersPage } from "./pages/manageUsers";
+import { ManageUsersPage } from "./pages/Users/manageUsers";
 import { RoleManagementPage } from "./pages/Roles/roleManagement";
 import { IdentityProvidersPage } from "./pages/IDP/identityProviders";
 import { ManageDoctorsPage } from "./pages/Doctors/manageDoctors";
+import { HomePageForDoctor } from "./pages/homePageForDoctor";
+import { DoctorProfilePage } from "./pages/Doctors/doctorProfile";
+import { BookingsInDoctorView } from "./pages/Bookings/bookingsInDocView";
+import { HomePageForUser } from "./pages/homePageForUser";
+import { ManagePetsPage } from "./pages/Pets/petsPage";
+import { BookingsInPetOwnerView } from "./pages/Bookings/bookingInPetOwnerView";
+import { BookingDetailsInDoctorView } from "./pages/Bookings/bookingDetailsPageInDocView";
 
 const AppContent: FunctionComponent = (): ReactElement => {
     const { error } = useAuthContext();
@@ -39,10 +46,17 @@ const AppContent: FunctionComponent = (): ReactElement => {
             <Routes>
                 <Route path="/" element={ <HomePage /> } />
                 <Route path="/admin_home" element={ <HomePageForAdmin /> } />
+                <Route path="/doctor_home" element={ <HomePageForDoctor /> } />
+                <Route path="/user_home" element={ <HomePageForUser /> } />
                 <Route path="/manage_users" element={ <ManageUsersPage /> } />
                 <Route path="/role_management" element={ <RoleManagementPage /> } />
                 <Route path="/identity_providers" element={ <IdentityProvidersPage /> } />
                 <Route path="/manage_doctors" element={ <ManageDoctorsPage /> } />
+                <Route path="/doctor_profile" element={ <DoctorProfilePage /> } />
+                <Route path="/doctor_bookings" element={ <BookingsInDoctorView /> } />
+                <Route path="/user_pets" element={ <ManagePetsPage /> } />
+                <Route path="/user_bookings" element={ <BookingsInPetOwnerView /> } />
+                <Route path="/booking_details" element={ <BookingDetailsInDoctorView /> } />
                 <Route element={ <NotFoundPage /> } />
             </Routes>
         </Router>

@@ -85,7 +85,7 @@ export const ManageDoctorsPage: FunctionComponent = (): ReactElement => {
                 <div className="doctor-grid-div">
                     <Grid container spacing={2}>
                         {doctorList && doctorList.map((doctor) => (
-                            <Grid item xs={3} sm={4} md={3}
+                            <Grid item xs={4} sm={4} md={4}
                                 onClick={() => { setIsDoctorOverviewOpen(true); setDoctor(doctor);}}>
                                 <DoctorCard doctor={doctor} isDoctorEditOpen={isDoctorEditOpen} />
                             </Grid>

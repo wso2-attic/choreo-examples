@@ -16,10 +16,8 @@
  * under the License.
  */
 
-import { initInstance } from "../../pages/instance";
-import { default as authConfig } from "../../config.json";
-
-export const getDoctorInstance = () => {
-  let conf = authConfig.resourceServerURLs[0];
-  return initInstance(conf);
-};
+export interface UserInfo {
+    name: string;
+    description: string;
+    icon: any;
+}

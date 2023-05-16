@@ -27,15 +27,11 @@ interface PetCardProps {
     petId: string;
     petName: string;
     breed: string;
-    petThumbnail: any;
-    setPetThumbnail: React.Dispatch<React.SetStateAction<any>>;
-    isAuthenticated: boolean;
-    setIsHomeLoading: React.Dispatch<React.SetStateAction<boolean>>;
     isUpdateViewOpen: boolean;
 }
 
 function PetCard(props: PetCardProps) {
-    const { petId, petName, breed, petThumbnail, setPetThumbnail, isAuthenticated, setIsHomeLoading, isUpdateViewOpen } = props;
+    const { petId, petName, breed, isUpdateViewOpen } = props;
     const { getAccessToken } = useAuthContext();
     const [url, setUrl] = useState(null);
 
@@ -50,28 +46,33 @@ function PetCard(props: PetCardProps) {
 
     useEffect(() => {
         getThumbnails();
-    }, [isAuthenticated, isUpdateViewOpen]);
+    }, [location.pathname === "/user_pets", isUpdateViewOpen]);
 
     return petName ? (
-        <Card className="card-style" style={{borderRadius: "5%"}} >
-            <CardContent>
-                <div className="card-pet-image-style">
-                    { url? (<img
-                        style={{ width: "20vw", height: "20vw", borderRadius: "10%" }}
-                        src={url}
-                        alt="pet-image"
-                    />) :(
-                        <img
-                        style={{ width: "20vw", height: "20vw", borderRadius: "10%"}}
-                        src={PET_IMAGE}
-                        alt="pet-image"
-                    />
-                    )}
-                </div>
-                <label className="card-typo-style">{petName}</label>
-                <label className="breed-style">{breed}</label>
-            </CardContent>
-        </Card>
+        <Card className="doctor-card">
+                <CardContent>
+                    <div className="doctor-icon">
+                        {url ? (<img
+                            style={{ width: "100%", height: "100%", borderRadius: "10%" }}
+                            src={url}
+                            alt="pet-image"
+                        />) : (
+                            <img
+                                style={{ width: "100%", height: "100%", borderRadius: "10%" }}
+                                src={PET_IMAGE}
+                                alt="pet-image"
+                            />
+                        )}
+                    </div>
+                    <div className="doctor-summary">
+                        <label className="doc-title-in-card">{petName}</label>
+                        <br />
+                        <label className="doc-summary-in-card">{breed}</label>
+                        <br />
+                    </div>
+
+                </CardContent>
+            </Card>
     ) : null;
 
 }

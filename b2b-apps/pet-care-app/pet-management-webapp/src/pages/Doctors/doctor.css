@@ -137,19 +137,19 @@
 
 .doctor-icon {
     position: absolute;
-    width: 6vh;
-    height: 6vh;
+    width: 15vh;
+    height: 15vh;
     margin-top: 1.5vh;
     margin-left: 1vw;
 }
 
 .doctor-card {
-    height: 20vh;
+    height: 25vh;
 }
 
 .doctor-summary {
     width: 10vw;
-    margin-left: 5vw;
+    margin-left: 11vw;
     margin-top: 1vh;
     text-align: left;
 }
@@ -281,7 +281,6 @@
 
 .basic-info-div {
     width: 25vw;
-
 }
 
 .doc-overview-font {
@@ -447,4 +446,31 @@
     cursor: pointer;
     outline: none;
     transition: 0.2s all;
+}
+
+.doctor-profile-pic {
+    position: absolute;
+    width: 30vh;
+    height: 30vh;
+    margin-top: 25vh;
+    margin-left: 5vw;
+}
+
+.doc-profile-info-div {
+    position: absolute;
+    width: 40vw;
+    margin-top: 25vh;
+    margin-left: 25vw;
+    padding: 1vw;
+    padding-left: 2vw;
+    padding-right: 7vw;
+    background-color: #fff;
+    border-radius: 1vh;
+}
+
+.doc-profile-font {
+    font-size: 2.5vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(124, 124, 124);
+    font-weight: bold;
 }

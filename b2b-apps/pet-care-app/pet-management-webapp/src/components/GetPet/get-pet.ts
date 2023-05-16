@@ -16,10 +16,21 @@
  * under the License.
  */
 
-import { initInstance } from "../../pages/instance";
-import { default as authConfig } from "../../config.json";
+import { AxiosResponse } from "axios";
+import { Pet, SinglePet } from "../../types/pet";
+import { getPetInstance } from "../CreatePet/instance";
 
-export const getDoctorInstance = () => {
-  let conf = authConfig.resourceServerURLs[0];
-  return initInstance(conf);
-};
+function timeout(delay: number) {
+  return new Promise( res => setTimeout(res, delay) );
+}
+
+export async function getPet(accessToken: string, petId: string) {
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
+    // await timeout(1000);
+    const response = await getPetInstance().get("/pets/" + petId, {
+      headers: headers,
+    });
+    return response as AxiosResponse<Pet>;
+  }

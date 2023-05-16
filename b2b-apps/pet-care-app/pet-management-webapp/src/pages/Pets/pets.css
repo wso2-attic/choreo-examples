@@ -22,7 +22,8 @@
     background-color: white;
     margin-left: auto;
     margin-right: auto;
-    outline: 1px solid #6d7273;
+    /* outline: 1px solid #6d7273; */
+    box-shadow: rgba(0, 0, 0, 0.35) 0vh 1vh 1vh;
     border-radius: 20px;
     position: absolute;
     align-items: left;
@@ -39,6 +40,13 @@
 
 .input-style-2 {
     width: 22vw;
+    height: 2vh;
+    font-size: 2.7vh;
+    padding: 1vh;
+}
+
+.input-style-3 {
+    width: 24vw;
     height: 2vh;
     font-size: 2.7vh;
     padding: 1vh;
@@ -89,18 +97,12 @@
     width: 80vw;
     height: 80vh;
     background-color: white;
-    /* margin-left: 150px;
-        margin-right: auto; */
-    /* margin-top: 7%; */
-    /* top: 13vh;
-        left: 13vw; */
-    outline: 2px solid #bcbebf;
-    border-radius: 2vw;
-    /* border-style: outset; */
-    /* align-items: left; */
-    overflow-y: auto;
-    overflow-x: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0vh 1vh 1vh;
+    border-radius: 20px;
     position: absolute;
+    align-items: left;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -116,7 +118,7 @@
 
 .div-grid {
     width: 25vw;
-    height: 18vh;
+    height: 13vh;
     /* margin-left: 29vw;
     margin-right: auto;
     margin-top:15vh; */
@@ -130,14 +132,14 @@
 
 .div-grid-sec {
     width: 28vw;
-    height: 20vh;
+    height: 18vh;
     position: absolute;
     top: 16vh;
     left: 28vw;
     border: solid;
     border-color: #dce0e0;
     border-radius: 10px;
-    padding: 10px;
+    padding: 1vh;
 }
 
 .div-grid-style {
@@ -202,19 +204,19 @@
     position: absolute;
     left: 1vw;
     color: #6d7273;
-    font-size: 1.5vw;
+    font-size: 2.5vh;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .vcc-div-style {
     position: absolute;
     left: 29vw;
-    top: 38vh;
+    top: 34vh;
     border: solid;
     border-color: #dce0e0;
     border-radius: 1vw;
     width: 47vw;
-    min-height:38vh;
+    min-height:30vh;
     overflow: hidden;
 }
 
@@ -222,18 +224,18 @@
     position: relative;
     left: 28vw;
     margin-top:0px;
-    top:40vh;
+    top:37vh;
     width:47vw;
     border: solid;
     border-color: #dce0e0;
     border-radius: 10px;
-    min-height:37vh;
+    min-height:30vh;
     overflow-y: auto;
     overflow-x: hidden;
 }
 
 .update-button {
-    background-color: #0e8a33;
+    background-color: #4e40ed;
     border: none;
     color: white;
     padding: 1.7vh 1.7vh;
@@ -278,8 +280,8 @@
     width: 6vw;
     height: 7vh;
     object-fit: contain;
-    right:2.5vw;
-    top:17vh;
+    bottom: 2vh;
+    right:11vw;
     position: absolute;
 }  
 
@@ -287,8 +289,8 @@
     width: 8vw;
     height: 7vh;
     object-fit: contain;
-    right:8vw;
-    top:17vh;
+    right:3vw;
+    bottom: 2vh;
     position: absolute;
 }
 
@@ -296,8 +298,8 @@
     width: 7vw;
     height: 7vh;
     object-fit: contain;
-    right:2vw;
-    top:16vh;
+    right:12vw;
+    bottom: 2vh;
     position: absolute;
 }
 
@@ -305,8 +307,8 @@
     width: 7vw;
     height: 7vh;
     object-fit: contain;
-    right:9vw;
-    top:16vh;
+    right:5vw;
+    bottom: 2vh;
     position: absolute;
 }
 
@@ -348,9 +350,12 @@
 
 .update-input-style {
     width: 13vw;
-    font-size: 2.2vh;
-    padding: 1.5vh;
+    height: 2vh;
+    padding: 1vh;
+    margin-top: 1vh;
+    font-size: 2vh;
     font-family: Arial, Helvetica, sans-serif;
+    color: rgb(105, 105, 105);
 } 
 
 .vcc-update-input-style {
@@ -514,7 +519,7 @@
 .plus-button-style {
     height: 5vh;
     width: 5vh;
-    background-color: #4AD6DB; 
+    background-color: #4e40ed; 
     border: none;
     border-radius: 1vh;
     color: white;
@@ -550,12 +555,13 @@
 .no-vacc-details {
     position: absolute;
     left: 1vw;
-    top: 13vh;
+    top: 10vh;
 }
 
 .no-detail-label {
-    font-size: 2.3vh;
+    font-size: 2vh;
     color: #6d7273;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .vaccine-info-box{
@@ -573,13 +579,13 @@
 }
 
 .save-btn-style {
-    background-color: #4AD6DB;
+    background-color: #4e40ed;
     border: none;
     width: 7vw;
     height: 5vh;
     border-radius: 5px;
     font-size: 2vh;
-    
+    color: #ffffff;
 }
 
 .upload-btn-style {
@@ -606,7 +612,7 @@
     padding: 1vh 2vh;
     margin-right: 1vw;
     font-size: 2vh;
-    background-color: #4AD6DB;
+    background-color: #4e40ed;
     color: #fff;
     border-radius: 5px;
     box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
@@ -674,10 +680,15 @@
 }
 
 .overview-font {
-    font-size: 3vh;
+    font-size: 2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(105, 105, 105);
+    font-weight: bold;
 }
 
 .update-view-font {
-    font-size: 2.5vh;
+    font-size: 2vh;
     font-family: Arial, Helvetica, sans-serif;
+    color: rgb(105, 105, 105);
+    font-weight: bold;
 }

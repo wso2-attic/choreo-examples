@@ -33,6 +33,7 @@ export interface PetInfo {
     vaccinations: VaccineInfo[];
   } 
 
+
   export interface VaccineInfo {
     name: string;
     lastVaccinationDate: string;

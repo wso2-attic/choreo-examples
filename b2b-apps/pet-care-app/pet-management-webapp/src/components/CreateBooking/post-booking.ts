@@ -16,10 +16,16 @@
  * under the License.
  */
 
-import { initInstance } from "../../pages/instance";
-import { default as authConfig } from "../../config.json";
+import { BookingInfo } from "../../pages/Bookings/booking";
+import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
-export const getDoctorInstance = () => {
-  let conf = authConfig.resourceServerURLs[0];
-  return initInstance(conf);
-};
+export async function postBooking(accessToken: string, payload?: BookingInfo) {
+    const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const response = await getDoctorInstance().post("/bookings", payload, {
+        headers: headers,
+      });
+      return response;
+
+}

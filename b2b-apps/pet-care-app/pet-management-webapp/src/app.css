@@ -22,7 +22,7 @@
     padding: 0;
     text-align: center;
     color: #2A2A2A;
-    background-color: #e6e3e3;
+    background-color: #e9e6e6;
     /* background-image: url("https://user-images.githubusercontent.com/35829027/230572364-20406db8-6f8e-4f52-9b50-d776765bd1fd.png"); */
     font-family: BlinkMacSystemFont, Segoe WPC, Segoe UI, HelveticaNeue-Light, Ubuntu, Droid Sans, sans-serif, 'Helvetica Neue', Arial, Helvetica, sans-serif;
     overflow: hidden;
@@ -691,6 +691,7 @@ code {
     right: 0px;
     margin-top: 0vh;
     background-color: #e9e6e6;
+    overflow-x: hidden;
 }
 
 .home-div-blur {

@@ -56,6 +56,7 @@ export default function AddPets(props: AddPetProps) {
                     vaccinations: []
                 };
                 const response = await postPet(accessToken, payload);
+                
                 setIsOpen(false);
                 if(!isOpen){
                     count=0;
@@ -75,7 +76,7 @@ export default function AddPets(props: AddPetProps) {
                         </label>
                     </div>
                     <input
-                        className="input-style-2"
+                        className="input-style-3"
                         id="name"
                         type="text"
                         placeholder="Name"
@@ -89,7 +90,7 @@ export default function AddPets(props: AddPetProps) {
                         </label>
                     </div>
                     <input
-                        className="input-style-2"
+                        className="input-style-3"
                         id="type"
                         type="text"
                         placeholder="Type"
@@ -103,7 +104,7 @@ export default function AddPets(props: AddPetProps) {
                         </label>
                     </div>
                     <input
-                        className="input-style-2"
+                        className="input-style-3"
                         id="DoB"
                         type="date"
                         ref={dateInputRef}

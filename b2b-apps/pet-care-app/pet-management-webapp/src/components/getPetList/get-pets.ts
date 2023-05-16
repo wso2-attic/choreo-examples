@@ -28,7 +28,7 @@ export async function getPets(accessToken: string) {
     const headers = {
       Authorization: `Bearer ${accessToken}`,
     };
-    await timeout(50);
+    // await timeout(1000);
     const response = await getPetInstance().get("/pets", {
       headers: headers,
     });

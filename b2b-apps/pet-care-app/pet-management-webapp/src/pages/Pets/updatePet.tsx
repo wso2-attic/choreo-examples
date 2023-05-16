@@ -51,6 +51,10 @@ export default function UpdatePet(props: UpdateProps) {
     const { getAccessToken } = useAuthContext();
     const [isChecked, setIsChecked] = useState(false);
 
+    function timeout(delay: number) {
+        return new Promise( res => setTimeout(res, delay) );
+      }
+
 
     const handleOnAdd = () => {
         if (vaccineName && lastVaccinationDate && nextVaccinationDate) {
@@ -73,7 +77,7 @@ export default function UpdatePet(props: UpdateProps) {
         }
     };
 
-    const handleOnSave = () => {
+    const handleOnSave = async () => {
         async function updatePets() {
             const accessToken = await getAccessToken();
             const petName = (name) ? name : pet.name;
@@ -88,6 +92,7 @@ export default function UpdatePet(props: UpdateProps) {
             const response = await updatePet(accessToken, pet.id, payload);
         }
         updatePets();
+        await timeout(1000);
         setIsOpen(false);
     };
 

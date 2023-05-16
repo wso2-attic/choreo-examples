@@ -54,7 +54,7 @@ border-radius: 5px;
 font-size: 2vh;
 `;
 
-export interface EditDoctorProps {
+export interface EditDoctorProfileProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     doctor: Doctor;
@@ -64,8 +64,8 @@ export interface EditDoctorProps {
     setUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function EditDoctor(props: EditDoctorProps) {
-    const { isOpen, setIsOpen, doctor, availabilityInfo, setAvailabilityInfo, url, setUrl } = props;
+export default function EditDoctorProfile(props: EditDoctorProfileProps) {
+    const { isOpen, setIsOpen, doctor, availabilityInfo, setAvailabilityInfo, url, setUrl} = props;
     const [name, setName] = useState("");
     const [registrationNo, setRegistrationNo] = useState("");
     const [specialty, setSpecialty] = useState("");
@@ -84,6 +84,10 @@ export default function EditDoctor(props: EditDoctorProps) {
         setIsOpen(false);
         setAvailabilityInfo([]);
 
+    }
+
+    const handleDialogClose = () => {
+        setIsOpen(true);
     }
 
     const handleOnAdd = () => {
@@ -141,9 +145,6 @@ export default function EditDoctor(props: EditDoctorProps) {
         setIsOpen(false);
     }
 
-    const handleDialogClose = () => {
-        setIsOpen(true);
-    }
 
     if (doctor) {
         return (
@@ -169,12 +170,11 @@ export default function EditDoctor(props: EditDoctorProps) {
                             <Dialog.Panel>
                                 <Dialog.Title
                                     as="h3" className="doctor-overview-title">
-                                    {"Edit Details"}
+                                    {"Edit Profile"}
                                 </Dialog.Title>
                                 <div className="doc-edit-div">
                                     <div className="basic-info-div">
-
-                                        <Grid container rowSpacing={10000} columnSpacing={3}>
+                                        <Grid container spacing={2}>
                                             <Grid item xs={6}>
                                                 <Typography className="typography-style">
                                                     <p className="doc-edit-font">Name</p>
@@ -281,7 +281,6 @@ export default function EditDoctor(props: EditDoctorProps) {
                                                 />
                                             </Grid>
                                         </Grid>
-
                                     </div>
                                     <br />
                                     <div className="availability-header-in-overview">

@@ -27,5 +27,4 @@ export async function putDoctor(accessToken: string, ID: string, payload?: Docto
         headers: headers,
       });
       return response;
-
 }

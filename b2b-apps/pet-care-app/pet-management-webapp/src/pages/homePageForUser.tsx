@@ -17,26 +17,21 @@
  */
 
 import { BasicUserInfo, Hooks, useAuthContext } from "@asgardeo/auth-react";
-import { Grid } from '@mui/material';
 import React, { FunctionComponent, ReactElement, useCallback, useEffect, useState } from "react";
 import { default as authConfig } from "../config.json";
 import LOGO_IMAGE from "../images/pet_care_logo.png";
 import DOG_IMAGE from "../images/dog_image.png";
 import CAT_IMAGE from "../images/cat.png";
 import RABBIT_IMAGE from "../images/rabbit.png";
-import COVER_IMAGE from "../images/nav-image.png";
 import { DefaultLayout } from "../layouts/default";
-import { AuthenticationResponse } from "../components";
 import { useLocation } from "react-router-dom";
 import { LogoutRequestDenied } from "../components/LogoutRequestDenied";
 import { USER_DENIED_LOGOUT } from "../constants/errors";
 import { Pet, PetInfo } from "../types/pet";
-import AddPet from "./Pets/addPets";
-import PetOverview from "./Pets/petOverview";
-import PetCard from "./Pets/PetCard";
 import { getPets } from "../components/getPetList/get-pets";
 import MenuListComposition from "../components/UserMenu";
-import NavBar from "../components/navBar";
+import NavBarInDoctorView from "./NavBar/navBarInDocView";
+import NavBarInUserView from "./NavBar/navBarInUserView";
 
 interface DerivedState {
     authenticateResponse: BasicUserInfo,
@@ -52,7 +47,7 @@ interface DerivedState {
  *
  * @return {React.ReactElement}
  */
-export const HomePage: FunctionComponent = (): ReactElement => {
+export const HomePageForUser: FunctionComponent = (): ReactElement => {
 
     const {
         state,
@@ -68,13 +63,8 @@ export const HomePage: FunctionComponent = (): ReactElement => {
     const [hasAuthenticationErrors, setHasAuthenticationErrors] = useState<boolean>(false);
     const [hasLogoutFailureError, setHasLogoutFailureError] = useState<boolean>();
     const [user, setUser] = useState<BasicUserInfo | null>(null);
-    const [isAddPetOpen, setIsAddPetOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isOverviewOpen, setIsOverviewOpen] = useState(false);
-    const [isUpdateViewOpen, setIsUpdateViewOpen] = useState(false);
-    const [pet, setPet] = useState<Pet | null>(null);
-    const [thumbnail, setThumbnail] = useState(null);
     const { getAccessToken } = useAuthContext();
+    const [isAddDoctorOpen, setIsAddDoctorOpen] = useState(false);
 
     const search = useLocation().search;
     const stateParam = new URLSearchParams(search).get('state');
@@ -111,34 +101,6 @@ export const HomePage: FunctionComponent = (): ReactElement => {
         }
     }, [stateParam, errorDescParam]);
 
-
-    async function getPetList() {
-        setIsLoading(true);
-        const accessToken = await getAccessToken();
-        getPets(accessToken)
-        .then((res) => {
-            if(res.data instanceof Array) {
-                setPetList(res.data);
-            }       
-          setIsLoading(false);
-        })
-        .catch((e) => {
-          console.log(e);
-        });    
-    }
-
-    useEffect(() => {
-        if (!isAddPetOpen) {
-            getPetList();
-        }
-    }, [isAddPetOpen, isOverviewOpen, isUpdateViewOpen]);
-
-
-    useEffect(() => {
-        if(state.isAuthenticated){
-            getPetList();
-        } 
-      }, [state.isAuthenticated]);
 
     const handleLogin = useCallback(() => {
         setHasLogoutFailureError(false);
@@ -214,21 +176,21 @@ export const HomePage: FunctionComponent = (): ReactElement => {
                         <div className="quarter-circle"></div>
                         <div className="dog-img">
                             <img
-                                style={{ width: "20vw", height: "20vw", borderRadius: "50%"}}
+                                style={{ width: "20vw", height: "20vw", borderRadius: "50%" }}
                                 src={DOG_IMAGE}
                                 alt="dog-image"
                             />
                         </div>
                         <div className="cat-img">
                             <img
-                                style={{ width: "15vw", height: "15vw", borderRadius: "50%"}}
+                                style={{ width: "15vw", height: "15vw", borderRadius: "50%" }}
                                 src={CAT_IMAGE}
                                 alt="cat-image"
                             />
                         </div>
                         <div className="rabbit-img">
                             <img
-                                style={{ width: "15vw", height: "15vw", borderRadius: "50%"}}
+                                style={{ width: "15vw", height: "15vw", borderRadius: "50%" }}
                                 src={RABBIT_IMAGE}
                                 alt="cat-image"
                             />
@@ -248,84 +210,17 @@ export const HomePage: FunctionComponent = (): ReactElement => {
     }
 
     return (
-        <><nav className="header">
-            <div>
-                {user && (
-                    <MenuListComposition user={user} signout={signOut} />
-                )}
-            </div>
-            <div className="app-title-style">
-                <img
-                    style={{ width: "12vw", height: "8vh" }}
-                    src={LOGO_IMAGE}
-                    alt="pet-care-logo"
-                />
-            </div>
-        </nav>
-        <NavBar />
-        <div className="home-div">
-                <div className="cover-div">
-                </div>
-                <div className="cover-img">
-                    <img
-                        style={{ width: "30vh", height: "30vh", borderRadius: "50%" }}
-                        src={COVER_IMAGE}
-                        alt="cover-image"
-                    />
-                </div>
-                <div className="cover-wording">
-                    <p className="wording-style">Let's take care of your pets!</p>
-                </div>
-                <div className="my-pets">
-                    <label className="home-wording">
-                        My Pets
-                    </label>
-                    <button className="add-pet-btn" onClick={() => setIsAddPetOpen(true)}>
-                        +
-                    </button>
-                </div>
-                {petList && (
-                    <div className="table-view">
-                        {/* <Grid container item lg={10} md={10} sm={12} xs={12}> */}
-                        <Grid container item spacing={10}>
-                            {petList.map((pet) => (
-                                <Grid
-                                    item
-                                    key={pet.name}
-                                    xs={10}
-                                    sm={6}
-                                    md={6}
-                                    lg={2}
-                                    className="grid-item"
-                                    onClick={() => {
-                                        setIsOverviewOpen(true);
-                                        setPet(pet);
-                                    }}
-                                >
-                                    <PetCard
-                                        petId={pet.id}
-                                        petName={pet.name}
-                                        breed={pet.breed}
-                                        isUpdateViewOpen={isUpdateViewOpen}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
+        <>
+            <NavBarInUserView isBlur={isAddDoctorOpen} />
 
+            <div className="home-div">
+                <div className="header">
+                    <div>
+                        {user && (
+                            <MenuListComposition user={user} signout={signOut} />
+                        )}
                     </div>
-                )}
-            </div>
-            <div>
-                <AddPet isOpen={isAddPetOpen} setIsOpen={setIsAddPetOpen} />
-            </div>
-            <div>
-                <PetOverview 
-                isOpen={isOverviewOpen} 
-                setIsOpen={setIsOverviewOpen} 
-                isUpdateViewOpen={isUpdateViewOpen} 
-                setIsUpdateViewOpen={setIsUpdateViewOpen} 
-                pet={pet}
-                />
+                </div>
             </div>
         </>
     );

@@ -16,76 +16,40 @@
  * under the License.
  */
 
-import { BasicUserInfo, Hooks, useAuthContext } from "@asgardeo/auth-react";
-import { Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import React, { FunctionComponent, ReactElement, useCallback, useEffect, useState } from "react";
-import { default as authConfig } from "../config.json";
-import LOGO_IMAGE from "../images/pet_care_logo.png";
-import DOG_IMAGE from "../images/dog_image.png";
-import CAT_IMAGE from "../images/cat.png";
-import RABBIT_IMAGE from "../images/rabbit.png";
-import COVER_IMAGE from "../images/nav-image.png";
-import { DefaultLayout } from "../layouts/default";
-import { AuthenticationResponse } from "../components";
-import { useLocation } from "react-router-dom";
-import { LogoutRequestDenied } from "../components/LogoutRequestDenied";
-import { USER_DENIED_LOGOUT } from "../constants/errors";
-import { Pet, PetInfo } from "../types/pet";
-import AddPet from "./Pets/addPets";
-import PetOverview from "./Pets/petOverview";
-import PetCard from "./Pets/PetCard";
-import { getPets } from "../components/getPetList/get-pets";
-import MenuListComposition from "../components/UserMenu";
-import NavBar from "../components/navBar";
-import AddUsers from "./Users/addUsers";
+import { BasicUserInfo, useAuthContext } from "@asgardeo/auth-react";
+import { IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import React, { FunctionComponent, ReactElement, useEffect, useState } from "react";
+import NavBar from "../../components/navBar";
+import AddUsers from "./addUsers";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { TrendingUpRounded } from "@mui/icons-material";
-import EditUser from "./Users/editUser";
-import './Users/users.css';
+import EditUser from "./editUser";
+import './users.css';
+import { getUsers } from "../../components/GetUsers/get-user";
 
-interface DerivedState {
-    authenticateResponse: BasicUserInfo,
-    idToken: string[],
-    decodedIdTokenHeader: string,
-    decodedIDTokenPayload: Record<string, string | number | boolean>;
-}
-
-/**
- * Home page for the Sample.
- *
- * @param props - Props injected to the component.
- *
- * @return {React.ReactElement}
- */
 export const ManageUsersPage: FunctionComponent = (): ReactElement => {
-
-    const {
-        state,
-        signIn,
-        signOut,
-        getBasicUserInfo,
-        getIDToken,
-        getDecodedIDToken,
-        on
-    } = useAuthContext();
-
-    const [user, setUser] = useState<BasicUserInfo | null>(null);
+    const { getAccessToken, getIDToken } = useAuthContext();
     const [isAddUserOpen, setIsAddUserOpen] = useState(false);
     const [isEditUserOpen, setIsEditUserOpen] = useState(false);
+    const [userList, setUserList] = useState(null);
 
+
+    async function getUserList() {
+        const accessToken = await getAccessToken();
+        getUsers(accessToken)
+            .then((res) => {
+                if (res.data instanceof Array) {
+                    setUserList(res.data);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
 
     useEffect(() => {
-
-        if (!state?.isAuthenticated) {
-            return;
-        }
-
-        (async (): Promise<void> => {
-            const basicUserInfo = await getBasicUserInfo();
-            setUser(basicUserInfo);
-        })();
-    }, [state.isAuthenticated, getBasicUserInfo, getIDToken, getDecodedIDToken]);
+        getUserList();
+    }, [location.pathname === "/manage_users"]);
 
 
     return (
@@ -120,10 +84,10 @@ export const ManageUsersPage: FunctionComponent = (): ReactElement => {
                                 <TableCell align="left" style={{ fontSize: "2.5vh", color: '#6d7273' }}>Shalki</TableCell>
                                 <TableCell align="left" style={{ fontSize: "2.5vh", color: '#6d7273' }}>Google
                                     <IconButton className="edit-icon-users" onClick={() => setIsEditUserOpen(true)}>
-                                        <EditIcon style={{fontSize:'4vh'}} />
+                                        <EditIcon style={{ fontSize: '4vh' }} />
                                     </IconButton>
                                     <IconButton className="delete-icon">
-                                        <DeleteIcon style={{fontSize:'4vh'}}/>
+                                        <DeleteIcon style={{ fontSize: '4vh' }} />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>
@@ -131,10 +95,10 @@ export const ManageUsersPage: FunctionComponent = (): ReactElement => {
                                 <TableCell align="left" style={{ fontSize: "2.5vh", color: '#6d7273' }}>Wenushika</TableCell>
                                 <TableCell align="left" style={{ fontSize: "2.5vh", color: '#6d7273' }}>Google
                                     <IconButton className="edit-icon-users" onClick={() => setIsEditUserOpen(true)}>
-                                        <EditIcon style={{fontSize:'4vh'}} />
+                                        <EditIcon style={{ fontSize: '4vh' }} />
                                     </IconButton>
                                     <IconButton className="delete-icon">
-                                        <DeleteIcon style={{fontSize:'4vh'}} />
+                                        <DeleteIcon style={{ fontSize: '4vh' }} />
                                     </IconButton></TableCell>
                             </TableRow>
                         </TableBody>
