@@ -243,6 +243,115 @@ function dbGetThumbnailById(string petId) returns Thumbnail|string|error {
     }
 }
 
+function dbAddOrUpdateMedicalRecord(string petId, MedicalReport medicalReport, boolean updateEntry) returns MedicalReport|error {
+
+    jdbc:Client|error dbClient = getConnection();
+    if dbClient is error {
+        return handleError(dbClient);
+    }
+
+    transaction {
+        sql:ParameterizedQuery query = `INSERT INTO MedicalReport (reportId, diagnosis, treatment, createdAt, updatedAt, petId)
+            VALUES (${medicalReport.reportId}, ${medicalReport.diagnosis}, ${medicalReport.treatment}, ${medicalReport.createdAt},
+             ${medicalReport.updatedAt}, ${petId}) ON DUPLICATE KEY UPDATE diagnosis = ${medicalReport.diagnosis}, 
+             treatment = ${medicalReport.treatment}, updatedAt = ${medicalReport.updatedAt};`;
+        _ = check dbClient->execute(query);
+
+        if updateEntry {
+            sql:ParameterizedQuery deleteQuery = `DELETE FROM Medication WHERE reportId = ${medicalReport.reportId};`;
+            _ = check dbClient->execute(deleteQuery);
+        }
+
+        Medication[]? medications = medicalReport.medications;
+        sql:ExecutionResult[]|sql:Error batchResult = [];
+
+        if medications != null {
+            sql:ParameterizedQuery[] insertQueries = from Medication med in medications
+                select `INSERT INTO Medication (reportId, drugName, dosage, duration)
+                    VALUES (${medicalReport.reportId}, ${med.drugName}, ${med.dosage}, ${med.duration})`;
+            batchResult = dbClient->batchExecute(insertQueries);
+        }
+
+        if batchResult is sql:Error {
+            rollback;
+            return handleError(batchResult);
+        } else {
+            check commit;
+            return medicalReport;
+        }
+
+    } on fail error e {
+        return handleError(e);
+    }
+}
+
+function dbGetMedicalReportsByPetId(string petId) returns MedicalReport[]|error {
+
+    jdbc:Client|error dbClient = getConnection();
+    if dbClient is error {
+        return handleError(dbClient);
+    }
+
+    do {
+        sql:ParameterizedQuery query = `SELECT p.reportId, p.diagnosis, p.treatment, p.createdAt, p.updatedAt,
+        m.drugName, m.dosage, m.duration FROM MedicalReport p LEFT JOIN Medication m
+        ON p.reportId = m.reportId WHERE p.petId = ${petId}`;
+        stream<MedicalReportRecord, sql:Error?> medStream = dbClient->query(query);
+
+        map<MedicalReport> medicalReports = check getMedicalReportFromMedStream(medStream);
+        check medStream.close();
+        return medicalReports.toArray();
+    }
+    on fail error e {
+        return handleError(e);
+    }
+}
+
+function dbGetMedicalReportsByPetIdAndReportId(string petId, string reportId) returns MedicalReport|()|error {
+
+    jdbc:Client|error dbClient = getConnection();
+    if dbClient is error {
+        return handleError(dbClient);
+    }
+
+    do {
+        sql:ParameterizedQuery query = `SELECT p.reportId, p.diagnosis, p.treatment, p.createdAt, p.updatedAt,
+        m.drugName, m.dosage, m.duration FROM MedicalReport p LEFT JOIN Medication m
+        ON p.reportId = m.reportId WHERE p.petId = ${petId} and p.reportId = ${reportId}`;
+        stream<MedicalReportRecord, sql:Error?> medStream = dbClient->query(query);
+
+        map<MedicalReport> medicalReports = check getMedicalReportFromMedStream(medStream);
+        check medStream.close();
+
+        if medicalReports.length() == 0 {
+            return ();
+        }
+        return medicalReports.get(reportId);
+    }
+    on fail error e {
+        return handleError(e);
+    }
+}
+
+function dbDeleteMedicalReportByReportId(string petId, string reportId) returns string|()|error {
+
+    jdbc:Client|error dbClient = getConnection();
+    if dbClient is error {
+        return handleError(dbClient);
+    }
+
+    sql:ParameterizedQuery query = `DELETE FROM MedicalReport WHERE reportId = ${reportId} and petId = ${petId};`;
+    sql:ExecutionResult|sql:Error result = dbClient->execute(query);
+
+    if result is sql:Error {
+        return handleError(result);
+    } else if result.affectedRowCount == 0 {
+        return ();
+    }
+
+    return "Medical Report deleted successfully";
+}
+
 function dbGetOwnerSettings(string org, string owner) returns Settings|()|error {
 
     jdbc:Client|error dbClient = getConnection();
@@ -363,4 +472,52 @@ function getPetsForPetsStream(stream<PetVaccinationRecord, sql:Error?> petsStrea
         };
 
     return pets;
+}
+
+function getMedicalReportFromMedStream(stream<MedicalReportRecord, sql:Error?> medStream) returns map<MedicalReport>|error {
+
+    map<MedicalReport> medReports = {};
+
+    check from MedicalReportRecord med in medStream
+        do {
+            boolean isReportAvailable = medReports.hasKey(med.reportId);
+            if !isReportAvailable {
+
+                MedicalReport medReport = {
+                    reportId: med.reportId,
+                    diagnosis: med.diagnosis,
+                    treatment: med.treatment,
+                    createdAt: med.createdAt,
+                    updatedAt: med.updatedAt
+                };
+
+                if (med.drugName != "") {
+                    Medication[] meds = [
+                        {
+                            drugName: <string>med.drugName,
+                            dosage: <string>med.dosage,
+                            duration: <string>med.duration
+                        }
+                    ];
+                    medReport.medications = meds;
+                }
+
+                medReports[medReport.reportId] = medReport;
+            } else {
+
+                if (med.drugName != "") {
+                    Medication medication = {
+                        drugName: <string>med.drugName,
+                        dosage: <string>med.dosage,
+                        duration: <string>med.duration
+                    };
+
+                    MedicalReport report = medReports.get(med.reportId);
+                    Medication[] medArray = <Medication[]>report.medications;
+                    medArray.push(medication);
+                }
+            }
+        };
+
+    return medReports;
 }

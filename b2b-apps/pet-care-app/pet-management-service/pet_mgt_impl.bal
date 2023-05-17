@@ -245,7 +245,7 @@ function getMedicalReportsByPetId(string org, string owner, string petId) return
 
     MedicalReport[] medicalReports = [];
     if (useDB) {
-        return error("Not implemented");
+        return dbGetMedicalReportsByPetId(petId);
     } else {
         PetRecord? petRecord = petRecords[org, owner, petId];
         if petRecord is () {
@@ -268,7 +268,7 @@ function getMedicalReportsByPetIdAndReportId(string org, string owner, string pe
 
     MedicalReport[] medicalReports = [];
     if (useDB) {
-        return error("Not implemented");
+        return dbGetMedicalReportsByPetIdAndReportId(petId, reportId);
     } else {
         PetRecord? petRecord = petRecords[org, owner, petId];
         if petRecord is () {
@@ -295,16 +295,16 @@ function addMedicalReport(string org, string owner, string petId, MedicalReportI
 
     string reportId = uuid:createType1AsString();
     string createdAt = getCurrentDateTime();
+    MedicalReport medicalReport = {reportId: reportId, createdAt: createdAt, updatedAt: createdAt, ...medicalReportItem};
 
     if (useDB) {
-        return ();
+        return dbAddOrUpdateMedicalRecord(petId, medicalReport, false);
     } else {
         PetRecord? petRecord = petRecords[org, owner, petId];
         if petRecord is () {
             return ();
         }
 
-        MedicalReport medicalReport = {reportId: reportId, createdAt: createdAt, updatedAt: createdAt, ...medicalReportItem};
         MedicalReport[]? medicalReports = petRecord.medicalReports;
         if medicalReports is () {
             medicalReports = [medicalReport];
@@ -318,7 +318,8 @@ function addMedicalReport(string org, string owner, string petId, MedicalReportI
     }
 }
 
-function updateMedicalReport(string org, string owner, string petId, string reportId, MedicalReportItem updatedMedicalReportItem) returns MedicalReport|()|error {
+function updateMedicalReport(string org, string owner, string petId, string reportId, MedicalReportItem updatedMedicalReportItem)
+returns MedicalReport|()|error {
 
     MedicalReport|()|error oldMedicalReport = getMedicalReportsByPetIdAndReportId(org, owner, petId, reportId);
 
@@ -333,7 +334,7 @@ function updateMedicalReport(string org, string owner, string petId, string repo
         MedicalReport medicalReport = {reportId: reportId, createdAt: createdAt, updatedAt: updatedAt, ...updatedMedicalReportItem};
 
         if (useDB) {
-            return ();
+            return dbAddOrUpdateMedicalRecord(petId, medicalReport, true);
         } else {
             PetRecord? petRecord = petRecords[org, owner, petId];
             if petRecord is () {
@@ -363,7 +364,7 @@ function deleteMedicalReportById(string org, string owner, string petId, string 
     } else {
 
         if (useDB) {
-            return ();
+            return dbDeleteMedicalReportByReportId(petId, reportId);
         } else {
             PetRecord? petRecord = petRecords[org, owner, petId];
             if petRecord is () {

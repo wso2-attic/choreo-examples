@@ -101,3 +101,8 @@ type Medication record {|
     string dosage;
     string duration;
 |};
+
+type MedicalReportRecord record {|
+    *Medication;
+    *MedicalReport;
+|};
