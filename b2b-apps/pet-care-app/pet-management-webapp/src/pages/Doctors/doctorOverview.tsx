@@ -66,6 +66,7 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
     const { isOpen, setIsOpen, doctor, isDoctorEditOpen, setIsDoctorEditOpen } = props;
     const [availabilityInfo, setAvailabilityInfo] = React.useState<Availability[] | null>([]);
     const [url, setUrl] = React.useState("");
+    const [stringDate, setStringDate] = React.useState("");
     const { getAccessToken } = useAuthContext();
 
     const handleClose = () => {
@@ -96,17 +97,14 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
     useEffect(() => {
         setUrl(null);
         getThumbnails();
+        if(doctor && doctor.createdAt != "") {
+            const isoString = doctor.createdAt;
+            const date = new Date(isoString);
+            const stringDate = date.toLocaleString();
+            setStringDate(stringDate);
+        }
     }, [isOpen]);
 
-    // let stringDate="";
-
-    // if (doctor && doctor.createdAt != "") {
-    //     const isoString = "20230510T075722.219093Z";
-    //     console.log(isoString);
-    //     const date = new Date(isoString);
-    //     console.log(date);
-    //     stringDate = date.toLocaleDateString()
-    // }
 
     if (doctor) {
         return (
@@ -180,7 +178,7 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
                                                     <p className="doc-overview-font">{doctor.address}</p>
                                                 </Typography>
                                                 <Typography className="typography-style-doc-overview">
-                                                    <p className="doc-overview-font">{doctor.createdAt}</p>
+                                                    <p className="doc-overview-font">{stringDate}</p>
                                                 </Typography>
                                             </Grid>
                                         </Grid>

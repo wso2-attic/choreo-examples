@@ -15,22 +15,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
-import { AxiosResponse } from "axios";
-import { getPetInstance } from "../CreatePet/instance";
-import { Pet } from "../../types/pet";
-
-function timeout(delay: number) {
-  return new Promise( res => setTimeout(res, delay) );
-}
-
-export async function getPet(accessToken: string, petId: string) {
+export async function deleteBooking(accessToken: string, bookingId: string) {
     const headers = {
-      Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
     };
-    // await timeout(1000);
-    const response = await getPetInstance().get("/pets/" + petId, {
-      headers: headers,
+    const response = await getDoctorInstance().delete("/bookings/" + bookingId, {
+        headers: headers,
     });
-    return response as AxiosResponse<Pet>;
-  }
+    return response;
+}

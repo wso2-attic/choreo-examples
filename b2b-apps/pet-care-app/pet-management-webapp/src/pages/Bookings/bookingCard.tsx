@@ -30,7 +30,6 @@ interface BookingCardProps {
 
 function BookingCard(props: BookingCardProps) {
     const { booking, isBookingCardOpen } = props;
-    const [url, setUrl] = React.useState("");
     const { getAccessToken } = useAuthContext();
 
 
@@ -51,10 +50,10 @@ function BookingCard(props: BookingCardProps) {
                                     <p className="doc-overview-font">Date</p>
                                 </Typography>
                                 <Typography className="typography-style">
-                                    <p className="doc-overview-font">sessionStartTime</p>
+                                    <p className="doc-overview-font">Start Time</p>
                                 </Typography>
                                 <Typography className="typography-style">
-                                    <p className="doc-overview-font">petType</p>
+                                    <p className="doc-overview-font">Status</p>
                                 </Typography>
                             </Grid>
                             <Grid item xs={6}>
@@ -68,7 +67,7 @@ function BookingCard(props: BookingCardProps) {
                                     <p className="doc-overview-font">{booking.sessionStartTime}</p>
                                 </Typography>
                                 <Typography className="typography-style-doc-overview">
-                                    <p className="doc-overview-font">{booking.petType}</p>
+                                    <p className={booking.status === "Completed"? "doc-overview-font-sec": "doc-overview-font"}>{booking.status}</p>
                                 </Typography>
                             </Grid>
                         </Grid>

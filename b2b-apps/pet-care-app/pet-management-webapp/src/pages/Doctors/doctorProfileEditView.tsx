@@ -79,6 +79,7 @@ export default function EditDoctorProfile(props: EditDoctorProfileProps) {
     const [endTime, setEndTime] = React.useState("");
     const [bookingCount, setBookingCount] = React.useState(0);
     const { getAccessToken } = useAuthContext();
+    const [stringDate, setStringDate] = useState("");
 
     const handleClose = () => {
         setIsOpen(false);
@@ -89,6 +90,15 @@ export default function EditDoctorProfile(props: EditDoctorProfileProps) {
     const handleDialogClose = () => {
         setIsOpen(true);
     }
+
+    useEffect(() => {
+        if(doctor && doctor.createdAt != "") {
+            const isoString = doctor.createdAt;
+            const date = new Date(isoString);
+            const stringDate = date.toLocaleString();
+            setStringDate(stringDate);
+        }
+    }, [isOpen]);
 
     const handleOnAdd = () => {
         if (availableDate && startTime && endTime && bookingCount) {
@@ -276,7 +286,7 @@ export default function EditDoctorProfile(props: EditDoctorProfileProps) {
                                                     id="createdAt"
                                                     type="text"
                                                     placeholder="Created At"
-                                                    defaultValue={doctor.createdAt}
+                                                    defaultValue={stringDate}
                                                     disabled={true}
                                                 />
                                             </Grid>

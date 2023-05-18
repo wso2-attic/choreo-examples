@@ -55,7 +55,16 @@
     width: 10%;
     height: 6vh;
     object-fit: contain;
-    right:5vw;
+    right:2vw;
+    position: absolute;
+    transform: translate(-15%, 70vh);
+}
+
+.delete-booking-overview-btn-div {
+    width: 10%;
+    height: 6vh;
+    object-fit: contain;
+    right:10vw;
     position: absolute;
     transform: translate(-15%, 70vh);
 }
@@ -105,8 +114,8 @@
     bottom: 2vh;
     left: 2vw;
     width: 72vw;
-    height: 25vh;
-    overflow-y: scroll;
+    height: fit-content;
+    /* overflow-y: scroll; */
     background-color: #d4d4d4;
     padding: 3vh;
     
@@ -240,6 +249,7 @@
     height: 30vh;
     margin-top: 5vh;
     margin-left: 2vw;
+    overflow-y: auto;
 }
 
 .medical-report-div-header {
@@ -249,5 +259,216 @@
     text-align: left;
     margin-top: 40vh;
     margin-left: 2vw;
+}
+
+.no-vacc-details-label {
+    position: absolute;
+    left: 1vw;
+    top: 3vh;
+}
+
+.medical-report-div {
+    position: absolute;
+    background-color: #d3d3d3;
+    border-radius: 1vh;
+    width: 45vw;
+    height: 30vh;
+    margin-top: 5vh;
+    margin-left: 2vw;
+    overflow-x: auto;
     overflow-y: auto;
+}
+
+.no-medical-reports-label {
+    position: absolute;
+    left: 1vw;
+    top: 4vh;
+    font-size: 2vh;
+    color: #6d7273;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-y: auto;
+}
+
+.no-medical-report-div{
+    position: absolute;
+    border-radius: 1vh;
+    width: 45vw;
+    height: 5vh;
+    margin-top: 38vh;
+    margin-left: 2vw;
+}
+
+.add-medical-report-btn-div{
+    position: absolute;
+    margin-left: 42vw;
+}
+
+.add-report-btn {
+    background-color: #4e40ed;
+    border-radius: 3px;
+    border: none;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 2vh;
+    text-align: center;
+    text-decoration: none;
+    width: 5vw;
+    cursor: pointer;
+    -webkit-text-size-adjust: none;
+    padding: 1vh;
+    position: absolute;
+    margin-top: 5vh;
+    left: 7vw;
+    outline: none;
+}
+
+.add-booking-form-div {
+    position: absolute;
+    top: 15vh;
+    left: 2vw;
+    width: 45vw;
+    height: 50vh;
+    overflow-y: auto;
+}
+
+.choose-time-header {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 3vh;
+    color: #6b6e6e;
+    text-align: left;
+}
+
+.timeslot-div {
+    text-align: left;
+    margin-top: 2vh;
+}
+
+.time-slot-button {
+    background-color: #d1cfcf;
+    border-radius: 3px;
+    border: none;
+    color: #080808;
+    display: inline-block;
+    font-size: 2vh;
+    text-align: center;
+    text-decoration: none;
+    width: 45vw;
+    cursor: pointer;
+    -webkit-text-size-adjust: none;
+    padding: 1vh;
+    position: absolute;
+    outline: none;
+}
+
+.time-slot-button:focus{
+    background-color: #4e40ed;
+    color: white;
+}
+
+.next-btn-div {
+    position: absolute;
+    bottom: 4vh;
+    right: 3vw;
+}
+
+.doc-unavailable-div {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2vh;
+    color: #6b6e6e;
+    margin-top: 5vh;
+}
+
+.pets-div {
+    text-align: left;
+    margin-top: 2vh;
+    background-color: #dbdcdc;
+    position: absolute;
+    padding: 1vh;
+    width: 43vw;
+    height: 42vh;
+}
+
+.pet-in-add-booking {
+    background-color: #ffffff;
+    border-radius: 3px;
+    border: none;
+    color: #080808;
+    display: inline-block;
+    font-size: 2vh;
+    text-align: center;
+    text-decoration: none;
+    width: 20vw;
+    height: 20vh;
+    cursor: pointer;
+    -webkit-text-size-adjust: none;
+    padding: 1vh;
+    position: absolute;
+    outline: none;
+}
+
+.pet-in-add-booking:focus {
+    background-color: #4e40ed;
+}
+
+.cancel-btn-div {
+    position: absolute;
+    bottom: 2vh;
+    right: 11vw;
+}
+
+.delete-button-in-booking-overview {
+    background-color: #f4251e;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 2vh;
+    margin: 0px 2px;
+    opacity: 0.6;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 7vw;
+    height: 5vh;
+  }
+  
+  .delete-button-in-booking-overview:hover {opacity: 1}
+
+  .medical-report-bottom-block {
+    position: absolute;
+    border-radius: 1vh;
+    width: 45vw;
+    height: 1vh;
+    margin-top: 48vh;
+    margin-left: 2vw;
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+
+  .complete-booking-div {
+    position: absolute;
+    margin-top: 40vh;
+    margin-left: 2vw;
+  }
+
+  .complete-booking-btn {
+    text-decoration: none;
+    border: none;
+    padding: 1vh 2vh;
+    margin-right: 1vw;
+    font-size: 2vh;
+    background-color: #4e40ed;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s all;
+}
+
+.complete-booking-btn:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
 }

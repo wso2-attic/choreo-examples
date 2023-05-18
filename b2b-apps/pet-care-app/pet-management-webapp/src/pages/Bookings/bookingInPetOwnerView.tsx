@@ -27,7 +27,9 @@ import AddBookings from "./addBooking";
 import { getBookings } from "../../components/GetUserBookings/get-bookings";
 import { Booking } from "./booking";
 import BookingCard from "./bookingCard";
-import BookingOverviewInDocView from "./bookingOverviewInDocView";
+import BookingOverviewInDocView from "./bookingOverviewInUserView";
+import { getPets } from "../../components/getPetList/get-pets";
+import { Pet } from "../../types/pet";
 
 export const BookingsInPetOwnerView: FunctionComponent = (): ReactElement => {
     const [isAddBookingOpen, setIsAddBookingOpen] = useState(false);
@@ -37,6 +39,7 @@ export const BookingsInPetOwnerView: FunctionComponent = (): ReactElement => {
     const [isBookingCardOpen, setIsBookingCardOpen] = useState(false);
     const [doctorList, setDoctorList] = useState<Doctor[] | null>(null);
     const [doctor, setDoctor] = useState<Doctor | null>(null);
+    const [petList, setPetList] = useState<Pet[] | null>(null);
 
     async function getDoctorList() {
         const accessToken = await getAccessToken();
@@ -64,10 +67,28 @@ export const BookingsInPetOwnerView: FunctionComponent = (): ReactElement => {
             });
     }
 
+    async function getPetList() {
+        const accessToken = await getAccessToken();
+        getPets(accessToken)
+            .then((res) => {
+                if (res.data instanceof Array) {
+                    setPetList(res.data);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
     useEffect(() => {
         getDoctorList();
         getBookingsList();
+        getPetList();
     }, [location.pathname === "/user_bookings"]);
+
+    useEffect(() => {
+        getBookingsList();
+    }, [isAddBookingOpen, isBookingCardOpen]);
 
 
     return (
@@ -113,7 +134,11 @@ export const BookingsInPetOwnerView: FunctionComponent = (): ReactElement => {
                 <div className="block"></div>
             </div>
             <div>
-                <AddBookings isOpen={isAddBookingOpen} setIsOpen={setIsAddBookingOpen} doctorId={doctor?.id} />
+                <AddBookings 
+                isOpen={isAddBookingOpen} 
+                setIsOpen={setIsAddBookingOpen} 
+                doctor={doctor}
+                petList={petList} />
             </div>
             <div>
                 <BookingOverviewInDocView

@@ -44,7 +44,7 @@ const AppContent: FunctionComponent = (): ReactElement => {
         <ErrorBoundary error={error}>
             <Router>
             <Routes>
-                <Route path="/" element={ <HomePage /> } />
+                <Route path="/" element={ <HomePageForDoctor /> } />
                 <Route path="/admin_home" element={ <HomePageForAdmin /> } />
                 <Route path="/doctor_home" element={ <HomePageForDoctor /> } />
                 <Route path="/user_home" element={ <HomePageForUser /> } />

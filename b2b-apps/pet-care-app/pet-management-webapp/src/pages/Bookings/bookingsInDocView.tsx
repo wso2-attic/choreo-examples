@@ -22,71 +22,39 @@ import React, { FunctionComponent, ReactElement, useCallback, useEffect, useStat
 import NavBarInDoctorView from "../NavBar/navBarInDocView";
 import BookingCard from "./bookingCard";
 import { Booking } from "./booking";
-import BookingOverviewInDocView from "./bookingOverviewInDocView";
+import BookingOverviewInDocView from "./bookingOverviewInUserView";
 import { Link } from 'react-router-dom';
+import { getProfile } from "../../components/GetProfileInfo/me";
+import { getDoctorBookings } from "../../components/GetDoctorBookings/get-doc-bookings";
+import { Doctor } from "../../types/doctor";
 
 export const BookingsInDoctorView: FunctionComponent = (): ReactElement => {
     const [isBookingOverviewOpen, setIsBookingOverviewOpen] = useState(false);
+    const [bookingList, setBookingList] = useState<Booking[] | null>(null);
     const [booking, setBooking] = useState<Booking | null>(null);
+    const[doctor, setDoctor] = useState<Doctor | null>(null);
+    const { getAccessToken } = useAuthContext();
 
+    async function getBookings() {
+        const accessToken = await getAccessToken();
+        getProfile(accessToken)
+            .then(async (res) => {
+                if (res.data) {
+                    setDoctor(res.data);
+                }
+                const response = await getDoctorBookings(accessToken, res.data.id);
+                if (response.data instanceof Array) {
+                    setBookingList(response.data);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
 
-    const bookingsList: Booking[] = [
-        {
-            appointmentNumber: 1,
-            date: "2023-02-02",
-            doctorId: "2",
-            mobileNumber: "1234",
-            petDoB: "2023-03-04",
-            petId: "01edf3ad-d236-1026-a719-ad8456450a0c",
-            petName: "Cooper",
-            petOwnerName: "Chris",
-            petType: "Dog",
-            sessionEndTime: "04",
-            sessionStartTime: "02",
-            status: "pending",
-            createdAt: "string",
-            emailAddress: "string",
-            id: "string",
-            org: "string"
-        },
-        {
-            appointmentNumber: 2,
-            date: "2023-02-02",
-            doctorId: "2",
-            mobileNumber: "1234",
-            petDoB: "2023-03-04",
-            petId: "01edf3ad-d236-1026-a719-ad8456450a0c",
-            petName: "Cooper",
-            petOwnerName: "Chris",
-            petType: "Dog",
-            sessionEndTime: "04",
-            sessionStartTime: "02",
-            status: "pending",
-            createdAt: "string",
-            emailAddress: "string",
-            id: "string",
-            org: "string"
-        },
-        {
-            appointmentNumber: 3,
-            date: "2023-02-02",
-            doctorId: "2",
-            mobileNumber: "1234",
-            petDoB: "2023-03-04",
-            petId: "01edf3ad-d236-1026-a719-ad8456450a0c",
-            petName: "Cooper",
-            petOwnerName: "Chris",
-            petType: "Dog",
-            sessionEndTime: "04",
-            sessionStartTime: "02",
-            status: "pending",
-            createdAt: "string",
-            emailAddress: "string",
-            id: "string",
-            org: "string"
-        }
-    ]
-
+    useEffect(() => {
+        getBookings();
+    }, [location.pathname === "/doctor_bookings"]);
 
     return (
         <>
@@ -104,7 +72,7 @@ export const BookingsInDoctorView: FunctionComponent = (): ReactElement => {
                 </div>
                 <div className="doctor-grid-div">
                     <Grid container spacing={2}>
-                        {bookingsList && bookingsList.map((booking) => (
+                        {bookingList && bookingList.map((booking) => (
                             <Grid item xs={4} sm={4} md={4}
                                 onClick={() => { setIsBookingOverviewOpen(true); setBooking(booking); }}>
                                 <Link to="/booking_details" state={booking} style={{ textDecoration: 'none' }}>

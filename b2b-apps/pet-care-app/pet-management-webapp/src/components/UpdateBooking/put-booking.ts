@@ -16,21 +16,17 @@
  * under the License.
  */
 
-import { AxiosResponse } from "axios";
-import { getPetInstance } from "../CreatePet/instance";
-import { Pet } from "../../types/pet";
+import { BookingInfo } from "../../pages/Bookings/booking";
+import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
-function timeout(delay: number) {
-  return new Promise( res => setTimeout(res, delay) );
-}
-
-export async function getPet(accessToken: string, petId: string) {
+export async function updateBooking(accessToken: string, bookingId: string, payload?: BookingInfo) {
     const headers = {
-      Authorization: `Bearer ${accessToken}`,
-    };
-    // await timeout(1000);
-    const response = await getPetInstance().get("/pets/" + petId, {
-      headers: headers,
-    });
-    return response as AxiosResponse<Pet>;
-  }
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const path = "/bookings/" + bookingId;
+      const response = await getDoctorInstance().put(path, payload, {
+        headers: headers,
+      });
+      return response;
+
+}

@@ -16,21 +16,9 @@
  * under the License.
  */
 
-import { AxiosResponse } from "axios";
-import { getPetInstance } from "../CreatePet/instance";
-import { Pet } from "../../types/pet";
-
-function timeout(delay: number) {
-  return new Promise( res => setTimeout(res, delay) );
+.medicine-info-result-table {
+    width: 40vw;
+    left: 1vw;
+    position: absolute;
+    margin-top: 15vh;
 }
-
-export async function getPet(accessToken: string, petId: string) {
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-    };
-    // await timeout(1000);
-    const response = await getPetInstance().get("/pets/" + petId, {
-      headers: headers,
-    });
-    return response as AxiosResponse<Pet>;
-  }

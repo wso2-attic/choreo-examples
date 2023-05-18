@@ -19,13 +19,16 @@
 import { BasicUserInfo, Hooks, useAuthContext } from "@asgardeo/auth-react";
 import { Checkbox, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import React, { FunctionComponent, ReactElement, useCallback, useEffect, useState } from "react";
-import { Booking } from "./booking";
+import { Booking, BookingInfo } from "./booking";
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { Pet } from "../../types/pet";
+import { MedicalReport, Pet } from "../../types/pet";
 import { getPet } from "../../components/GetPet/get-pet";
 import { getThumbnail } from "../../components/GetThumbnail/get-thumbnail";
 import PET_IMAGE from "../../images/thumbnail.png";
+import { getMedicalReport } from "../../components/GetMedicalReports/get-medical-reports";
+import AddMedicalReport from "../MedicalReport/addMedicalReport";
+import { updateBooking } from "../../components/UpdateBooking/put-booking";
 
 export const BookingDetailsInDoctorView: FunctionComponent = (): ReactElement => {
     const [isBookingOverviewOpen, setIsBookingOverviewOpen] = useState(false);
@@ -35,6 +38,8 @@ export const BookingDetailsInDoctorView: FunctionComponent = (): ReactElement =>
     const bookingInfo = location.state;
     const { getAccessToken } = useAuthContext();
     const [url, setUrl] = useState("");
+    const [medicalReportList, setMedicalReportList] = useState<MedicalReport[] | null>(null);
+    const [isAddMedicalReportOpen, setIsAddMedicalReportOpen] = useState(false);
 
     async function getPetInfo() {
         const accessToken = await getAccessToken();
@@ -54,15 +59,54 @@ export const BookingDetailsInDoctorView: FunctionComponent = (): ReactElement =>
             });
     }
 
+    async function getMedicalReportInfo() {
+        const accessToken = await getAccessToken();
+        getMedicalReport(accessToken, bookingInfo.petId)
+            .then(async (res) => {
+                if (res.data instanceof Array) {
+                    setMedicalReportList(res.data);
+                }
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    }
+
+    function timeout(delay: number) {
+        return new Promise(res => setTimeout(res, delay));
+    }
+
     useEffect(() => {
         getPetInfo();
-    }, [location.pathname === "/booking_details"]);
+        getMedicalReportInfo();
+    }, [location.pathname === "/booking_details", isAddMedicalReportOpen]);
 
-
+    const handleComplete = async () => {
+        async function updateBookingInfo() {
+            const accessToken = await getAccessToken();
+            const payload: BookingInfo = {
+                appointmentNumber: bookingInfo.appointmentNumber,
+                date: bookingInfo.date,
+                doctorId: bookingInfo.doctorId,
+                mobileNumber: bookingInfo.mobileNumber,
+                petDoB: bookingInfo.petDoB,
+                petId: bookingInfo.petId,
+                petName: bookingInfo.petName,
+                petOwnerName: bookingInfo.petOwnerName,
+                petType: bookingInfo.petType,
+                sessionEndTime: bookingInfo.sessionEndTime,
+                sessionStartTime: bookingInfo.sessionStartTime,
+                status: "Completed",
+            };
+            const response = await updateBooking(accessToken, bookingInfo.id, payload);
+        }
+        updateBookingInfo();
+        await timeout(1000);
+    }
 
     return (
         <>
-            <div className={isBookingOverviewOpen ? "home-div-blur" : "home-div"}>
+            <div className={isAddMedicalReportOpen ? "home-div-blur" : "home-div"}>
                 <div className="heading-div">
                     <label className="home-wording">
                         Booking Details
@@ -123,7 +167,10 @@ export const BookingDetailsInDoctorView: FunctionComponent = (): ReactElement =>
                                         <p className="doc-overview-font">{bookingInfo.sessionEndTime}</p>
                                     </Typography>
                                     <Typography className="typography-style-doc-overview">
-                                        <p className="doc-overview-font">{bookingInfo.status}</p>
+                                        <p
+                                            className={bookingInfo?.status === "Completed" ? "doc-overview-font-sec" : "doc-overview-font"}>
+                                            {bookingInfo.status}
+                                        </p>
                                     </Typography>
                                 </Grid>
                             </Grid>
@@ -150,7 +197,7 @@ export const BookingDetailsInDoctorView: FunctionComponent = (): ReactElement =>
                     <div className="pet-info-basic-details">
                         {pet && (
                             <Grid container spacing={2}>
-                                <Grid item xs={6} sm={6} md={6}>
+                                <Grid item xs={6} sm={6} md={6} key={"item.headers"}>
                                     <Typography className="typography-style">
                                         <p className="doc-overview-font">Name</p>
                                     </Typography>
@@ -161,7 +208,7 @@ export const BookingDetailsInDoctorView: FunctionComponent = (): ReactElement =>
                                         <p className="doc-overview-font">Date of Birth</p>
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={6} sm={6} md={6}>
+                                <Grid item xs={6} sm={6} md={6} key={"item.info"}>
                                     <Typography className="typography-style">
                                         <p className="doc-overview-font">{pet.name}</p>
                                     </Typography>
@@ -207,13 +254,66 @@ export const BookingDetailsInDoctorView: FunctionComponent = (): ReactElement =>
                             </div>
                         </div>
                     ) : (
-                        <div className="no-vacc-details">
-                            <label className="no-detail-label">No vaccination details available</label>
+                        <div className="no-vacc-details-label">
+                            <label className="no-detail-label">The vaccination details are currently unavailable.</label>
                         </div>
                     )}
                 </div>
                 <div className="medical-report-div-header">
                     Medical Reports
+                </div>
+                <div className="medical-report-div">
+                    {medicalReportList && medicalReportList.length > 0 ? (
+                        <div className="vaccine-info-box-in-booking-detail">
+                            <div >
+                                <Table aria-label="simple table" style={{ width: "43vw" }}>
+                                    <TableHead >
+                                        <TableRow>
+                                            <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Diagnosis</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Treatment</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Drug Name</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Dosage</TableCell>
+                                            <TableCell align="center" style={{ fontSize: "1.7vh", fontWeight: "bold" }}>Duration</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {medicalReportList.map((report) => (
+                                            <TableRow key={report.diagnosis}>
+                                                {report.medications.map((medicine) => (
+                                                    <>
+                                                        <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{report.diagnosis}</TableCell>
+                                                        <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{report.treatment}</TableCell>
+                                                        <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{medicine.drugName}</TableCell>
+                                                        <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{medicine.dosage}</TableCell>
+                                                        <TableCell align="center" style={{ fontSize: "1.7vh", padding: 1 }}>{medicine.duration}</TableCell>
+                                                    </>
+
+                                                ))}
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="no-medical-reports-label">
+                            The medical reports are currently unavailable.
+                        </div>
+                    )}
+                </div>
+                <div className="complete-booking-div">
+                    <Link to="/doctor_bookings" style={{ textDecoration: 'none' }}>
+                        <button className="complete-booking-btn"
+                            onClick={handleComplete}>
+                            Complete this booking
+                        </button>
+                    </Link>
+                </div>
+                <div className="medical-report-bottom-block"></div>
+                <div className="add-medical-report-btn-div">
+                    <button className="add-report-btn" onClick={() => { setIsAddMedicalReportOpen(true) }}>
+                        {"+ Add"}
+                    </button>
                 </div>
             </div>
             <Link to="/doctor_bookings" style={{ textDecoration: 'none' }}>
@@ -221,6 +321,13 @@ export const BookingDetailsInDoctorView: FunctionComponent = (): ReactElement =>
                     {"< Back"}
                 </button>
             </Link>
+            <div>
+                <AddMedicalReport
+                    isOpen={isAddMedicalReportOpen}
+                    setIsOpen={setIsAddMedicalReportOpen}
+                    petId={pet?.id}
+                />
+            </div>
         </>
     );
 };

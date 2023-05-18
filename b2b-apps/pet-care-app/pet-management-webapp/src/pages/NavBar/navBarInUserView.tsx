@@ -179,19 +179,19 @@ function NavBarInUserView(props: NavBarProps) {
                             alt="pet-care-logo"
                         />
                     </NavLogo>
-                    <NavLink to='/user_home' isSelected={path.includes('doctor_home') ? true : false} >
+                    <NavLink to='/user_home' isSelected={path.includes('user_home') ? true : false} >
                         <NavIcon>
                             <HomeIcon style={{ width: "4vh", height: "4vh", padding: "1vh" }} />
                         </NavIcon>
                         Home
                     </NavLink>
-                    <NavLink to='/user_pets' isSelected={path.includes('doctor_profile') ? true : false} >
+                    <NavLink to='/user_pets' isSelected={path.includes('user_pets') ? true : false} >
                         <NavIcon>
                             <PetsIcon style={{ width: "4vh", height: "4vh", padding: "1vh" }} />
                         </NavIcon>
                         Pets
                     </NavLink>
-                    <NavLink to='/user_bookings' isSelected={path.includes('doctor_bookings') ? true : false}>
+                    <NavLink to='/user_bookings' isSelected={path.includes('user_bookings') ? true : false}>
                         <NavIcon>
                             <StickyNote2Icon style={{ width: "4vh", height: "4vh", padding: "1vh" }} />
                         </NavIcon>

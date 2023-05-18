@@ -28,6 +28,7 @@ import { getDocThumbnail } from "../../components/GetDocThumbnail/get-doc-thumbn
 import { useAuthContext } from "@asgardeo/auth-react";
 import { Booking } from "./booking";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { deleteBooking } from "../../components/DeleteBooking/delete-booking";
 
 interface buttonProps {
     isDisabled: boolean;
@@ -61,11 +62,15 @@ export interface BookingOverviewProps {
     booking: Booking;
 }
 
-export default function BookingOverviewInDocView(props: BookingOverviewProps) {
+export default function BookingOverviewInUserView(props: BookingOverviewProps) {
     const { isOpen, setIsOpen, booking} = props;
     const [availabilityInfo, setAvailabilityInfo] = React.useState<Availability[] | null>([]);
     const [url, setUrl] = React.useState("");
     const { getAccessToken } = useAuthContext();
+
+    function timeout(delay: number) {
+        return new Promise( res => setTimeout(res, delay) );
+      }
 
     const handleClose = () => {
         setIsOpen(false);
@@ -73,6 +78,16 @@ export default function BookingOverviewInDocView(props: BookingOverviewProps) {
 
     const handleDialogClose = () => {
         setIsOpen(true);
+    }
+
+    const handleDelete = async () => {
+        async function deletePets() {
+            const accessToken = await getAccessToken();
+            const response = await deleteBooking(accessToken, booking.id);
+        }
+        deletePets();
+        await timeout(500);
+        setIsOpen(false);
     }
 
     if (booking) {
@@ -204,6 +219,9 @@ export default function BookingOverviewInDocView(props: BookingOverviewProps) {
                                     >
                                         Close
                                     </CancelButton>
+                                </div>
+                                <div className="delete-booking-overview-btn-div">
+                                    <button className="delete-button-in-booking-overview" onClick={handleDelete}>Delete</button>
                                 </div>
                             </Dialog.Panel>
                         </div>

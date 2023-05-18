@@ -298,9 +298,9 @@
     width: 7vw;
     height: 7vh;
     object-fit: contain;
-    right:12vw;
-    bottom: 2vh;
     position: absolute;
+    margin-right:1vw;
+    bottom: 2vh;
 }
 
 .save-btn-div-sec {
@@ -691,4 +691,30 @@
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(105, 105, 105);
     font-weight: bold;
+}
+
+.pet-card{
+    background-color: #f09090;
+
+}
+
+.time-slot-button:focus{
+    background-color: #4e40ed;
+    color: white;
+}
+
+.pet-icon {
+    position: absolute;
+    width: 15vh;
+    height: 15vh;
+    top: 1vh;
+    left: 1vw;
+}
+
+.pet-summary {
+    position: absolute;
+    width: 10vw;
+    left: 11vw;
+    top: 5vh;
+    text-align: left;
 }

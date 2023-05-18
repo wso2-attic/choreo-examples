@@ -36,6 +36,7 @@ export const DoctorProfilePage: FunctionComponent = (): ReactElement => {
     const [url, setUrl] = useState("");
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
     const [availabilityInfo, setAvailabilityInfo] = useState<Availability[] | null>([]);
+    const [stringDate, setStringDate] = useState("");
 
     async function getProfileInfo() {
         const accessToken = await getAccessToken();
@@ -43,6 +44,9 @@ export const DoctorProfilePage: FunctionComponent = (): ReactElement => {
             .then(async (res) => {
                 if (res.data) {
                     setDoctor(res.data);
+                    const date = new Date(res.data.createdAt);
+                    const stringDate = date.toLocaleString();
+                    setStringDate(stringDate);
                 }
                 const response = await getDocThumbnail(accessToken, doctor.id);
                 if (response.data.size > 0) {
@@ -150,7 +154,7 @@ export const DoctorProfilePage: FunctionComponent = (): ReactElement => {
                                         <p className="doc-profile-font">{doctor.address}</p>
                                     </Typography>
                                     <Typography className="typography-style-doc-overview">
-                                        <p className="doc-profile-font">{doctor.createdAt}</p>
+                                        <p className="doc-profile-font">{stringDate}</p>
                                     </Typography>
                                 </Grid>
                             </Grid>

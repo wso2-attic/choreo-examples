@@ -56,3 +56,16 @@ export interface PetInfo {
     enabled: boolean;
     emailAddress: string;
   }
+
+
+  export interface MedicalReport {
+    diagnosis: string;
+    medications: Medicine[];
+    treatment: string;
+  }
+
+  export interface Medicine {
+    dosage: string;
+    drugName: string;
+    duration: string;
+  }

@@ -17,13 +17,15 @@
  */
 
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import "./booking.css";
 import styled from 'styled-components';
-import { Divider, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { Availability, DoctorInfo } from "../../types/doctor";
+import { Divider, Grid, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Availability, Doctor, DoctorInfo } from "../../types/doctor";
 import { useAuthContext } from "@asgardeo/auth-react";
-import { postDoctor } from "../../components/CreateDoctor/post-doc";
+import { Pet } from "../../types/pet";
+import PetCard from "../Pets/PetCard";
+import PetCardInAddBooking from "../Pets/PetCard/pet-card-in-add-booking";
 import { BookingInfo } from "./booking";
 import { postBooking } from "../../components/CreateBooking/post-booking";
 
@@ -56,50 +58,118 @@ font-size: 2vh;
 export interface AddBookingsProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    doctorId: string;
+    doctor: Doctor;
+    petList: Pet[];
 }
 
 export default function AddBookings(props: AddBookingsProps) {
-    const { isOpen, setIsOpen, doctorId} = props;
-    const dateInputRef = useRef(null);
-    const [appointmentNumber, setAppointmentNumber] = React.useState(0);
-    const [date, setDate] = React.useState("");
+    const { isOpen, setIsOpen, doctor, petList } = props;
+    const { getDecodedIDToken, getAccessToken } = useAuthContext();
+    const [availability, setAvailability] = useState<Availability[] | null>(null);
+    const [availabilityInfo, setAvailabilityInfo] = useState<Availability | null>(null);
+    const [pet, setPet] = useState<Pet | null>(null);
+    const [activeStep, setActiveStep] = React.useState(0);
     const [mobileNumber, setMobileNumber] = React.useState("");
-    const [petDoB, setPetDoB] = React.useState("");
-    const [petId, setPetId] = React.useState("");
-    const [petName, setPetName] = React.useState("");
-    const [petOwnerName, setPetOwnerName] = React.useState("");
-    const [petType, setPetType] = React.useState("");
-    const [sessionStartTime, setSessionStartTime] = React.useState("");
-    const [sessionEndTime, setSessionEndTime] = React.useState("");
-    const { getAccessToken } = useAuthContext();
+    const [petOwner, setPetOwner] = React.useState("");
+    const steps = ['Time Selection', 'Pet Selection', 'Users Info'];
+    const [completed, setCompleted] = React.useState<{
+        [k: number]: boolean;
+    }>({});
+
+    function timeout(delay: number) {
+        return new Promise(res => setTimeout(res, delay));
+    }
+
+    const totalSteps = () => {
+        return steps.length;
+    };
+
+    const completedSteps = () => {
+        return Object.keys(completed).length;
+    };
+
+    const isLastStep = () => {
+        return activeStep === totalSteps() - 1;
+    };
+
+    const allStepsCompleted = () => {
+        return completedSteps() === totalSteps();
+    };
 
 
     const handleClose = () => {
         setIsOpen(false);
+        setActiveStep(0);
+        setAvailabilityInfo(null);
+        setPet(null);
     }
 
-    const handleAdd = () => {
+    useEffect(() => {
+        setAvailability(doctor?.availability);
+        (async (): Promise<void> => {
+            const decodedIDToken = await getDecodedIDToken();
+            setPetOwner(decodedIDToken.email);
+        })();
+    }, [isOpen]);
+
+    const handleOnTimeSlotClick = (availabilityInfo: Availability) => {
+        setAvailabilityInfo(availabilityInfo);
+    }
+
+    const handleNext = () => {
+        if (activeStep === 0) {
+            if (availabilityInfo != null) {
+                const newActiveStep =
+                    isLastStep() && !allStepsCompleted()
+                        ? // It's the last step, but not all steps have been completed,
+                        // find the first step that has been completed
+                        steps.findIndex((step, i) => !(i in completed))
+                        : activeStep + 1;
+                setActiveStep(newActiveStep);
+
+            }
+        } else if (activeStep === 1) {
+            if (pet != null) {
+                const newActiveStep =
+                    isLastStep() && !allStepsCompleted()
+                        ? // It's the last step, but not all steps have been completed,
+                        // find the first step that has been completed
+                        steps.findIndex((step, i) => !(i in completed))
+                        : activeStep + 1;
+                setActiveStep(newActiveStep);
+            }
+        }
+    }
+
+    const handleFinish = async () => {
         async function addBooking() {
             const accessToken = await getAccessToken();
             const payload: BookingInfo = {
-                appointmentNumber: appointmentNumber,
-                date: date,
-                doctorId: doctorId,
+                appointmentNumber: 1,
+                date: availabilityInfo.date,
+                doctorId: doctor.id,
                 mobileNumber: mobileNumber,
-                petDoB: petDoB,
-                petId: petId,
-                petName: petName,
-                petOwnerName: petOwnerName,
-                petType: petType,
-                sessionEndTime: sessionEndTime,
-                sessionStartTime: sessionStartTime,
+                petDoB: pet.dateOfBirth,
+                petId: pet.id,
+                petName: pet.name,
+                petOwnerName: petOwner,
+                petType: pet.breed,
+                sessionEndTime: availabilityInfo.timeSlots[0].endTime,
+                sessionStartTime: availabilityInfo.timeSlots[0].startTime,
                 status: "Confirmed",
             };
             postBooking(accessToken, payload);
         }
-        addBooking()
+        addBooking();
+        await timeout(150);
         setIsOpen(false);
+        setActiveStep(0);
+        setAvailabilityInfo(null);
+        setPet(null);
+    }
+
+    const handleDialogClose = () => {
+        setIsOpen(true);
     }
 
     return (
@@ -108,7 +178,7 @@ export default function AddBookings(props: AddBookingsProps) {
                 <Dialog
                     as="div"
                     className="add-doctor-div"
-                    onClose={handleClose}
+                    onClose={handleDialogClose}
                 >
                     <Transition.Child
                         as={Fragment}
@@ -127,172 +197,105 @@ export default function AddBookings(props: AddBookingsProps) {
                                 as="h3" className="add-pet-div">
                                 {"Add a Booking"}
                             </Dialog.Title>
-                            <div className="add-doctor-form-div">
-                                <form>
-                                    <div className="align-left">
-                                        <div className="label-style">
-                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
-                                                Appointment Number
-                                            </label>
+                            <div className="add-booking-form-div">
+                                {activeStep === 0 && (
+                                    <><div className="choose-time-header">
+                                        Choose a time slot
+                                    </div><div className="timeslot-div">
+                                            {availability && availability.map((availabilityInfo) => (
+                                                <>
+                                                    <button className="time-slot-button" onClick={(e) => { e.preventDefault(); handleOnTimeSlotClick(availabilityInfo); }}>
+                                                        {availabilityInfo.date + " , " + availabilityInfo.timeSlots[0].startTime + " - " + availabilityInfo.timeSlots[0].endTime}
+                                                    </button>
+                                                    <br /><br /></>
+                                            ))}
+                                            {availability?.length === 0 && (
+                                                <div className="doc-unavailable-div">
+                                                    Doctor is currently unavailable.
+                                                </div>
+                                            )}
+                                        </div></>
+                                )}
+                                {activeStep === 1 && (
+                                    <>
+                                        <div className="choose-time-header">
+                                            Choose your pet
                                         </div>
-                                        <input
-                                            className="input-style-2"
-                                            id="Appointment Number"
-                                            type="number"
-                                            placeholder="Appointment Number"
-                                            onChange={(e) => setAppointmentNumber(parseInt(e.target.value))}
-                                        />
-                                    </div>
-                                    <div className="align-left">
-                                        <div className="label-style">
-                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
-                                                Date
-                                            </label>
+                                        <div className="pets-div">
+                                            <Grid container spacing={2}>
+                                                {petList && petList.map((pet) => (
+                                                    <Grid item xs={6} sm={6} md={6}
+                                                        onClick={(e) => { e.preventDefault(); setPet(pet); }}>
+                                                        <PetCardInAddBooking
+                                                            petId={pet.id}
+                                                            petName={pet.name}
+                                                            breed={pet.breed}
+                                                            isUpdateViewOpen={false}
+                                                        />
+                                                    </Grid>
+                                                ))}
+                                            </Grid>
                                         </div>
-                                        <input
-                                            className="input-style-2"
-                                            id="Date"
-                                            type="date"
-                                            placeholder="Date"
-                                            onChange={(e) => setDate(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="align-left">
-                                        <div className="label-style">
-                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
-                                                Mobile Number
-                                            </label>
+                                    </>
+                                )}
+                                {activeStep === 2 && (
+                                    <div className="timeslot-div">
+                                        <div className="align-left">
+                                            <div className="label-style">
+                                                <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
+                                                    Mobile Number
+                                                </label>
+                                            </div>
+                                            <input
+                                                className="input-style-2"
+                                                id="Mobile Number"
+                                                type="text"
+                                                placeholder="Mobile Number"
+                                                onChange={(e) => setMobileNumber(e.target.value)}
+                                            />
                                         </div>
-                                        <input
-                                            className="input-style-2"
-                                            id="Mobile Number"
-                                            type="text"
-                                            placeholder="Mobile Number"
-                                            onChange={(e) => setMobileNumber(e.target.value)}
-                                        />
                                     </div>
-                                    <div className="align-left">
-                                        <div className="label-style">
-                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
-                                                Pet's Date Of Birth
-                                            </label>
-                                        </div>
-                                        <input
-                                            className="input-style-2"
-                                            id="Pet's Date Of Birth"
-                                            type="date"
-                                            ref={dateInputRef}
-                                            placeholder="Pet's Date Of Birth"
-                                            onChange={(e) => setPetDoB(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="align-left">
-                                        <div className="label-style">
-                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
-                                                Pet Id
-                                            </label>
-                                        </div>
-                                        <input
-                                            className="input-style-2"
-                                            id="Pet Id"
-                                            type="text"
-                                            placeholder="Pet Id"
-                                            onChange={(e) => setPetId(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="align-left">
-                                        <div className="label-style">
-                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
-                                                Pet Name
-                                            </label>
-                                        </div>
-                                        <input
-                                            className="input-style-2"
-                                            id="Pet Name"
-                                            type="text"
-                                            placeholder="Pet Name"
-                                            onChange={(e) => setPetName(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="align-left">
-                                        <div className="label-style">
-                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
-                                                Pet Owner Name
-                                            </label>
-                                        </div>
-                                        <input
-                                            className="input-style-2"
-                                            id="Pet Owner Name"
-                                            type="text"
-                                            placeholder="Pet Owner Name"
-                                            onChange={(e) => setPetOwnerName(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="align-left">
-                                        <div className="label-style">
-                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
-                                                Pet Type
-                                            </label>
-                                        </div>
-                                        <input
-                                            className="input-style-2"
-                                            id="Pet Type"
-                                            type="text"
-                                            placeholder="Pet Type"
-                                            onChange={(e) => setPetType(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="align-left">
-                                        <div className="label-style">
-                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
-                                                Session Start Time
-                                            </label>
-                                        </div>
-                                        <input
-                                            className="input-style-2"
-                                            id="Pet Type"
-                                            type="time"
-                                            placeholder="Pet Type"
-                                            onChange={(e) => setSessionStartTime(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="align-left">
-                                        <div className="label-style">
-                                            <label style={{ fontSize: "2.5vh", fontFamily: "Arial, Helvetica, sans-serif", fontWeight: "normal" }}>
-                                                Session End Time
-                                            </label>
-                                        </div>
-                                        <input
-                                            className="input-style-2"
-                                            id="Session End Time"
-                                            type="time"
-                                            placeholder="Session End Time"
-                                            onChange={(e) => setSessionEndTime(e.target.value)}
-                                        />
-                                    </div>
-                                </form>
+                                )}
                             </div>
-                            <div className="add-doc-save-btn-div">
-                                <Button
-                                    isDisabled={date == '' ||
-                                        petId == '' ||
-                                        mobileNumber == '' ||
-                                        petDoB == '' ||
-                                        petId == '' ||
-                                        petName == '' ||
-                                        petOwnerName == '' ||
-                                        petType == '' ||
-                                        sessionStartTime == '' ||
-                                        sessionEndTime == '' ? true : false}
-                                    onClick={handleAdd}>
-                                    Add
-                                </Button>
-                            </div>
-                            <div className="add-doc-cancel-btn-div">
-                                <CancelButton onClick={handleClose}>
-                                    Cancel
-                                </CancelButton>
-                            </div>
+                            {activeStep === 0 && (
+                                <><div className="next-btn-div">
+                                    <Button
+                                        isDisabled={availabilityInfo === null ? true : false}
+                                        onClick={handleNext}>
+                                        Next
+                                    </Button>
+                                </div><div className="cancel-btn-div">
+                                        <CancelButton onClick={handleClose}>
+                                            Cancel
+                                        </CancelButton>
+                                    </div></>
+                            )}
+                            {activeStep === 1 && (
+                                <><div className="next-btn-div">
+                                    <Button
+                                        isDisabled={pet === null ? true : false}
+                                        onClick={handleNext}>
+                                        Next
+                                    </Button>
+                                </div><div className="cancel-btn-div">
+                                        <CancelButton onClick={handleClose}>
+                                            Cancel
+                                        </CancelButton>
+                                    </div></>
+                            )}
+                            {activeStep === 2 && (
+                                <><div className="next-btn-div">
+                                    <Button
+                                        isDisabled={pet === null ? true : false}
+                                        onClick={handleFinish}>
+                                        Finish
+                                    </Button>
+                                </div><div className="cancel-btn-div">
+                                        <CancelButton onClick={handleClose}>
+                                            Cancel
+                                        </CancelButton>
+                                    </div></>
+                            )}
                         </Dialog.Panel>
                     </div>
                 </Dialog>
