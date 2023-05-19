@@ -172,6 +172,28 @@ service / on new http:Listener(9090) {
         return getBookingsByDoctorId(org, doctorId, dateValue);
     }
 
+    # Get next appointment number of a doctor
+    # + doctorId - ID of the doctor
+    # + date - Date of the boookings (Format: yyyy-MM-dd)
+    # + sessionStartTime - Start time of the session (Format: HH:mm AM/PM)
+    # + sessionEndTime - End time of the session (Format: HH:mm AM/PM)
+    # + return - List of bookings or error
+    resource function get doctors/[string doctorId]/next\-appointment\-number(http:Headers headers, string date,
+            string sessionStartTime, string sessionEndTime) returns NextAppointment|http:NotFound|error? {
+
+        string|error org = getOrg(headers);
+        if org is error {
+            return org;
+        }
+
+        NextAppointment|()|error nextAppointmentNumber = getNextAppointmentNumber(org, doctorId, date, sessionStartTime, sessionEndTime);
+        if nextAppointmentNumber is () {
+            return http:NOT_FOUND;
+        } else {
+            return nextAppointmentNumber;
+        }
+    }
+
     # Get doctor's details
     # + return - Doctor details or not found 
     resource function get me(http:Headers headers) returns Doctor|http:NotFound|error? {
@@ -209,7 +231,8 @@ service / on new http:Listener(9090) {
     # Create a new booking
     # + newBooking - basic booking details
     # + return - created booking record or error
-    resource function post bookings(http:Headers headers, @http:Payload BookingItem newBooking) returns Booking|http:Created|http:BadRequest|error? {
+    resource function post bookings(http:Headers headers, @http:Payload BookingItem newBooking) returns
+    Booking|http:Created|http:BadRequest|error? {
 
         [string, string]|error orgInfo = getOrgWithEmail(headers);
         if orgInfo is error {
@@ -219,28 +242,22 @@ service / on new http:Listener(9090) {
         string org = orgInfo[0];
         string email = orgInfo[1];
 
-        Doctor|()|error doctor = getDoctorById(newBooking.doctorId);
+        Booking|error booking = addBooking(newBooking, org, email);
+        if booking is error {
+            return booking;
+        }
 
+        Doctor|()|error doctor = getDoctorByIdAndOrg(org, newBooking.doctorId);
         if doctor is Doctor {
-
-            Booking|error booking = addBooking(newBooking, org, email);
-            if booking is error {
-                return booking;
-            }
-
             error? sendEmailResult = sendEmail(booking, doctor);
             if sendEmailResult is error {
                 log:printError("Error while sending email for the booking: ", sendEmailResult);
             }
-
-            return booking;
-        } else if doctor is () {
-            log:printInfo("Doctor not found. [Booking Pet ID]:" + newBooking.petId + ", [Booking Doctor ID]:" + newBooking.doctorId);
-            return http:BAD_REQUEST;
         } else {
-            return doctor;
+            log:printError("Error while getting doctor details: ", doctor);
         }
 
+        return booking;
     }
 
     # Get a booking by ID
@@ -264,7 +281,8 @@ service / on new http:Listener(9090) {
     # + bookingId - ID of the booking
     # + updatedBookingItem - updated booking details
     # + return - Booking details or not found 
-    resource function put bookings/[string bookingId](http:Headers headers, @http:Payload BookingItem updatedBookingItem) returns Booking|http:NotFound|error? {
+    resource function put bookings/[string bookingId](http:Headers headers, @http:Payload BookingItemUpdated updatedBookingItem)
+    returns Booking|http:NotFound|error? {
 
         string|error org = getOrg(headers);
         if org is error {

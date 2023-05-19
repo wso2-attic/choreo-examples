@@ -57,8 +57,12 @@ type BookingItem record {|
     string petName;
     string petType;
     string petDoB;
+    *AppointmentItem;
+|};
+
+type BookingItemUpdated record {|
+    *BookingItem;
     BookingStatus|string status;
-    *Appointment;
 |};
 
 enum Status {
@@ -69,14 +73,30 @@ enum Status {
 type BookingStatus CONFIRMED|COMPLETED;
 
 type Appointment record {|
+    *AppointmentItem;
+    int appointmentNumber;
+    BookingStatus|string status;
+|};
+
+type AppointmentItem record {|
     string date;
     string sessionStartTime;
     string sessionEndTime;
-    int appointmentNumber;
+|};
+
+type NextAppointment record {|
+    string doctorId;
+    string date;
+    string sessionStartTime;
+    string sessionEndTime;
+    int activeBookingCount;
+    int nextAppointmentNumber;
 |};
 
 type Booking record {|
     *BookingItem;
+    int appointmentNumber;
+    BookingStatus|string status;
     readonly string id;
     readonly string org;
     readonly string referenceNumber;

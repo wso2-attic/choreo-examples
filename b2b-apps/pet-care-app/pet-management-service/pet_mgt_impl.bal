@@ -62,7 +62,6 @@ function getPets(string org, string owner) returns Pet[]|error {
         pets = check dbGetPetsByOwner(org, owner);
     } else {
         petRecords.forEach(function(PetRecord petRecord) {
-
             if petRecord.org == org && petRecord.owner == owner {
                 Pet pet = getPetDetails(petRecord);
                 pets.push(pet);
