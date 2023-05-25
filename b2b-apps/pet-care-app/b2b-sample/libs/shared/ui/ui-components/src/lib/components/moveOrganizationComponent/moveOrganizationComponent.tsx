@@ -16,8 +16,11 @@
  * under the License.
  */
 
-import React from "react";
+import { LogoComponent } from "@b2bsample/business-admin-app/ui/ui-components";
 import styles from "./moveOrganizationComponent.module.css";
+import { Panel, Stack } from "rsuite";
+import Image from "next/image";
+import getStartedWelcomeImage from "../../../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/getStartedWelcome.svg";
 
 /* eslint-disable-next-line */
 export interface MoveOrganizationComponentProps {
@@ -29,10 +32,24 @@ export function MoveOrganizationComponent(prop: MoveOrganizationComponentProps) 
     const { orgName } = prop;
 
     return (
-        <div className={ styles["moveOrgDiv"] }>
-            <p className={ styles["pFont"] }>
-                You will be redirected to { orgName }
-            </p>
+        <div className={styles["getStartedSectionComponentGetStartedTextDiv"]}>
+            <Panel bordered className={styles["getStartedSectionComponentGetStartedTextPanel"]}>
+
+                <Stack direction="column" spacing={50} justifyContent="center">
+
+                    <Image src={getStartedWelcomeImage} alt="profile image" width={150} />
+
+                    <Stack direction="column" spacing={10} justifyContent="center">
+                        <p><strong>Welcome to</strong></p>
+                        <LogoComponent imageSize="medium" />
+                    </Stack>
+
+                    <h2 className={styles["h2Wording"]}>Please wait while we redirect you to {orgName}</h2>
+                    
+                </Stack>
+
+            </Panel>
+
         </div>
     );
 }

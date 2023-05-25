@@ -28,3 +28,19 @@
 .pFont{
     font-size: 2em
 }
+
+.getStartedSectionComponentGetStartedTextDiv {
+    height: 80vh
+}
+
+.getStartedSectionComponentGetStartedTextPanel{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.h2Wording {
+    color: #4F40EE; 
+}
