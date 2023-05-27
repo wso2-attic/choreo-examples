@@ -25,6 +25,7 @@ declare module "next-auth" {
         error: boolean,
         expires: boolean,
         accessToken?: string,
+        adminAccessToken?: string,
         idToken?: JWT,
         scope?: string,
         refreshToken?: string,

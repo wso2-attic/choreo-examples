@@ -47,11 +47,11 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
             return token;
         },
         async redirect({ baseUrl }) {
-            
+
             return `${baseUrl}/o/moveOrg`;
         },
         async session({ session, token }) {
-            console.log(token);
+
             const orgSession = await controllerDecodeSwitchOrg(token);
 
             if (!orgSession) {
@@ -60,7 +60,8 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
                 session.expires = true;
             }
             else {
-                session.accessToken = orgSession.access_token;
+                session.accessToken = token.accessToken as string;
+                session.adminAccessToken = orgSession.access_token;
                 session.idToken = orgSession.id_token;
                 session.scope = orgSession.scope;
                 session.refreshToken = orgSession.refresh_token;
@@ -70,8 +71,19 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
                 session.orgId = getOrgId(session.idToken);
                 session.orgName = getOrgName(session.idToken);
                 session.orginalIdToken = token.idToken;
-            }
 
+                const groupsList = token.user.groups;
+                if (groupsList == null) {
+                    session.group = "petOwner";
+                } else if (groupsList.includes("doctor")) {
+                    session.group = "doctor";
+                } else if (groupsList.includes("admin")) {
+                    session.group = "admin";
+                } else {
+                    session.group = "petOwner";
+                }
+
+            }
             return session;
         }
 

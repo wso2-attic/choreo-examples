@@ -29,7 +29,7 @@ export function apiRequestOptions(session: Session, hostedUrl: string): RequestI
     const headers = {
         "accept": "application/json",
         "access-control-allow-origin": hostedUrl,
-        "authorization": "Bearer " + session.accessToken
+        "authorization": "Bearer " + session.adminAccessToken
     };
 
     return { headers };

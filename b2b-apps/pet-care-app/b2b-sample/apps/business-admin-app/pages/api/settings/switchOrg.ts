@@ -27,7 +27,7 @@ import config from "../../../../../config.json";
  */
 const getBasicAuth = (): string => Buffer
     // eslint-disable-next-line
-    .from(`${config.BusinessAdminAppConfig.AuthorizationConfig.ClientId}:${config.BusinessAdminAppConfig.AuthorizationConfig.ClientSecret}`).toString("base64");
+    .from(`${config.BusinessAdminAppConfig.ManagementAuthorizationConfig.ClientId}:${config.BusinessAdminAppConfig.ManagementAuthorizationConfig.ClientSecret}`).toString("base64");
 
 /**
  * 

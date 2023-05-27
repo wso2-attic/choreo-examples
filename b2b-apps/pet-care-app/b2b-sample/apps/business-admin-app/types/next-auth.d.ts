@@ -25,6 +25,7 @@ declare module "next-auth" {
         error: boolean,
         expires: boolean,
         accessToken?: string,
+        adminAccessToken?: string,
         idToken?: JWT,
         scope?: string,
         refreshToken?: string,
@@ -33,6 +34,7 @@ declare module "next-auth" {
         orgId?: string,
         orgName?: string,
         orginalIdToken?: string,
+        group?: string,
     }
 }
 
@@ -54,6 +56,7 @@ declare module "next-auth" {
         username?: string,
         user_organization?: string,
         org_name?: string,
-        org_id: string
+        org_id: string,
+        groups: string[]
     }
 }
