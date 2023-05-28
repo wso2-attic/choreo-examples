@@ -131,11 +131,17 @@
     margin-left: 40vw;
 }
 
-.totalBookingsHeader {
+.totalBookingCountHeader {
+    font-weight: bold;
+    font-size: 6vh;
+    margin-top: -40vh;
+    margin-left: 10vh;
+}
+
+.totalBookingHeader {
     font-weight: bold;
     font-size: 3vh;
-    margin-top: -40vh;
-    margin-left: 3vh;
+    margin-left: 10vh;
 }
 
 .dailyChartDivForDoc {
@@ -156,7 +162,7 @@
 .dailiBookingsChart {
     margin-left: 5vw;
     margin-top: 10vh;
-    width: 80vh;
+    width: 100vh;
     height: 50vh;
 }
 

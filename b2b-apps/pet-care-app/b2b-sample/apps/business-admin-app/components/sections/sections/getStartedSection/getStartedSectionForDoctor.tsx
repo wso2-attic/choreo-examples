@@ -137,8 +137,11 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                             <DonutChart />
                         </div>
                     </div>
-                    <div className={ styles.totalBookingsHeader }>
-                        70 Total Bookings
+                    <div className={ styles.totalBookingCountHeader }>
+                        70
+                    </div>
+                    <div className={ styles.totalBookingHeader } >
+                        Total Bookings
                     </div>
                 </div>
             </Stack>
