@@ -21,10 +21,11 @@ import { getDocThumbnail } from "apps/business-admin-app/APICalls/GetDocThumbnai
 import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
 import { getProfile } from "apps/business-admin-app/APICalls/GetProfileInfo/me";
 import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
+import Chart from "chart.js/auto";
 import { Session } from "next-auth";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button, Stack, useToaster } from "rsuite";
 // eslint-disable-next-line max-len
 import EditDoctorProfile from "./editDoctorProfile";
@@ -124,8 +125,7 @@ export default function DoctorProfileSection(props: DoctorProfileSectionProps) {
             setAvailabilityInfo([]);
         }
     };
-
-
+      
     return (
         <><div
             className={ styles.tableMainPanelDivDoc }

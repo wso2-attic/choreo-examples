@@ -109,3 +109,54 @@
         filter: invert(1);
     }
 }
+
+.chartDivForDoc {
+    width: 70vw;
+    height: 60vh;
+    margin-top: 5vh;
+    background-color: rgb(255, 255, 255);
+    border-radius: 1vh;
+}
+
+.bookingSummaryHeader {
+    font-size: 3vh;
+    font-weight: bold;
+    padding-top: 3vh;
+    padding-left: 3vh;
+}
+
+.chartForBookingSummary {
+    width: 50vh;
+    height: 50vh;
+    margin-left: 40vw;
+}
+
+.totalBookingsHeader {
+    font-weight: bold;
+    font-size: 3vh;
+    margin-top: -40vh;
+    margin-left: 3vh;
+}
+
+.dailyChartDivForDoc {
+    width: 70vw;
+    height: 80vh;
+    margin-top: 5vh;
+    background-color: rgb(255, 255, 255);
+    border-radius: 1vh;
+}
+
+.dailyBookingSummaryHeader {
+    font-size: 3vh;
+    font-weight: bold;
+    padding-top: 3vh;
+    padding-left: 3vh;
+}
+
+.dailiBookingsChart {
+    margin-left: 5vw;
+    margin-top: 10vh;
+    width: 80vh;
+    height: 50vh;
+}
+

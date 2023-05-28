@@ -50,6 +50,7 @@ import HomeComponentForPetOwner
 
 import Custom500 from "../../pages/500";
 import SettingsSection from "./sections/sectionsReatedToPetOwner/settings";
+import GetStartedSectionComponentForDoctor from "./sections/getStartedSection/getStartedSectionForDoctor";
 
 interface HomeProps {
     name : string,
@@ -104,8 +105,10 @@ export default function Home(props: HomeProps) : JSX.Element {
 
             case "8":
 
-                return <SettingsSection  session={ session } />;    
-                
+                return <SettingsSection  session={ session } />; 
+            case "9":
+
+                return <GetStartedSectionComponentForDoctor  session={ session } />;        
         }
     };
 
