@@ -1,6 +1,8 @@
 import ballerina/http;
-import ballerina/jwt;
 import ballerina/mime;
+import pubudu538/choreo.user.info as choreoUserInfo;
+
+choreoUserInfo:UserInfoResolver userInfoResolver = new;
 
 # A service representing a network-accessible API
 # bound to port `9090`.
@@ -10,13 +12,13 @@ service / on new http:Listener(9090) {
     # + return - List of pets or error
     resource function get pets(http:Headers headers) returns Pet[]|error? {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         return getPets(org, owner);
     }
@@ -26,14 +28,14 @@ service / on new http:Listener(9090) {
     # + return - Created pet record or error
     resource function post pets(http:Headers headers, @http:Payload PetItem newPet) returns Pet|http:Created|error? {
 
-        [string, string, string]|error ownerInfo = getOwnerWithEmail(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
-        string email = ownerInfo[2];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
+        string email = <string>userInfo.emailAddress;
 
         Pet|error pet = addPet(newPet, org, owner, email);
         return pet;
@@ -44,13 +46,13 @@ service / on new http:Listener(9090) {
     # + return - Pet details or not found 
     resource function get pets/[string petId](http:Headers headers) returns Pet|http:NotFound|error? {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         Pet|()|error result = getPetByIdAndOwner(org, owner, petId);
         if result is () {
@@ -65,14 +67,14 @@ service / on new http:Listener(9090) {
     # + return - Pet details or not found 
     resource function put pets/[string petId](http:Headers headers, @http:Payload PetItem updatedPetItem) returns Pet|http:NotFound|error? {
 
-        [string, string, string]|error ownerInfo = getOwnerWithEmail(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
-        string email = ownerInfo[2];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
+        string email = <string>userInfo.emailAddress;
 
         Pet|()|error result = updatePetById(org, owner, email, petId, updatedPetItem);
         if result is () {
@@ -86,13 +88,13 @@ service / on new http:Listener(9090) {
     # + return - No Content response or error
     resource function delete pets/[string petId](http:Headers headers) returns http:NoContent|http:NotFound|error? {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         string|()|error result = deletePetById(org, owner, petId);
         if result is () {
@@ -109,13 +111,13 @@ service / on new http:Listener(9090) {
     resource function put pets/[string petId]/thumbnail(http:Request request, http:Headers headers)
     returns http:Ok|http:NotFound|http:BadRequest|error {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         var bodyParts = check request.getBodyParts();
         Thumbnail thumbnail;
@@ -145,13 +147,13 @@ service / on new http:Listener(9090) {
     # + return - Ok response or error
     resource function get pets/[string petId]/thumbnail(http:Headers headers) returns http:Response|http:NotFound|error {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         Thumbnail|()|string|error thumbnail = getThumbnailByPetId(org, owner, petId);
         http:Response response = new;
@@ -181,13 +183,13 @@ service / on new http:Listener(9090) {
     # + return - Medical report record or error
     resource function get pets/[string petId]/medical\-reports(http:Headers headers) returns MedicalReport[]|error? {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         return getMedicalReportsByPetId(org, owner, petId);
     }
@@ -198,13 +200,13 @@ service / on new http:Listener(9090) {
     resource function post pets/[string petId]/medical\-reports(http:Headers headers,
             @http:Payload MedicalReportItem medicalReportItem) returns MedicalReport|http:Created|http:NotFound|error? {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         MedicalReport|()|error medicalReport = addMedicalReport(org, owner, petId, medicalReportItem);
         if medicalReport is () {
@@ -221,13 +223,13 @@ service / on new http:Listener(9090) {
     resource function get pets/[string petId]/medical\-reports/[string reportId](http:Headers headers) returns MedicalReport|
     http:NotFound|error? {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         MedicalReport|()|error medicalReportsByPetIdAndReportId = getMedicalReportsByPetIdAndReportId(org, owner, petId, reportId);
         if medicalReportsByPetIdAndReportId is () {
@@ -245,13 +247,13 @@ service / on new http:Listener(9090) {
     resource function put pets/[string petId]/medical\-reports/[string reportId](http:Headers headers,
             @http:Payload MedicalReportItem updatedMedicalReportItem) returns http:Ok|http:NotFound|error? {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         MedicalReport|()|error medicalReport = updateMedicalReport(org, owner, petId, reportId, updatedMedicalReportItem);
         if medicalReport is MedicalReport {
@@ -270,13 +272,13 @@ service / on new http:Listener(9090) {
     resource function delete pets/[string petId]/medical\-reports/[string reportId](http:Headers headers) returns
     http:NoContent|http:NotFound|error? {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         string|()|error medicalReportById = deleteMedicalReportById(org, owner, petId, reportId);
         if medicalReportById is string {
@@ -292,14 +294,14 @@ service / on new http:Listener(9090) {
     # + return - Settings response or error
     resource function get settings(http:Headers headers) returns Settings|error {
 
-        [string, string, string]|error ownerInfo = getOwnerWithEmail(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
-        string email = ownerInfo[2];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
+        string email = <string>userInfo.emailAddress;
 
         Settings|error settings = getSettings(org, owner, email);
 
@@ -315,13 +317,13 @@ service / on new http:Listener(9090) {
     # + return - OK response or error
     resource function put settings(http:Headers headers, @http:Payload Settings settings) returns http:Ok|error {
 
-        [string, string]|error ownerInfo = getOwner(headers);
-        if ownerInfo is error {
-            return ownerInfo;
+        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
+        if userInfo is error {
+            return userInfo;
         }
 
-        string owner = ownerInfo[0];
-        string org = ownerInfo[1];
+        string org = userInfo.organization;
+        string owner = userInfo.userId;
 
         SettingsRecord settingsRecord = {org: org, owner: owner, ...settings};
         string|error result = updateSettings(settingsRecord);
@@ -332,50 +334,6 @@ service / on new http:Listener(9090) {
         return http:OK;
     }
 
-}
-
-function getOwner(http:Headers headers) returns [string, string]|error {
-
-    var jwtHeader = headers.getHeader("x-jwt-assertion");
-    if jwtHeader is http:HeaderNotFoundError {
-        return jwtHeader;
-    }
-
-    [jwt:Header, jwt:Payload] [_, payload] = check jwt:decode(jwtHeader);
-    return getOwnerFromPayload(payload);
-}
-
-function getOwnerWithEmail(http:Headers headers) returns [string, string, string]|error {
-
-    var jwtHeader = headers.getHeader("x-jwt-assertion");
-    if jwtHeader is http:HeaderNotFoundError {
-        return jwtHeader;
-    }
-
-    [jwt:Header, jwt:Payload] [_, payload] = check jwt:decode(jwtHeader);
-
-    [string, string] ownerInfo = getOwnerFromPayload(payload);
-    string owner = ownerInfo[0];
-    string org = ownerInfo[1];
-    string emailAddress = payload["email"].toString();
-
-    return [owner, org, emailAddress];
-}
-
-function getOwnerFromPayload(jwt:Payload payload) returns [string, string] {
-
-    string? subClaim = payload.sub;
-    if subClaim is () {
-        subClaim = "Test_Key_User";
-    }
-
-    string? user_org = payload["user_organization"].toString();
-
-    if user_org is "" {
-        user_org = "Test_Key_Org";
-    }
-
-    return [<string>subClaim, <string>user_org];
 }
 
 function handleContent(mime:Entity bodyPart) returns Thumbnail|error? {
