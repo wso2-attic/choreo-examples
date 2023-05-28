@@ -24,7 +24,11 @@ import { Session } from "next-auth";
 import React, { useState } from "react";
 import "rsuite/dist/rsuite.min.css";
 import GetStartedSectionComponent from "./sections/getStartedSection/getStartedSectionComponent";
+import GetStartedSectionComponentForAdmin from "./sections/getStartedSection/getStartedSectionForAdmin";
+import GetStartedSectionComponentForDoctor from "./sections/getStartedSection/getStartedSectionForDoctor";
+import GetStartedSectionComponentForPetOwner from "./sections/getStartedSection/getStartedSectionForPetOwner";
 import PetsSection from "./sections/sectionsReatedToPetOwner/petsPage";
+import SettingsSection from "./sections/sectionsReatedToPetOwner/settings";
 import BookingsInPetOwnerSection from "./sections/sectionsRelatedToBookings/bookingsInPetOwnerView";
 import ChannelDoctorSection from "./sections/sectionsRelatedToBookings/channelDocSection";
 import DoctorProfileSection from "./sections/sectionsRelatedToDoctor/doctorProfile";
@@ -49,10 +53,6 @@ import HomeComponentForPetOwner
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForPetOwner";
 
 import Custom500 from "../../pages/500";
-import SettingsSection from "./sections/sectionsReatedToPetOwner/settings";
-import GetStartedSectionComponentForDoctor from "./sections/getStartedSection/getStartedSectionForDoctor";
-import GetStartedSectionComponentForAdmin from "./sections/getStartedSection/getStartedSectionForAdmin";
-import GetStartedSectionComponentForPetOwner from "./sections/getStartedSection/getStartedSectionForPetOwner";
 
 interface HomeProps {
     name: string,
@@ -79,35 +79,35 @@ export default function Home(props: HomeProps): JSX.Element {
                 return <GetStartedSectionComponent />;
             case "2-1":
 
-                return <ManageUserSectionComponent session={session} />;
+                return <ManageUserSectionComponent session={ session } />;
             case "2-2":
 
-                return <RoleManagementSectionComponent session={session} />;
+                return <RoleManagementSectionComponent session={ session } />;
             case "2-3":
 
-                return <IdpSectionComponent session={session} />;
+                return <IdpSectionComponent session={ session } />;
             case "3":
 
-                return <ManageDoctorsSection session={session} />;
+                return <ManageDoctorsSection session={ session } />;
             case "4":
 
-                return <DoctorProfileSection session={session} />;
+                return <DoctorProfileSection session={ session } />;
             case "5":
 
-                return <DoctorBookingsSection session={session} />;
+                return <DoctorBookingsSection session={ session } />;
             case "6":
 
-                return <PetsSection session={session} />;
+                return <PetsSection session={ session } />;
             case "7-1":
 
-                return <ChannelDoctorSection session={session} />;
+                return <ChannelDoctorSection session={ session } />;
             case "7-2":
 
-                return <BookingsInPetOwnerSection session={session} />;
+                return <BookingsInPetOwnerSection session={ session } />;
 
             case "8":
 
-                return <SettingsSection session={session} />;
+                return <SettingsSection session={ session } />;
             case "9":
 
                 return <GetStartedSectionComponentForDoctor  session={ session } />; 
@@ -135,45 +135,45 @@ export default function Home(props: HomeProps): JSX.Element {
     let homeComponent;
 
     if (session && session.group === "admin") {
-        homeComponent = < HomeComponentForAdmin
-            scope={session.scope}
-            sideNavData={sideNavDataForAdmin}
-            activeKeySideNav={activeKeySideNav}
-            activeKeySideNavSelect={activeKeySideNavSelect}
-            setSignOutModalOpen={setSignOutModalOpen}
-            logoComponent={<LogoComponent imageSize="small" name={name} white={true} />}>
+        homeComponent = (< HomeComponentForAdmin
+            scope={ session.scope }
+            sideNavData={ sideNavDataForAdmin }
+            activeKeySideNav={ activeKeySideNav }
+            activeKeySideNavSelect={ activeKeySideNavSelect }
+            setSignOutModalOpen={ setSignOutModalOpen }
+            logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
 
-            {mainPanelComponenet(activeKeySideNav)}
+            { mainPanelComponenet(activeKeySideNav) }
 
-        </HomeComponentForAdmin>;
+        </HomeComponentForAdmin>);
 
     } else if (session && session.group === "doctor") {
         homeComponent =
-            <HomeComponentForDoctor
-                scope={session.scope}
-                sideNavData={sideNavDataForDoctor}
-                activeKeySideNav={activeKeySideNav}
-                activeKeySideNavSelect={activeKeySideNavSelect}
-                setSignOutModalOpen={setSignOutModalOpen}
-                logoComponent={<LogoComponent imageSize="small" name={name} white={true} />}>
+            (<HomeComponentForDoctor
+                scope={ session.scope }
+                sideNavData={ sideNavDataForDoctor }
+                activeKeySideNav={ activeKeySideNav }
+                activeKeySideNavSelect={ activeKeySideNavSelect }
+                setSignOutModalOpen={ setSignOutModalOpen }
+                logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
 
-                {mainPanelComponenet(activeKeySideNav)}
+                { mainPanelComponenet(activeKeySideNav) }
 
-            </HomeComponentForDoctor>;
+            </HomeComponentForDoctor>);
     } else if (session && session.group === "petOwner") {
 
         homeComponent =
-            <HomeComponentForPetOwner
-                scope={session.scope}
-                sideNavData={sideNavDataForPetOwner}
-                activeKeySideNav={activeKeySideNav}
-                activeKeySideNavSelect={activeKeySideNavSelect}
-                setSignOutModalOpen={setSignOutModalOpen}
-                logoComponent={<LogoComponent imageSize="small" name={name} white={true} />}>
+            (<HomeComponentForPetOwner
+                scope={ session.scope }
+                sideNavData={ sideNavDataForPetOwner }
+                activeKeySideNav={ activeKeySideNav }
+                activeKeySideNavSelect={ activeKeySideNavSelect }
+                setSignOutModalOpen={ setSignOutModalOpen }
+                logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
 
-                {mainPanelComponenet(activeKeySideNav)}
+                { mainPanelComponenet(activeKeySideNav) }
 
-            </HomeComponentForPetOwner>;
+            </HomeComponentForPetOwner>);
 
     } else {
         homeComponent = <Custom500 />;
@@ -182,11 +182,11 @@ export default function Home(props: HomeProps): JSX.Element {
     return (
         <div>
             <SignOutComponent
-                open={signOutModalOpen}
-                onClose={signOutModalClose}
-                signOutCallback={signOutCallback} />
+                open={ signOutModalOpen }
+                onClose={ signOutModalClose }
+                signOutCallback={ signOutCallback } />
 
-            {homeComponent}
+            { homeComponent }
             <FooterComponent />
         </div>
     );
