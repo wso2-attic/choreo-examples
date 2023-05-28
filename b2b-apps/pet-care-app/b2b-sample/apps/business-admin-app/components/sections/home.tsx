@@ -186,63 +186,6 @@ export default function Home(props: HomeProps): JSX.Element {
                 onClose={signOutModalClose}
                 signOutCallback={signOutCallback} />
 
-            {/* {session && session.scope
-                ? (
-
-
-
-
-
-                    < HomeComponentForAdmin
-                        scope={session.scope}
-                        sideNavData={sideNavDataForAdmin}
-                        activeKeySideNav={activeKeySideNav}
-                        activeKeySideNavSelect={activeKeySideNavSelect}
-                        setSignOutModalOpen={setSignOutModalOpen}
-                        logoComponent={<LogoComponent imageSize="small" name={name} white={true} />}>
-
-                        {mainPanelComponenet(activeKeySideNav)}
-
-                    </HomeComponentForAdmin>
-
-                    // <HomeComponentForDoctor
-                    //     scope={ session.scope }
-                    //     sideNavData={ sideNavDataForDoctor }
-                    //     activeKeySideNav={ activeKeySideNav }
-                    //     activeKeySideNavSelect={ activeKeySideNavSelect }
-                    //     setSignOutModalOpen={ setSignOutModalOpen }
-                    //     logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
-
-                    //     { mainPanelComponenet(activeKeySideNav) }
-
-            //         </HomeComponentForAdmin>
-
-            <HomeComponentForDoctor
-                scope={ session.scope }
-                sideNavData={ sideNavDataForDoctor }
-                activeKeySideNav={ activeKeySideNav }
-                activeKeySideNavSelect={ activeKeySideNavSelect }
-                setSignOutModalOpen={ setSignOutModalOpen }
-                logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
-
-                { mainPanelComponenet(activeKeySideNav) }
-
-                    </HomeComponentForDoctor>
-                    // <HomeComponentForPetOwner
-                    //     scope={ session.scope }
-                    //     sideNavData={ sideNavDataForPetOwner }
-                    //     activeKeySideNav={ activeKeySideNav }
-                    //     activeKeySideNavSelect={ activeKeySideNavSelect }
-                    //     setSignOutModalOpen={ setSignOutModalOpen }
-                    //     logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
-
-                    //     { mainPanelComponenet(activeKeySideNav) }
-
-                    // </HomeComponentForPetOwner>
-                )
-                : <Custom500 />
-            } */}
-
             {homeComponent}
             <FooterComponent />
         </div>
