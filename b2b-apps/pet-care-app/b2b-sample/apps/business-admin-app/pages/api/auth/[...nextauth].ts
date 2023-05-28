@@ -70,9 +70,10 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
                 session.user = getLoggedUserFromProfile(token.user);
                 session.orgId = getOrgId(session.idToken);
                 session.orgName = getOrgName(session.idToken);
-                session.orginalIdToken = token.idToken;
+                session.orginalIdToken = token.idToken; 
 
                 const groupsList = token.user.groups;
+
                 if (groupsList == null) {
                     session.group = "petOwner";
                 } else if (groupsList.includes("doctor")) {
@@ -82,8 +83,8 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
                 } else {
                     session.group = "petOwner";
                 }
-
             }
+
             return session;
         }
 

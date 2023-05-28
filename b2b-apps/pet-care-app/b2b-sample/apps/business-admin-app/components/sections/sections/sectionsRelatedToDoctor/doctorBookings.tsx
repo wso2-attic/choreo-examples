@@ -17,6 +17,11 @@
  */
 
 import { Grid } from "@mui/material";
+import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { getDoctorBookings } from "apps/business-admin-app/APICalls/GetDoctorBookings/get-doc-bookings";
 import { getProfile } from "apps/business-admin-app/APICalls/GetProfileInfo/me";
 import { Booking } from "apps/business-admin-app/types/booking";
@@ -44,9 +49,11 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
     const { session } = props;
     const [ isBookingOverviewOpen, setIsBookingOverviewOpen ] = useState(false);
     const [ bookingList, setBookingList ] = useState<Booking[] | null>(null);
+    const [ filteredBookingList, setFilteredBookingList ] = useState<Booking[] | null>(null);
     const [ booking, setBooking ] = useState<Booking | null>(null);
     const[ doctor, setDoctor ] = useState<Doctor | null>(null);
     const router = useRouter();
+    const [ bookingDate, setBookingDate ] = useState("Today");
     
     async function getBookings() {
         const accessToken = session?.accessToken;
@@ -92,6 +99,12 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
         });
     };
 
+    const handleChange = (event: SelectChangeEvent) => {
+        setBookingDate(event.target.value as string);
+        const filteredBookings = filterBookings(event.target.value as string, bookingList);
+        setFilteredBookingList(filteredBookings);
+    };
+
     return (
         <div
             className={ styles.tableMainPanelDivDoc }
@@ -104,9 +117,25 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
                     <p>{ "Available Bookings for the doctor" }</p>
                 </Stack>
             </Stack>
+            <Box sx={ { minWidth: 120 } }>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Filter Bookings</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={ bookingDate }
+                        label="Filter Bookings"
+                        onChange={ handleChange }
+                    >
+                        <MenuItem value={ "Previous" }>Previous</MenuItem>
+                        <MenuItem value={ "Today" }>Today</MenuItem>
+                        <MenuItem value={ "Upcoming" }>Upcoming</MenuItem>
+                    </Select>
+                </FormControl>
+            </Box>
             <div>
                 <Grid container spacing={ 2 }>
-                    { bookingList && bookingList.map((booking) => ( 
+                    { filteredBookingList && filteredBookingList.map((booking) => ( 
                         <Grid
                             item
                             xs={ 4 }
@@ -126,3 +155,50 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
         </div>
     );
 }
+
+function filterBookings(option: string, bookings: Booking[]): Booking[] {
+    const today = new Date();
+    let filteredBookings: Booking[] = [];
+  
+    switch (option) {
+        case "Today":
+            filteredBookings = bookings.filter((booking) => {
+                const providedDate = new Date(booking.date);
+
+                return isSameDate(providedDate, today);
+            });
+
+            break;
+        case "Previous":
+            filteredBookings = bookings.filter((booking) => {
+                const providedDate = new Date(booking.date);
+
+                return providedDate < today;
+            });
+
+            break;
+        case "Upcoming":
+            filteredBookings = bookings.filter((booking) => {
+                const providedDate = new Date(booking.date);
+
+                return providedDate > today;
+            });
+
+            break;
+        default:
+            filteredBookings = bookings;
+
+            break;
+    }
+  
+    return filteredBookings;
+}
+  
+function isSameDate(date1: Date, date2: Date): boolean {
+    return (
+        date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+}
+  

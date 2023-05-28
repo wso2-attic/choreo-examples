@@ -148,10 +148,14 @@ function getOrgName(token: JWT): string {
 * @returns `User` get logged user from profile
 */
 function getLoggedUserFromProfile(profile: Profile): User | null {
+    console.log("profile>>>>>>>>>>>>>" + profile.family_name);
+    console.log("profile>>>>>>>>>>>>>" + profile.given_name);
+    console.log("profile>>>>>>>>>>>>>" + profile.email);
+    console.log("profile>>>>>>>>>>>>>" + profile.username);
 
     try {
 
-        if (!profile.family_name || !profile.given_name || !profile.email || !profile.username) {
+        if (!profile.family_name || !profile.given_name || !profile.email ) {
 
             return null;
         }
@@ -163,7 +167,7 @@ function getLoggedUserFromProfile(profile: Profile): User | null {
                 familyName: profile.family_name ? profile.family_name : "-",
                 givenName: profile.given_name ? profile.given_name : "-"
             },
-            userName: profile.username
+            userName: profile.username? profile.username:  "-"
         };
 
         return user;

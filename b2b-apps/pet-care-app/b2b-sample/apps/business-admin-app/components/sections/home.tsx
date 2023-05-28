@@ -69,8 +69,10 @@ export default function Home(props: HomeProps): JSX.Element {
 
     const { name, session } = props;
 
-    const [ activeKeySideNav, setActiveKeySideNav ] = useState("9");
+    const [ activeKeySideNav, setActiveKeySideNav ] = useState(session.group === "admin"? 
+        "10":(session.group === "doctor"?"9":"11"));
     const [ signOutModalOpen, setSignOutModalOpen ] = useState(false);
+
 
     const mainPanelComponenet = (activeKey): JSX.Element => {
         switch (activeKey) {

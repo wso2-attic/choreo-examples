@@ -18,13 +18,16 @@
 
 import { Grid } from "@mui/material";
 import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
+import { getPets } from "apps/business-admin-app/APICalls/getPetList/get-pets";
 import { Doctor } from "apps/business-admin-app/types/doctor";
+import { Pet } from "apps/business-admin-app/types/pets";
 import Chart from "chart.js/auto";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Button, Stack, useToaster } from "rsuite";
 import styles from "../../../../styles/Home.module.css";
+import "chartjs-plugin-datalabels";
 
 interface GetStartedSectionComponentForPetOwnerProps {
     session: Session
@@ -44,7 +47,30 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
     const [ isDoctorOverviewOpen, setIsDoctorOverviewOpen ] = useState(false);
     const [ doctor, setDoctor ] = useState<Doctor | null>(null);
     const [ isDoctorEditOpen, setIsDoctorEditOpen ] = useState(false);
+    const [ petList, setPetList ] = useState<Pet[] | null>(null);
     const router = useRouter();
+    const typesToFilter: string[] = [ "dog", "cat", "rabbit" ];
+    const [ filteredCount, setFilteredCount ] = useState<{ [key: string]: number }>({});
+
+    async function getPetList() {
+        const accessToken = session.accessToken;
+
+        getPets(accessToken)
+            .then((res) => {
+                if (res.data instanceof Array) {
+                    setPetList(res.data);
+                    setFilteredCount(filterAndCountPetsByType(res.data, typesToFilter));
+                }
+            })
+            .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.log(e);
+            });
+    }
+
+    useEffect(() => {
+        getPetList();
+    }, [ session ]);
 
     const DonutChart: React.FC = () => {
         const chartRef = useRef<HTMLCanvasElement>(null);
@@ -60,10 +86,22 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
                             labels: [ "Dogs", "Cats", "Rabbits", "Others" ],
                             datasets: [
                                 {
-                                    data: [ 10, 5, 15, 20 ],
+                                    data: [ filteredCount["dog"], 
+                                        filteredCount["cat"], 
+                                        filteredCount["rabbit"], 
+                                        petList?.length-
+                                    (filteredCount["dog"]+ filteredCount["cat"]+filteredCount["rabbit"]) ],
                                     backgroundColor: [ "blue", "green", "red", "yellow" ]
                                 }
                             ]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    position: "right", // Adjust the legend position to 'right'
+                                    align: "center" // Align the legend items to the end of the container
+                                }
+                            }
                         }
                     });
                 }
@@ -128,9 +166,16 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
             <Stack
                 direction="row"
                 justifyContent="space-between">
+                <div className={ styles. welcomeDiv }>
+                    {"Welcome, " + session.user?.name.givenName + " " + session.user?.name.familyName + "!"}
+                </div>
+            </Stack>
+            <Stack
+                direction="row"
+                justifyContent="space-between">
                 <div className={ styles.chartDivForDoc }>
                     <div className={ styles.bookingSummaryHeader }>
-                        Booking Summary
+                        Summary of pets
                     </div>
                     <div className={ styles.chartForBookingSummary }>
                         <div id="chartContainer">
@@ -138,7 +183,7 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
                         </div>
                     </div>
                     <div className={ styles.totalBookingCountHeader }>
-                        50
+                        { petList? petList.length: 0 }
                     </div>
                     <div className={ styles.totalBookingHeader } >
                         Total Pets
@@ -159,4 +204,16 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
             </Stack>
         </div>
     );
+}
+
+function filterAndCountPetsByType(pets: Pet[], types: string[]): { [key: string]: number } {
+    const filteredCounts: { [key: string]: number } = {};
+  
+    types.forEach((type) => {
+        const filteredPets = pets.filter((pet) => pet.breed.toLowerCase() === type);
+
+        filteredCounts[type] = filteredPets.length;
+    });
+  
+    return filteredCounts;
 }

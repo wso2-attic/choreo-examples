@@ -25,6 +25,9 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Button, Stack, useToaster } from "rsuite";
 import styles from "../../../../styles/Home.module.css";
+import { getProfile } from "apps/business-admin-app/APICalls/GetProfileInfo/me";
+import { getDoctorBookings } from "apps/business-admin-app/APICalls/GetDoctorBookings/get-doc-bookings";
+import { Booking } from "apps/business-admin-app/types/booking";
 
 interface GetStartedSectionComponentForDoctorProps {
     session: Session
@@ -44,7 +47,35 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
     const [ isDoctorOverviewOpen, setIsDoctorOverviewOpen ] = useState(false);
     const [ doctor, setDoctor ] = useState<Doctor | null>(null);
     const [ isDoctorEditOpen, setIsDoctorEditOpen ] = useState(false);
+    const [ bookingList, setBookingList ] = useState<Booking[] | null>(null);
     const router = useRouter();
+    const typesToFilter: string[] = [ "confirmed", "completed" ];
+    const [ filteredCount, setFilteredCount ] = useState<{ [key: string]: number }>({});
+
+    async function getBookings() {
+        const accessToken = session?.accessToken;
+
+        getProfile(accessToken)
+            .then(async (res) => {
+                if (res.data) {
+                    setDoctor(res.data);
+                }
+                const response = await getDoctorBookings(accessToken, res.data.id);
+
+                if (response.data instanceof Array) {
+                    setBookingList(response.data);
+                    setFilteredCount(filterAndCountBookingsByStatus(response.data, typesToFilter));
+                }
+            })
+            .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.log(e);
+            });
+    }
+
+    useEffect(() => {
+        getBookings();
+    }, [ session ]);
 
     const DonutChart: React.FC = () => {
         const chartRef = useRef<HTMLCanvasElement>(null);
@@ -60,10 +91,18 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                             labels: [ "Confirmed", "Completed" ],
                             datasets: [
                                 {
-                                    data: [ 40, 30 ],
+                                    data: [ filteredCount["confirmed"], filteredCount["completed"] ],
                                     backgroundColor: [ "blue", "green" ]
                                 }
                             ]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    position: "right", // Adjust the legend position to 'right'
+                                    align: "center" // Align the legend items to the end of the container
+                                }
+                            }
                         }
                     });
                 }
@@ -138,7 +177,7 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                         </div>
                     </div>
                     <div className={ styles.totalBookingCountHeader }>
-                        70
+                        { bookingList? bookingList.length: 0 }
                     </div>
                     <div className={ styles.totalBookingHeader } >
                         Total Bookings
@@ -159,4 +198,16 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
             </Stack>
         </div>
     );
+}
+
+function filterAndCountBookingsByStatus(bookings: Booking[], types: string[]): { [key: string]: number } {
+    const filteredCounts: { [key: string]: number } = {};
+  
+    types.forEach((type) => {
+        const filteredBookings = bookings.filter((booking) => booking.status.toLowerCase() === type);
+
+        filteredCounts[type] = filteredBookings.length;
+    });
+  
+    return filteredCounts;
 }

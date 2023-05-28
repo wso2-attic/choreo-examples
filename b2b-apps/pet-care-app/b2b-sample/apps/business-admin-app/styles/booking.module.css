@@ -181,17 +181,16 @@
 }
 
 .bookingIcon {
-    position: absolute;
     width: 5vh;
     height: 5vh;
-    margin-top: 2vh;
+    margin-top: 2.5vh;
     margin-left: 0.5vw;
 }
 
 .bookingSummary {
     width: 18vw;
     margin-left: 4vw;
-    margin-top: 2vh;
+    margin-top: -7vh;
     text-align: left;
 }
 

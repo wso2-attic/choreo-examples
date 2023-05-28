@@ -66,7 +66,6 @@ export default function ManageDoctorsSection(props: ManageDoctorsSectionProps) {
 
     useEffect(() => {
         getDoctorList();
-        console.log(session);
     }, [ session, isAddDoctorOpen, isDoctorEditOpen ]);
 
     useEffect(() => {

@@ -44,7 +44,29 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
     const [ isDoctorOverviewOpen, setIsDoctorOverviewOpen ] = useState(false);
     const [ doctor, setDoctor ] = useState<Doctor | null>(null);
     const [ isDoctorEditOpen, setIsDoctorEditOpen ] = useState(false);
+    const typesToFilter: string[] = [ "cardiology", "neurology", "oncology", "nutrition" ];
+    const [ filteredCount, setFilteredCount ] = useState<{ [key: string]: number }>({});
     const router = useRouter();
+
+    async function getDoctorList() {
+        const accessToken = session.accessToken;
+
+        getDoctors(accessToken)
+            .then((res) => {
+                if (res.data instanceof Array) {
+                    setDoctorList(res.data);
+                    setFilteredCount(filterAndCountDoctorsBySpecialty(res.data, typesToFilter));
+                }
+            })
+            .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.log(e);
+            });
+    }
+
+    useEffect(() => {
+        getDoctorList();
+    }, [ session ]);
 
     const DonutChart: React.FC = () => {
         const chartRef = useRef<HTMLCanvasElement>(null);
@@ -57,13 +79,30 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                     new Chart(ctx, {
                         type: "doughnut",
                         data: {
-                            labels: [ "Cardiology", "Neurology", "Oncology", "Nutrition" ],
+                            labels: [ "Cardiology", "Neurology", "Oncology", "Nutrition", "Other" ],
                             datasets: [
                                 {
-                                    data: [ 10, 5, 15, 20 ],
-                                    backgroundColor: [ "blue", "green", "red", "yellow" ]
+                                    data: [ filteredCount["cardiology"], 
+                                        filteredCount["neurology"], 
+                                        filteredCount["oncology"], 
+                                        filteredCount["nutrition"],
+                                        doctorList?.length - (filteredCount["cardiology"]+ 
+                                        filteredCount["neurology"] + 
+                                        filteredCount["oncology"] + 
+                                        filteredCount["nutrition"])
+
+                                    ],
+                                    backgroundColor: [ "blue", "green", "red", "yellow", "purple" ]
                                 }
                             ]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    position: "right", // Adjust the legend position to 'right'
+                                    align: "center" // Align the legend items to the end of the container
+                                }
+                            }
                         }
                     });
                 }
@@ -138,7 +177,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                         </div>
                     </div>
                     <div className={ styles.totalBookingCountHeader }>
-                        50
+                        { doctorList? doctorList.length:0 }
                     </div>
                     <div className={ styles.totalBookingHeader } >
                         Total Doctors
@@ -159,4 +198,16 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
             </Stack>
         </div>
     );
+}
+
+function filterAndCountDoctorsBySpecialty(doctors: Doctor[], types: string[]): { [key: string]: number } {
+    const filteredCounts: { [key: string]: number } = {};
+  
+    types.forEach((type) => {
+        const filteredBookings = doctors.filter((doctor) => doctor.specialty.toLowerCase() === type);
+
+        filteredCounts[type] = filteredBookings.length;
+    });
+  
+    return filteredCounts;
 }

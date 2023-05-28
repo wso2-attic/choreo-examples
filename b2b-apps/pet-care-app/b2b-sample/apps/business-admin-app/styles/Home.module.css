@@ -166,3 +166,9 @@
     height: 50vh;
 }
 
+.welcomeDiv {
+    margin-top: 5vh;
+    font-weight: bold;
+    font-size: 3vh;
+}
+
