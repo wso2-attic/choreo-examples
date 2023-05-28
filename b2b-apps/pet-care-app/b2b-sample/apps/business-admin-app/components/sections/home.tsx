@@ -38,14 +38,14 @@ import sideNavDataForAdmin
     from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNavDataForAdmin.json";
 import sideNavDataForDoctor
     from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNavDataForDoctor.json";
-import sideNavDataForPetOwner 
+import sideNavDataForPetOwner
     from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNavDataForPetOwner.json";
 
 import HomeComponentForAdmin
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForAdmin";
 import HomeComponentForDoctor
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForDoctor";
-import HomeComponentForPetOwner  
+import HomeComponentForPetOwner
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForPetOwner";
 
 import Custom500 from "../../pages/500";
@@ -103,11 +103,11 @@ export default function Home(props: HomeProps): JSX.Element {
                 return <ChannelDoctorSection session={session} />;
             case "7-2":
 
-                return <BookingsInPetOwnerSection  session={ session } />;
+                return <BookingsInPetOwnerSection session={session} />;
 
             case "8":
 
-                return <SettingsSection  session={ session } />; 
+                return <SettingsSection session={session} />;
             case "9":
 
                 return <GetStartedSectionComponentForDoctor  session={ session } />; 
@@ -146,7 +146,8 @@ export default function Home(props: HomeProps): JSX.Element {
             {mainPanelComponenet(activeKeySideNav)}
 
         </HomeComponentForAdmin>;
-    } else if(session && session.group === "doctor") {
+
+    } else if (session && session.group === "doctor") {
         homeComponent =
             <HomeComponentForDoctor
                 scope={session.scope}
@@ -159,7 +160,7 @@ export default function Home(props: HomeProps): JSX.Element {
                 {mainPanelComponenet(activeKeySideNav)}
 
             </HomeComponentForDoctor>;
-    } else if(session && session.group === "petOwner") {
+    } else if (session && session.group === "petOwner") {
 
         homeComponent =
             <HomeComponentForPetOwner
@@ -177,8 +178,6 @@ export default function Home(props: HomeProps): JSX.Element {
     } else {
         homeComponent = <Custom500 />;
     }
-
-
 
     return (
         <div>
@@ -218,35 +217,34 @@ export default function Home(props: HomeProps): JSX.Element {
 
             //         </HomeComponentForAdmin>
 
-            // <HomeComponentForDoctor
-            //     scope={ session.scope }
-            //     sideNavData={ sideNavDataForDoctor }
-            //     activeKeySideNav={ activeKeySideNav }
-            //     activeKeySideNavSelect={ activeKeySideNavSelect }
-            //     setSignOutModalOpen={ setSignOutModalOpen }
-            //     logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
+            <HomeComponentForDoctor
+                scope={ session.scope }
+                sideNavData={ sideNavDataForDoctor }
+                activeKeySideNav={ activeKeySideNav }
+                activeKeySideNavSelect={ activeKeySideNavSelect }
+                setSignOutModalOpen={ setSignOutModalOpen }
+                logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
 
-            //     { mainPanelComponenet(activeKeySideNav) }
+                { mainPanelComponenet(activeKeySideNav) }
 
-            //         </HomeComponentForDoctor>
-                    <HomeComponentForPetOwner
-                        scope={ session.scope }
-                        sideNavData={ sideNavDataForPetOwner }
-                        activeKeySideNav={ activeKeySideNav }
-                        activeKeySideNavSelect={ activeKeySideNavSelect }
-                        setSignOutModalOpen={ setSignOutModalOpen }
-                        logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
+                    </HomeComponentForDoctor>
+                    // <HomeComponentForPetOwner
+                    //     scope={ session.scope }
+                    //     sideNavData={ sideNavDataForPetOwner }
+                    //     activeKeySideNav={ activeKeySideNav }
+                    //     activeKeySideNavSelect={ activeKeySideNavSelect }
+                    //     setSignOutModalOpen={ setSignOutModalOpen }
+                    //     logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
 
-                        { mainPanelComponenet(activeKeySideNav) }
+                    //     { mainPanelComponenet(activeKeySideNav) }
 
-                    </HomeComponentForPetOwner>
+                    // </HomeComponentForPetOwner>
                 )
                 : <Custom500 />
             } */}
 
             {homeComponent}
-
             <FooterComponent />
-        </div >
+        </div>
     );
 }
