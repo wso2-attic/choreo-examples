@@ -29,6 +29,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button, Message, Modal } from "rsuite";
 import PET_IMAGE from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/thumbnail.png";
 import styles from "../../../../styles/doctor.module.css";
+import FileUploadSingle from "./imageUploader";
 
 
 interface EditPetComponentProps {
@@ -324,6 +325,14 @@ export default function EditPetComponent(props: EditPetComponentProps) {
 
                         ) }
                     </div>
+                    <div className={ styles.updateDocImageDiv }>
+                        Update Pet Image
+                    </div>
+                    <FileUploadSingle  
+                        session={ session }
+                        petId={ pet?.id } 
+                        imageUrl={ url } 
+                        setImageUrl={ setUrl } />
                 </div>
             </Modal.Body>
             <Modal.Footer>

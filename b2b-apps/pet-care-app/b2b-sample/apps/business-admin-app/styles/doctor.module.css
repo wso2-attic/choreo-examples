@@ -357,7 +357,7 @@
     font-weight: bold;
     position: absolute;
     left: 0vw;
-    top: 20vh;
+    top: 2vh;
 }
 
 .addUserMainDiv {
@@ -366,6 +366,15 @@
     flex-direction: column;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.petOverviewMainDiv {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    min-height: 40vh;
 }
 
 .editMedicalReportMainDiv {

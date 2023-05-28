@@ -18,11 +18,14 @@
 
 import { Grid, Switch } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
+import { postNotification } from "apps/business-admin-app/APICalls/Notifications/post-notification";
+import { Notifications } from "apps/business-admin-app/types/pets";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Button, Stack, useToaster } from "rsuite";
 import styles from "../../../../styles/doctor.module.css";
+import { getNotification } from "apps/business-admin-app/APICalls/Notifications/get-notification";
 
 interface SettingsSectionProps {
     session: Session
@@ -52,8 +55,39 @@ export default function SettingsSection(props: SettingsSectionProps) {
         }
     }));
 
+    const getSettings = () => {
+        async function getNotifications() {
+            const accessToken = session.accessToken;
+            const response = await getNotification(accessToken);
+
+            if (response) {
+                setEnabled(response.data.notifications.enabled);
+                setEmail(response.data.notifications.emailAddress);
+            }
+        }
+        getNotifications();
+    };
+
     const toggleSwitch = () => {
         setEnabled(!enabled);
+    };
+
+    useEffect(() => {
+        getSettings();
+    }, [ session ]);
+
+    const handleSave = () => {
+        async function setNotification() {
+            const accessToken = session.accessToken;
+            const payload: Notifications = {
+                notifications: {
+                    enabled: enabled,
+                    emailAddress: email
+                }
+            };
+            const response = await postNotification(accessToken, payload);
+        }
+        setNotification();
     };
 
 
@@ -101,7 +135,9 @@ export default function SettingsSection(props: SettingsSectionProps) {
                     </Grid>
                 </div>
                 <div className={ styles.container }>
-                    <button className={ styles.settingsSaveBtn }>Save</button>
+                    <button 
+                        className={ styles.settingsSaveBtn } 
+                        onClick={ handleSave }>Save</button>
                 </div>
             </div>
         </div>

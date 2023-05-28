@@ -176,14 +176,21 @@ export default function AddBookings(props: AddBookingsProps) {
     };
 
     return (
-        <Modal backdrop="static" role="alertdialog" open={ isOpen } onClose={ handleDialogClose } size="sm">
+        <Modal 
+            backdrop="static" 
+            role="alertdialog" 
+            open={ isOpen } 
+            onClose={ handleDialogClose } 
+            size="sm"
+            className={ styles.doctorOverviewMainDiv }
+        >
 
             <Modal.Header>
                 <ModelHeaderComponent title="Channel a Doctor" />
             </Modal.Header>
 
             <Modal.Body style={ { overflow:"hidden" } }>
-                <div className={ styles.addUserMainDiv }>
+                <div className={ styles.channelDocMainDiv }>
 
                     <div className={ styles.addBookingFormDiv }>
                         { activeStep === 0 && (

@@ -48,7 +48,7 @@ export interface updatePetInfo {
     vaccinations: VaccineInfo[];
   } 
 
-export interface Notification {
+export interface Notifications {
     notifications: NotificationInfo;
   }
 
@@ -76,4 +76,4 @@ export interface Medicine {
     dosage: string;
     drugName: string;
     duration: string;
-  }
+  } 

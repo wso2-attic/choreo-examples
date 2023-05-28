@@ -35,6 +35,16 @@
     height: 50vh;
 }
 
+.channelDocMainDiv {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100vw;
+    height: 50vh;
+}
+
 .chooseTimeHeader {
     font-weight: bold;
     font-size: 3vh;
@@ -102,7 +112,7 @@
     font-size: 2vh;
     text-align: center;
     text-decoration: none;
-    width: 20vw;
+    width: 19vw;
     height: 20vh;
     cursor: pointer;
     -webkit-text-size-adjust: none;
@@ -448,4 +458,10 @@
 .medicalReportInfolabel {
     font-size: 2vh;
     height: 9vh;
+}
+
+.doctorOverviewMainDiv {
+    width: 50vw;
+    height: 80vh;
+    min-height: 50vh;
 }

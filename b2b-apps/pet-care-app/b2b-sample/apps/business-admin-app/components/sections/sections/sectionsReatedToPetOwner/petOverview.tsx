@@ -119,7 +119,7 @@ export default function PetOverview(props: PetOverviewProps) {
             </Modal.Header>
 
             <Modal.Body>
-                <div className={ styles.addUserMainDiv }>
+                <div className={ styles.petOverviewMainDiv }>
                     <div className={ styles.basicInfoDiv }>
                         <Grid container spacing={ 2 }>
                             <Grid item xs={ 6 }>

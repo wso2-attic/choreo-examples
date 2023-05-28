@@ -2,7 +2,7 @@
     "items": [
         {
             "title": "Dashboard",
-            "eventKey": "1",
+            "eventKey": "10",
             "icon": "DashboardIcon",
             "type": "menu"
         },
