@@ -62,7 +62,15 @@ export interface MedicalReport {
     diagnosis: string;
     medications: Medicine[];
     treatment: string;
-  }
+    createdAt: string;
+    reportId: string;
+  }  
+
+export interface UpdateMedicalReport {
+    diagnosis: string;
+    medications: Medicine[];
+    treatment: string;
+  }  
 
 export interface Medicine {
     dosage: string;

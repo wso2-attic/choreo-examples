@@ -1,7 +1,7 @@
 /**
- * Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.
  *
- * WSO2 Inc. licenses this file to you under the Apache License,
+ * WSO2 LLC. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,17 +16,18 @@
  * under the License.
  */
 
-import { updatePetInfo } from "../../types/pet";
+import { updatePetInfo } from "apps/business-admin-app/types/pets";
 import { getPetInstance } from "../CreatePet/instance";
 
 export async function updatePet(accessToken: string, petId: string, payload?: updatePetInfo) {
     const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
-      const path = "/pets/" + petId;
-      const response = await getPetInstance().put(path, payload, {
-        headers: headers,
-      });
-      return response;
+        Authorization: `Bearer ${accessToken}`
+    };
+    const path = "/pets/" + petId;
+    const response = await getPetInstance().put(path, payload, {
+        headers: headers
+    });
+
+    return response;
 
 }

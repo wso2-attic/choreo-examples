@@ -15,15 +15,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { getDoctorInstance } from "../getDoctors/doctorInstance";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function dateConverter(isoDateString: string): string {
+    const date = new Date(isoDateString);
+    const localDateString = date.toLocaleDateString();
 
-export async function deleteBooking(accessToken: string, bookingId: string) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
-    const response = await getDoctorInstance().delete("/bookings/" + bookingId, {
-        headers: headers
-    });
-
-    return response;
+    return localDateString;
+  
+   
 }

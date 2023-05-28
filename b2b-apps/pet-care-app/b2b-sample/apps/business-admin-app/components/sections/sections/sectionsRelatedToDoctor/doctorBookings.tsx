@@ -17,10 +17,13 @@
  */
 
 import { Grid } from "@mui/material";
+import { getDoctorBookings } from "apps/business-admin-app/APICalls/GetDoctorBookings/get-doc-bookings";
+import { getProfile } from "apps/business-admin-app/APICalls/GetProfileInfo/me";
 import { Booking } from "apps/business-admin-app/types/booking";
+import { Doctor } from "apps/business-admin-app/types/doctor";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Stack } from "rsuite";
 import styles from "../../../../styles/doctor.module.css";
@@ -42,29 +45,51 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
     const [ isBookingOverviewOpen, setIsBookingOverviewOpen ] = useState(false);
     const [ bookingList, setBookingList ] = useState<Booking[] | null>(null);
     const [ booking, setBooking ] = useState<Booking | null>(null);
+    const[ doctor, setDoctor ] = useState<Doctor | null>(null);
     const router = useRouter();
+    
+    async function getBookings() {
+        const accessToken = session?.accessToken;
 
-    const docBooking:Booking = {
-        id: "01edf483-f795-13fe-bf68-355a15c1f810",
-        org: "1db36e94-3106-436d-b28e-065f5668d01e",
-        emailAddress: "david@gmail.com",
-        createdAt: "2023-05-17T07:25:15.594312Z",
-        petOwnerName: "shalki",
-        mobileNumber: "0713030303",
-        doctorId: "01edf3f4-295e-1c5e-8c0d-39f82a220cf6",
-        petId: "01edf3f3-f3b9-1dce-b36b-7f96d533c626",
-        petName: "Shadow",
-        petType: "Dog",
-        petDoB: "2023-05-12",
-        status: "Confirmed",
-        date: "2023-05-05",
-        sessionStartTime: "14:55",
-        sessionEndTime: "14:55",
-        appointmentNumber: 2
-    };
+        getProfile(accessToken)
+            .then(async (res) => {
+                if (res.data) {
+                    setDoctor(res.data);
+                }
+                const response = await getDoctorBookings(accessToken, res.data.id);
 
-    const handleClick = () => {
-        router.push("/test");
+                if (response.data instanceof Array) {
+                    setBookingList(response.data);
+                }
+            })
+            .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.log(e);
+            });
+    }
+
+    useEffect(() => {
+        getBookings();
+    }, [ session ]);
+
+    const handleClick = (booking:Booking) => {
+        router.push({
+            pathname: "/bookingDetails",
+            query: { 
+                appointmentNumber: booking.appointmentNumber,
+                date: booking.date,
+                doctorId: booking.doctorId,
+                emailAddress: booking.emailAddress,
+                id: booking.id,
+                mobileNumber: booking.mobileNumber,
+                petId: booking.petId, 
+                petOwnerName: booking.petOwnerName,
+                sessionEndTime: booking.sessionEndTime,
+                sessionStartTime: booking.sessionStartTime,
+                status: booking.status,
+                token: session?.accessToken
+            }
+        });
     };
 
     return (
@@ -81,17 +106,20 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
             </Stack>
             <div>
                 <Grid container spacing={ 2 }>
-                    { /* { bookingList && bookingList.map((booking) => ( */ }
-                    <Grid
-                        item
-                        xs={ 4 }
-                        sm={ 4 }
-                        md={ 4 }
-                        // key={ booking.id }
-                        onClick={ () => { setIsBookingOverviewOpen(true); setBooking(booking); handleClick();} }>
-                        <BookingCard booking={ docBooking } isBookingCardOpen={ isBookingOverviewOpen } />
-                    </Grid>
-                    { /* )) } */ }
+                    { bookingList && bookingList.map((booking) => ( 
+                        <Grid
+                            item
+                            xs={ 4 }
+                            sm={ 4 }
+                            md={ 4 }
+                            key={ booking.id }
+                            onClick={ () => { 
+                                setIsBookingOverviewOpen(true); 
+                                setBooking(booking); 
+                                handleClick(booking);} }>
+                            <BookingCard booking={ booking } isBookingCardOpen={ isBookingOverviewOpen } />
+                        </Grid>
+                    )) }
                 </Grid>
             </div>
 

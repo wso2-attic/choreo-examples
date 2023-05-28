@@ -15,13 +15,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { getDoctorInstance } from "../getDoctors/doctorInstance";
+import { getPetInstance } from "../CreatePet/instance";
 
-export async function deleteBooking(accessToken: string, bookingId: string) {
+export async function deleteMedicalReport(accessToken: string, petId: string, reportId: string) {
     const headers = {
         Authorization: `Bearer ${accessToken}`
     };
-    const response = await getDoctorInstance().delete("/bookings/" + bookingId, {
+    const response = await getPetInstance().delete("/pets/" + petId + "/medical-reports/" + reportId, {
         headers: headers
     });
 

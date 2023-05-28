@@ -244,7 +244,7 @@ export default function AddBookings(props: AddBookingsProps) {
                                         <label
                                             style={ { fontSize: "2.5vh", 
                                                 fontWeight: "normal" } }>
-                                                    Mobile Number
+                                            { "Mobile Number (Optional)" }
                                         </label>
                                     </div>
                                     <input

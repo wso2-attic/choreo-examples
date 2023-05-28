@@ -15,15 +15,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
-export async function deleteBooking(accessToken: string, bookingId: string) {
+import { UpdateMedicalReport } from "apps/business-admin-app/types/pets";
+import { getPetInstance } from "../CreatePet/instance";
+
+export async function updateMedicalReport
+(accessToken: string, petId: string, reportId: string, payload?: UpdateMedicalReport) {
     const headers = {
         Authorization: `Bearer ${accessToken}`
     };
-    const response = await getDoctorInstance().delete("/bookings/" + bookingId, {
+    const path = "/pets/" + petId + "/medical-reports/" + reportId;
+    const response = await getPetInstance().put(path, payload, {
         headers: headers
     });
 
     return response;
+
 }

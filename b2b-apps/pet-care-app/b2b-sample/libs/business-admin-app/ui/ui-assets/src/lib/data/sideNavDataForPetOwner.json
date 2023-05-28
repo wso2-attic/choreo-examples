@@ -58,6 +58,12 @@
                     ]
                 }
             ]
+        },
+        {
+            "title": "Settings",
+            "eventKey": "8",
+            "icon": "GearCircleIcon",
+            "type": "menu"
         }
     ]
 }

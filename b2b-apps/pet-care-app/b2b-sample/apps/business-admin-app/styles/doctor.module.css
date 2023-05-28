@@ -61,6 +61,7 @@
 .doctorOverviewMainDiv {
     width: 70vw;
     height: 80vh;
+    min-height: 50vh;
     /* overflow: hidden; */
 } 
 
@@ -116,6 +117,17 @@
     font-size: 2.5vh;
     color: black;
     top: 50vh;
+}
+
+.medicineHeaderInReport {
+    width: 20vw;
+    /* position: absolute; */
+    left: 0vw;
+    text-align: left;
+    font-weight: bold;
+    font-size: 2.3vh;
+    color: rgb(82, 82, 82);
+    /* top: 35vh; */
 }
 
 .noAvailabilityInfoDiv {
@@ -322,7 +334,7 @@
 
 .docProfileInfoDiv {
     position: absolute;
-    width: 40vw;
+    width: 45vw;
     margin-top: 25vh;
     margin-left: 25vw;
     padding: 1vw;
@@ -356,6 +368,14 @@
     margin-bottom: 10px;
 }
 
+.editMedicalReportMainDiv {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    min-height: 40vh;
+}
 .vaccinationHeaderInOverview {
     width: 20vw;
     position: absolute;
@@ -423,4 +443,100 @@
     position: absolute;
     left: 23vw;
     top: 50vh;
+}
+
+.medicineInfoGrid {
+    width: 40vw;
+    left: 2vw;
+    padding-top: 3vh;
+}
+
+.medicineInputStyle {
+    width: 10vw;
+    font-size: 1.5vh;
+    padding: 1vh;
+    margin-right: 1vw;
+}
+
+.medicinePlusButtonStyle {
+    height: 5vh;
+    width: 5vh;
+    background-color: #4e40ed; 
+    border: none;
+    border-radius: 1vh;
+    color: white;
+    font-weight: bolder;
+    font-size: 2vh;
+}
+
+.medicalReportCard {
+    background-color: #e0dfdf;
+    padding: 2vh;
+    margin-bottom: 2vh;
+    width: 40vw;
+    overflow-y: auto;
+}
+
+.medicationTable {
+    background-color: #ededed;
+    margin-top:2vh;
+}
+
+.trashIcon {
+    width: 100%;
+    height: 3vw;
+    padding-top: 2vh;
+    padding-left: 36vw;
+    position: relative;
+    right: 0px; bottom: 0px;
+}
+
+.trashButton {
+    height: 4vh;
+    width: 4vh;
+    background-color: #ffffff;
+    border-radius: 1vh;
+}
+
+.notificationDiv {
+    background-color: #ffffff;
+    height: 40vh;
+    width: 50vw;
+    border-radius: 1vh;
+}
+
+.notificationHeader {
+    padding-left: 3vh;
+    padding-top: 2vh;
+    font-size: 2.5vh;
+    font-weight: bold;
+}
+
+.settingsGrid {
+    margin-top: 5vh;
+}
+
+.container {
+    position: relative;
+    background-color: #f09090;
+}
+
+.settingsSaveBtn {
+    background-color: #4e40ed;  
+    color: white;
+    border: none;
+    width: 7vw;
+    height: 5vh;
+    border-radius: 5px;
+    position: absolute;
+    bottom: -13vh;
+    right: 2vw;
+    font-size: 2vh;
+}
+
+.settingsEmailInputStyle {
+    width: 15vw;
+    height: 2vh;
+    font-size: 2vh;
+    padding: 2vh;
 }

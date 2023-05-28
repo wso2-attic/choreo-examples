@@ -19,12 +19,14 @@
 import { LogoComponent } from "@b2bsample/business-admin-app/ui/ui-components";
 import { signout } from "@b2bsample/business-admin-app/util/util-authorization-config-util";
 import { FooterComponent, HomeComponent, SignOutComponent } from "@b2bsample/shared/ui/ui-components";
+import DoctorBookingsSection from "apps/business-admin-app/components/sections/sections/sectionsRelatedToDoctor/doctorBookings";
 import { Session } from "next-auth";
 import React, { useState } from "react";
 import "rsuite/dist/rsuite.min.css";
 import GetStartedSectionComponent from "./sections/getStartedSection/getStartedSectionComponent";
 import PetsSection from "./sections/sectionsReatedToPetOwner/petsPage";
-import DoctorBookingsSection from "./sections/sectionsRelatedToDoctor/doctorBookings";
+import BookingsInPetOwnerSection from "./sections/sectionsRelatedToBookings/bookingsInPetOwnerView";
+import ChannelDoctorSection from "./sections/sectionsRelatedToBookings/channelDocSection";
 import DoctorProfileSection from "./sections/sectionsRelatedToDoctor/doctorProfile";
 import ManageDoctorsSection from "./sections/sectionsRelatedToDoctor/manageDoctors";
 import IdpSectionComponent from "./sections/settingsSection/idpSection/idpSectionComponent";
@@ -36,19 +38,18 @@ import sideNavDataForAdmin
     from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNavDataForAdmin.json";
 import sideNavDataForDoctor 
     from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNavDataForDoctor.json";
-    import sideNavDataForPetOwner 
+import sideNavDataForPetOwner 
     from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNavDataForPetOwner.json";
 
 import HomeComponentForAdmin  
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForAdmin";
 import HomeComponentForDoctor  
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForDoctor";
-    import HomeComponentForPetOwner  
+import HomeComponentForPetOwner  
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForPetOwner";
 
 import Custom500 from "../../pages/500";
-import ChannelDoctorSection from "./sections/sectionsRelatedToBookings/channelDocSection";
-import BookingsInPetOwnerSection from "./sections/sectionsRelatedToBookings/bookingsInPetOwnerView";
+import SettingsSection from "./sections/sectionsReatedToPetOwner/settings";
 
 interface HomeProps {
     name : string,
@@ -99,7 +100,11 @@ export default function Home(props: HomeProps) : JSX.Element {
                 return <ChannelDoctorSection  session={ session } />;
             case "7-2":
 
-                return <BookingsInPetOwnerSection  session={ session } />;     
+                return <BookingsInPetOwnerSection  session={ session } />;
+
+            case "8":
+
+                return <SettingsSection  session={ session } />;    
                 
         }
     };
@@ -149,15 +154,15 @@ export default function Home(props: HomeProps) : JSX.Element {
 
             //         </HomeComponentForAdmin>
 
-                    <HomeComponentForDoctor
-                        scope={ session.scope }
-                        sideNavData={ sideNavDataForDoctor }
-                        activeKeySideNav={ activeKeySideNav }
-                        activeKeySideNavSelect={ activeKeySideNavSelect }
-                        setSignOutModalOpen={ setSignOutModalOpen }
-                        logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
+            <HomeComponentForDoctor
+                scope={ session.scope }
+                sideNavData={ sideNavDataForDoctor }
+                activeKeySideNav={ activeKeySideNav }
+                activeKeySideNavSelect={ activeKeySideNavSelect }
+                setSignOutModalOpen={ setSignOutModalOpen }
+                logoComponent={ <LogoComponent imageSize="small" name={ name } white={ true } /> }>
 
-                        { mainPanelComponenet(activeKeySideNav) }
+                { mainPanelComponenet(activeKeySideNav) }
 
                     </HomeComponentForDoctor>
                     // <HomeComponentForPetOwner

@@ -1,7 +1,7 @@
 /**
- * Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.
  *
- * WSO2 Inc. licenses this file to you under the Apache License,
+ * WSO2 LLC. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,20 +17,21 @@
  */
 
 import { AxiosResponse } from "axios";
-import { MedicalReport } from "../../types/pet";
 import { getPetInstance } from "../CreatePet/instance";
+import { MedicalReport } from "apps/business-admin-app/types/pets";
 
 function timeout(delay: number) {
-  return new Promise( res => setTimeout(res, delay) );
+    return new Promise( res => setTimeout(res, delay) );
 }
 
 export async function getMedicalReport(accessToken: string, petId: string) {
     const headers = {
-      Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`
     };
     // await timeout(1000);
     const response = await getPetInstance().get("/pets/" + petId + "/medical-reports", {
-      headers: headers,
+        headers: headers
     });
+
     return response as AxiosResponse<MedicalReport[]>;
-  }
+}

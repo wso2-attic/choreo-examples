@@ -19,7 +19,6 @@
 export default function convertTo12HourTime(cssTime: string): string {
     // Split the CSS time into hours and minutes
     const [ hours, minutes ] = cssTime.split(":");
-    console.log(cssTime);
   
     // Create a new Date object and set the hours and minutes
     const date = new Date();
@@ -33,8 +32,6 @@ export default function convertTo12HourTime(cssTime: string): string {
         minute: "numeric",
         hour12: true
     });
-
-    console.log(formattedTime);
   
     return formattedTime;
 }

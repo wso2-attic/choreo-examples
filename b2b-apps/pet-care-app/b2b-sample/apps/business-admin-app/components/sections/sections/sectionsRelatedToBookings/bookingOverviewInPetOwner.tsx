@@ -45,6 +45,7 @@ import { Session } from "next-auth";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "rsuite";
+import dateConverter from "./dateConverter";
 import styles from "../../../../styles/booking.module.css";
 
 
@@ -93,102 +94,103 @@ export default function BookingOverviewInPetOwnerView(props: BookingOverviewInPe
                     <div className={ styles.basicInfoDiv }>
                         <Grid container spacing={ 2 }>
                             <Grid item xs={ 6 }>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Appointment Number</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Date</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Doctor ID</p>
                                 </Typography>
-                                { booking.mobileNumber && (
-                                    <Typography className="typography-style">
+                                { booking?.mobileNumber && (
+                                    <Typography>
                                         <p className={ styles.bookingOverviewFont }>Mobile Number</p>
                                     </Typography>
                                 ) }
-                                <Typography className="typography-style">
-                                    <p className={ styles.bookingOverviewFont }>Pet's Date of Birth</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ "Pet's Date of Birth" }</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Pet ID</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Pet Name</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Pet Owner Name</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Pet Type</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Session Start Time</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Session End Time</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Status</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Created At</p>
                                 </Typography>
-                                <Typography className="typography-style">
+                                <Typography>
                                     <p className={ styles.bookingOverviewFont }>Email Address</p>
                                 </Typography>
                             </Grid>
                             <Grid item xs={ 6 }>
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.appointmentNumber }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.appointmentNumber }</p>
                                 </Typography>
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.date }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.date }</p>
                                 </Typography>
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.doctorId }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.doctorId }</p>
                                 </Typography>
-                                { booking.mobileNumber && (
-                                    <Typography className="typography-style-doc-overview">
-                                        <p className={ styles.bookingOverviewFont }>{ booking.mobileNumber }</p>
+                                { booking?.mobileNumber && (
+                                    <Typography>
+                                        <p className={ styles.bookingOverviewFont }>{ booking?.mobileNumber }</p>
                                     </Typography>
                                 ) }
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.petDoB }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.petDoB }</p>
                                 </Typography>
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.petId }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.petId }</p>
                                 </Typography>
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.petName }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.petName }</p>
                                 </Typography>
-                                { booking.petOwnerName === ""? (
-                                    <Typography className="typography-style-doc-overview">
+                                { booking?.petOwnerName === ""? (
+                                    <Typography>
                                         <p className={ styles.bookingOverviewFont }>{ " - " }</p>
                                     </Typography>
                                     
                                 ):(
-                                    <Typography className="typography-style-doc-overview">
-                                        <p className={ styles.bookingOverviewFont }>{ booking.petOwnerName }</p>
+                                    <Typography>
+                                        <p className={ styles.bookingOverviewFont }>{ booking?.petOwnerName }</p>
                                     </Typography>
                                 ) }
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.petType }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.petType }</p>
                                 </Typography>
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.sessionStartTime }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.sessionStartTime }</p>
                                 </Typography>
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.sessionEndTime }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.sessionEndTime }</p>
                                 </Typography>
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.status }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.status }</p>
                                 </Typography>
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.createdAt }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>
+                                        { dateConverter(booking?.createdAt) }</p>
                                 </Typography>
-                                <Typography className="typography-style-doc-overview">
-                                    <p className={ styles.bookingOverviewFont }>{ booking.emailAddress }</p>
+                                <Typography>
+                                    <p className={ styles.bookingOverviewFont }>{ booking?.emailAddress }</p>
                                 </Typography>
                             </Grid>
                         </Grid>
