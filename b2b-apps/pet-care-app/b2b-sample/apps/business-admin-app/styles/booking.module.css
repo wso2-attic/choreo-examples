@@ -101,6 +101,8 @@
     padding: 1vh;
     width: 43vw;
     height: 42vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .petInAddBooking {
@@ -117,7 +119,7 @@
     cursor: pointer;
     -webkit-text-size-adjust: none;
     padding: 1vh;
-    position: absolute;
+    position: relative;
     outline: none;
 }
 

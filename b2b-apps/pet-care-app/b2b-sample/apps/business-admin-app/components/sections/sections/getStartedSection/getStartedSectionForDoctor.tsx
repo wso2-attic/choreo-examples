@@ -16,18 +16,19 @@
  * under the License.
  */
 
-import { Grid } from "@mui/material";
-import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { getDoctorBookingsPerDay } from "apps/business-admin-app/APICalls/GebookingsPerDay/get-bookings-per-day";
+import { getDoctorBookings } from "apps/business-admin-app/APICalls/GetDoctorBookings/get-doc-bookings";
+import { getProfile } from "apps/business-admin-app/APICalls/GetProfileInfo/me";
+import { Booking } from "apps/business-admin-app/types/booking";
 import { Doctor } from "apps/business-admin-app/types/doctor";
 import Chart from "chart.js/auto";
+import { format, parse } from "date-fns";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { Button, Stack, useToaster } from "rsuite";
+import { Stack } from "rsuite";
 import styles from "../../../../styles/Home.module.css";
-import { getProfile } from "apps/business-admin-app/APICalls/GetProfileInfo/me";
-import { getDoctorBookings } from "apps/business-admin-app/APICalls/GetDoctorBookings/get-doc-bookings";
-import { Booking } from "apps/business-admin-app/types/booking";
 
 interface GetStartedSectionComponentForDoctorProps {
     session: Session
@@ -42,15 +43,17 @@ interface GetStartedSectionComponentForDoctorProps {
 export default function GetStartedSectionComponentForDoctor(props: GetStartedSectionComponentForDoctorProps) {
 
     const { session } = props;
-    const [ doctorList, setDoctorList ] = useState<Doctor[] | null>(null);
-    const [ isAddDoctorOpen, setIsAddDoctorOpen ] = useState(false);
-    const [ isDoctorOverviewOpen, setIsDoctorOverviewOpen ] = useState(false);
     const [ doctor, setDoctor ] = useState<Doctor | null>(null);
-    const [ isDoctorEditOpen, setIsDoctorEditOpen ] = useState(false);
     const [ bookingList, setBookingList ] = useState<Booking[] | null>(null);
     const router = useRouter();
     const typesToFilter: string[] = [ "confirmed", "completed" ];
     const [ filteredCount, setFilteredCount ] = useState<{ [key: string]: number }>({});
+    const [ yesterday, setYesterday ] = useState("");
+    const [ today, setToday ] = useState("");
+    const [ tommorrow, setTommorrow ] = useState("");
+    const [ todayBookingCount, setTodayBookingCount ] = useState(0);
+    const [ tommorrowBookingCount, setTommorrowBookingCount ] = useState(0);
+    const [ yesterdayBookingCount, setYesterdayBookingCount ] = useState(0);
 
     async function getBookings() {
         const accessToken = session?.accessToken;
@@ -73,8 +76,66 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
             });
     }
 
+    const getFormattedDate = (date: Date): string => {
+        const localDateString = date.toLocaleDateString();
+        const parsedDate = parse(localDateString, "M/d/yyyy", new Date());
+        const formattedDate = format(parsedDate, "yyyy-MM-dd");
+
+        return formattedDate;
+    };
+
+    async function getBookingsPerDayForGraph(date: string): Promise<Booking[]> {
+        const accessToken = session?.accessToken;
+      
+        getDoctorBookingsPerDay(accessToken, doctor?.id, date)
+            .then(response => {
+                if (response.data instanceof Array) {
+                    return response.data as Booking[];
+                }
+            })
+            .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.log(e);
+            });
+
+        return ([]);
+    }
+
     useEffect(() => {
         getBookings();
+
+        const fetchBookingsPerDay = async () => {
+            try {
+                const currentDate = new Date();
+                const tomorrowDate = new Date();
+                const yesterdayDate = new Date();
+        
+                yesterdayDate.setDate(currentDate.getDate() - 1);
+                tomorrowDate.setDate(currentDate.getDate() + 1);
+
+                setYesterday(getFormattedDate((yesterdayDate)));
+                setToday(getFormattedDate((currentDate)));
+                setTommorrow(getFormattedDate((tomorrowDate)));
+
+
+                const todayBookingList = 
+                await getBookingsPerDayForGraph(getFormattedDate(currentDate));
+                const tommorrowBookingList = 
+                await getBookingsPerDayForGraph(getFormattedDate(tomorrowDate));
+                const yesterdayBookingList = 
+                await getBookingsPerDayForGraph(getFormattedDate(yesterdayDate));
+
+                setTodayBookingCount(todayBookingList.length);
+                setTommorrowBookingCount(tommorrowBookingList.length);
+                setYesterdayBookingCount(yesterdayBookingList.length);
+        
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log("Error:", error);
+            }
+        };
+
+        fetchBookingsPerDay();
     }, [ session ]);
 
     const DonutChart: React.FC = () => {
@@ -112,7 +173,7 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
         return <canvas ref={ chartRef } />;
     };
 
-    const LineChart: React.FC = () => {
+    const BarChart: React.FC = () => {
         const chartRef = useRef<HTMLCanvasElement>(null);
       
         useEffect(() => {
@@ -121,49 +182,48 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
       
                 if (ctx) {
                     new Chart(ctx, {
-                        type: "line",
+                        type: "bar",
                         data: {
-                            labels: [ "Day 1", "Day 2", "Day 3", "Day 4", "Day 5" ], // Replace with your actual labels
+                            labels: [yesterday, today, tommorrow],
                             datasets: [
                                 {
-                                    label: "Confirmed",
-                                    data: [ 10, 8, 12, 15, 11 ], // Replace with your actual confirmed bookings data
-                                    borderColor: "blue",
-                                    fill: false
-                                },
-                                {
-                                    label: "Completed",
-                                    data: [ 8, 6, 10, 13, 9 ], // Replace with your actual completed bookings data
-                                    borderColor: "green",
-                                    fill: false
+                                    label: "Booking Count",
+                                    data: [yesterdayBookingCount, todayBookingCount, tommorrowBookingCount],
+                                    backgroundColor: 
+                                    [ "rgba(75, 192, 192, 0.8)"]
                                 }
                             ]
                         },
                         options: {
-                            responsive: true
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
                         }
                     });
                 }
             }
         }, []);
       
-        return <canvas ref={ chartRef } />;
+        return <canvas ref={ chartRef }></canvas>;
     };
-      
 
 
     return (
         <div
             className={ styles.tableMainPanelDivDoc }
         >
-            <Stack
-                direction="row"
-                justifyContent="space-between">
-                <Stack direction="column" alignItems="flex-start">
-                    <h2>{ "Dashbord" }</h2>
-                    <p>{ "Dashbord for doctor" }</p>
-                </Stack>
-            </Stack>
+            <div className={ styles.welcomeMainDiv }>
+                <AccountCircleIcon style={ { width: "8vh", height: "8vh" } }/>
+                <div className={ styles. welcomeDiv }>
+                    { "Welcome, " + session.user?.name.givenName + " " + session.user?.name.familyName + "!" }
+                </div>
+                <div className={ styles.tagLine }>
+                    { "Simplify Your Practice, Focus on Exceptional Pet Care" }
+                </div>
+            </div>
             <Stack
                 direction="row"
                 justifyContent="space-between">
@@ -189,10 +249,10 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                 justifyContent="space-between">
                 <div className={ styles.dailyChartDivForDoc }>
                     <div className={ styles.dailyBookingSummaryHeader }>
-                        Daily Bookings
+                        Bookings Summary
                     </div>
-                    <div id="lineChartContainer" className={ styles.dailiBookingsChart }>
-                        <LineChart />
+                    <div id="barChartContainer" className={ styles.dailiBookingsChart }>
+                        <BarChart />
                     </div>
                 </div>
             </Stack>

@@ -77,7 +77,7 @@ function PetCard(props: PetCardProps) {
     return petName ? (
         <Card className={ styles.doctorCard }>
             <CardContent>
-                <div className={ styles.doctorIcon }>
+                <div className={ styles.petIcon }>
                     { url? (
                         <Image 
                             style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
@@ -94,7 +94,7 @@ function PetCard(props: PetCardProps) {
                         />
                     ) } 
                 </div>
-                <div className={ styles.doctorSummary }>
+                <div className={ styles.petSummary }>
                     <label className={ styles.docTitleInCard }>{ petName }</label>
                     <br />
                     <label className={ styles.docSummaryInCard }>{ breed }</label>

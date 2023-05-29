@@ -167,8 +167,41 @@
 }
 
 .welcomeDiv {
-    margin-top: 5vh;
+    margin-top: -8vh;
+    margin-left: 9vh;
     font-weight: bold;
     font-size: 3vh;
+}
+
+.welcomeMainDiv {
+    background-color: #ffffff;
+    height: 13vh;
+    min-width: 28vw;
+    width: fit-content;
+    border-radius: 1vh;
+    padding: 2vh;
+}
+
+.tagLine {
+    margin-top: 0vh;
+    margin-left: 9vh;
+    font-size: 2vh;
+}
+
+.upcomingBookingsDivForUser {
+    width: 70vw;
+    min-height: 15vh;
+    margin-top: 5vh;
+    background-color: rgb(255, 255, 255);
+    border-radius: 1vh;
+}
+
+.dashboardBookingDiv {
+    background-color: rgb(236, 238, 238);
+    padding: 3vh;
+}
+
+.noUpcomingBookingsDiv {
+    margin-left: 1.5vw;
 }
 

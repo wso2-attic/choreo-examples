@@ -29,7 +29,7 @@ import { AxiosResponse } from "axios";
 import { Session } from "next-auth";
 import { useState } from "react";
 import { Form } from "react-final-form";
-import { Divider, Loader, Modal, Panel, Radio, RadioGroup, Stack, useToaster } from "rsuite";
+import { Divider, Loader, Modal, Panel, Radio, RadioGroup, SelectPicker, Stack, useToaster } from "rsuite";
 import FormSuite from "rsuite/Form";
 import styles from "../../../../styles/Settings.module.css";
 
@@ -98,6 +98,11 @@ export default function AddDoctorComponent(props: AddDoctorComponentProps) {
             .finally(() => setLoadingDisplay(LOADING_DISPLAY_NONE));
     };
 
+    const options = [
+        { value: "male", label: "male" },
+        { value: "female", label: "female" }
+    ];
+
     return (
         <Modal backdrop="static" role="alertdialog" open={ open } onClose={ onClose } size="sm">
 
@@ -161,13 +166,18 @@ export default function AddDoctorComponent(props: AddDoctorComponentProps) {
                                     helperText="Gender of the doctor."
                                     needErrorMessage={ true }
                                 >
-                                    <FormSuite.Control name="input" />
+                                    { /* <FormSuite.Control name="input" type="SelectPicker" /> */ }
+                                    <SelectPicker
+                                        name="mySelectField"
+                                        data={ options }
+                                        style={ { width: "100%" } }
+                                    />
                                 </FormField>
 
                                 <FormField
                                     name="Specialty"
                                     label="Specialty"
-                                    helperText="Gender of the doctor."
+                                    helperText="Specialty of the doctor."
                                     needErrorMessage={ true }
                                 >
                                     <FormSuite.Control name="input" />

@@ -148,10 +148,6 @@ function getOrgName(token: JWT): string {
 * @returns `User` get logged user from profile
 */
 function getLoggedUserFromProfile(profile: Profile): User | null {
-    console.log("profile>>>>>>>>>>>>>" + profile.family_name);
-    console.log("profile>>>>>>>>>>>>>" + profile.given_name);
-    console.log("profile>>>>>>>>>>>>>" + profile.email);
-    console.log("profile>>>>>>>>>>>>>" + profile.username);
 
     try {
 

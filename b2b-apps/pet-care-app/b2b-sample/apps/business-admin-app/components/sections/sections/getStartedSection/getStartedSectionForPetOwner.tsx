@@ -19,6 +19,8 @@
 import { Grid } from "@mui/material";
 import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
 import { getPets } from "apps/business-admin-app/APICalls/getPetList/get-pets";
+import { getBookings } from "apps/business-admin-app/APICalls/GetUserBookings/get-bookings";
+import { Booking } from "apps/business-admin-app/types/booking";
 import { Doctor } from "apps/business-admin-app/types/doctor";
 import { Pet } from "apps/business-admin-app/types/pets";
 import Chart from "chart.js/auto";
@@ -28,6 +30,8 @@ import { useEffect, useRef, useState } from "react";
 import { Button, Stack, useToaster } from "rsuite";
 import styles from "../../../../styles/Home.module.css";
 import "chartjs-plugin-datalabels";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import BookingCard from "../sectionsRelatedToBookings/bookingCard";
 
 interface GetStartedSectionComponentForPetOwnerProps {
     session: Session
@@ -51,6 +55,8 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
     const router = useRouter();
     const typesToFilter: string[] = [ "dog", "cat", "rabbit" ];
     const [ filteredCount, setFilteredCount ] = useState<{ [key: string]: number }>({});
+    const [ bookingList, setBookingList ] = useState<Booking[] | null>(null);
+    const [ filteredBookings, setFilteredBookings ] = useState<Booking[] | null>(null);
 
     async function getPetList() {
         const accessToken = session.accessToken;
@@ -68,8 +74,25 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
             });
     }
 
+    async function getBookingsList() {
+        const accessToken = session.accessToken;
+
+        getBookings(accessToken)
+            .then((res) => {
+                if (res.data instanceof Array) {
+                    setBookingList(res.data);
+                    setFilteredBookings(filterBookings(res.data));
+                }
+            })
+            .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.log(e);
+            });
+    }
+
     useEffect(() => {
         getPetList();
+        getBookingsList();
     }, [ session ]);
 
     const DonutChart: React.FC = () => {
@@ -110,66 +133,22 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
       
         return <canvas ref={ chartRef } />;
     };
-
-    const LineChart: React.FC = () => {
-        const chartRef = useRef<HTMLCanvasElement>(null);
       
-        useEffect(() => {
-            if (chartRef.current) {
-                const ctx = chartRef.current.getContext("2d");
-      
-                if (ctx) {
-                    new Chart(ctx, {
-                        type: "line",
-                        data: {
-                            labels: [ "Day 1", "Day 2", "Day 3", "Day 4", "Day 5" ], // Replace with your actual labels
-                            datasets: [
-                                {
-                                    label: "Confirmed",
-                                    data: [ 10, 8, 12, 15, 11 ], // Replace with your actual confirmed bookings data
-                                    borderColor: "blue",
-                                    fill: false
-                                },
-                                {
-                                    label: "Completed",
-                                    data: [ 8, 6, 10, 13, 9 ], // Replace with your actual completed bookings data
-                                    borderColor: "green",
-                                    fill: false
-                                }
-                            ]
-                        },
-                        options: {
-                            responsive: true
-                        }
-                    });
-                }
-            }
-        }, []);
-      
-        return <canvas ref={ chartRef } />;
-    };
-      
-
 
     return (
         <div
             className={ styles.tableMainPanelDivDoc }
         >
-            <Stack
-                direction="row"
-                justifyContent="space-between">
-                <Stack direction="column" alignItems="flex-start">
-                    <h2>{ "Dashbord" }</h2>
-                    <p>{ "Dashbord for pet owner" }</p>
-                </Stack>
-            </Stack>
-            <Stack
-                direction="row"
-                justifyContent="space-between">
+            <div className={ styles.welcomeMainDiv }>
+                <AccountCircleIcon style={ { width: "8vh", height: "8vh" } }/>
                 <div className={ styles. welcomeDiv }>
-                    {"Welcome, " + session.user?.name.givenName + " " + session.user?.name.familyName + "!"}
+                    { "Welcome, " + session.user?.name.givenName + " " + session.user?.name.familyName + "!" }
                 </div>
-            </Stack>
+                <div className={ styles.tagLine }>
+                    { "Your Pet's Health and Happiness Made Easy" }
+                </div>
+
+            </div>
             <Stack
                 direction="row"
                 justifyContent="space-between">
@@ -193,13 +172,32 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
             <Stack
                 direction="row"
                 justifyContent="space-between">
-                <div className={ styles.dailyChartDivForDoc }>
+                <div className={ styles.upcomingBookingsDivForUser }>
                     <div className={ styles.dailyBookingSummaryHeader }>
-                        Daily Bookings
+                        Upcoming Bookings
                     </div>
-                    <div id="lineChartContainer" className={ styles.dailiBookingsChart }>
-                        <LineChart />
-                    </div>
+                    { filteredBookings? (
+                        <div className={ styles.dashboardBookingDiv }>
+                            <Grid container spacing={ 2 }>
+                                { filteredBookings && filteredBookings.map((booking) => (
+                                    <Grid
+                                        item
+                                        xs={ 4 }
+                                        sm={ 4 }
+                                        md={ 4 }
+                                        key={ booking.id }
+                                    >
+                                        <BookingCard booking={ booking } isBookingCardOpen={ false } />
+                                    </Grid>
+                                )) }
+                            </Grid>
+                        </div>
+                    ):(
+                        <div className={ styles.noUpcomingBookingsDiv }>
+                            { "0 Upcoming bookings" }
+                            
+                        </div>
+                    ) }
                 </div>
             </Stack>
         </div>
@@ -217,3 +215,17 @@ function filterAndCountPetsByType(pets: Pet[], types: string[]): { [key: string]
   
     return filteredCounts;
 }
+
+function filterBookings(bookings: Booking[]): Booking[] {
+    const today = new Date();
+    let filteredBookings: Booking[] = [];
+  
+    filteredBookings = bookings.filter((booking) => {
+        const providedDate = new Date(booking.date);
+
+        return providedDate > today;
+    });
+  
+    return filteredBookings;
+}
+

@@ -54,39 +54,6 @@ export default function DoctorProfileSection(props: DoctorProfileSectionProps) {
     const [ availabilityInfo, setAvailabilityInfo ] = useState<Availability[] | null>([]);
     const [ stringDate, setStringDate ] = useState("");
 
-    const doctorTemp: Doctor  = {
-        id: "01edf3f4-295e-1c5e-8c0d-39f82a220cf6",
-        org: "1db36e94-3106-436d-b28e-065f5668d01e",
-        // eslint-disable-next-line sort-keys
-        createdAt: "2023-05-16T14:15:51.954818Z",
-        name: "David",
-        // eslint-disable-next-line sort-keys
-        gender: "male",
-        registrationNumber: "12345",
-        specialty: "Neurologist",
-        // eslint-disable-next-line sort-keys
-        emailAddress: "david@gmail.com",
-        // eslint-disable-next-line sort-keys
-        dateOfBirth: "2023-05-10",
-        // eslint-disable-next-line sort-keys
-        address: "aaaaaaaaa",
-        availability: [
-            {
-                date: "2023-05-15",
-                timeSlots: [
-                    {
-                        startTime: "16:49",
-                        // eslint-disable-next-line sort-keys
-                        endTime: "17:49",
-                        // eslint-disable-next-line sort-keys
-                        availableBookingCount: 1
-                    }
-                ]
-            }
-        ]
-        
-    };
-
     async function getProfileInfo() {
         const accessToken = session.accessToken;
 
@@ -134,7 +101,7 @@ export default function DoctorProfileSection(props: DoctorProfileSectionProps) {
                 direction="row"
                 justifyContent="space-between">
                 <Stack direction="column" alignItems="flex-start">
-                    <h2>{ "Doctor Profile" }</h2>
+                    <h2>{ "Profile" }</h2>
                     <p>{ "Profile Information of the doctor" }</p>
                 </Stack>
                 <Button
@@ -145,7 +112,7 @@ export default function DoctorProfileSection(props: DoctorProfileSectionProps) {
                     Edit Profile
                 </Button>
             </Stack>
-            { doctorTemp && (
+            { doctor && (
                 <>
                     <div className={ styles.doctorProfilePic }>
                         { url ? (

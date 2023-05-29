@@ -16,9 +16,11 @@
  * under the License.
  */
 
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Grid } from "@mui/material";
 import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
 import { Doctor } from "apps/business-admin-app/types/doctor";
+import { registerables } from "chart.js";
 import Chart from "chart.js/auto";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
@@ -47,6 +49,8 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
     const typesToFilter: string[] = [ "cardiology", "neurology", "oncology", "nutrition" ];
     const [ filteredCount, setFilteredCount ] = useState<{ [key: string]: number }>({});
     const router = useRouter();
+    const [ labels, setLabels ] = useState<string[]>([]); 
+    const [ data, setdata ] = useState<number[]>([]);
 
     async function getDoctorList() {
         const accessToken = session.accessToken;
@@ -56,6 +60,12 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                 if (res.data instanceof Array) {
                     setDoctorList(res.data);
                     setFilteredCount(filterAndCountDoctorsBySpecialty(res.data, typesToFilter));
+                    const bookingCounts = getBookingCountsPerDay(res.data);
+
+                    bookingCounts.forEach((count, date) => {
+                        labels.push(date);
+                        data.push(count);
+                    });
                 }
             })
             .catch((e) => {
@@ -112,7 +122,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
         return <canvas ref={ chartRef } />;
     };
 
-    const LineChart: React.FC = () => {
+    const BarChart: React.FC = () => {
         const chartRef = useRef<HTMLCanvasElement>(null);
       
         useEffect(() => {
@@ -121,33 +131,32 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
       
                 if (ctx) {
                     new Chart(ctx, {
-                        type: "line",
+                        type: "bar",
                         data: {
-                            labels: [ "Day 1", "Day 2", "Day 3", "Day 4", "Day 5" ], // Replace with your actual labels
+                            labels: labels,
                             datasets: [
                                 {
-                                    label: "Confirmed",
-                                    data: [ 10, 8, 12, 15, 11 ], // Replace with your actual confirmed bookings data
-                                    borderColor: "blue",
-                                    fill: false
-                                },
-                                {
-                                    label: "Completed",
-                                    data: [ 8, 6, 10, 13, 9 ], // Replace with your actual completed bookings data
-                                    borderColor: "green",
-                                    fill: false
+                                    label: "Booking Count",
+                                    data: data,
+                                    backgroundColor: 
+                                    [ "rgba(75, 192, 192, 0.8)"]
                                 }
                             ]
                         },
                         options: {
-                            responsive: true
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
                         }
                     });
                 }
             }
         }, []);
       
-        return <canvas ref={ chartRef } />;
+        return <canvas ref={ chartRef }></canvas>;
     };
       
 
@@ -156,20 +165,22 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
         <div
             className={ styles.tableMainPanelDivDoc }
         >
-            <Stack
-                direction="row"
-                justifyContent="space-between">
-                <Stack direction="column" alignItems="flex-start">
-                    <h2>{ "Dashbord" }</h2>
-                    <p>{ "Dashbord for admin" }</p>
-                </Stack>
-            </Stack>
+            <div className={ styles.welcomeMainDiv }>
+                <AccountCircleIcon style={ { width: "8vh", height: "8vh" } }/>
+                <div className={ styles. welcomeDiv }>
+                    { "Welcome, " + session.user?.name.givenName + " " + session.user?.name.familyName + "!" }
+                </div>
+                <div className={ styles.tagLine }>
+                    { "Taking Veterinary Care to the Next Level of Excellence" }
+                </div>
+
+            </div>
             <Stack
                 direction="row"
                 justifyContent="space-between">
                 <div className={ styles.chartDivForDoc }>
                     <div className={ styles.bookingSummaryHeader }>
-                        Booking Summary
+                        Doctor Specialty Summary
                     </div>
                     <div className={ styles.chartForBookingSummary }>
                         <div id="chartContainer">
@@ -189,10 +200,10 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                 justifyContent="space-between">
                 <div className={ styles.dailyChartDivForDoc }>
                     <div className={ styles.dailyBookingSummaryHeader }>
-                        Daily Bookings
+                        Bookings Count Per Day
                     </div>
                     <div id="lineChartContainer" className={ styles.dailiBookingsChart }>
-                        <LineChart />
+                        <BarChart />
                     </div>
                 </div>
             </Stack>
@@ -211,3 +222,26 @@ function filterAndCountDoctorsBySpecialty(doctors: Doctor[], types: string[]): {
   
     return filteredCounts;
 }
+
+const getBookingCountsPerDay = (doctors: Doctor[]): Map<string, number> => {
+    const bookingCountsPerDay = new Map<string, number>();
+  
+    doctors.forEach((doctor) => {
+        doctor.availability.forEach((availability) => {
+            availability.timeSlots.forEach((timeSlot) => {
+                const bookingCount = timeSlot.availableBookingCount;
+                const date = availability.date;
+  
+                if (bookingCountsPerDay.has(date)) {
+                    const currentCount = bookingCountsPerDay.get(date);
+
+                    bookingCountsPerDay.set(date, currentCount + bookingCount);
+                } else {
+                    bookingCountsPerDay.set(date, bookingCount);
+                }
+            });
+        });
+    });
+  
+    return bookingCountsPerDay;
+};

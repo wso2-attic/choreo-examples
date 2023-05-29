@@ -261,7 +261,7 @@ export default function EditDoctor(props: EditDoctorProps) {
                                     id="createdAt"
                                     type="text"
                                     placeholder="Created At"
-                                    defaultValue={ doctor?.createdAt }
+                                    defaultValue={ stringDate }
                                     disabled={ true }
                                 />
                             </Grid>

@@ -29,7 +29,15 @@
 }
 
  .doctorIcon {
-    position: absolute;
+    position: relative;
+    width: 15vh;
+    height: 15vh;
+    margin-top: 1.5vh;
+    margin-left: 1vw;
+ }
+
+ .petIcon {
+    position: relative;
     width: 15vh;
     height: 15vh;
     margin-top: 1.5vh;
@@ -41,9 +49,18 @@
  }
 
  .doctorSummary {
+    position: relative;
     width: 10vw;
     margin-left: 10vw;
-    margin-top: 1vh;
+    margin-top: -15vh;
+    text-align: left;
+ }
+
+ .petSummary {
+    position: relative;
+    width: 10vw;
+    margin-left: 10vw;
+    margin-top: -15vh;
     text-align: left;
  }
 
@@ -134,9 +151,9 @@
     font-size: 2vh;
     color: rgb(105, 105, 105);
     font-weight: bold;
-    position: absolute;
-    left: 24vw;
-    margin-top: 3vw;
+    position: relative;
+    left: 0vw;
+    margin-top: 2vw;
 }
 
 .availabilityInfoDivInOverview {
@@ -548,4 +565,9 @@
     height: 2vh;
     font-size: 2vh;
     padding: 2vh;
+}
+
+.datePickerDiv {
+    width: 40vw;
+    height: 30vh;
 }

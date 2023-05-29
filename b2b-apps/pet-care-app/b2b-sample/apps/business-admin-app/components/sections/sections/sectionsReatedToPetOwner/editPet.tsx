@@ -93,6 +93,7 @@ export default function EditPetComponent(props: EditPetComponentProps) {
         setIsDisable(false);
         setVaccineInfo([]);
         setIsOpen(false);
+        setImageUrl(null);
     };
 
     const handleOnAdd = () => {
@@ -309,10 +310,10 @@ export default function EditPetComponent(props: EditPetComponentProps) {
                     </div>
                     <br /><br />
                     <div className={ styles.docImageStyle }>
-                        { url ? (
+                        { imageUrl ? (
                             <Image
                                 style={ { borderRadius: "10%", height: "100%", width: "100%" } }
-                                src={ url }
+                                src={ imageUrl }
                                 alt="pet-thumbnail" 
                                 width={ 10 }
                                 height={ 10 }
@@ -331,8 +332,8 @@ export default function EditPetComponent(props: EditPetComponentProps) {
                     <FileUploadSingle  
                         session={ session }
                         petId={ pet?.id } 
-                        imageUrl={ url } 
-                        setImageUrl={ setUrl } />
+                        imageUrl={ imageUrl } 
+                        setImageUrl={ setImageUrl } />
                 </div>
             </Modal.Body>
             <Modal.Footer>

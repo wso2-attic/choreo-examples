@@ -18,6 +18,7 @@
 
 import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
 import { Checkbox, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { deletePet } from "apps/business-admin-app/APICalls/DeletePet/delete-pet";
 import { getThumbnail } from "apps/business-admin-app/APICalls/GetThumbnail/get-thumbnail";
 import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
 import { Pet } from "apps/business-admin-app/types/pets";
@@ -91,6 +92,7 @@ export default function PetOverview(props: PetOverviewProps) {
     }
 
     useEffect(() => {
+        setUrl(null);
         getThumbnails();
     }, [ isOpen ]);
 
@@ -101,6 +103,18 @@ export default function PetOverview(props: PetOverviewProps) {
 
     const closePetOverviewDialog = (): void => {
         setIsOpen(false);
+        setUrl(null);
+    };
+
+
+    const handleDelete = () => {
+        async function deletePets() {
+            const accessToken = session.accessToken;
+            const response = await deletePet(accessToken, pet.id);
+
+            setIsOpen(false);
+        }
+        deletePets();
     };
 
    
@@ -246,8 +260,8 @@ export default function PetOverview(props: PetOverviewProps) {
                 <Button onClick={ handleEdit } appearance="primary">
                     Edit
                 </Button>
-                <Button onClick={ closePetOverviewDialog } appearance="subtle">
-                    Cancel
+                <Button onClick={ handleDelete } appearance="subtle">
+                    Delete
                 </Button>
             </Modal.Footer>
         </Modal>
