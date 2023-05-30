@@ -290,24 +290,6 @@ function dbGetBookingsByOrgAndEmail(string org, string email) returns Booking[]|
     }
 }
 
-function dbGetActiveBookingsByDoctorId(string org, string doctorId, string date, string sessionStartTime, string sessionEndTime) returns int|error {
-
-    jdbc:Client|error dbClient = getConnection();
-    if dbClient is error {
-        return handleError(dbClient);
-    }
-
-    do {
-        sql:ParameterizedQuery query = `SELECT COUNT(*) FROM Booking WHERE org = ${org} AND doctorId = ${doctorId} 
-        AND date = ${date} AND sessionStartTime = ${sessionStartTime} AND sessionEndTime = ${sessionEndTime}`;
-        int|sql:Error result = dbClient->queryRow(query);
-        return result;
-    }
-    on fail error e {
-        return handleError(e);
-    }
-}
-
 function dbGetBookingsByOrgAndDoctorId(string org, string doctorId, string date) returns Booking[]|error {
 
     jdbc:Client|error dbClient = getConnection();
