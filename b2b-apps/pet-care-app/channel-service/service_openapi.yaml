@@ -215,6 +215,50 @@ paths:
             text/plain:
               schema:
                 type: string
+  /doctors/{doctorId}/next-appointment-number:
+    get:
+      summary: Get next appointment number of a doctor
+      operationId: getDoctorsDoctoridNextAppointmentNumber
+      parameters:
+      - name: doctorId
+        in: path
+        description: ID of the doctor
+        required: true
+        schema:
+          type: string
+      - name: date
+        in: query
+        description: "Date of the boookings (Format: yyyy-MM-dd)"
+        required: true
+        schema:
+          type: string
+      - name: sessionStartTime
+        in: query
+        description: "Start time of the session (Format: HH:mm AM/PM)"
+        required: true
+        schema:
+          type: string
+      - name: sessionEndTime
+        in: query
+        description: "End time of the session (Format: HH:mm AM/PM)"
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NextAppointment'
+        "404":
+          description: NotFound
+        "500":
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
   /me:
     get:
       summary: Get doctor's details
@@ -316,7 +360,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookingItem'
+              $ref: '#/components/schemas/BookingItemUpdated'
       responses:
         "200":
           description: Ok
@@ -408,9 +452,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TimeSlot'
-    Appointment:
+    OrgInfo:
+      allOf:
+      - $ref: '#/components/schemas/OrgInfoItem'
+      - required:
+        - orgName
+        type: object
+        properties:
+          orgName:
+            type: string
+    AppointmentItem:
       required:
-      - appointmentNumber
       - date
       - sessionEndTime
       - sessionStartTime
@@ -422,21 +474,8 @@ components:
           type: string
         sessionEndTime:
           type: string
-        appointmentNumber:
-          type: integer
-          format: int64
-    OrgInfo:
-      allOf:
-      - $ref: '#/components/schemas/OrgInfoItem'
-      - required:
-        - orgName
-        type: object
-        properties:
-          orgName:
-            type: string
     BookingItem:
       required:
-      - appointmentNumber
       - date
       - doctorId
       - petDoB
@@ -446,7 +485,6 @@ components:
       - petType
       - sessionEndTime
       - sessionStartTime
-      - status
       type: object
       properties:
         petOwnerName:
@@ -463,20 +501,12 @@ components:
           type: string
         petDoB:
           type: string
-        status:
-          oneOf:
-          - {}
-          - {}
-          - type: string
         date:
           type: string
         sessionStartTime:
           type: string
         sessionEndTime:
           type: string
-        appointmentNumber:
-          type: integer
-          format: int64
     OrgInfoItem:
       required:
       - address
@@ -524,13 +554,23 @@ components:
       allOf:
       - $ref: '#/components/schemas/BookingItem'
       - required:
+        - appointmentNumber
         - createdAt
         - emailAddress
         - id
         - org
         - referenceNumber
+        - status
         type: object
         properties:
+          appointmentNumber:
+            type: integer
+            format: int64
+          status:
+            oneOf:
+            - {}
+            - {}
+            - type: string
           id:
             type: string
           org:
@@ -570,3 +610,40 @@ components:
         availableBookingCount:
           type: integer
           format: int64
+    BookingItemUpdated:
+      allOf:
+      - $ref: '#/components/schemas/BookingItem'
+      - required:
+        - status
+        type: object
+        properties:
+          status:
+            oneOf:
+            - {}
+            - {}
+            - type: string
+    NextAppointment:
+      required:
+      - activeBookingCount
+      - date
+      - doctorId
+      - nextAppointmentNumber
+      - sessionEndTime
+      - sessionStartTime
+      type: object
+      properties:
+        doctorId:
+          type: string
+        date:
+          type: string
+        sessionStartTime:
+          type: string
+        sessionEndTime:
+          type: string
+        activeBookingCount:
+          type: integer
+          format: int64
+        nextAppointmentNumber:
+          type: integer
+          format: int64
+          

@@ -7,6 +7,7 @@ import ballerinax/mysql;
 import ballerina/time;
 import ballerina/http;
 import ballerina/random;
+import ballerina/io;
 
 configurable string dbHost = "localhost";
 configurable string dbUsername = "admin";
@@ -298,6 +299,73 @@ function getBookingsByDoctorId(string org, string doctorId, string date) returns
     }
 }
 
+function getNextAppointmentNumber(string org, string doctorId, string date,
+        string sessionStartTime, string sessionEndTime) returns NextAppointment|()|error {
+
+    boolean isValid = isValidDoctorSession(org, doctorId, date, sessionStartTime, sessionEndTime);
+
+    if !isValid {
+        return ();
+    }
+
+    NextAppointment nextAppointment = {
+        date: date,
+        doctorId: doctorId,
+        sessionEndTime: sessionEndTime,
+        sessionStartTime: sessionStartTime,
+        activeBookingCount: 0,
+        nextAppointmentNumber: 0
+    };
+
+    int activeBookingCount = 0;
+    if (useDB) {
+        int result = check dbGetActiveBookingsByDoctorId(org, doctorId, date, sessionStartTime, sessionEndTime);
+        activeBookingCount = result;
+    } else {
+        bookingRecords.forEach(function(Booking booking) {
+            if booking.org == org && booking.doctorId == doctorId && booking.date == date &&
+                    booking.sessionStartTime == sessionStartTime && booking.sessionEndTime == sessionEndTime {
+                activeBookingCount = activeBookingCount + 1;
+            }
+        });
+    }
+
+    nextAppointment.activeBookingCount = activeBookingCount;
+    nextAppointment.nextAppointmentNumber = activeBookingCount + 1;
+
+    return nextAppointment;
+}
+
+function isValidDoctorSession(string org, string doctorId, string date,
+        string sessionStartTime, string sessionEndTime) returns boolean {
+
+    boolean isValidDoctorSession = false;
+    Doctor|()|error doctor = getDoctorByIdAndOrg(org, doctorId);
+
+    io:println("doctor: ", doctor);
+
+    if doctor is Doctor {
+        Availability[] doctorAvailability = doctor.availability;
+
+        foreach Availability availability in doctorAvailability {
+            if availability.date == date {
+                TimeSlot[] timeSlots = availability.timeSlots;
+                foreach TimeSlot timeSlot in timeSlots {
+                    if timeSlot.startTime == sessionStartTime && timeSlot.endTime == sessionEndTime {
+                        isValidDoctorSession = true;
+                        break;
+                    } else {
+                        isValidDoctorSession = false;
+                    }
+                }
+            }
+        }
+
+    }
+
+    return isValidDoctorSession;
+}
+
 function addBooking(BookingItem bookingItem, string org, string emailAddress) returns Booking|error {
 
     string bookingId = uuid:createType1AsString();
@@ -306,21 +374,34 @@ function addBooking(BookingItem bookingItem, string org, string emailAddress) re
     string timeString = civilToIso8601(currentTime);
     string refNumber = getReferenceNumber();
 
-    Booking booking = {
-        id: bookingId,
-        org: org,
-        referenceNumber: refNumber,
-        emailAddress: emailAddress,
-        createdAt: timeString,
-        ...bookingItem
-    };
-    if (useDB) {
-        return dbAddBooking(booking);
+    NextAppointment|()|error nextAppointment = getNextAppointmentNumber(org, bookingItem.doctorId, bookingItem.date,
+            bookingItem.sessionStartTime, bookingItem.sessionEndTime);
+
+    if nextAppointment is NextAppointment {
+
+        Booking booking = {
+            id: bookingId,
+            org: org,
+            referenceNumber: refNumber,
+            emailAddress: emailAddress,
+            createdAt: timeString,
+            status: CONFIRMED,
+            appointmentNumber: nextAppointment.nextAppointmentNumber,
+            ...bookingItem
+        };
+        if (useDB) {
+            return dbAddBooking(booking);
+        } else {
+            bookingRecords.put(booking);
+            Booking addedBooking = <Booking>bookingRecords[org, bookingId];
+            return addedBooking;
+        }
+    } else if nextAppointment is () {
+        return error("Invalid doctor session");
     } else {
-        bookingRecords.put(booking);
-        Booking addedBooking = <Booking>bookingRecords[org, bookingId];
-        return addedBooking;
+        return nextAppointment;
     }
+
 }
 
 function getBookingByIdAndOrg(string org, string bookingId) returns Booking|()|error {
@@ -336,7 +417,7 @@ function getBookingByIdAndOrg(string org, string bookingId) returns Booking|()|e
     }
 }
 
-function updateBookingById(string org, string bookingId, BookingItem updatedBookingItem) returns Booking|()|error {
+function updateBookingById(string org, string bookingId, BookingItemUpdated updatedBookingItem) returns Booking|()|error {
 
     Booking|()|error oldeBookingRecord = getBookingByIdAndOrg(org, bookingId);
 
@@ -352,6 +433,7 @@ function updateBookingById(string org, string bookingId, BookingItem updatedBook
             referenceNumber: oldeBookingRecord.referenceNumber,
             emailAddress: oldeBookingRecord.emailAddress,
             createdAt: oldeBookingRecord.createdAt,
+            appointmentNumber: oldeBookingRecord.appointmentNumber,
             ...updatedBookingItem
         };
 
