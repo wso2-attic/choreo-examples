@@ -46,15 +46,7 @@ service / on new http:Listener(9090) {
     # + return - Pet details or not found 
     resource function get pets/[string petId](http:Headers headers) returns Pet|http:NotFound|error? {
 
-        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
-        if userInfo is error {
-            return userInfo;
-        }
-
-        string org = userInfo.organization;
-        string owner = userInfo.userId;
-
-        Pet|()|error result = getPetByIdAndOwner(org, owner, petId);
+        Pet|() result = getPetById(petId);
         if result is () {
             return http:NOT_FOUND;
         }
