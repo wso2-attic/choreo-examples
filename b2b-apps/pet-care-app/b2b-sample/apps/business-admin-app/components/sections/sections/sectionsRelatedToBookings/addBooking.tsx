@@ -20,7 +20,8 @@ import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
 import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } from "@b2bsample/shared/util/util-front-end-util";
 import { Divider, Grid, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { postBooking } from "apps/business-admin-app/APICalls/CreateBooking/post-booking";
-import { BookingInfo } from "apps/business-admin-app/types/booking";
+import { getNextAppointmentNo } from "apps/business-admin-app/APICalls/GetAppointmentNo/get-appointment-no";
+import { ApoointmentNoInfo, AppointmentNoInfo, BookingInfo } from "apps/business-admin-app/types/booking";
 import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
 import { Pet } from "apps/business-admin-app/types/pets";
 import { Session } from "next-auth";
@@ -29,6 +30,7 @@ import { Loader, Modal } from "rsuite";
 import styled from "styled-components";
 import PetCardInAddBooking from "./petCardInAddBooking";
 import styles from "../../../../styles/booking.module.css";
+import convertTo12HourTime from "./timeConverter";
 
 interface buttonProps {
     isDisabled: boolean;
@@ -77,6 +79,7 @@ export default function AddBookings(props: AddBookingsProps) {
     const [ completed, setCompleted ] = React.useState<{
         [k: number]: boolean;
     }>({});
+    const [ apoointmentNo, setAppointmentNo ] = useState(0);
 
     function timeout(delay: number) {
         return new Promise(res => setTimeout(res, delay));
@@ -106,10 +109,30 @@ export default function AddBookings(props: AddBookingsProps) {
         setPet(null);
     };
 
+    // async function getAppointmentNo() {
+    //     const accessToken = session?.accessToken;
+
+    //     getNextAppointmentNo(accessToken, doctor?.id, availabilityInfo?.date, 
+    //         "3:44PM", "5.44PM")
+    //         .then(async (res) => {
+    //             if (res.data) {
+    //                 console.log("data" + res.data);
+    //                 setAppointmentNo(res.data.nextAppointmentNumber);
+    //             }
+    //         })
+    //         .catch((e) => {
+    //             // eslint-disable-next-line no-console
+    //             console.log(e);
+    //         });
+    // }
+
+    // useEffect(() => {
+    //     getAppointmentNo();
+    // }, [ activeStep === 1 ]);
+
     useEffect(() => {
         setAvailability(doctor?.availability);
-        console.log(session);
-        // setPetOwner(session.user.name);
+        
     }, [ isOpen ]);
 
     const handleOnTimeSlotClick = (availabilityInfo: Availability) => {
@@ -147,7 +170,6 @@ export default function AddBookings(props: AddBookingsProps) {
         async function addBooking() {
             const accessToken = session.accessToken;
             const payload: BookingInfo = {
-                appointmentNumber: 1,
                 date: availabilityInfo.date,
                 doctorId: doctor.id,
                 mobileNumber: mobileNumber,
@@ -158,7 +180,6 @@ export default function AddBookings(props: AddBookingsProps) {
                 petType: pet.breed,
                 sessionEndTime: availabilityInfo.timeSlots[0].endTime,
                 sessionStartTime: availabilityInfo.timeSlots[0].startTime,
-                status: "Confirmed"
             };
 
             postBooking(accessToken, payload);
@@ -204,8 +225,8 @@ export default function AddBookings(props: AddBookingsProps) {
                                             onClick={ (e) => { e.preventDefault(); 
                                                 handleOnTimeSlotClick(availabilityInfo); } }>
                                             { availabilityInfo.date + " , " + 
-                                            availabilityInfo.timeSlots[0].startTime + " - " + 
-                                            availabilityInfo.timeSlots[0].endTime }
+                                            convertTo12HourTime(availabilityInfo.timeSlots[0].startTime) + " - " + 
+                                            convertTo12HourTime(availabilityInfo.timeSlots[0].endTime) }
                                         </button>
                                         <br /><br /></>
                                 )) }

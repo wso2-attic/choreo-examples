@@ -56,7 +56,6 @@ export interface BookingResult {
   }
 
 export interface BookingInfo {
-    appointmentNumber: number;
     date: string;
     doctorId: string;
     mobileNumber: string;
@@ -67,5 +66,13 @@ export interface BookingInfo {
     petType: string;
     sessionEndTime: string;
     sessionStartTime: string;
-    status: string;
   }  
+  
+export interface AppointmentNoInfo {
+  activeBookingCount: number;
+  date: string;
+  doctorId: string;
+  nextAppointmentNumber: 0;
+  sessionEndTime: string;
+  sessionStartTime: string;
+}

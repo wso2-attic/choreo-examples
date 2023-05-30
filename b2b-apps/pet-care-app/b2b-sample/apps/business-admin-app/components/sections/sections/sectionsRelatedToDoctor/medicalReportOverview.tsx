@@ -184,8 +184,8 @@ export default function MedicalReportOverview(props: DoctorOverviewProps) {
         </Modal>
         <div>
             <MedicalReportEdit
-                token={ token.toString() }
-                petId={ petId.toString() }
+                token={ token?.toString() }
+                petId={ petId?.toString() }
                 medicalReport={ medicalReport }
                 setMedicalReport={ setMedicalReport }
                 medicineInfo={ medicineInfo }

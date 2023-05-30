@@ -102,7 +102,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                                         filteredCount["nutrition"])
 
                                     ],
-                                    backgroundColor: [ "blue", "green", "red", "yellow", "purple" ]
+                                    backgroundColor: [ "#4e40ed", "#4e5ded", "#4e7eed", "#4e9bed", "#77b0ed" ]
                                 }
                             ]
                         },
@@ -139,7 +139,7 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                                     label: "Booking Count",
                                     data: data,
                                     backgroundColor: 
-                                    [ "rgba(75, 192, 192, 0.8)"]
+                                    [ "#4e7eed" ]
                                 }
                             ]
                         },
@@ -147,7 +147,10 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                             responsive: true,
                             scales: {
                                 y: {
-                                    beginAtZero: true
+                                    beginAtZero: true,
+                                    ticks: {
+                                        precision: 0 
+                                    }
                                 }
                             }
                         }

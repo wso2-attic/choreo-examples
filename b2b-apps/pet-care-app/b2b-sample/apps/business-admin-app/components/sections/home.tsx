@@ -189,7 +189,7 @@ export default function Home(props: HomeProps): JSX.Element {
                 signOutCallback={ signOutCallback } />
 
             { homeComponent }
-            <FooterComponent />
+            {/* <FooterComponent /> */}
         </div>
     );
 }

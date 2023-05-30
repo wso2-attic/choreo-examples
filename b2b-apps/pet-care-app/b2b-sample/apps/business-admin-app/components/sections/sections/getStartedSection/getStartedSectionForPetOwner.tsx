@@ -114,7 +114,7 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
                                         filteredCount["rabbit"], 
                                         petList?.length-
                                     (filteredCount["dog"]+ filteredCount["cat"]+filteredCount["rabbit"]) ],
-                                    backgroundColor: [ "blue", "green", "red", "yellow" ]
+                                    backgroundColor: [ "#4e40ed", "#4e5ded", "#4e7eed", "#4e9bed" ]
                                 }
                             ]
                         },

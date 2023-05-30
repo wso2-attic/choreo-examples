@@ -137,9 +137,8 @@ export default function BookingDetails() {
 
     const handleComplete = async () => {
         async function updateBookingInfo() {
-            const accessToken = token.toString();
+            const accessToken = token?.toString();
             const payload: BookingInfo = {
-                appointmentNumber: parseInt(appointmentNumber?.toString()),
                 date: date?.toString(),
                 doctorId: doctorId?.toString(),
                 mobileNumber: mobileNumber?.toString(),
@@ -150,7 +149,7 @@ export default function BookingDetails() {
                 petType: pet?.breed,
                 sessionEndTime: sessionEndTime?.toString(),
                 sessionStartTime: sessionStartTime?.toString(),
-                status: "Completed"
+                // status: "Completed"
             };
             const response = await updateBooking(accessToken, id?.toString(), payload);
         }
@@ -415,16 +414,16 @@ export default function BookingDetails() {
             </div>
         </div><div>
             <AddMedicalReportComponent 
-                token={ token.toString() }
-                petId={ petId.toString() }
+                token={ token?.toString() }
+                petId={ petId?.toString() }
                 open={ isAddMedicalReportOpen }
                 setIsOpen= { setIsAddMedicalReportOpen }
             />
         </div>
         <div>
             <MedicalReportOverview
-                token={ token.toString() }
-                petId={ petId.toString() }
+                token={ token?.toString() }
+                petId={ petId?.toString() }
                 medicalReport={ medicalReport }
                 setMedicalReport={ setMedicalReport }
                 medicalReportList={ medicalReportList }

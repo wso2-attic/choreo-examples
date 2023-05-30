@@ -99,8 +99,8 @@ export default function AddDoctorComponent(props: AddDoctorComponentProps) {
     };
 
     const options = [
-        { value: "male", label: "male" },
-        { value: "female", label: "female" }
+        { value: "male", label: "Male" },
+        { value: "female", label: "Female" }
     ];
 
     return (
@@ -170,6 +170,7 @@ export default function AddDoctorComponent(props: AddDoctorComponentProps) {
                                     <SelectPicker
                                         name="mySelectField"
                                         data={ options }
+                                        searchable={ false }
                                         style={ { width: "100%" } }
                                     />
                                 </FormField>

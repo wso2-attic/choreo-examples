@@ -18,20 +18,24 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function convertTo12HourTime(cssTime: string): string {
     // Split the CSS time into hours and minutes
-    const [ hours, minutes ] = cssTime.split(":");
+    if(cssTime) {
+        const [ hours, minutes ] = cssTime?.split(":");
   
-    // Create a new Date object and set the hours and minutes
-    const date = new Date();
+        // Create a new Date object and set the hours and minutes
+        const date = new Date();
 
-    date.setHours(Number(hours));
-    date.setMinutes(Number(minutes));
+        date.setHours(Number(hours));
+        date.setMinutes(Number(minutes));
   
-    // Format the time using the 12-hour clock format
-    const formattedTime = date.toLocaleString("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        hour12: true
-    });
+        // Format the time using the 12-hour clock format
+        const formattedTime = date.toLocaleString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true
+        });
   
-    return formattedTime;
+        return formattedTime;
+    }
+
+    return ("");
 }
