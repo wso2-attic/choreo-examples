@@ -62,7 +62,7 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
     const[ doctor, setDoctor ] = useState<Doctor | null>(null);
     const router = useRouter();
     const [ bookingDate, setBookingDate ] = useState("Today");
-    const [ selectedDate, setSelectedDate ] = useState<Date | null>(null);
+    const [ selectedDate, setSelectedDate ] = useState<Date | null>(new Date());
     const [ stringDate, setStringDate ] = useState("");
 
     

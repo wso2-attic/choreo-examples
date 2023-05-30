@@ -20,7 +20,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { getDoctorBookingsPerDay } from "apps/business-admin-app/APICalls/GebookingsPerDay/get-bookings-per-day";
 import { getDoctorBookings } from "apps/business-admin-app/APICalls/GetDoctorBookings/get-doc-bookings";
 import { getProfile } from "apps/business-admin-app/APICalls/GetProfileInfo/me";
-import { Booking } from "apps/business-admin-app/types/booking";
+import { Booking, BookingResult } from "apps/business-admin-app/types/booking";
 import { Doctor } from "apps/business-admin-app/types/doctor";
 import Chart from "chart.js/auto";
 import { format, parse } from "date-fns";
@@ -55,7 +55,7 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
     const [ tommorrowBookingCount, setTommorrowBookingCount ] = useState(0);
     const [ yesterdayBookingCount, setYesterdayBookingCount ] = useState(0);
 
-    async function getBookings() {
+    async function getBookings(): Promise<void> {
         const accessToken = session?.accessToken;
 
         getProfile(accessToken)
@@ -84,27 +84,42 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
         return formattedDate;
     };
 
-    async function getBookingsPerDayForGraph(date: string): Promise<Booking[]> {
-        const accessToken = session?.accessToken;
+    async function getBookingsPerDayForGraph(date: string): Promise<BookingResult[]> {
+        try {
+            const accessToken = session?.accessToken;
+            const doctorId = doctor?.id;
       
-        getDoctorBookingsPerDay(accessToken, doctor?.id, date)
-            .then(response => {
-                if (response.data instanceof Array) {
-                    return response.data as Booking[];
-                }
-            })
-            .catch((e) => {
-                // eslint-disable-next-line no-console
-                console.log(e);
-            });
-
-        return ([]);
+            const response = await getDoctorBookingsPerDay(accessToken, doctorId, date);
+      
+            if (response.data instanceof Array) {
+                return response.data as BookingResult[];
+            }
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.log(error);
+        }
+      
+        return [];
     }
+      
 
     useEffect(() => {
-        getBookings();
+        const fetchData = async () => {
+            try {
+                await getBookings();
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log(error);
+            }
+        };
+        
+        fetchData();
+    }, [ session ]);
 
-        const fetchBookingsPerDay = async () => {
+
+    useEffect(() => {
+
+        const fetchData = async () => {
             try {
                 const currentDate = new Date();
                 const tomorrowDate = new Date();
@@ -128,15 +143,15 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                 setTodayBookingCount(todayBookingList.length);
                 setTommorrowBookingCount(tommorrowBookingList.length);
                 setYesterdayBookingCount(yesterdayBookingList.length);
-        
             } catch (error) {
                 // eslint-disable-next-line no-console
-                console.log("Error:", error);
+                console.log(error);
             }
         };
-
-        fetchBookingsPerDay();
-    }, [ session ]);
+        
+        fetchData();
+        
+    }, [ doctor?.id ]);
 
     const DonutChart: React.FC = () => {
         const chartRef = useRef<HTMLCanvasElement>(null);
@@ -184,13 +199,13 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                     new Chart(ctx, {
                         type: "bar",
                         data: {
-                            labels: [yesterday, today, tommorrow],
+                            labels: [ yesterday, today, tommorrow ],
                             datasets: [
                                 {
                                     label: "Booking Count",
-                                    data: [yesterdayBookingCount, todayBookingCount, tommorrowBookingCount],
+                                    data: [ yesterdayBookingCount, todayBookingCount, tommorrowBookingCount ],
                                     backgroundColor: 
-                                    [ "rgba(75, 192, 192, 0.8)"]
+                                    [ "rgba(75, 192, 192, 0.8)" ]
                                 }
                             ]
                         },
@@ -205,7 +220,7 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                     });
                 }
             }
-        }, []);
+        }, [ todayBookingCount,tommorrowBookingCount, yesterdayBookingCount ]);
       
         return <canvas ref={ chartRef }></canvas>;
     };

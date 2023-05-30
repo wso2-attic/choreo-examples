@@ -35,6 +35,26 @@ export interface Booking {
     org: string;
   }
 
+export interface BookingResult {
+    appointmentNumber: number;
+    date: string;
+    doctorId: string;
+    mobileNumber: string;
+    petDoB: string;
+    petId: string;
+    petName: string;
+    petOwnerName: string;
+    petType: string;
+    sessionEndTime: string;
+    sessionStartTime: string;
+    status: string;
+    createdAt: string;
+    emailAddress: string;
+    id: string;
+    org: string;
+    referenceNumber: string;
+  }
+
 export interface BookingInfo {
     appointmentNumber: number;
     date: string;
