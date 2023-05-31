@@ -1,7 +1,7 @@
 /**
- * Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.
  *
- * WSO2 Inc. licenses this file to you under the Apache License,
+ * WSO2 LLC. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,16 +17,17 @@
  */
 
 
-import { MedicalReport, updatePetInfo } from "../../types/pet";
+import { UpdateMedicalReport } from "apps/business-admin-app/types/pets";
 import { getPetInstance } from "../CreatePet/instance";
 
-export async function postMedicalReport(accessToken: string, petID: string, payload?: MedicalReport) {
+export async function postMedicalReport(accessToken: string, petID: string, payload?: UpdateMedicalReport) {
     const headers = {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`
     };
     const response = await getPetInstance().post("/pets/" + petID + "/medical-reports", payload, {
-        headers: headers,
+        headers: headers
     });
+
     return response;
 
 }

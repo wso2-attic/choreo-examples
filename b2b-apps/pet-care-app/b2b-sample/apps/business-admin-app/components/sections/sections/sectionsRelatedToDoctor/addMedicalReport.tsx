@@ -22,7 +22,7 @@ import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
 import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } from "@b2bsample/shared/util/util-front-end-util";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { postPet } from "apps/business-admin-app/APICalls/CreatePet/post-pet";
-import { MedicalReport, Medicine, Pet, updatePetInfo } from "apps/business-admin-app/types/pets";
+import { MedicalReport, Medicine, Pet, UpdateMedicalReport, updatePetInfo } from "apps/business-admin-app/types/pets";
 import { AxiosResponse } from "axios";
 import { Session } from "next-auth";
 import { useState } from "react";
@@ -81,7 +81,7 @@ export default function AddMedicalReportComponent(props: AddMedicalReportCompone
 
     const onSubmit = async (values: Record<string, string>, form): Promise<void> => {
         setLoadingDisplay(LOADING_DISPLAY_BLOCK);
-        const payload: MedicalReport = {
+        const payload: UpdateMedicalReport = {
             diagnosis: values.Diagnosis,
             medications: medicineList,
             treatment: values.Treatment

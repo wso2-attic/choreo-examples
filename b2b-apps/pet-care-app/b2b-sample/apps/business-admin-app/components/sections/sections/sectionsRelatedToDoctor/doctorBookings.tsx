@@ -98,6 +98,10 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
         getBookings();
     }, [ session ]);
 
+    useEffect(() =>{
+        getBookingsPerDay(getFormattedDate(new Date()));
+    }, [ doctor?.id ]);
+
     async function getBookingsPerDay(date: string) {
         const accessToken = session?.accessToken;
 

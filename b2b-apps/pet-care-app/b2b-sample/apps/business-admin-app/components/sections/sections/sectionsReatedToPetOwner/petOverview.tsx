@@ -260,7 +260,10 @@ export default function PetOverview(props: PetOverviewProps) {
                 <Button onClick={ handleEdit } appearance="primary">
                     Edit
                 </Button>
-                <Button onClick={ handleDelete } appearance="subtle">
+                <Button
+                    onClick={ handleDelete }
+                    appearance="subtle"
+                    style={ { backgroundColor: "lightcoral", color: "white" } }>
                     Delete
                 </Button>
             </Modal.Footer>

@@ -213,7 +213,10 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                             responsive: true,
                             scales: {
                                 y: {
-                                    beginAtZero: true
+                                    beginAtZero: true,
+                                    ticks: {
+                                        precision: 0 
+                                    }
                                 }
                             }
                         }
