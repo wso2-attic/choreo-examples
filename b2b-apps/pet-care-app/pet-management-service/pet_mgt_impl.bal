@@ -240,15 +240,21 @@ function getThumbnailByPetId(string org, string owner, string petId) returns Thu
     }
 }
 
-function getMedicalReportsByPetId(string org, string owner, string petId) returns MedicalReport[]|error {
+function getMedicalReportsByPetId(string petId) returns MedicalReport[]|error {
 
     MedicalReport[] medicalReports = [];
     if (useDB) {
         return dbGetMedicalReportsByPetId(petId);
     } else {
-        PetRecord? petRecord = petRecords[org, owner, petId];
-        if petRecord is () {
-            log:printInfo("Pet record not found: " + petId + " " + owner + " " + org);
+        PetRecord petRecord = {id: "", org: "", owner: "", name: "", dateOfBirth: "", breed: ""};
+        petRecords.forEach(function(PetRecord petRecordValue) {
+            if petRecordValue.id == petId {
+                petRecord = petRecordValue;
+            }
+        });
+
+        if petRecord.id is "" {
+            log:printInfo("Pet record not found: " + petId);
             return medicalReports;
         }
 

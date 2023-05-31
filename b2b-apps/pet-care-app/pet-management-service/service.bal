@@ -175,15 +175,7 @@ service / on new http:Listener(9090) {
     # + return - Medical report record or error
     resource function get pets/[string petId]/medical\-reports(http:Headers headers) returns MedicalReport[]|error? {
 
-        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
-        if userInfo is error {
-            return userInfo;
-        }
-
-        string org = userInfo.organization;
-        string owner = userInfo.userId;
-
-        return getMedicalReportsByPetId(org, owner, petId);
+        return getMedicalReportsByPetId(petId);
     }
 
     # Create a new medical report

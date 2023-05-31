@@ -158,6 +158,7 @@ function updateDoctorById(string org, string doctorId, DoctorItem updatedDoctorI
         if oldeDoctorRecord is () {
             return ();
         }
+        _ = doctorRecords.remove([org, doctorId]);
         doctorRecords.put({id: doctorId, org: org, createdAt: oldeDoctorRecord.createdAt, ...updatedDoctorItem});
         Doctor? doctor = doctorRecords[org, doctorId];
         return doctor;
