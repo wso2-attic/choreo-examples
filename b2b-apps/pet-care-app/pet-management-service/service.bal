@@ -26,7 +26,7 @@ service / on new http:Listener(9090) {
     # Create a new pet
     # + newPet - Basic pet details
     # + return - Created pet record or error
-    resource function post pets(http:Headers headers, @http:Payload PetItem newPet) returns Pet|http:Created|error? {
+    resource function post pets(http:Headers headers, @http:Payload PetItem newPet) returns Pet|error? {
 
         choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
         if userInfo is error {
@@ -190,7 +190,7 @@ service / on new http:Listener(9090) {
     # + medicalReportItem - Medical report details
     # + return - Created medical report record or error
     resource function post pets/[string petId]/medical\-reports(http:Headers headers,
-            @http:Payload MedicalReportItem medicalReportItem) returns MedicalReport|http:Created|http:NotFound|error? {
+            @http:Payload MedicalReportItem medicalReportItem) returns MedicalReport|http:NotFound|error? {
 
         choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
         if userInfo is error {
