@@ -319,8 +319,6 @@ export default function BookingDetails() {
                                             Last vaccination Date</TableCell>
                                         <TableCell align="center" style={ { fontSize: "1.7vh", fontWeight: "bold" } }>
                                             Next Vaccination Date</TableCell>
-                                        <TableCell align="center" style={ { fontSize: "1.7vh", fontWeight: "bold" } }>
-                                            Enable Alerts</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -332,11 +330,6 @@ export default function BookingDetails() {
                                                 { vaccine.lastVaccinationDate }</TableCell>
                                             <TableCell align="center" style={ { fontSize: "1.7vh", padding: 1 } }>
                                                 { vaccine.nextVaccinationDate }</TableCell>
-                                            <TableCell align="center" style={ { fontSize: "1.7vh", padding: 1 } }>
-                                                <Checkbox
-                                                    color="primary"
-                                                    disabled={ true }
-                                                    checked={ vaccine.enableAlerts } /></TableCell>
                                         </TableRow>
                                     )) }
                                 </TableBody>
