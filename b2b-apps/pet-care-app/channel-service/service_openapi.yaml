@@ -41,6 +41,10 @@ paths:
       responses:
         "201":
           description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
         "500":
           description: Internal server error
           content:
@@ -305,8 +309,10 @@ paths:
       responses:
         "201":
           description: Created
-        "400":
-          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
         "500":
           description: Internal server error
           content:

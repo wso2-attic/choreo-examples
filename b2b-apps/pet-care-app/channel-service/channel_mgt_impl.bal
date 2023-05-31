@@ -441,7 +441,7 @@ function updateBookingById(string org, string bookingId, BookingItemUpdated upda
         return oldeBookingRecord;
     } else if oldeBookingRecord is () {
         return ();
-    } else if oldeBookingRecord is Booking {
+    } else {
 
         Booking booking = {
             id: bookingId,

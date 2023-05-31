@@ -24,7 +24,7 @@ service / on new http:Listener(9090) {
     # Create a new doctor
     # + newDoctor - basic doctor details
     # + return - created doctor record or error
-    resource function post doctors(http:Headers headers, @http:Payload DoctorItem newDoctor) returns Doctor|http:Created|error? {
+    resource function post doctors(http:Headers headers, @http:Payload DoctorItem newDoctor) returns Doctor|error? {
 
         choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
         if userInfo is error {
@@ -234,8 +234,7 @@ service / on new http:Listener(9090) {
     # Create a new booking
     # + newBooking - basic booking details
     # + return - created booking record or error
-    resource function post bookings(http:Headers headers, @http:Payload BookingItem newBooking) returns
-    Booking|http:Created|http:BadRequest|error? {
+    resource function post bookings(http:Headers headers, @http:Payload BookingItem newBooking) returns Booking|error? {
 
         choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
         if userInfo is error {
