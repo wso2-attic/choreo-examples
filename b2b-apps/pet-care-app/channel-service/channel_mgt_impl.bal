@@ -125,32 +125,15 @@ function getDoctorById(string doctorId) returns Doctor|()|error {
 
 function getDoctorByOrgAndEmail(string org, string emailAddress) returns Doctor|()|error {
 
-    Doctor doctor = {
-        id: "",
-        org: "",
-        emailAddress: "",
-        address: "",
-        specialty: "",
-        gender: "",
-        registrationNumber: "",
-        name: "",
-        availability: [],
-        createdAt: ""
-    };
     if (useDB) {
         return dbGetDoctorByOrgAndEmail(org, emailAddress);
     } else {
         foreach Doctor doc in doctorRecords {
             if doc.org == org && doc.emailAddress == emailAddress {
-                doctor = doc;
-                break;
+                return doc;
             }
         }
-
-        if doctor.id == "" {
-            return ();
-        }
-        return doctor;
+        return ();
     }
 
 }

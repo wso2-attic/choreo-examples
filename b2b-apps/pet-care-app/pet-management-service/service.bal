@@ -207,15 +207,7 @@ service / on new http:Listener(9090) {
     resource function get pets/[string petId]/medical\-reports/[string reportId](http:Headers headers) returns MedicalReport|
     http:NotFound|error? {
 
-        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
-        if userInfo is error {
-            return userInfo;
-        }
-
-        string org = userInfo.organization;
-        string owner = userInfo.userId;
-
-        MedicalReport|()|error medicalReportsByPetIdAndReportId = getMedicalReportsByPetIdAndReportId(org, owner, petId, reportId);
+        MedicalReport|()|error medicalReportsByPetIdAndReportId = getMedicalReportsByPetIdAndReportId(petId, reportId);
         if medicalReportsByPetIdAndReportId is () {
             return http:NOT_FOUND;
         }
@@ -231,15 +223,7 @@ service / on new http:Listener(9090) {
     resource function put pets/[string petId]/medical\-reports/[string reportId](http:Headers headers,
             @http:Payload MedicalReportItem updatedMedicalReportItem) returns http:Ok|http:NotFound|error? {
 
-        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
-        if userInfo is error {
-            return userInfo;
-        }
-
-        string org = userInfo.organization;
-        string owner = userInfo.userId;
-
-        MedicalReport|()|error medicalReport = updateMedicalReport(org, owner, petId, reportId, updatedMedicalReportItem);
+        MedicalReport|()|error medicalReport = updateMedicalReport(petId, reportId, updatedMedicalReportItem);
         if medicalReport is MedicalReport {
             return http:OK;
         } else if medicalReport is () {
@@ -256,15 +240,7 @@ service / on new http:Listener(9090) {
     resource function delete pets/[string petId]/medical\-reports/[string reportId](http:Headers headers) returns
     http:NoContent|http:NotFound|error? {
 
-        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
-        if userInfo is error {
-            return userInfo;
-        }
-
-        string org = userInfo.organization;
-        string owner = userInfo.userId;
-
-        string|()|error medicalReportById = deleteMedicalReportById(org, owner, petId, reportId);
+        string|()|error medicalReportById = deleteMedicalReportById(petId, reportId);
         if medicalReportById is string {
             return http:NO_CONTENT;
         } else if medicalReportById is () {
