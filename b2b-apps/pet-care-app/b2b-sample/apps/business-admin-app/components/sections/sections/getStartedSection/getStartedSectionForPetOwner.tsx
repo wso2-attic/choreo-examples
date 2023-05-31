@@ -176,7 +176,7 @@ export default function GetStartedSectionComponentForPetOwner(props: GetStartedS
                     <div className={ styles.dailyBookingSummaryHeader }>
                         Upcoming Bookings
                     </div>
-                    { filteredBookings? (
+                    { filteredBookings?.length>0 ? (
                         <div className={ styles.dashboardBookingDiv }>
                             <Grid container spacing={ 2 }>
                                 { filteredBookings && filteredBookings.map((booking) => (
