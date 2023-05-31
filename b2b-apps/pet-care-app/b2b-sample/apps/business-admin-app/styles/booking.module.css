@@ -183,16 +183,32 @@
 }
 
 .bookingIcon {
-    width: 5vh;
+    /* position: absolute; */
+    /* width: 5vh;
     height: 5vh;
     margin-top: 2.5vh;
+    margin-left: 0.5vw; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 5vh;
+    height: 5vh;
+    margin-top: 3vh;
     margin-left: 0.5vw;
 }
 
 .bookingSummary {
-    width: 18vw;
+    /* position: absolute; */
+    /* width: 18vw;
     margin-left: 4vw;
-    margin-top: -7vh;
+    margin-top: 0vh;
+    text-align: left; */
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 15vw;
+    margin-left: 4vw;
+    margin-top: -4vh;
     text-align: left;
 }
 

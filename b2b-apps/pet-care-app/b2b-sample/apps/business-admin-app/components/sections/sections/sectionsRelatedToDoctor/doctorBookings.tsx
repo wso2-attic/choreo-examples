@@ -87,9 +87,11 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
     }
 
     const getFormattedDate = (date: Date): string => {
-        const localDateString = date.toLocaleDateString();
-        const parsedDate = parse(localDateString, "M/d/yyyy", new Date());
-        const formattedDate = format(parsedDate, "yyyy-MM-dd");
+        // const localDateString = date.toLocaleDateString();
+        // const parsedDate = parse(localDateString, "M/d/yyyy", new Date());
+        // const formattedDate = format(parsedDate, "yyyy-MM-dd");
+        const formattedDate = format(date, 'yyyy-MM-dd');
+        console.log("formattedDate"+ formattedDate);
 
         return formattedDate;
     };

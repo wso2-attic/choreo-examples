@@ -100,9 +100,6 @@ export default function BookingOverviewInPetOwnerView(props: BookingOverviewInPe
                                 <Typography>
                                     <p className={ styles.bookingOverviewFont }>Date</p>
                                 </Typography>
-                                <Typography>
-                                    <p className={ styles.bookingOverviewFont }>Doctor ID</p>
-                                </Typography>
                                 { booking?.mobileNumber && (
                                     <Typography>
                                         <p className={ styles.bookingOverviewFont }>Mobile Number</p>
@@ -110,9 +107,6 @@ export default function BookingOverviewInPetOwnerView(props: BookingOverviewInPe
                                 ) }
                                 <Typography>
                                     <p className={ styles.bookingOverviewFont }>{ "Pet's Date of Birth" }</p>
-                                </Typography>
-                                <Typography>
-                                    <p className={ styles.bookingOverviewFont }>Pet ID</p>
                                 </Typography>
                                 <Typography>
                                     <p className={ styles.bookingOverviewFont }>Pet Name</p>
@@ -146,9 +140,6 @@ export default function BookingOverviewInPetOwnerView(props: BookingOverviewInPe
                                 <Typography>
                                     <p className={ styles.bookingOverviewFont }>{ booking?.date }</p>
                                 </Typography>
-                                <Typography>
-                                    <p className={ styles.bookingOverviewFont }>{ booking?.doctorId }</p>
-                                </Typography>
                                 { booking?.mobileNumber && (
                                     <Typography>
                                         <p className={ styles.bookingOverviewFont }>{ booking?.mobileNumber }</p>
@@ -156,9 +147,6 @@ export default function BookingOverviewInPetOwnerView(props: BookingOverviewInPe
                                 ) }
                                 <Typography>
                                     <p className={ styles.bookingOverviewFont }>{ booking?.petDoB }</p>
-                                </Typography>
-                                <Typography>
-                                    <p className={ styles.bookingOverviewFont }>{ booking?.petId }</p>
                                 </Typography>
                                 <Typography>
                                     <p className={ styles.bookingOverviewFont }>{ booking?.petName }</p>

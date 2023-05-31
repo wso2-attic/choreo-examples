@@ -21,8 +21,8 @@ import { Card, CardContent, Grid, Typography } from "@mui/material";
 import React from "react";
 // eslint-disable-next-line import/order
 import { Booking } from "apps/business-admin-app/types/booking";
-import styles from "../../../../styles/booking.module.css";
 import convertTo12HourTime from "./timeConverter";
+import styles from "../../../../styles/booking.module.css";
 
 interface BookingCardProps {
     booking: Booking;
@@ -44,7 +44,7 @@ function BookingCard(props: BookingCardProps) {
                         <Grid container spacing={ 2 }>
                             <Grid item xs={ 6 }>
                                 <Typography className="typography-style">
-                                    <p className={ styles.bookingOverviewFont }>Appointment No</p>
+                                    <p className={ styles.bookingOverviewFont }>Appt. No.</p>
                                 </Typography>
                                 <Typography className="typography-style">
                                     <p className={ styles.bookingOverviewFont }>Date</p>
