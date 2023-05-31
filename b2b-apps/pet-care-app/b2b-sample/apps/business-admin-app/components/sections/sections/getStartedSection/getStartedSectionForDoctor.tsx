@@ -45,7 +45,6 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
     const { session } = props;
     const [ doctor, setDoctor ] = useState<Doctor | null>(null);
     const [ bookingList, setBookingList ] = useState<Booking[] | null>(null);
-    const router = useRouter();
     const typesToFilter: string[] = [ "confirmed", "completed" ];
     const [ filteredCount, setFilteredCount ] = useState<{ [key: string]: number }>({});
     const [ yesterday, setYesterday ] = useState("");

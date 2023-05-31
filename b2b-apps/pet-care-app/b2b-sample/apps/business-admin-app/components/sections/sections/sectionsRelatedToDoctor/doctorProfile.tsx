@@ -66,7 +66,7 @@ export default function DoctorProfileSection(props: DoctorProfileSectionProps) {
 
                     setStringDate(stringDate);
                 }
-                const response = await getDocThumbnail(accessToken, doctor?.id);
+                const response = await getDocThumbnail(accessToken, res.data.id);
 
                 if (response.data.size > 0) {
                     const imageUrl = URL.createObjectURL(response.data);

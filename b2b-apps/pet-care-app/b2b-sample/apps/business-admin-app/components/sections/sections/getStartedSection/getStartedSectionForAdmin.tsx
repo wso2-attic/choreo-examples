@@ -17,15 +17,12 @@
  */
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Grid } from "@mui/material";
 import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
 import { Doctor } from "apps/business-admin-app/types/doctor";
-import { registerables } from "chart.js";
 import Chart from "chart.js/auto";
 import { Session } from "next-auth";
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { Button, Stack, useToaster } from "rsuite";
+import { Stack } from "rsuite";
 import styles from "../../../../styles/Home.module.css";
 
 interface GetStartedSectionComponentForAdminProps {
@@ -36,19 +33,14 @@ interface GetStartedSectionComponentForAdminProps {
  * 
  * @param prop - session
  * 
- * @returns The idp interface section.
+ * @returns Get started section for Admin user.
  */
 export default function GetStartedSectionComponentForAdmin(props: GetStartedSectionComponentForAdminProps) {
 
     const { session } = props;
     const [ doctorList, setDoctorList ] = useState<Doctor[] | null>(null);
-    const [ isAddDoctorOpen, setIsAddDoctorOpen ] = useState(false);
-    const [ isDoctorOverviewOpen, setIsDoctorOverviewOpen ] = useState(false);
-    const [ doctor, setDoctor ] = useState<Doctor | null>(null);
-    const [ isDoctorEditOpen, setIsDoctorEditOpen ] = useState(false);
     const typesToFilter: string[] = [ "cardiology", "neurology", "oncology", "nutrition" ];
     const [ filteredCount, setFilteredCount ] = useState<{ [key: string]: number }>({});
-    const router = useRouter();
     const [ labels, setLabels ] = useState<string[]>([]); 
     const [ data, setdata ] = useState<number[]>([]);
 

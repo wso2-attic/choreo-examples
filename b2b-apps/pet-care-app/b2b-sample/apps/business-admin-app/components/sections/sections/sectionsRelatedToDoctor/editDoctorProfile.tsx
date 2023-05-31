@@ -32,6 +32,7 @@ import female_doc_thumbnail from "../../../../../../libs/business-admin-app/ui/u
 // eslint-disable-next-line max-len
 import male_doc_thumbnail from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/male-doc-thumbnail.png";
 import styles from "../../../../styles/doctor.module.css";
+import convertTo12HourTime from "../sectionsRelatedToBookings/timeConverter";
 
 
 interface EditDoctorProfileProps {
@@ -278,12 +279,12 @@ export default function EditDoctorProfile(props: EditDoctorProfileProps) {
                         Choose an available date, start time, end time and booking count respectively.
                     </Message>
                     <div className={ styles.availabilityInfoGridInEditView }>
-                        {/* <div className={ styles.availabilityInfoGridHeadersInEdit }>
+                        { /* <div className={ styles.availabilityInfoGridHeadersInEdit }>
                             <label className={ styles.availabilityInfoGridHeaderStyleInEdit }>Available Date</label>
                             <label className={ styles.availabilityInfoGridHeaderStyleInEdit }>Start Time</label>
                             <label className={ styles.availabilityInfoGridHeaderStyleInEdit }>End Time</label>
                             <label className={ styles.availabilityInfoGridHeaderStyleInEdit }>Booking Count</label>
-                        </div> */}
+                        </div> */ }
                         <input
                             className={ styles.availabilityInputStyle }
                             id="available_date"
@@ -373,11 +374,13 @@ export default function EditDoctorProfile(props: EditDoctorProfileProps) {
                                                 <TableCell
                                                     align="center" 
                                                     style={ { fontSize: "1.7vh", padding: "1vh" } }>
-                                                    { availability.timeSlots[0].startTime }</TableCell>
+                                                    { convertTo12HourTime(availability.timeSlots[0].startTime) }
+                                                </TableCell>
                                                 <TableCell
                                                     align="center" 
                                                     style={ { fontSize: "1.7vh", padding: "1vh" } }>
-                                                    { availability.timeSlots[0].endTime }</TableCell>
+                                                    { convertTo12HourTime(availability.timeSlots[0].endTime) }
+                                                </TableCell>
                                                 <TableCell
                                                     align="center" 
                                                     style={ { fontSize: "1.7vh", padding: "1vh" } }>
