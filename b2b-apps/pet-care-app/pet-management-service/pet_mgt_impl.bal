@@ -290,7 +290,7 @@ function getMedicalReportsByPetIdAndReportId(string org, string owner, string pe
     }
 }
 
-function addMedicalReport(string org, string owner, string petId, MedicalReportItem medicalReportItem) returns MedicalReport|()|error {
+function addMedicalReport(string petId, MedicalReportItem medicalReportItem) returns MedicalReport|()|error {
 
     string reportId = uuid:createType1AsString();
     string createdAt = getCurrentDateTime();
@@ -299,8 +299,14 @@ function addMedicalReport(string org, string owner, string petId, MedicalReportI
     if (useDB) {
         return dbAddOrUpdateMedicalRecord(petId, medicalReport, false);
     } else {
-        PetRecord? petRecord = petRecords[org, owner, petId];
-        if petRecord is () {
+        PetRecord petRecord = {id: "", org: "", owner: "", name: "", dateOfBirth: "", breed: ""};
+        petRecords.forEach(function(PetRecord petRecordValue) {
+            if petRecordValue.id == petId {
+                petRecord = petRecordValue;
+            }
+        });
+
+        if petRecord.id == "" {
             return ();
         }
 

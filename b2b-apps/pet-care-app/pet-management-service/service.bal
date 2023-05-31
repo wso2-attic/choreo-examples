@@ -192,15 +192,7 @@ service / on new http:Listener(9090) {
     resource function post pets/[string petId]/medical\-reports(http:Headers headers,
             @http:Payload MedicalReportItem medicalReportItem) returns MedicalReport|http:NotFound|error? {
 
-        choreoUserInfo:UserInfo|error userInfo = userInfoResolver.retrieveUserInfo(headers);
-        if userInfo is error {
-            return userInfo;
-        }
-
-        string org = userInfo.organization;
-        string owner = userInfo.userId;
-
-        MedicalReport|()|error medicalReport = addMedicalReport(org, owner, petId, medicalReportItem);
+        MedicalReport|()|error medicalReport = addMedicalReport(petId, medicalReportItem);
         if medicalReport is () {
             return http:NOT_FOUND;
         }
