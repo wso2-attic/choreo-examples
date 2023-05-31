@@ -168,7 +168,7 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                             datasets: [
                                 {
                                     data: [ filteredCount["confirmed"], filteredCount["completed"] ],
-                                    backgroundColor: [ "blue", "green" ]
+                                    backgroundColor: [ "#4e40ed", "#4e7eed" ]
                                 }
                             ]
                         },
@@ -205,7 +205,7 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                                     label: "Booking Count",
                                     data: [ yesterdayBookingCount, todayBookingCount, tommorrowBookingCount ],
                                     backgroundColor: 
-                                    [ "rgba(75, 192, 192, 0.8)" ]
+                                    [ "#4e5ded" ]
                                 }
                             ]
                         },

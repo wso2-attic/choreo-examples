@@ -646,4 +646,3 @@ components:
         nextAppointmentNumber:
           type: integer
           format: int64
-          

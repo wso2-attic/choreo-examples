@@ -34,7 +34,7 @@ import convertTo12HourTime from "../components/sections/sections/sectionsRelated
 import AddMedicalReportComponent from "../components/sections/sections/sectionsRelatedToDoctor/addMedicalReport";
 import MedicalReportOverview from "../components/sections/sections/sectionsRelatedToDoctor/medicalReportOverview";
 import styles from "../styles/booking.module.css";
-import { BookingInfo } from "../types/booking";
+import { BookingInfo, CompleteBooking } from "../types/booking";
 import { MedicalReport, Pet } from "../types/pets";
 
 
@@ -138,7 +138,7 @@ export default function BookingDetails() {
     const handleComplete = async () => {
         async function updateBookingInfo() {
             const accessToken = token?.toString();
-            const payload: BookingInfo = {
+            const payload: CompleteBooking = {
                 date: date?.toString(),
                 doctorId: doctorId?.toString(),
                 mobileNumber: mobileNumber?.toString(),
@@ -149,7 +149,7 @@ export default function BookingDetails() {
                 petType: pet?.breed,
                 sessionEndTime: sessionEndTime?.toString(),
                 sessionStartTime: sessionStartTime?.toString(),
-                // status: "Completed"
+                status: "Completed"
             };
             const response = await updateBooking(accessToken, id?.toString(), payload);
         }

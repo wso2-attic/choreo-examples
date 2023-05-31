@@ -67,6 +67,20 @@ export interface BookingInfo {
     sessionEndTime: string;
     sessionStartTime: string;
   }  
+
+export interface CompleteBooking{
+    date: string;
+    doctorId: string;
+    mobileNumber: string;
+    petDoB: string;
+    petId: string;
+    petName: string;
+    petOwnerName: string;
+    petType: string;
+    sessionEndTime: string;
+    sessionStartTime: string;
+    status: string;
+  }    
   
 export interface AppointmentNoInfo {
   activeBookingCount: number;

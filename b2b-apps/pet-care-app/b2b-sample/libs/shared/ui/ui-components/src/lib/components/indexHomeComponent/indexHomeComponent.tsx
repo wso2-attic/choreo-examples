@@ -36,7 +36,9 @@ export function IndexHomeComponent(prop: IndexHomeComponentProps) {
         <div>
 
             <main className={ styles["main"] }>
-                <Image src={ image } className={ styles["homeImageDiv"] } alt="home image" />
+                <div className={ styles["homeImageDiv"] }>
+                    <Image src={ image } alt="home image" className={ styles["homeImage"] } />
+                </div>
 
                 <div className={ styles["signInDiv"] }>
                     { logoComponent }
@@ -55,8 +57,6 @@ export function IndexHomeComponent(prop: IndexHomeComponentProps) {
                 </div>
 
             </main>
-
-            <FooterComponent />
         </div>
     );
 }

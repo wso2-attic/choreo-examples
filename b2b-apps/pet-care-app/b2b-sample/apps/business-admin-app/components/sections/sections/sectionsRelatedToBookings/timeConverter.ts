@@ -19,7 +19,7 @@
 export default function convertTo12HourTime(cssTime: string): string {
     // Split the CSS time into hours and minutes
     if(cssTime) {
-        const [ hours, minutes ] = cssTime?.split(":");
+        const [ hours, minutes ] = cssTime.split(":");
   
         // Create a new Date object and set the hours and minutes
         const date = new Date();
