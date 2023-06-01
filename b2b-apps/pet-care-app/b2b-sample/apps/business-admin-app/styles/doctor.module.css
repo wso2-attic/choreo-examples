@@ -171,9 +171,9 @@
 
 .vaccInfoDivInOverview {
     width:30vw;
-    position: absolute;
+    /* position: absolute; */
     top:18vh;
-    left: 24vw;
+    margin-left: 24vw;
 }
 
 .docImageStyle {
@@ -372,9 +372,9 @@
     font-size: 2vh;
     color: rgb(105, 105, 105);
     font-weight: bold;
-    position: absolute;
     left: 0vw;
-    top: 2vh;
+    margin-top: 1vh;
+    padding-bottom: 1vh;
 }
 
 .addUserMainDiv {
@@ -404,13 +404,22 @@
 }
 .vaccinationHeaderInOverview {
     width: 20vw;
-    position: absolute;
-    left: 24vw;
+    /* position: absolute; */
+    margin-left: 24vw;
     text-align: left;
     font-weight: bold;
     font-size: 2.5vh;
     top: 15vh;
     color: black;
+}
+
+.medicalReportHeaderInOverview {
+    text-align: left;
+  font-weight: bold;
+  font-size: 2.5vh;
+  color: black;
+  margin-left: 24vw;
+  /* margin-top: 10vh; */
 }
 
 .vaccinationHeaderInEdit {
@@ -570,4 +579,9 @@
 .datePickerDiv {
     width: 40vw;
     height: 30vh;
+}
+
+.petVaccInfoContainer {
+    display: flex;
+    flex-direction: column;
 }

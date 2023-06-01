@@ -16,22 +16,16 @@
  * under the License.
  */
 
-import { AxiosResponse } from "axios";
-import { Pet } from "../../types/pet";
-import { getPetInstance } from "../CreatePet/instance";
+import { UpdateOrgInfo } from "../../types/doctor";
+import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
-function timeout(delay: number) {
-    return new Promise( res => setTimeout(res, delay) );
-}
-
-export async function getPets(accessToken: string) {
+export async function putOrgInfo(accessToken: string, payload?: UpdateOrgInfo) {
     const headers = {
         Authorization: `Bearer ${accessToken}`
     };
-    // await timeout(1000);
-    const response = await getPetInstance().get("/pets", {
+    const response = await getDoctorInstance().put("/org-info" , payload, {
         headers: headers
     });
 
-    return response as AxiosResponse<Pet[]>;
+    return response;
 }

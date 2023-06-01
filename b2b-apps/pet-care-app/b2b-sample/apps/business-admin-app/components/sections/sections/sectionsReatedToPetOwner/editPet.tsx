@@ -61,7 +61,7 @@ export default function EditPetComponent(props: EditPetComponentProps) {
     const [ lastVaccinationDate, setLastVaccinationDate ] = useState("");
     const [ nextVaccinationDate, setNextVaccinationDate ] = useState("");
     const dateInputRef = useRef(null);
-    const [ vaccineInfo, setVaccineInfo ] = useState<VaccineInfo[] | null>([]);
+    const [ vaccineInfo, setVaccineInfo ] = useState<VaccineInfo[] | null>();
     const [ message, setMessage ] = useState(null);
     const [ lastDate, setLastDate ] = useState(null);
     const [ nextDate, setNextDate ] = useState(null);
@@ -69,6 +69,9 @@ export default function EditPetComponent(props: EditPetComponentProps) {
     const [ isChecked, setIsChecked ] = useState(false);
 
 
+    useEffect(() => {
+        setVaccineInfo(pet?.vaccinations);
+    }, [ isOpen ]);
 
     const handleSave = () => {
         async function updatePets() {

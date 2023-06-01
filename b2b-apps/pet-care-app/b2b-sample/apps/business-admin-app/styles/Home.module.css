@@ -118,6 +118,15 @@
     border-radius: 1vh;
 }
 
+.orgProfileDiv {
+    width: 70vw;
+    height: 40vh;
+    margin-top: 5vh;
+    background-color: rgb(255, 255, 255);
+    border-radius: 1vh;
+    overflow: auto;
+}
+
 .bookingSummaryHeader {
     font-size: 3vh;
     font-weight: bold;
@@ -206,3 +215,58 @@
     margin-top: 1vh;
 }
 
+.orgInfoGrid {
+    width: 30vw;
+    margin-left: 2vw;
+    margin-top: -5vh;
+}
+
+.orgInfoFont {
+    font-size: 2vh;
+    color: rgb(105, 105, 105);
+    font-weight: bold;
+    padding-bottom: 2.5vh;
+}
+
+.orgInfoInputStyle {
+    width: 18vw;
+    font-size: 2vh;
+    padding: 0.1vh;
+    margin-bottom: 1vh;
+}
+
+.editOrgDetailBtn {
+    position: sticky;
+    margin-left: 65vw;
+    width: 2.5vw;
+    height: 2.5vw;
+    background-color: #d8d8d8;
+    border-radius: 1vh;
+
+}
+
+.buttonContainer {
+    position: sticky;
+    top: 0;
+    right: 0;
+    margin-left: 61vw;
+    display: flex;
+    align-items: center;
+    padding-left: 1vw;
+  }
+
+.saveEditOrgDetailBtn {
+    width: 2.5vw;
+    height: 2.5vw;
+    background-color: #d8d8d8;
+    border-radius: 1vh;
+    margin-right: 0.5vw;
+}
+
+.closeEditOrgDetailBtn {
+    width: 2.5vw;
+    height: 2.5vw;
+    background-color: #d8d8d8;
+    border-radius: 1vh;
+    margin-right: 0.5vw;
+}

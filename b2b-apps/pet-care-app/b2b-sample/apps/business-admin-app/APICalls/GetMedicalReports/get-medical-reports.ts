@@ -16,9 +16,9 @@
  * under the License.
  */
 
+import { MedicalReport } from "apps/business-admin-app/types/pets";
 import { AxiosResponse } from "axios";
 import { getPetInstance } from "../CreatePet/instance";
-import { MedicalReport } from "apps/business-admin-app/types/pets";
 
 function timeout(delay: number) {
     return new Promise( res => setTimeout(res, delay) );

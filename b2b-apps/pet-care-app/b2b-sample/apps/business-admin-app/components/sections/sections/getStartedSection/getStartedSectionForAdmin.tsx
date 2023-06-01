@@ -17,8 +17,14 @@
  */
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Grid, Typography } from "@mui/material";
+import CheckOutlineIcon from "@rsuite/icons/CheckOutline";
+import CloseOutlineIcon from "@rsuite/icons/CloseOutline";
+import EditIcon from "@rsuite/icons/Edit";
 import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
-import { Doctor } from "apps/business-admin-app/types/doctor";
+import { getOrgInfo } from "apps/business-admin-app/APICalls/GetOrgDetails/get-org-info";
+import { putOrgInfo } from "apps/business-admin-app/APICalls/UpdateOrgInfo/put-org-info";
+import { Doctor, OrgInfo, UpdateOrgInfo } from "apps/business-admin-app/types/doctor";
 import Chart from "chart.js/auto";
 import { Session } from "next-auth";
 import { useEffect, useRef, useState } from "react";
@@ -43,6 +49,13 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
     const [ filteredCount, setFilteredCount ] = useState<{ [key: string]: number }>({});
     const [ labels, setLabels ] = useState<string[]>([]); 
     const [ data, setdata ] = useState<number[]>([]);
+    const [ edit, setEdit ] = useState(false);
+    const [ orgInfo, setOrgInfo ] = useState<OrgInfo | null>(null);
+    const [ regNo, setRegNo ] = useState("");
+    const [ orgAddress, setOrgAddress ] = useState("");
+    const [ telephoneNo, setTelephoneNo ] = useState("");
+    const [ reload, setReload ] = useState(false);
+
 
     async function getDoctorList() {
         const accessToken = session.accessToken;
@@ -66,9 +79,63 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
             });
     }
 
+    async function getOrgDetails() {
+        const accessToken = session.accessToken;
+
+        getOrgInfo(accessToken)
+            .then((res) => {
+                if (res.data) {
+                    setOrgInfo(res.data);
+                }
+            })
+            .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.log(e);
+            });
+    }
+
     useEffect(() => {
         getDoctorList();
+        getOrgDetails();
     }, [ session ]);
+
+    useEffect(() => {
+        setRegNo(orgInfo?.registrationNumber);
+    }, [ orgInfo ]);
+
+    const handleEdit = () => {
+        setEdit(true);
+    };
+
+    const handleSave = () => {
+        setEdit(false);
+        async function updateOrgDetails() {
+            const accessToken = session.accessToken;
+            const name = session.orgName;
+            const address = (orgAddress) ? orgAddress : orgInfo.address;
+            const registrationNumber = (regNo) ? regNo : orgInfo.registrationNumber;
+            const telephoneNumber = (telephoneNo) ? telephoneNo : orgInfo.telephoneNumber;
+
+            const payload: UpdateOrgInfo = {
+                address: address,
+                name: name,
+                registrationNumber: registrationNumber,
+                telephoneNumber: telephoneNumber
+            };
+
+            putOrgInfo(accessToken, payload);
+        }
+        updateOrgDetails();
+    };
+
+    const handleCancel = async () => {
+        getOrgDetails();
+        setReload(true);
+        setEdit(false);
+        await sleep(20);
+        setReload(false);
+    };
+
 
     const DonutChart: React.FC = () => {
         const chartRef = useRef<HTMLCanvasElement>(null);
@@ -173,6 +240,90 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
             <Stack
                 direction="row"
                 justifyContent="space-between">
+                <div className={ styles.orgProfileDiv }>
+                    <div className={ styles.bookingSummaryHeader }>
+                        Organization Profile
+                    </div>
+                    { edit? (
+                        <div className={ styles.buttonContainer }>
+                            <button className={ styles.closeEditOrgDetailBtn } onClick={ () => { handleCancel(); } }>
+                                <CloseOutlineIcon style={ { width: "100%", height: "100%", color: "#4e40ed" } } />
+                            </button>
+                            <button className={ styles.saveEditOrgDetailBtn } onClick={ () => { handleSave(); } }>
+                                <CheckOutlineIcon style={ { width: "100%", height: "100%", color: "#4e40ed" } } />
+                            </button>
+                        </div>
+                    ):(
+                        <button className={ styles.editOrgDetailBtn } onClick={ () => {handleEdit(); } }>
+                            <EditIcon style={ { width: "100%", height: "100%", color: "#4e40ed" } }/>
+                        </button>
+                    ) }
+                    <div className={ styles.orgInfoGrid }>
+                        <Grid container spacing={ 2 }>
+                            <Grid item xs={ 6 }>
+                                <Typography className="typography-style">
+                                    <p className={ styles.orgInfoFont }>Organization Name</p>
+                                </Typography>
+                                <Typography className="typography-style">
+                                    <p className={ styles.orgInfoFont }>Registration Number</p>
+                                </Typography>
+                                <Typography className="typography-style">
+                                    <p className={ styles.orgInfoFont }>Adress</p>
+                                </Typography>
+                                <Typography className="typography-style">
+                                    <p className={ styles.orgInfoFont }>Telephone Number</p>
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={ 6 }>
+                                { !reload && (
+                                    <><Typography className="typography-style-doc-overview">
+                                        <input
+                                            className={ styles.orgInfoInputStyle }
+                                            id="org_name"
+                                            type="text"
+                                            placeholder="Organization Name"
+                                            disabled={ true }
+                                            defaultValue={ session.orgName } />
+                                    </Typography><Typography className="typography-style-doc-overview">
+                                        <input
+                                            className={ styles.orgInfoInputStyle }
+                                            id="registration_number"
+                                            type="text"
+                                            placeholder="Registration Number"
+                                            disabled={ !edit }
+                                            defaultValue={ orgInfo?.registrationNumber
+                                                    === "" ? "Registration Number" : orgInfo?.registrationNumber }
+                                            onChange={ (e) => setRegNo(e.target.value) } />
+                                    </Typography><Typography className="typography-style-doc-overview">
+                                        <input
+                                            className={ styles.orgInfoInputStyle }
+                                            id="address"
+                                            type="text"
+                                            placeholder="Address"
+                                            disabled={ !edit }
+                                            defaultValue={ orgInfo?.address === "" ? "Address" : orgInfo?.address }
+                                            onChange={ (e) => setOrgAddress(e.target.value) } />
+                                    </Typography><Typography className="typography-style-doc-overview">
+                                        <input
+                                            className={ styles.orgInfoInputStyle }
+                                            id="telephone_no"
+                                            type="text"
+                                            placeholder="Telephone Number"
+                                            disabled={ !edit }
+                                            defaultValue={ orgInfo?.telephoneNumber === "" ?
+                                                "Telephone Number" : orgInfo?.telephoneNumber }
+                                            onChange={ (e) => setTelephoneNo(e.target.value) } />
+                                    </Typography></>
+
+                                ) }
+                            </Grid>
+                        </Grid>
+                    </div>
+                </div>
+            </Stack>
+            <Stack
+                direction="row"
+                justifyContent="space-between">
                 <div className={ styles.chartDivForDoc }>
                     <div className={ styles.bookingSummaryHeader }>
                         Doctor Specialty Summary
@@ -240,3 +391,7 @@ const getBookingCountsPerDay = (doctors: Doctor[]): Map<string, number> => {
   
     return bookingCountsPerDay;
 };
+
+function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}

@@ -52,3 +52,18 @@ export interface TimeSlot {
     endTime: string;
     startTime: string;
 }
+
+export interface OrgInfo {
+    address: string;
+    name: string;
+    registrationNumber: string;
+    telephoneNumber: string;
+    orgName: string;
+}
+
+export interface UpdateOrgInfo {
+    address: string;
+    name: string;
+    registrationNumber: string;
+    telephoneNumber: string;
+}
