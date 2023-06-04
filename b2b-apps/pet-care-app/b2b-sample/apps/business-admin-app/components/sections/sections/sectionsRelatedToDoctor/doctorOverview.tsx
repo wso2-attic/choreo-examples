@@ -25,11 +25,11 @@ import { Session } from "next-auth";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "rsuite";
-// eslint-disable-next-line max-len
 import EditDoctor from "./editDoctor";
-import female_doc_thumbnail from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/female-doc-thumbnail.png";
-// eslint-disable-next-line max-len
-import male_doc_thumbnail from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/male-doc-thumbnail.png";
+import female_doc_thumbnail 
+    from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/female-doc-thumbnail.png";
+import male_doc_thumbnail 
+    from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/male-doc-thumbnail.png";
 import styles from "../../../../styles/doctor.module.css";
 import convertTo12HourTime from "../sectionsRelatedToBookings/timeConverter";
 
@@ -53,7 +53,6 @@ interface DoctorOverviewProps {
 export default function DoctorOverview(props: DoctorOverviewProps) {
 
     const { session, isOpen, setIsOpen, doctor, isDoctorEditOpen, setIsDoctorEditOpen, onClose } = props;
-
     const [ stringDate, setStringDate ] = useState("");
     const [ url, setUrl ] = useState("");
     const [ availabilityInfo, setAvailabilityInfo ] = useState<Availability[] | null>([]);

@@ -16,7 +16,6 @@
  * under the License.
  */
 
-import { Card, CardContent } from "@mui/material";
 import { getThumbnail } from "apps/business-admin-app/APICalls/GetThumbnail/get-thumbnail";
 import axios, { AxiosError } from "axios";
 import { Session } from "next-auth";

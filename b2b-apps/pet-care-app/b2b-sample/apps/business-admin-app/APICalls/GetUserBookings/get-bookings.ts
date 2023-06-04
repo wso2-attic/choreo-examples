@@ -1,7 +1,7 @@
 /**
- * Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com). All Rights Reserved.
  *
- * WSO2 Inc. licenses this file to you under the Apache License,
+ * WSO2 LLC. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,18 +16,17 @@
  * under the License.
  */
 
-import { Booking } from "../../pages/Bookings/booking";
-import { getDoctorInstance } from "../getDoctors/doctorInstance";
+import { Booking } from "apps/business-admin-app/types/booking";
 import { AxiosResponse } from "axios";
-
-
+import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
 export async function getBookings(accessToken: string) {
     const headers = {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`
     };
     const response = await getDoctorInstance().get("/bookings", {
-        headers: headers,
+        headers: headers
     });
+
     return response as AxiosResponse<Booking>;
 }

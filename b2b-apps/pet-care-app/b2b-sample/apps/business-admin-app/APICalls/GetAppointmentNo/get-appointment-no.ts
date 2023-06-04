@@ -16,11 +16,9 @@
  * under the License.
  */
 
+import { AppointmentNoInfo } from "apps/business-admin-app/types/booking";
 import { AxiosResponse } from "axios";
 import { getDoctorInstance } from "../getDoctors/doctorInstance";
-import { AppointmentNoInfo } from "apps/business-admin-app/types/booking";
-
-
 
 export async function getNextAppointmentNo(accessToken: string, 
     doctorId: string, date: string, 

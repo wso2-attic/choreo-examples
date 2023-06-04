@@ -59,16 +59,13 @@ function DoctorCard(props: DoctorCardProps) {
                         if (axiosError.response?.status === 404) {
                         // eslint-disable-next-line no-console
                             console.log("Resource not found");
-                        // Handle the 404 error here
                         } else {
                         // eslint-disable-next-line no-console
                             console.log("An error occurred:", axiosError.message);
-                        // Handle other types of errors
                         }
                     } else {
                     // eslint-disable-next-line no-console
                         console.log("An error occurred:", error);
-                    // Handle other types of errors
                     }
                 });
         }
@@ -107,9 +104,6 @@ function DoctorCard(props: DoctorCardProps) {
                         <br />
                         <label className={ styles.docSummaryInCard }>{ doctor.specialty }</label>
                         <br />
-                        { /* { doctor.availability.length > 0 && (
-                            <label className={ styles.docSummaryInCard }>{ doctor.availability[0].date }</label>
-                        ) } */ }
                     </div>
 
                 </CardContent>

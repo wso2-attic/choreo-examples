@@ -35,15 +35,8 @@
 
 import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { Checkbox, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
-import { getThumbnail } from "apps/business-admin-app/APICalls/GetThumbnail/get-thumbnail";
+import { Grid,Typography } from "@mui/material";
 import { Booking } from "apps/business-admin-app/types/booking";
-import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
-import { Pet } from "apps/business-admin-app/types/pets";
-import axios, { AxiosError } from "axios";
-import { Session } from "next-auth";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 import { Button, Modal } from "rsuite";
 import dateConverter from "./dateConverter";
 import styles from "../../../../styles/booking.module.css";
@@ -65,16 +58,9 @@ export default function BookingOverviewInPetOwnerView(props: BookingOverviewInPe
 
     const { isOpen, setIsOpen, booking } = props;
 
-    const [ stringDate, setStringDate ] = useState("");
-    const [ url, setUrl ] = useState(null);
-    const [ availabilityInfo, setAvailabilityInfo ] = useState<Availability[] | null>([]);
-
-
     const closeBookingOverviewDialog = (): void => {
         setIsOpen(false);
     };
-
-   
 
     return (
         <><Modal

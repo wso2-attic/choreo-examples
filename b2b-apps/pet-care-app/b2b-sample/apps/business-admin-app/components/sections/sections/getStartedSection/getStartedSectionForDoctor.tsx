@@ -25,7 +25,6 @@ import { Doctor } from "apps/business-admin-app/types/doctor";
 import Chart from "chart.js/auto";
 import { format, parse } from "date-fns";
 import { Session } from "next-auth";
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { Stack } from "rsuite";
 import styles from "../../../../styles/Home.module.css";

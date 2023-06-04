@@ -18,9 +18,8 @@
 
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { Card, CardContent, Grid, Typography } from "@mui/material";
-import React from "react";
-// eslint-disable-next-line import/order
 import { Booking } from "apps/business-admin-app/types/booking";
+import React from "react";
 import convertTo12HourTime from "./timeConverter";
 import styles from "../../../../styles/booking.module.css";
 

@@ -21,14 +21,9 @@ import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } fr
 import PageIcon from "@rsuite/icons/Page";
 import TrashIcon from "@rsuite/icons/Trash";
 import { deleteMedicalReport } from "apps/business-admin-app/APICalls/DeleteMedicalReport/deleteMedicalReport";
-import { getDocThumbnail } from "apps/business-admin-app/APICalls/GetDocThumbnail/get-doc-thumbnail";
 import { updateMedicalReport } from "apps/business-admin-app/APICalls/UpdateMedicalReport/put-medicalReport";
-import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
-import { MedicalReport, MedicalReportInfo, Medicine, UpdateMedicalReport } from "apps/business-admin-app/types/pets";
-import axios, { AxiosError } from "axios";
-import { Session } from "next-auth";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { MedicalReport, Medicine, UpdateMedicalReport } from "apps/business-admin-app/types/pets";
+import { useState } from "react";
 import { Button, Modal } from "rsuite";
 import styles from "../../../../styles/doctor.module.css";
 
@@ -57,13 +52,8 @@ export default function MedicalReportEdit(props: MedicalReportEdit) {
     const { token, petId, medicalReport, 
         setMedicalReport, medicalReportList, 
         setMedicalReportList, medicineInfo, setMedicineInfo, isOpen, setIsOpen } = props;
-
-    const [ stringDate, setStringDate ] = useState("");
-    const [ url, setUrl ] = useState("");
-    const [ availabilityInfo, setAvailabilityInfo ] = useState<Availability[] | null>([]);
     const [ diagnosis, setDiagnosis ] = useState("");
     const [ treatment, setTreatment ] = useState("");
-    const [ temp, setTemp ] = useState<Medicine[] | null>([]);
     const [ dosage, setDosage ] = useState("");
     const [ drugName, setDrugName ] = useState("");
     const [ duration, setDuration ] = useState("");

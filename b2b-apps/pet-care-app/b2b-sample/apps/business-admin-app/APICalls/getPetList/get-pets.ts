@@ -15,20 +15,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
+import { Pet } from "apps/business-admin-app/types/pets";
 import { AxiosResponse } from "axios";
-import { Pet } from "../../types/pet";
 import { getPetInstance } from "../CreatePet/instance";
-
-function timeout(delay: number) {
-    return new Promise( res => setTimeout(res, delay) );
-}
 
 export async function getPets(accessToken: string) {
     const headers = {
         Authorization: `Bearer ${accessToken}`
     };
-    // await timeout(1000);
     const response = await getPetInstance().get("/pets", {
         headers: headers
     });

@@ -18,8 +18,9 @@
 
 import { LogoComponent } from "@b2bsample/business-admin-app/ui/ui-components";
 import { signout } from "@b2bsample/business-admin-app/util/util-authorization-config-util";
-import { FooterComponent, HomeComponent, SignOutComponent } from "@b2bsample/shared/ui/ui-components";
-import DoctorBookingsSection from "apps/business-admin-app/components/sections/sections/sectionsRelatedToDoctor/doctorBookings";
+import { SignOutComponent } from "@b2bsample/shared/ui/ui-components";
+import DoctorBookingsSection 
+    from "apps/business-admin-app/components/sections/sections/sectionsRelatedToDoctor/doctorBookings";
 import { Session } from "next-auth";
 import React, { useState } from "react";
 import "rsuite/dist/rsuite.min.css";
@@ -37,7 +38,6 @@ import IdpSectionComponent from "./sections/settingsSection/idpSection/idpSectio
 import ManageUserSectionComponent from "./sections/settingsSection/manageUserSection/manageUserSectionComponent";
 import RoleManagementSectionComponent from
     "./sections/settingsSection/roleManagementSection/roleManagementSectionComponent";
-import sideNavData from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNav.json";
 import sideNavDataForAdmin
     from "../../../../libs/business-admin-app/ui/ui-assets/src/lib/data/sideNavDataForAdmin.json";
 import sideNavDataForDoctor
@@ -189,7 +189,6 @@ export default function Home(props: HomeProps): JSX.Element {
                 signOutCallback={ signOutCallback } />
 
             { homeComponent }
-            {/* <FooterComponent /> */}
         </div>
     );
 }

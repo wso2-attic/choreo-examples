@@ -19,13 +19,8 @@
 import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
 import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import PageIcon from "@rsuite/icons/Page";
-import { getDocThumbnail } from "apps/business-admin-app/APICalls/GetDocThumbnail/get-doc-thumbnail";
-import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
 import { MedicalReport, Medicine } from "apps/business-admin-app/types/pets";
-import axios, { AxiosError } from "axios";
-import { Session } from "next-auth";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Modal } from "rsuite";
 import MedicalReportEdit from "./medicalReportEdit";
 import styles from "../../../../styles/doctor.module.css";
@@ -55,10 +50,6 @@ export default function MedicalReportOverview(props: DoctorOverviewProps) {
 
     const { token, petId, medicalReport, setMedicalReport, medicalReportList, 
         setMedicalReportList, isOpen, setIsOpen, isEditOpen, setIsEditOpen } = props;
-
-    const [ stringDate, setStringDate ] = useState("");
-    const [ url, setUrl ] = useState("");
-    const [ availabilityInfo, setAvailabilityInfo ] = useState<Availability[] | null>([]);
     const [ medicineInfo, setMedicineInfo ] = useState<Medicine[] | null>([]);
 
     const closeOverview = () => {

@@ -18,10 +18,8 @@
 
 import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
 import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
-import { getDocThumbnail } from "apps/business-admin-app/APICalls/GetDocThumbnail/get-doc-thumbnail";
 import { putDoctor } from "apps/business-admin-app/APICalls/UpdateDoctor/put-doc";
 import { Availability, Doctor, DoctorInfo } from "apps/business-admin-app/types/doctor";
-import axios, { AxiosError } from "axios";
 import { Session } from "next-auth";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -55,7 +53,6 @@ interface EditDoctorProfileProps {
 export default function EditDoctorProfile(props: EditDoctorProfileProps) {
 
     const { session, isOpen, setIsOpen, doctor, availabilityInfo, setAvailabilityInfo, url, setUrl } = props;
-
     const [ stringDate, setStringDate ] = useState("");
     const [ name, setName ] = useState("");
     const [ registrationNo, setRegistrationNo ] = useState("");
@@ -73,8 +70,6 @@ export default function EditDoctorProfile(props: EditDoctorProfileProps) {
     const closeEditDoctorDialog = (): void => {
         setIsOpen(false);
     };
-
-
 
     useEffect(() => {
         if(doctor && doctor.createdAt != "") {
@@ -142,8 +137,6 @@ export default function EditDoctorProfile(props: EditDoctorProfileProps) {
         setAvailabilityInfo([]);
         setIsOpen(false);
     };
-
-   
 
     return (
         <Modal
@@ -279,12 +272,6 @@ export default function EditDoctorProfile(props: EditDoctorProfileProps) {
                         Choose an available date, start time, end time and booking count respectively.
                     </Message>
                     <div className={ styles.availabilityInfoGridInEditView }>
-                        { /* <div className={ styles.availabilityInfoGridHeadersInEdit }>
-                            <label className={ styles.availabilityInfoGridHeaderStyleInEdit }>Available Date</label>
-                            <label className={ styles.availabilityInfoGridHeaderStyleInEdit }>Start Time</label>
-                            <label className={ styles.availabilityInfoGridHeaderStyleInEdit }>End Time</label>
-                            <label className={ styles.availabilityInfoGridHeaderStyleInEdit }>Booking Count</label>
-                        </div> */ }
                         <input
                             className={ styles.availabilityInputStyle }
                             id="available_date"

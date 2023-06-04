@@ -18,20 +18,17 @@
 
 import { Grid, Typography } from "@mui/material";
 import { getDocThumbnail } from "apps/business-admin-app/APICalls/GetDocThumbnail/get-doc-thumbnail";
-import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
 import { getProfile } from "apps/business-admin-app/APICalls/GetProfileInfo/me";
 import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
-import Chart from "chart.js/auto";
 import { Session } from "next-auth";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Button, Stack, useToaster } from "rsuite";
-// eslint-disable-next-line max-len
+import { useEffect, useState } from "react";
+import { Button, Stack } from "rsuite";
 import EditDoctorProfile from "./editDoctorProfile";
-import female_doc_thumbnail from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/female-doc-thumbnail.png";
-// eslint-disable-next-line max-len
-import male_doc_thumbnail from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/male-doc-thumbnail.png";
+import female_doc_thumbnail 
+    from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/female-doc-thumbnail.png";
+import male_doc_thumbnail 
+    from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/male-doc-thumbnail.png";
 import styles from "../../../../styles/doctor.module.css";
 
 

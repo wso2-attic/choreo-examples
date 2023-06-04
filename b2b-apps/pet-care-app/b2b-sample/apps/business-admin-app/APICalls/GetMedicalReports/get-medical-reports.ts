@@ -20,15 +20,10 @@ import { MedicalReport } from "apps/business-admin-app/types/pets";
 import { AxiosResponse } from "axios";
 import { getPetInstance } from "../CreatePet/instance";
 
-function timeout(delay: number) {
-    return new Promise( res => setTimeout(res, delay) );
-}
-
 export async function getMedicalReport(accessToken: string, petId: string) {
     const headers = {
         Authorization: `Bearer ${accessToken}`
     };
-    // await timeout(1000);
     const response = await getPetInstance().get("/pets/" + petId + "/medical-reports", {
         headers: headers
     });

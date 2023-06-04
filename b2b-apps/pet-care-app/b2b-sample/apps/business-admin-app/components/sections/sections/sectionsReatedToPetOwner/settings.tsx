@@ -18,14 +18,13 @@
 
 import { Grid, Switch } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
+import { getNotification } from "apps/business-admin-app/APICalls/Notifications/get-notification";
 import { postNotification } from "apps/business-admin-app/APICalls/Notifications/post-notification";
 import { Notifications } from "apps/business-admin-app/types/pets";
 import { Session } from "next-auth";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Button, Stack, useToaster } from "rsuite";
+import { Stack } from "rsuite";
 import styles from "../../../../styles/doctor.module.css";
-import { getNotification } from "apps/business-admin-app/APICalls/Notifications/get-notification";
 
 interface SettingsSectionProps {
     session: Session

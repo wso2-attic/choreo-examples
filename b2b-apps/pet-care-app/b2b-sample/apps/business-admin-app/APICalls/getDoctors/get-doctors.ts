@@ -20,15 +20,10 @@ import { AxiosResponse } from "axios";
 import { getDoctorInstance } from "./doctorInstance";
 import { Doctor } from "../../types/doctor";
 
-function timeout(delay: number) {
-    return new Promise( res => setTimeout(res, delay) );
-}
-
 export async function getDoctors(accessToken: string) {
     const headers = {
         Authorization: `Bearer ${accessToken}`
     };
-    // await timeout(50);
     const response = await getDoctorInstance().get("/doctors", {
         headers: headers
     });

@@ -17,18 +17,16 @@
  */
 
 import { Grid } from "@mui/material";
-import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
 import { getPets } from "apps/business-admin-app/APICalls/getPetList/get-pets";
-import { Doctor } from "apps/business-admin-app/types/doctor";
 import { Pet } from "apps/business-admin-app/types/pets";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Button, Stack, useToaster } from "rsuite";
+import { Button, Stack } from "rsuite";
 import AddPetComponent from "./addPet";
 import PetCard from "./petCard";
-import styles from "../../../../styles/doctor.module.css";
 import PetOverview from "./petOverview";
+import styles from "../../../../styles/doctor.module.css";
 
 interface PetsSectionProps {
     session: Session

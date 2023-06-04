@@ -17,21 +17,14 @@
  */
 
 import { Grid } from "@mui/material";
-import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
-import { getPets } from "apps/business-admin-app/APICalls/getPetList/get-pets";
 import { getBookings } from "apps/business-admin-app/APICalls/GetUserBookings/get-bookings";
 import { Booking } from "apps/business-admin-app/types/booking";
-import { Doctor } from "apps/business-admin-app/types/doctor";
-import { Pet } from "apps/business-admin-app/types/pets";
 import { Session } from "next-auth";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Button, Stack, useToaster } from "rsuite";
-import AddBookings from "./addBooking";
+import { Stack } from "rsuite";
 import BookingCard from "./bookingCard";
-import styles from "../../../../styles/doctor.module.css";
-import DoctorCard from "../sectionsRelatedToDoctor/doctorCard";
 import BookingOverviewInPetOwnerView from "./bookingOverviewInPetOwner";
+import styles from "../../../../styles/doctor.module.css";
 
 interface BookingsInPetOwnerSectionProps {
     session: Session
@@ -46,16 +39,8 @@ interface BookingsInPetOwnerSectionProps {
 export default function BookingsInPetOwnerSection(props: BookingsInPetOwnerSectionProps) {
 
     const { session } = props;
-    const [ doctorList, setDoctorList ] = useState<Doctor[] | null>(null);
-    const [ isAddDoctorOpen, setIsAddDoctorOpen ] = useState(false);
-    const [ isDoctorOverviewOpen, setIsDoctorOverviewOpen ] = useState(false);
-    const [ doctor, setDoctor ] = useState<Doctor | null>(null);
-    const [ isDoctorEditOpen, setIsDoctorEditOpen ] = useState(false);
-    const [ isAddBookingOpen, setIsAddBookingOpen ] = useState(false);
-    const [ petList, setPetList ] = useState<Pet[] | null>(null);
     const [ bookingList, setBookingList ] = useState<Booking[] | null>(null);
     const [ isBookingCardOpen, setIsBookingCardOpen ] = useState(false);
-    const router = useRouter();
     const [ booking, setBooking ] = useState<Booking | null>(null);
 
 

@@ -15,16 +15,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-
-import { getDocThumbnail } from "apps/business-admin-app/APICalls/GetDocThumbnail/get-doc-thumbnail";
-import { updateDocThumbnail } from "apps/business-admin-app/APICalls/UploadDocThumbnail/put-doc-thumbnail";
-import { Session } from "next-auth";
-import React from "react";
-import { ChangeEvent, useState } from "react";
-import styles from "../../../../styles/doctor.module.css";
-import { updateThumbnail } from "apps/business-admin-app/APICalls/UploadThumbnail/put-thumbnail";
 import { getThumbnail } from "apps/business-admin-app/APICalls/GetThumbnail/get-thumbnail";
+import { updateThumbnail } from "apps/business-admin-app/APICalls/UploadThumbnail/put-thumbnail";
+import { Session } from "next-auth";
+import { ChangeEvent, useRef, useState } from "react";
+import styles from "../../../../styles/doctor.module.css";
 
 
 interface FileUploadProps {
@@ -73,7 +68,7 @@ function FileUploadSingle(props: FileUploadProps) {
         updateThumbnails();     
     };
 
-    const hiddenFileInput = React.useRef(null);
+    const hiddenFileInput = useRef(null);
 
     const handleClick = () => {
         hiddenFileInput.current.click();

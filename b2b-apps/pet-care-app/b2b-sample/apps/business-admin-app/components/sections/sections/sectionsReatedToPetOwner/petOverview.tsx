@@ -21,7 +21,6 @@ import { Checkbox, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typog
 import { deletePet } from "apps/business-admin-app/APICalls/DeletePet/delete-pet";
 import { getMedicalReport } from "apps/business-admin-app/APICalls/GetMedicalReports/get-medical-reports";
 import { getThumbnail } from "apps/business-admin-app/APICalls/GetThumbnail/get-thumbnail";
-import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
 import { MedicalReport, Pet } from "apps/business-admin-app/types/pets";
 import axios, { AxiosError } from "axios";
 import { Session } from "next-auth";
@@ -52,10 +51,7 @@ interface PetOverviewProps {
 export default function PetOverview(props: PetOverviewProps) {
 
     const { session, isOpen, setIsOpen, isUpdateViewOpen, setIsUpdateViewOpen, pet } = props;
-
-    const [ stringDate, setStringDate ] = useState("");
     const [ url, setUrl ] = useState(null);
-    const [ availabilityInfo, setAvailabilityInfo ] = useState<Availability[] | null>([]);
     const [ medicalReportList, setMedicalReportList ] = useState<MedicalReport[] | null>(null);
 
     async function getThumbnails() {

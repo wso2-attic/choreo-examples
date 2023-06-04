@@ -18,18 +18,15 @@
 
 import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
 import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
-import { getThumbnail } from "apps/business-admin-app/APICalls/GetThumbnail/get-thumbnail";
 import { updatePet } from "apps/business-admin-app/APICalls/UpdatePet/update-pet";
-import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
 import { Pet, VaccineInfo, updatePetInfo } from "apps/business-admin-app/types/pets";
-import axios, { AxiosError } from "axios";
 import { Session } from "next-auth";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Button, Message, Modal } from "rsuite";
+import FileUploadSingle from "./imageUploader";
 import PET_IMAGE from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/thumbnail.png";
 import styles from "../../../../styles/doctor.module.css";
-import FileUploadSingle from "./imageUploader";
 
 
 interface EditPetComponentProps {
@@ -50,10 +47,6 @@ interface EditPetComponentProps {
 export default function EditPetComponent(props: EditPetComponentProps) {
 
     const { session, isOpen, setIsOpen, pet, imageUrl, setImageUrl } = props;
-
-    const [ stringDate, setStringDate ] = useState("");
-    const [ url, setUrl ] = useState("");
-    const [ availabilityInfo, setAvailabilityInfo ] = useState<Availability[] | null>([]);
     const [ name, setName ] = useState("");
     const [ type, setType ] = useState("");
     const [ DoB, setDoB ] = useState("");

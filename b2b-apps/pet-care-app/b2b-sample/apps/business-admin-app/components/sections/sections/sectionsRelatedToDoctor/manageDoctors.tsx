@@ -22,7 +22,7 @@ import { Doctor } from "apps/business-admin-app/types/doctor";
 import { Session } from "next-auth";
 import { useRouter } from 'next/router';
 import { useEffect, useState } from "react";
-import { Button, Stack, useToaster } from "rsuite";
+import { Button, Stack } from "rsuite";
 import AddDoctorComponent from "./addDoctorComponent";
 import DoctorCard from "./doctorCard";
 import DoctorOverview from "./doctorOverview";
@@ -47,7 +47,6 @@ export default function ManageDoctorsSection(props: ManageDoctorsSectionProps) {
     const [ doctor, setDoctor ] = useState<Doctor | null>(null);
     const [ isDoctorEditOpen, setIsDoctorEditOpen ] = useState(false);
     const router = useRouter();
-
 
     async function getDoctorList() {
         const accessToken = session.accessToken;
@@ -84,7 +83,6 @@ export default function ManageDoctorsSection(props: ManageDoctorsSectionProps) {
     const closeDoctorOverviewDialog = (): void => {
         setIsDoctorOverviewOpen(false);
     };
-
 
     return (
         <div

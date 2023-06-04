@@ -21,16 +21,14 @@ import { errorTypeDialog, successTypeDialog } from "@b2bsample/shared/ui/ui-comp
 import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
 import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } from "@b2bsample/shared/util/util-front-end-util";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
-import { postPet } from "apps/business-admin-app/APICalls/CreatePet/post-pet";
-import { MedicalReport, Medicine, Pet, UpdateMedicalReport, updatePetInfo } from "apps/business-admin-app/types/pets";
+import { postMedicalReport } from "apps/business-admin-app/APICalls/CreateMedicalReport/post-medical-report";
+import { Medicine, Pet, UpdateMedicalReport } from "apps/business-admin-app/types/pets";
 import { AxiosResponse } from "axios";
-import { Session } from "next-auth";
 import { useState } from "react";
 import { Form } from "react-final-form";
-import { Divider, Loader, Modal, Panel, Radio, RadioGroup, Stack, useToaster } from "rsuite";
+import { Loader, Modal, useToaster } from "rsuite";
 import FormSuite from "rsuite/Form";
 import styles from "../../../../styles/doctor.module.css";
-import { postMedicalReport } from "apps/business-admin-app/APICalls/CreateMedicalReport/post-medical-report";
 
 
 interface AddMedicalReportComponentProps {
@@ -54,8 +52,6 @@ export default function AddMedicalReportComponent(props: AddMedicalReportCompone
     const [ drugName, setDrugName ] = useState("");
     const [ duration, setDuration ] = useState("");
     const [ medicineList, setMedicineList ] = useState<Medicine[] | null>([]);
-    const [ diagnosis, setDiagnosis ] = useState("");
-    const [ treatment, setTreatment ] = useState("");
 
     const toaster = useToaster();
 

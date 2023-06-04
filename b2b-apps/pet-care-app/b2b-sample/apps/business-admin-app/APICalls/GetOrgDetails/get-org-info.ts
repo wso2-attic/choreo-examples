@@ -20,7 +20,6 @@ import { AxiosResponse } from "axios";
 import { OrgInfo } from "../../types/doctor";
 import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
-
 export async function getOrgInfo(accessToken: string) {
     const headers = {
         Authorization: `Bearer ${accessToken}`

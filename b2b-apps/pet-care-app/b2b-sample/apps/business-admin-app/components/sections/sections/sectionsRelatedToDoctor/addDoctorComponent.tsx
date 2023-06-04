@@ -16,20 +16,17 @@
  * under the License.
  */
 
-import { InviteConst, controllerDecodeAddUser } from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { User } from "@b2bsample/shared/data-access/data-access-common-models-util";
 import { FormButtonToolbar, FormField, ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
 import { errorTypeDialog, successTypeDialog } from "@b2bsample/shared/ui/ui-components";
 import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
 import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } from "@b2bsample/shared/util/util-front-end-util";
-import EmailFillIcon from "@rsuite/icons/EmailFill";
 import { postDoctor } from "apps/business-admin-app/APICalls/CreateDoctor/post-doc";
 import { Doctor, DoctorInfo } from "apps/business-admin-app/types/doctor";
 import { AxiosResponse } from "axios";
 import { Session } from "next-auth";
 import { useState } from "react";
 import { Form } from "react-final-form";
-import { Divider, Loader, Modal, Panel, Radio, RadioGroup, SelectPicker, Stack, useToaster } from "rsuite";
+import { Divider, Loader, Modal, SelectPicker, useToaster } from "rsuite";
 import FormSuite from "rsuite/Form";
 import styles from "../../../../styles/Settings.module.css";
 
@@ -49,12 +46,8 @@ interface AddDoctorComponentProps {
 export default function AddDoctorComponent(props: AddDoctorComponentProps) {
 
     const { session, open, onClose } = props;
-
     const [ loadingDisplay, setLoadingDisplay ] = useState(LOADING_DISPLAY_NONE);
-    const [ inviteSelect, serInviteSelect ] = useState<InviteConst>(InviteConst.INVITE);
-
     const toaster = useToaster();
-
     const validate = (values: Record<string, unknown>): Record<string, string> => {
         let errors: Record<string, string> = {};
 

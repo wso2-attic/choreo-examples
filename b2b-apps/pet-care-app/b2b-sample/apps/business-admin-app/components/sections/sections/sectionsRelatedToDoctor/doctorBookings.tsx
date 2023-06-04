@@ -18,11 +18,6 @@
 
 
 import { Grid } from "@mui/material";
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -31,12 +26,10 @@ import { getDoctorBookings } from "apps/business-admin-app/APICalls/GetDoctorBoo
 import { getProfile } from "apps/business-admin-app/APICalls/GetProfileInfo/me";
 import { Booking } from "apps/business-admin-app/types/booking";
 import { Doctor } from "apps/business-admin-app/types/doctor";
-import { addDays, format, parse, subDays } from "date-fns";
-import dayjs from "dayjs";
+import { format } from "date-fns";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Stack } from "rsuite";
 import styles from "../../../../styles/doctor.module.css";
 import BookingCard from "../sectionsRelatedToBookings/bookingCard";
@@ -57,11 +50,9 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
     const [ isBookingOverviewOpen, setIsBookingOverviewOpen ] = useState(false);
     const [ bookingList, setBookingList ] = useState<Booking[] | null>(null);
     const [ bookingListPerDay, setBookingListPerDay ] = useState<Booking[] | null>(null);
-    const [ filteredBookingList, setFilteredBookingList ] = useState<Booking[] | null>(null);
     const [ booking, setBooking ] = useState<Booking | null>(null);
     const[ doctor, setDoctor ] = useState<Doctor | null>(null);
     const router = useRouter();
-    const [ bookingDate, setBookingDate ] = useState("Today");
     const [ selectedDate, setSelectedDate ] = useState<Date | null>(new Date());
     const [ stringDate, setStringDate ] = useState("");
 
@@ -87,9 +78,6 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
     }
 
     const getFormattedDate = (date: Date): string => {
-        // const localDateString = date.toLocaleDateString();
-        // const parsedDate = parse(localDateString, "M/d/yyyy", new Date());
-        // const formattedDate = format(parsedDate, "yyyy-MM-dd");
         const formattedDate = format(date, 'yyyy-MM-dd');
         console.log("formattedDate"+ formattedDate);
 

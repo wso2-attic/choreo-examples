@@ -20,14 +20,14 @@ import { Grid } from "@mui/material";
 import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
 import { getPets } from "apps/business-admin-app/APICalls/getPetList/get-pets";
 import { Doctor } from "apps/business-admin-app/types/doctor";
+import { Pet } from "apps/business-admin-app/types/pets";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Button, Stack, useToaster } from "rsuite";
+import { Stack } from "rsuite";
 import AddBookings from "./addBooking";
 import styles from "../../../../styles/doctor.module.css";
 import DoctorCard from "../sectionsRelatedToDoctor/doctorCard";
-import { Pet } from "apps/business-admin-app/types/pets";
 
 interface ChannelDoctorSectionProps {
     session: Session
@@ -44,7 +44,6 @@ export default function ChannelDoctorSection(props: ChannelDoctorSectionProps) {
     const { session } = props;
     const [ doctorList, setDoctorList ] = useState<Doctor[] | null>(null);
     const [ isAddDoctorOpen, setIsAddDoctorOpen ] = useState(false);
-    const [ isDoctorOverviewOpen, setIsDoctorOverviewOpen ] = useState(false);
     const [ doctor, setDoctor ] = useState<Doctor | null>(null);
     const [ isDoctorEditOpen, setIsDoctorEditOpen ] = useState(false);
     const [ isAddBookingOpen, setIsAddBookingOpen ] = useState(false);

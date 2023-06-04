@@ -16,21 +16,19 @@
  * under the License.
  */
 
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Grid } from "@mui/material";
-import { getDoctors } from "apps/business-admin-app/APICalls/getDoctors/get-doctors";
 import { getPets } from "apps/business-admin-app/APICalls/getPetList/get-pets";
 import { getBookings } from "apps/business-admin-app/APICalls/GetUserBookings/get-bookings";
 import { Booking } from "apps/business-admin-app/types/booking";
-import { Doctor } from "apps/business-admin-app/types/doctor";
 import { Pet } from "apps/business-admin-app/types/pets";
 import Chart from "chart.js/auto";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { Button, Stack, useToaster } from "rsuite";
+import { Stack } from "rsuite";
 import styles from "../../../../styles/Home.module.css";
 import "chartjs-plugin-datalabels";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BookingCard from "../sectionsRelatedToBookings/bookingCard";
 
 interface GetStartedSectionComponentForPetOwnerProps {
@@ -46,13 +44,7 @@ interface GetStartedSectionComponentForPetOwnerProps {
 export default function GetStartedSectionComponentForPetOwner(props: GetStartedSectionComponentForPetOwnerProps) {
 
     const { session } = props;
-    const [ doctorList, setDoctorList ] = useState<Doctor[] | null>(null);
-    const [ isAddDoctorOpen, setIsAddDoctorOpen ] = useState(false);
-    const [ isDoctorOverviewOpen, setIsDoctorOverviewOpen ] = useState(false);
-    const [ doctor, setDoctor ] = useState<Doctor | null>(null);
-    const [ isDoctorEditOpen, setIsDoctorEditOpen ] = useState(false);
     const [ petList, setPetList ] = useState<Pet[] | null>(null);
-    const router = useRouter();
     const typesToFilter: string[] = [ "dog", "cat", "rabbit" ];
     const [ filteredCount, setFilteredCount ] = useState<{ [key: string]: number }>({});
     const [ bookingList, setBookingList ] = useState<Booking[] | null>(null);

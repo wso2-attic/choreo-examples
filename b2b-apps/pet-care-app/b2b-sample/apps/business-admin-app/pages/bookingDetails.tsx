@@ -16,11 +16,8 @@
  * under the License.
  */
 
-import { Checkbox, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
-import DashboardIcon from "@rsuite/icons/legacy/Dashboard";
-import { Session } from "next-auth";
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Button, Message, Stack } from "rsuite";
@@ -34,7 +31,7 @@ import convertTo12HourTime from "../components/sections/sections/sectionsRelated
 import AddMedicalReportComponent from "../components/sections/sections/sectionsRelatedToDoctor/addMedicalReport";
 import MedicalReportOverview from "../components/sections/sections/sectionsRelatedToDoctor/medicalReportOverview";
 import styles from "../styles/booking.module.css";
-import { BookingInfo, CompleteBooking } from "../types/booking";
+import { CompleteBooking } from "../types/booking";
 import { MedicalReport, Pet } from "../types/pets";
 
 
@@ -126,10 +123,6 @@ export default function BookingDetails() {
         getMedicalReportInfo();
     }, [ isAddMedicalReportOpen ]);
 
-    // const closeAddMedicalReportDialog = (): void => {
-    //     setIsAddMedicalReportOpen(false);
-    // };
-
     const handleRowClick = (report: MedicalReport) => {
         setIsMedicalReportOverviewOpen(true);
         setMedicalReport(report);
@@ -155,8 +148,6 @@ export default function BookingDetails() {
         }
         updateBookingInfo();
         setBookingStatus("Completed");
-        // router.back();
-        // await timeout(1000);
     };
 
     return (
