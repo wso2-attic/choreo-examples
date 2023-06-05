@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 export default function convertTo12HourTime(cssTime: string): string {
     // Split the CSS time into hours and minutes
     if(cssTime) {

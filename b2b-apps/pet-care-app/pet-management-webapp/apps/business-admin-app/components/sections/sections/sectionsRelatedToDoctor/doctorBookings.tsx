@@ -15,8 +15,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-
 import { Grid } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
