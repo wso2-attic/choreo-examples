@@ -17,6 +17,7 @@
  */
 
 const { withNx } = require("@nrwl/next/plugins/with-nx");
+const withFonts = require("next-fonts");
 const withLess = require("next-with-less");
 
 const lessConfig = withLess({
@@ -24,6 +25,12 @@ const lessConfig = withLess({
         lessOptions: {
             strictMath: true
         }
+    }
+});
+
+module.exports = withFonts({
+    webpack(config) {
+        return config;
     }
 });
 
