@@ -16,11 +16,11 @@
  * under the License.
  */
 
-import config from "../../../../../b2b-sample/config.json";
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 import { initInstance } from "../instance";
 
 export const getDoctorInstance = () => {
-    const conf = config.BusinessAdminAppConfig.resourceServerURLs[0];
+    const conf = getConfig().BusinessAdminAppConfig.resourceServerURLs.channellingService;
 
     return initInstance(conf);
 };

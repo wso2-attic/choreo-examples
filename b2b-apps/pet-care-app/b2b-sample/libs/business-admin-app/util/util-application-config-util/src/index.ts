@@ -17,3 +17,4 @@
  */
 
 export * from "./lib/applicationConfigUtil";
+export * from "./lib/appConfigGeneratorUtil";

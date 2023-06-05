@@ -17,9 +17,9 @@
  */
 
 import { getHostedUrl } from "@b2bsample/business-admin-app/util/util-application-config-util";
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 import { dataNotRecievedError, notPostError } from "@b2bsample/shared/data-access/data-access-common-api-util";
 import { NextApiRequest, NextApiResponse } from "next";
-import config from "../../../../../config.json";
 
 /**
  * 
@@ -27,7 +27,7 @@ import config from "../../../../../config.json";
  */
 const getBasicAuth = (): string => Buffer
     // eslint-disable-next-line
-    .from(`${config.BusinessAdminAppConfig.ManagementAuthorizationConfig.ClientId}:${config.BusinessAdminAppConfig.ManagementAuthorizationConfig.ClientSecret}`).toString("base64");
+    .from(`${getConfig().BusinessAdminAppConfig.ManagementAuthorizationConfig.ClientId}:${getConfig().BusinessAdminAppConfig.ManagementAuthorizationConfig.ClientSecret}`).toString("base64");
 
 /**
  * 
@@ -56,7 +56,7 @@ const getSwitchHeader = (): HeadersInit => {
 const getSwitchBody = (subOrgId: string, accessToken: string): Record<string, string> => {
     const body = {
         "grant_type": "organization_switch",
-        "scope": config.BusinessAdminAppConfig.ApplicationConfig.APIScopes.join(" "),
+        "scope": getConfig().BusinessAdminAppConfig.ApplicationConfig.APIScopes.join(" "),
         "switching_organization": subOrgId,
         "token": accessToken
     };
@@ -85,7 +85,8 @@ const getSwitchRequest = (subOrgId: string, accessToken: string): RequestInit =>
  * 
  * @returns get the endpoint for the switch API call
  */
-const getSwitchEndpoint = (): string => `${config.CommonConfig.AuthorizationConfig.BaseOrganizationUrl}/oauth2/token`;
+const getSwitchEndpoint = (): string => 
+    `${getConfig().CommonConfig.AuthorizationConfig.BaseOrganizationUrl}/oauth2/token`;
 
 /**
  * 

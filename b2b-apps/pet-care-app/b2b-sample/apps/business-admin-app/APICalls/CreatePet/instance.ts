@@ -16,11 +16,11 @@
  * under the License.
  */
 
-import { default as authConfig } from "../../../../../b2b-sample/config.json";
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 import { initInstance } from "../instance";
 
 export const getPetInstance = () => {
-    const conf = authConfig.BusinessAdminAppConfig.resourceServerURLs[2];
+    const conf = getConfig().BusinessAdminAppConfig.resourceServerURLs.petManagementService;
 
     return initInstance(conf);
 };

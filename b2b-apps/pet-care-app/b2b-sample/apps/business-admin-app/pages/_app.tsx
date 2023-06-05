@@ -15,11 +15,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 import { SessionProvider } from "next-auth/react";
 import Head from "next/head";
 import "rsuite/dist/rsuite.min.css";
-import config from "../../../config.json";
 import "../styles/custom-theme.less";
 import "../styles/globals.css";
 
@@ -34,8 +33,10 @@ function MyApp(prop) {
                 <meta httpEquiv="cache-control" content="no-cache" />
                 <meta httpEquiv="expires" content="0" />
                 <meta httpEquiv="pragma" content="no-cache" />
-                <title>{ config.BusinessAdminAppConfig.ApplicationConfig.Branding.name }</title>
-                <meta name="description" content={ config.BusinessAdminAppConfig.ApplicationConfig.Branding.name } />
+                <title>{ getConfig().BusinessAdminAppConfig.ApplicationConfig.Branding.name }</title>
+                <meta
+                    name="description" 
+                    content={ getConfig().BusinessAdminAppConfig.ApplicationConfig.Branding.name } />
             </Head>
 
             <Component { ...pageProps } />

@@ -17,11 +17,11 @@
  */
 
 import { controllerDecodeSwitchOrg } from "@b2bsample/business-admin-app/data-access/data-access-controller";
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 import { getLoggedUserFromProfile, getLoggedUserId, getOrgId, getOrgName } from
     "@b2bsample/shared/util/util-authorization-config-util";
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
-import config from "../../../../../config.json";
 
 /**
  * 
@@ -94,11 +94,11 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
         {
             authorization: {
                 params: {
-                    scope: config.BusinessAdminAppConfig.ApplicationConfig.APIScopes.join(" ")
+                    scope: getConfig().BusinessAdminAppConfig.ApplicationConfig.APIScopes.join(" ")
                 }
             },
-            clientId: config.BusinessAdminAppConfig.AuthorizationConfig.ClientId,
-            clientSecret: config.BusinessAdminAppConfig.AuthorizationConfig.ClientSecret,
+            clientId: getConfig().BusinessAdminAppConfig.AuthorizationConfig.ClientId,
+            clientSecret: getConfig().BusinessAdminAppConfig.AuthorizationConfig.ClientSecret,
             id: "wso2isAdmin",
             name: "WSO2ISAdmin",
             profile(profile) {
@@ -108,9 +108,9 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
                 };
             },
             type: "oauth",
-            userinfo: `${config.CommonConfig.AuthorizationConfig.BaseOrganizationUrl}/oauth2/userinfo`,
+            userinfo: `${getConfig().CommonConfig.AuthorizationConfig.BaseOrganizationUrl}/oauth2/userinfo`,
             // eslint-disable-next-line
-            wellKnown: `${config.CommonConfig.AuthorizationConfig.BaseOrganizationUrl}/oauth2/token/.well-known/openid-configuration`
+            wellKnown: `${getConfig().CommonConfig.AuthorizationConfig.BaseOrganizationUrl}/oauth2/token/.well-known/openid-configuration`
         }
     ],
     secret: process.env.SECRET

@@ -4,7 +4,8 @@
   "description": "Here is a list of sample applications to try out B2B Scenarios.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "next start ./dist/apps/business-admin-app -p 3001"
   },
   "author": "",
   "license": "ISC",
@@ -61,13 +62,13 @@
     "@mui/lab": "^5.0.0-alpha.131",
     "@mui/x-date-pickers": "^6.5.0",
     "@nrwl/workspace": "^15.1.1",
-    "@rsuite/charts": "^5.2.0",
     "@types/styled-components": "^5.1.26",
     "chart.js": "^3.9.1",
     "chartjs-plugin-datalabels": "^2.2.0",
     "core-js": "^3.6.5",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
+    "dotenv": "^16.1.4",
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-tsdoc": "^0.2.17",
     "less": "^4.1.3",
