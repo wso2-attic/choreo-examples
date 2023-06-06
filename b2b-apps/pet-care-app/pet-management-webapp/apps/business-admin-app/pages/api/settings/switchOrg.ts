@@ -16,8 +16,7 @@
  * under the License.
  */
 
-import { getHostedUrl } from "@b2bsample/business-admin-app/util/util-application-config-util";
-import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
+import { getConfig, getHostedUrl } from "@b2bsample/business-admin-app/util/util-application-config-util";
 import { dataNotRecievedError, notPostError } from "@b2bsample/shared/data-access/data-access-common-api-util";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -27,7 +26,7 @@ import { NextApiRequest, NextApiResponse } from "next";
  */
 const getBasicAuth = (): string => Buffer
     // eslint-disable-next-line
-    .from(`${getConfig().BusinessAdminAppConfig.ManagementAuthorizationConfig.ClientId}:${getConfig().BusinessAdminAppConfig.ManagementAuthorizationConfig.ClientSecret}`).toString("base64");
+    .from(`${process.env.MANAGEMENT_APP_CLIENT_ID}:${process.env.MANAGEMENT_APP_CLIENT_SECRET}`).toString("base64");
 
 /**
  * 

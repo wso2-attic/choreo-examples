@@ -44,7 +44,7 @@ export default async function viewUsers(req: NextApiRequest, res: NextApiRespons
             requestOptions(session)
         );
         const users = await fetchData.json();
-
+        
         res.status(200).json(users);
     } catch (err) {
 

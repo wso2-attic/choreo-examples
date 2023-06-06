@@ -16,6 +16,7 @@
  * under the License.
  */
 
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 import config from "../../../../../../config.json";
 
 /**
@@ -61,13 +62,16 @@ export function getOrgUrl(orgId: string): string {
 export function getManagementAPIServerBaseUrl() {
 
     // todo: implementation will change after changes are done to the IS.
-
-    const baseOrganizationUrl = config.CommonConfig.AuthorizationConfig.BaseOrganizationUrl;
+    const baseOrganizationUrl = getConfig().CommonConfig.AuthorizationConfig.BaseOrganizationUrl;
     // eslint-disable-next-line
-    const matches = baseOrganizationUrl.match(/^(http|https)?\:\/\/([^\/?#]+)/i);
-    const domain = matches && matches[0];
+    if(baseOrganizationUrl) {
+        const matches = baseOrganizationUrl.match(/^(http|https)?\:\/\/([^\/?#]+)/i);
+        const domain = matches && matches[0];
 
-    return domain;
+        return domain;
+    }
+
+    return null;
 }
 
 /**
