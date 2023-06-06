@@ -160,7 +160,7 @@ export async function controllerDecodePatchApplicationAuthSteps(
         return true;
     }
 
-    return res;
+    return null;
 }
 
 export default controllerDecodePatchApplicationAuthSteps;

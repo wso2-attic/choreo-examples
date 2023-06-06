@@ -32,7 +32,7 @@ import {
  * 
  * @returns created user details, if not created returns `null`
  */
-export async function commonControllerCall(api: string, session: Session | null, param?: ControllerCallParam
+export async function commonControllerCall(api: string, session: Session | null, param?: any
     , switchCall = false): Promise<ControllerCallReturn | ControllerCallReturn[] | null> {
     try {
 

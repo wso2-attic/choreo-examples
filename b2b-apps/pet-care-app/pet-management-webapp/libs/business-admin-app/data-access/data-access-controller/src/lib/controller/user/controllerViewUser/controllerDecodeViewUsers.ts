@@ -51,7 +51,7 @@ export async function controllerDecodeViewUsers(session: Session): Promise<Inter
     
     }
 
-    return usersData;
+    return null;
 
 }
 

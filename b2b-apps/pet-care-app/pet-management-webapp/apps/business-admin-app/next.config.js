@@ -39,9 +39,6 @@ const nextConfig = withNx({
         svgr: false
 
     },
-    typescript: {
-        ignoreBuildErrors: true
-    },
     ...lessConfig
 });
 

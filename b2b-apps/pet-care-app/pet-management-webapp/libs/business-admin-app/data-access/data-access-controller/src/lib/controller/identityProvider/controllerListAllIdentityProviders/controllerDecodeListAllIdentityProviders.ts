@@ -41,7 +41,7 @@ export async function controllerDecodeListAllIdentityProviders(session: Session)
         }
     }
 
-    return res;
+    return null;
 }
 
 export default controllerDecodeListAllIdentityProviders;

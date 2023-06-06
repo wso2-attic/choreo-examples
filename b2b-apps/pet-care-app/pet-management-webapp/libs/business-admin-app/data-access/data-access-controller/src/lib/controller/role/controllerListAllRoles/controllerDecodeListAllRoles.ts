@@ -36,7 +36,7 @@ export async function controllerDecodeListAllRoles(session: Session): Promise<Ro
         return res.Resources;
     }
 
-    return res;
+    return null;
 
 }
 
