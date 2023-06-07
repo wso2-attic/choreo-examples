@@ -16,11 +16,11 @@
  * under the License.
  */
 
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 import { commonControllerDecode } from "@b2bsample/shared/data-access/data-access-common-api-util";
 import { OrgSession } from "@b2bsample/shared/data-access/data-access-common-models-util";
 import { JWT } from "next-auth/jwt";
 import { controllerCallSwitchOrg } from "./controllerCallSwitchOrg";
-import config from "../../../../../../../../config.json";
 
 function getOrgId(token: JWT): string {
 
@@ -34,7 +34,7 @@ function getOrgId(token: JWT): string {
         }
     } else {
         
-        return config.CommonConfig.ApplicationConfig.SampleOrganization[0].id;
+        return getConfig().CommonConfig.ApplicationConfig.SampleOrganization[0].id;
     }
 
 }

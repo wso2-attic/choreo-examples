@@ -23,6 +23,12 @@ interface ConfigObject {
       AuthorizationConfig: {
         BaseOrganizationUrl?: string;
       };
+      ApplicationConfig: {
+        SampleOrganization: {
+          id: string | undefined;
+          name: string | undefined;
+        }[];
+      };
     };
     BusinessAdminAppConfig: {
       AuthorizationConfig: {
@@ -58,6 +64,15 @@ export function getConfig() : ConfigObject {
         CommonConfig: {
             AuthorizationConfig: {
                 BaseOrganizationUrl: process.env["NEXT_PUBLIC_BASE_ORG_URL"]
+            },
+            // eslint-disable-next-line sort-keys
+            ApplicationConfig: {
+                SampleOrganization: [
+                    {
+                        id: process.env["NEXT_PUBLIC_SUB ORGANIZATION_ID"],
+                        name: process.env["NEXT_PUBLIC_SUB ORGANIZATION NAME"]
+                    }
+                ]
             }
         },
         // eslint-disable-next-line sort-keys

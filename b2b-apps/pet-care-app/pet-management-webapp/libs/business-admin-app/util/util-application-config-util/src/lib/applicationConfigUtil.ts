@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import config from "../../../../../../config.json";
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 
 /**
  * 
@@ -24,8 +24,13 @@ import config from "../../../../../../config.json";
  * value of `config.ApplicationConfig.HostedUrl`
  */
 export function getHostedUrl() : string {
+    const hostedUrl = getConfig().BusinessAdminAppConfig.ApplicationConfig.HostedUrl;
 
-    return config.BusinessAdminAppConfig.ApplicationConfig.HostedUrl;
+    if (hostedUrl !== undefined) {
+        return hostedUrl;
+    }
+
+    return "";
 }
 
 export default { getHostedUrl };

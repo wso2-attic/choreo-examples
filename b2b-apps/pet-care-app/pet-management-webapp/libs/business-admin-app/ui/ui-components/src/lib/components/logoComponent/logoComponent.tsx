@@ -16,9 +16,9 @@
  * under the License.
  */
 
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 import { SharedLogoComponent } from "@b2bsample/shared/ui/ui-components";
 import React from "react";
-import config from "../../../../../../../../config.json";
 import logoImage from "../../../../../ui-assets/src/lib/images/pet_care_logo.png";
 import { LogoComponentProps } from "../../models/logoComponent/logoComponent";
 
@@ -35,7 +35,7 @@ export function LogoComponent(prop: LogoComponentProps) {
     return (
         <SharedLogoComponent
             image={ logoImage }
-            tagLine={ config.BusinessAdminAppConfig.ApplicationConfig.Branding.tag }
+            tagLine={ getConfig().BusinessAdminAppConfig.ApplicationConfig.Branding.tag }
             name={ name }
             imageSize={ imageSize }
             white={ false }
