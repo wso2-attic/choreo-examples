@@ -16,31 +16,12 @@
  * under the License.
  */
 
-const { withNx } = require("@nrwl/next/plugins/with-nx");
-const withFonts = require("next-fonts");
-const withLess = require("next-with-less");
+import Meta from "./meta";
 
-const lessConfig = withLess({
-    lessLoaderOptions: {
-        lessOptions: {
-            strictMath: true
-        }
-    }
-});
+export interface Group {
+    displayName: string;
+    meta: Meta;
+    id: string;
+}
 
-module.exports = withFonts({
-    webpack(config) {
-        return config;
-    }
-});
-
-const nextConfig = withNx({
-    nx: {
-        svgr: false
-
-    },
-    ...lessConfig
-});
-
-module.exports = nextConfig;
-
+export default Group;

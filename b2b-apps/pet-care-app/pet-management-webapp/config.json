@@ -2,14 +2,6 @@
     "CommonConfig": {
         "AuthorizationConfig": {
             "BaseOrganizationUrl": "<PARENT ORGANIZATION URL> ex: https://api.asgardeo.io/t/guardio"
-        },
-        "ApplicationConfig": {
-            "SampleOrganization": [
-                {
-                    "id": "<SUB ORGANIZATION ID>",
-                    "name": "<SUB ORGANIZATION NAME>"
-                }
-            ]
         }
     },
     "BusinessAdminAppConfig": {
@@ -45,7 +37,10 @@
                 "internal_role_mgt_create",
                 "internal_role_mgt_update",
                 "internal_role_mgt_delete",
-                "internal_group_mgt_update"
+                "internal_group_mgt_view",
+                "internal_group_mgt_create",
+                "internal_group_mgt_update",
+                "internal_group_mgt_delete"
             ],
             "Branding": {
                 "name": "Pet Care App",

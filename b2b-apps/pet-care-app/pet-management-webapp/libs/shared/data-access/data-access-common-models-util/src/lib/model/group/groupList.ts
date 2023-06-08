@@ -16,31 +16,15 @@
  * under the License.
  */
 
-const { withNx } = require("@nrwl/next/plugins/with-nx");
-const withFonts = require("next-fonts");
-const withLess = require("next-with-less");
+import Group from "./group";
+import ControllerCallReturn from "../controllerReturn/controllerCallReturn";
 
-const lessConfig = withLess({
-    lessLoaderOptions: {
-        lessOptions: {
-            strictMath: true
-        }
-    }
-});
+export interface GroupList extends ControllerCallReturn {
+    totalResults: number;
+    startIndex: number;
+    itemsPerPage: number;
+    schemas: string[];
+    Resources: Group[];
+}
 
-module.exports = withFonts({
-    webpack(config) {
-        return config;
-    }
-});
-
-const nextConfig = withNx({
-    nx: {
-        svgr: false
-
-    },
-    ...lessConfig
-});
-
-module.exports = nextConfig;
-
+export default GroupList;

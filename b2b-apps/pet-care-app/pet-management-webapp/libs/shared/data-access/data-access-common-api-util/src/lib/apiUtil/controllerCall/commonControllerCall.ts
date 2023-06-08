@@ -53,6 +53,21 @@ export async function commonControllerCall(api: string, session: Session | null,
             header = getControllerCallApiRequestOptions(session, param);
         }
 
+        if (param) {
+
+            let url = api;
+
+            Object.keys(param).forEach((key) => {
+                if(key === "param"){
+                    url = `${api}?param=${param[key]}`;
+                }
+            });
+            const res = await fetch(url.toString(), header);
+            const data = await res.json();
+
+            return data;
+        }
+        
         const res = await fetch(api, header);
         const data = await res.json();
 

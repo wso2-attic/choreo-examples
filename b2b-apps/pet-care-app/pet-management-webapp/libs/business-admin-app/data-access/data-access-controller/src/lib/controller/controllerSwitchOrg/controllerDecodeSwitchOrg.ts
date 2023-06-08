@@ -34,7 +34,7 @@ function getOrgId(token: JWT): string {
         }
     } else {
         
-        return getConfig().CommonConfig.ApplicationConfig.SampleOrganization[0].id;
+        return "";
     }
 
 }

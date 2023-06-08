@@ -58,8 +58,20 @@
                     ]
                 },
                 {
-                    "title": "Identity Providers",
+                    "title": "Manage Groups",
                     "eventKey": "2-3",
+                    "type": "item",
+                    "hideBasedOnScope": false,
+                    "scopes": [
+                        "internal_group_mgt_view",
+                        "internal_group_mgt_create",
+                        "internal_group_mgt_update",
+                        "internal_group_mgt_delete"
+                    ]
+                },
+                {
+                    "title": "Identity Providers",
+                    "eventKey": "2-4",
                     "type": "item",
                     "hideBasedOnScope": false,
                     "scopes": [

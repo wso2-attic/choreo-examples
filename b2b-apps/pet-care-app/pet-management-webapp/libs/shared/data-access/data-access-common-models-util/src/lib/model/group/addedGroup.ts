@@ -16,31 +16,28 @@
  * under the License.
  */
 
-const { withNx } = require("@nrwl/next/plugins/with-nx");
-const withFonts = require("next-fonts");
-const withLess = require("next-with-less");
+import ControllerCallReturn from "../controllerReturn/controllerCallReturn";
+import ControllerDecodeReturn from "../controllerReturn/controllerDecodeReturn";
 
-const lessConfig = withLess({
-    lessLoaderOptions: {
-        lessOptions: {
-            strictMath: true
-        }
-    }
-});
+interface Meta {
+    created: string;
+    location: string;
+    lastModified: string;
+    resourceType: string;
+}
+  
+interface Member {
+    display: string;
+    value: string;
+}
+  
+export interface AddedGroup extends ControllerCallReturn, ControllerDecodeReturn {
+    displayName: string;
+    meta: Meta;
+    schemas: string[];
+    members: Member[];
+    id: string;
+}
 
-module.exports = withFonts({
-    webpack(config) {
-        return config;
-    }
-});
-
-const nextConfig = withNx({
-    nx: {
-        svgr: false
-
-    },
-    ...lessConfig
-});
-
-module.exports = nextConfig;
-
+export default AddedGroup;
+  

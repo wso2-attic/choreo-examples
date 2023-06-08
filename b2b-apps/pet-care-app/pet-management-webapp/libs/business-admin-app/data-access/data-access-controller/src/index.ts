@@ -49,3 +49,6 @@ export * from
 export * from "./lib/controller/identityProvider/controllerGetDiscoveryUrl/controllerDecodeGetDiscoveryUrl";
 export * from
 "./lib/controller/controllerSwitchOrg/controllerDecodeSwitchOrg";
+export * from "./lib/controller/group/controllerViewGroup/controllerDecodeViewGroups";
+export * from "./lib/controller/group/controllerAddGroup/controllerCallDecodeAddGroup";
+export * from "./lib/controller/group/controllerViewUsersInGroup/controllerDecodeViewUsersInGroup";

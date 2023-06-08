@@ -16,31 +16,26 @@
  * under the License.
  */
 
-const { withNx } = require("@nrwl/next/plugins/with-nx");
-const withFonts = require("next-fonts");
-const withLess = require("next-with-less");
+import Group from "./group";
+import InternalGroup from "./internalGroup";
 
-const lessConfig = withLess({
-    lessLoaderOptions: {
-        lessOptions: {
-            strictMath: true
-        }
-    }
-});
 
-module.exports = withFonts({
-    webpack(config) {
-        return config;
-    }
-});
+/**
+ * 
+ * @param group - (group object return from the IS)
+ * 
+ * @returns group object that can be view in front end side
+ */
+export function decodeGroup(group: Group): InternalGroup {
 
-const nextConfig = withNx({
-    nx: {
-        svgr: false
+    const displayName = group.displayName?.split("/")?.[1] || "-";
+    const userstore = group.displayName?.split("/")?.[0] || "-";
 
-    },
-    ...lessConfig
-});
 
-module.exports = nextConfig;
+    return {
+        "displayName": displayName,
+        "id": group.id ? group.id : "-",
+        "userStore": userstore
+    };
+}
 

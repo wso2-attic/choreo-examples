@@ -53,6 +53,7 @@ import HomeComponentForPetOwner
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForPetOwner";
 
 import Custom500 from "../../pages/500";
+import ManageGroupSectionComponent from "./sections/settingsSection/manageGroupSection/manageGroupSectionComponent";
 
 interface HomeProps {
     name: string,
@@ -86,6 +87,9 @@ export default function Home(props: HomeProps): JSX.Element {
 
                 return <RoleManagementSectionComponent session={ session } />;
             case "2-3":
+
+                return <ManageGroupSectionComponent session={ session } />;    
+            case "2-4":
 
                 return <IdpSectionComponent session={ session } />;
             case "3":

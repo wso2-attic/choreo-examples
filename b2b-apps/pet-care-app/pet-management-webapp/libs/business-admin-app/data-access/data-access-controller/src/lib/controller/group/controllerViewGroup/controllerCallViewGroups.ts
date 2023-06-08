@@ -16,31 +16,20 @@
  * under the License.
  */
 
-const { withNx } = require("@nrwl/next/plugins/with-nx");
-const withFonts = require("next-fonts");
-const withLess = require("next-with-less");
+import { commonControllerCall } from "@b2bsample/shared/data-access/data-access-common-api-util";
+import { GroupList } from "@b2bsample/shared/data-access/data-access-common-models-util";
+import { Session } from "next-auth";
 
-const lessConfig = withLess({
-    lessLoaderOptions: {
-        lessOptions: {
-            strictMath: true
-        }
-    }
-});
+/**
+ * call GET `getManagementAPIServerBaseUrl()/o/<subOrgId>/scim2/Groups` to view all the groups
+ * 
+ * @param session - session object
+ * 
+ * @returns - list all groups
+ */
+export async function controllerCallViewGroups(session: Session): Promise<GroupList | null> {
 
-module.exports = withFonts({
-    webpack(config) {
-        return config;
-    }
-});
+    const data = (await commonControllerCall("/api/settings/group/viewGroups", session) as GroupList | null);
 
-const nextConfig = withNx({
-    nx: {
-        svgr: false
-
-    },
-    ...lessConfig
-});
-
-module.exports = nextConfig;
-
+    return data;
+}

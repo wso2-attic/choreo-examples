@@ -18,11 +18,9 @@
 
 import { User } from "@b2bsample/shared/data-access/data-access-common-models-util";
 import { getManagementAPIServerBaseUrl, getTenantDomain } from "@b2bsample/shared/util/util-application-config-util";
-import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
 import { Profile, Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import { signIn, signOut } from "next-auth/react";
-import config from "../../../../../../config.json";
 import RedirectReturnType from "../model/authorizationConfigModal";
 
 /**
@@ -122,7 +120,7 @@ function getOrgId(token: JWT): string {
         return parseJwt(token)["org_id"];
     }
 
-    return config.CommonConfig.ApplicationConfig.SampleOrganization[0].id;
+    return "";
 }
 
 /**
@@ -138,7 +136,7 @@ function getOrgName(token: JWT): string {
         return parseJwt(token)["org_name"];
     }
 
-    return config.CommonConfig.ApplicationConfig.SampleOrganization[0].name;
+    return "";
 }
 
 /**

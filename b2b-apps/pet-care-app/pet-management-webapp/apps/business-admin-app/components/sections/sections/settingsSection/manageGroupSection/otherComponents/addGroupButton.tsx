@@ -16,31 +16,22 @@
  * under the License.
  */
 
-const { withNx } = require("@nrwl/next/plugins/with-nx");
-const withFonts = require("next-fonts");
-const withLess = require("next-with-less");
+import { Button } from "rsuite";
 
-const lessConfig = withLess({
-    lessLoaderOptions: {
-        lessOptions: {
-            strictMath: true
-        }
-    }
-});
+interface AddGroupButtonProps {
+    onClick : ()=>void
+}
 
-module.exports = withFonts({
-    webpack(config) {
-        return config;
-    }
-});
+export default function AddGroupButton(props : AddGroupButtonProps) {
 
-const nextConfig = withNx({
-    nx: {
-        svgr: false
+    const { onClick } = props;
 
-    },
-    ...lessConfig
-});
-
-module.exports = nextConfig;
-
+    return (
+        <Button
+            appearance="primary"
+            size="lg"
+            onClick={ onClick }>
+            + New Group
+        </Button>
+    );
+}
