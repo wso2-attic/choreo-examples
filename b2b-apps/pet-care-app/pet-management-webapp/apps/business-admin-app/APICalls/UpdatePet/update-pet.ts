@@ -17,12 +17,11 @@
  */
 
 import { updatePetInfo } from "apps/business-admin-app/types/pets";
+import createHeaders from "../createHeaders";
 import { getPetInstance } from "../CreatePet/instance";
 
 export async function updatePet(accessToken: string, petId: string, payload?: updatePetInfo) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const path = "/pets/" + petId;
     const response = await getPetInstance().put(path, payload, {
         headers: headers

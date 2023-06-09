@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { ControllerCallParam } from "@b2bsample/shared/data-access/data-access-common-models-util";
+import { ControllerCallParam } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 
 export interface IdentityProviderTemplateModelAuthenticatorProperty {
     key?: string,

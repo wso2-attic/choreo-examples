@@ -16,8 +16,9 @@
  * under the License.
  */
 
-import { requestOptions } from "@b2bsample/business-admin-app/data-access/data-access-common-api-util";
-import { dataNotRecievedError, notPostError } from "@b2bsample/shared/data-access/data-access-common-api-util";
+import { requestOptions } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-api-util";
+import { dataNotRecievedError, notPostError } 
+    from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function getRole(req: NextApiRequest, res: NextApiResponse) {

@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
+import { getConfig } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
 import { initInstance } from "../instance";
 
 export const getPetInstance = () => {

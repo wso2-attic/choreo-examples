@@ -16,7 +16,8 @@
  * under the License.
  */
 
-import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
+import { getConfig } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
+import config from "../../../../../../config.json";
 
 /**
  * check if the user is an administrator of the logged in identity server
@@ -80,7 +81,7 @@ export function getManagementAPIServerBaseUrl() {
  */
 export function getTenantDomain() {
 
-    const baseOrganizationUrl = getConfig().CommonConfig.AuthorizationConfig.BaseOrganizationUrl;
+    const baseOrganizationUrl = config.CommonConfig.AuthorizationConfig.BaseOrganizationUrl;
     const url = baseOrganizationUrl.split("/");
     const path = url[url.length - 1];
 

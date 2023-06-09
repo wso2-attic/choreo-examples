@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { User } from "@b2bsample/shared/data-access/data-access-common-models-util";
+import { User } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import "next-auth";
 import { JWT } from "next-auth/jwt";
 

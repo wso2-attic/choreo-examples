@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { random_rgba } from "@b2bsample/shared/util/util-common";
+import { random_rgba } from "@pet-management-webapp/shared/util/util-common";
 import Image from "next/image";
 import { Avatar, Stack } from "rsuite";
 import { AccordianItemHeaderComponentProps } from

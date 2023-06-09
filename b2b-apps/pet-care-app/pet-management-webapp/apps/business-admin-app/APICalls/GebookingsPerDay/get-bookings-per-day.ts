@@ -18,14 +18,11 @@
 
 import { Booking } from "apps/business-admin-app/types/booking";
 import { AxiosResponse } from "axios";
+import createHeaders from "../createHeaders";
 import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
-
-
 export async function getDoctorBookingsPerDay(accessToken: string, doctorId: string, date: string) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getDoctorInstance().get("/doctors/"+ doctorId +"/bookings?date=" + date, {
         headers: headers
     });

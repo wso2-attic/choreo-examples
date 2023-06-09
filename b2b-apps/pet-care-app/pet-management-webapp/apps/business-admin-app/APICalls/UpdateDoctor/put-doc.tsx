@@ -17,12 +17,11 @@
  */
 
 import { DoctorInfo } from "../../types/doctor";
+import createHeaders from "../createHeaders";
 import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
 export async function putDoctor(accessToken: string, ID: string, payload?: DoctorInfo) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getDoctorInstance().put("/doctors/" + ID, payload, {
         headers: headers
     });

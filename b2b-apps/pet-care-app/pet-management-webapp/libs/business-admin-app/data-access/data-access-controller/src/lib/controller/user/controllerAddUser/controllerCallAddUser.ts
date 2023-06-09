@@ -16,8 +16,8 @@
  * under the License.
  */
 
-import { commonControllerCall } from "@b2bsample/shared/data-access/data-access-common-api-util";
-import { SendUser, User } from "@b2bsample/shared/data-access/data-access-common-models-util";
+import { commonControllerCall } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
+import { SendUser, User } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import { Session } from "next-auth";
 
 /**

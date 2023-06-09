@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
+import { getConfig } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
 import { SessionProvider } from "next-auth/react";
 import Head from "next/head";
 import "rsuite/dist/rsuite.min.css";

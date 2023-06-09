@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { Role } from "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
+import { Role } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
 import { Session } from "next-auth";
 import React from "react";
 import { FlexboxGrid, PanelGroup } from "rsuite";

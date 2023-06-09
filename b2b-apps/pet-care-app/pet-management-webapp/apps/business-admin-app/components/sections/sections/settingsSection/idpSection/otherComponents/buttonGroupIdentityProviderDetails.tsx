@@ -17,13 +17,13 @@
  */
 
 import { Application, ApplicationList, IdentityProvider, checkIfIdpIsinAuthSequence } from
-    "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
+    "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
 import {
     controllerDecodeDeleteIdentityProvider, controllerDecodeGetApplication,
     controllerDecodeListCurrentApplication
-} from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { errorTypeDialog, successTypeDialog } from "@b2bsample/shared/ui/ui-components";
-import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
+} from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
+import { errorTypeDialog, successTypeDialog } from "@pet-management-webapp/shared/ui/ui-components";
+import { checkIfJSONisEmpty } from "@pet-management-webapp/shared/util/util-common";
 import Trash from "@rsuite/icons/Trash";
 import { Session } from "next-auth";
 import React, { useCallback, useEffect, useState } from "react";

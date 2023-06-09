@@ -16,8 +16,9 @@
  * under the License.
  */
 
-import { controllerDecodeViewUsers } from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { InternalUser } from "@b2bsample/shared/data-access/data-access-common-models-util";
+import { controllerDecodeViewUsers } 
+    from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
+import { InternalUser } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import React, { useCallback, useEffect, useState } from "react";
 import { Field, Form } from "react-final-form";
 import { Button, ButtonToolbar, Checkbox, CheckboxGroup } from "rsuite";

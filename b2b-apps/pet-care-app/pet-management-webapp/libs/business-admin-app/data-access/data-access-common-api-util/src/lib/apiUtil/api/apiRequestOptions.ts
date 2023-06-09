@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import { getHostedUrl } from "@b2bsample/business-admin-app/util/util-application-config-util";
+import { getHostedUrl } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
 import { RequestMethod, apiRequestOptions, apiRequestOptionsWithBody } from
-    "@b2bsample/shared/data-access/data-access-common-api-util";
+    "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import { Session } from "next-auth";
 
 /**

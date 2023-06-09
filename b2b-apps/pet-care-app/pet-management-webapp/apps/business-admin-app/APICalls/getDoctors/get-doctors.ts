@@ -19,11 +19,10 @@
 import { AxiosResponse } from "axios";
 import { getDoctorInstance } from "./doctorInstance";
 import { Doctor } from "../../types/doctor";
+import createHeaders from "../createHeaders";
 
 export async function getDoctors(accessToken: string) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getDoctorInstance().get("/doctors", {
         headers: headers
     });

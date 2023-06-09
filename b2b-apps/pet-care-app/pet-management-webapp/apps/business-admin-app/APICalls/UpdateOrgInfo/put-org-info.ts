@@ -17,12 +17,11 @@
  */
 
 import { UpdateOrgInfo } from "../../types/doctor";
+import createHeaders from "../createHeaders";
 import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
 export async function putOrgInfo(accessToken: string, payload?: UpdateOrgInfo) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getDoctorInstance().put("/org-info" , payload, {
         headers: headers
     });

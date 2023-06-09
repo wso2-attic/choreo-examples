@@ -16,12 +16,13 @@
  * under the License.
  */
 
-import { Role } from "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
-import { controllerDecodePatchRole } from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { FormButtonToolbar, FormField } from "@b2bsample/shared/ui/ui-basic-components";
-import { errorTypeDialog, successTypeDialog } from "@b2bsample/shared/ui/ui-components";
-import { PatchMethod } from "@b2bsample/shared/util/util-common";
-import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE } from "@b2bsample/shared/util/util-front-end-util";
+import { Role } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
+import { controllerDecodePatchRole } 
+    from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
+import { FormButtonToolbar, FormField } from "@pet-management-webapp/shared/ui/ui-basic-components";
+import { errorTypeDialog, successTypeDialog } from "@pet-management-webapp/shared/ui/ui-components";
+import { PatchMethod } from "@pet-management-webapp/shared/util/util-common";
+import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE } from "@pet-management-webapp/shared/util/util-front-end-util";
 import { Session } from "next-auth";
 import { useCallback, useEffect, useState } from "react";
 import { Form } from "react-final-form";

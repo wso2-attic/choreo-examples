@@ -16,8 +16,9 @@
  * under the License.
  */
 
-import { User } from "@b2bsample/shared/data-access/data-access-common-models-util";
-import { getManagementAPIServerBaseUrl, getTenantDomain } from "@b2bsample/shared/util/util-application-config-util";
+import { User } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
+import { getManagementAPIServerBaseUrl, getTenantDomain } 
+    from "@pet-management-webapp/shared/util/util-application-config-util";
 import { Profile, Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import { signIn, signOut } from "next-auth/react";

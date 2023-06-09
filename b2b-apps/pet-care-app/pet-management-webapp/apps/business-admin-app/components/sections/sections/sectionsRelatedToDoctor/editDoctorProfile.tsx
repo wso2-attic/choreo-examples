@@ -16,8 +16,9 @@
  * under the License.
  */
 
-import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
-import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } 
+    from "@mui/material";
+import { ModelHeaderComponent } from "@pet-management-webapp/shared/ui/ui-basic-components";
 import { putDoctor } from "apps/business-admin-app/APICalls/UpdateDoctor/put-doc";
 import { Availability, Doctor, DoctorInfo } from "apps/business-admin-app/types/doctor";
 import { Session } from "next-auth";

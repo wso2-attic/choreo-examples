@@ -19,9 +19,9 @@
 import {
     IdentityProviderFederatedAuthenticatorProperty, IdentityProviderTemplate,
     IdentityProviderTemplateModelAuthenticatorProperty, selectedTemplateBaesedonTemplateId
-} from "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
-import { HelperTextComponent, infoTypeDialog } from "@b2bsample/shared/ui/ui-components";
-import { CopyTextToClipboardCallback, copyTheTextToClipboard } from "@b2bsample/shared/util/util-common";
+} from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
+import { HelperTextComponent, infoTypeDialog } from "@pet-management-webapp/shared/ui/ui-components";
+import { CopyTextToClipboardCallback, copyTheTextToClipboard } from "@pet-management-webapp/shared/util/util-common";
 import CopyIcon from "@rsuite/icons/Copy";
 import React from "react";
 import { Field } from "react-final-form";

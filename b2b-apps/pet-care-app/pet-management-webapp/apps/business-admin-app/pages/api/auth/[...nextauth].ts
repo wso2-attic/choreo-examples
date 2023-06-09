@@ -16,10 +16,11 @@
  * under the License.
  */
 
-import { controllerDecodeSwitchOrg } from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
+import { controllerDecodeSwitchOrg } 
+    from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
+import { getConfig } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
 import { getLoggedUserFromProfile, getLoggedUserId, getOrgId, getOrgName } from
-    "@b2bsample/shared/util/util-authorization-config-util";
+    "@pet-management-webapp/shared/util/util-authorization-config-util";
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
 

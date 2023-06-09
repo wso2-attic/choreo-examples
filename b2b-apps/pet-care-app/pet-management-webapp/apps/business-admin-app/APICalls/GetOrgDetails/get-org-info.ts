@@ -18,12 +18,11 @@
 
 import { AxiosResponse } from "axios";
 import { OrgInfo } from "../../types/doctor";
+import createHeaders from "../createHeaders";
 import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
 export async function getOrgInfo(accessToken: string) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getDoctorInstance().get("/org-info", {
         headers: headers
     });

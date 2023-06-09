@@ -16,10 +16,11 @@
  * under the License.
  */
 
-import { requestOptionsWithBody } from "@b2bsample/business-admin-app/data-access/data-access-common-api-util";
+import { requestOptionsWithBody } 
+    from "@pet-management-webapp/business-admin-app/data-access/data-access-common-api-util";
 import { RequestMethod, dataNotRecievedError, notPostError } from
-    "@b2bsample/shared/data-access/data-access-common-api-util";
-import { getOrgUrl } from "@b2bsample/shared/util/util-application-config-util";
+    "@pet-management-webapp/shared/data-access/data-access-common-api-util";
+import { getOrgUrl } from "@pet-management-webapp/shared/util/util-application-config-util";
 import { NextApiRequest, NextApiResponse } from "next";
 
 

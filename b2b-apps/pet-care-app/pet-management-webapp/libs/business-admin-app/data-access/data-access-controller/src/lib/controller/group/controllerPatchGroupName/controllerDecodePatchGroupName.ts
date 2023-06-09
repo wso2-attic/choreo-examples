@@ -16,12 +16,12 @@
  * under the License.
  */
 
-import { commonControllerDecode } from "@b2bsample/shared/data-access/data-access-common-api-util";
-import { Group, PatchBody, SendEditGroupName } from "@b2bsample/shared/data-access/data-access-common-models-util";
-import { PatchMethod } from "@b2bsample/shared/util/util-common";
+import { commonControllerDecode } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
+import { Group, SendEditGroupName } 
+    from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
+import { PatchMethod } from "@pet-management-webapp/shared/util/util-common";
 import { Session } from "next-auth";
 import { controllerCallPatchGroupName } from "./controllerCallPatchGroupName";
-import { getPatchBody } from "../../role/controllerPatchRole/controllerDecodePatchRole";
 
 export async function controllerDecodePatchGroupName(
     session: Session, groupId: string, patchMethod: PatchMethod, path: string, value: string)

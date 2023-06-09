@@ -16,9 +16,10 @@
  * under the License.
  */
 
-import { Role } from "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
-import { controllerDecodeGetRole } from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { AccordianItemHeaderComponent, JsonDisplayComponent } from "@b2bsample/shared/ui/ui-components";
+import { Role } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
+import { controllerDecodeGetRole } from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
+import { AccordianItemHeaderComponent, JsonDisplayComponent } 
+    from "@pet-management-webapp/shared/ui/ui-components";
 import CodeIcon from "@rsuite/icons/Code";
 import { Session } from "next-auth";
 import { useCallback, useEffect, useState } from "react";

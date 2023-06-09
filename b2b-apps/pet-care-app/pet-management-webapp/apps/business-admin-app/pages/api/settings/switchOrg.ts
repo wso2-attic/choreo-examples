@@ -16,8 +16,9 @@
  * under the License.
  */
 
-import { getConfig, getHostedUrl } from "@b2bsample/business-admin-app/util/util-application-config-util";
-import { dataNotRecievedError, notPostError } from "@b2bsample/shared/data-access/data-access-common-api-util";
+import { getConfig, getHostedUrl } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
+import { dataNotRecievedError, notPostError } 
+    from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import { NextApiRequest, NextApiResponse } from "next";
 
 /**

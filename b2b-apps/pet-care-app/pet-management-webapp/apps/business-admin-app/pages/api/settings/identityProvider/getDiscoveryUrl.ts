@@ -16,7 +16,8 @@
  * under the License.
  */
 
-import { dataNotRecievedError, notPostError } from "@b2bsample/shared/data-access/data-access-common-api-util";
+import { dataNotRecievedError, notPostError } 
+    from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import { NextApiRequest, NextApiResponse } from "next";
 
 

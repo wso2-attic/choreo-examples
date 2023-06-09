@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import { LogoComponent } from "@b2bsample/business-admin-app/ui/ui-components";
-import { signout } from "@b2bsample/business-admin-app/util/util-authorization-config-util";
-import { SignOutComponent } from "@b2bsample/shared/ui/ui-components";
+import { LogoComponent } from "@pet-management-webapp/business-admin-app/ui/ui-components";
+import { signout } from "@pet-management-webapp/business-admin-app/util/util-authorization-config-util";
+import { SignOutComponent } from "@pet-management-webapp/shared/ui/ui-components";
 import DoctorBookingsSection 
     from "apps/business-admin-app/components/sections/sections/sectionsRelatedToDoctor/doctorBookings";
 import { Session } from "next-auth";
@@ -35,6 +35,7 @@ import ChannelDoctorSection from "./sections/sectionsRelatedToBookings/channelDo
 import DoctorProfileSection from "./sections/sectionsRelatedToDoctor/doctorProfile";
 import ManageDoctorsSection from "./sections/sectionsRelatedToDoctor/manageDoctors";
 import IdpSectionComponent from "./sections/settingsSection/idpSection/idpSectionComponent";
+import ManageGroupSectionComponent from "./sections/settingsSection/manageGroupSection/manageGroupSectionComponent";
 import ManageUserSectionComponent from "./sections/settingsSection/manageUserSection/manageUserSectionComponent";
 import RoleManagementSectionComponent from
     "./sections/settingsSection/roleManagementSection/roleManagementSectionComponent";
@@ -53,7 +54,6 @@ import HomeComponentForPetOwner
     from "../../../../libs/shared/ui/ui-components/src/lib/components/homeComponent/homeComponentForPetOwner";
 
 import Custom500 from "../../pages/500";
-import ManageGroupSectionComponent from "./sections/settingsSection/manageGroupSection/manageGroupSectionComponent";
 
 interface HomeProps {
     name: string,

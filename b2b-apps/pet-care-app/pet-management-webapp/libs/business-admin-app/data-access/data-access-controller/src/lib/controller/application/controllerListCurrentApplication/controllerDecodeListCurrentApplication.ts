@@ -16,8 +16,8 @@
  * under the License.
  */
 
-import { ApplicationList } from "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
-import { commonControllerDecode } from "@b2bsample/shared/data-access/data-access-common-api-util";
+import { ApplicationList } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
+import { commonControllerDecode } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import { Session } from "next-auth";
 import { controllerCallListCurrentApplication } from "./controllerCallListCurrentApplication";
 

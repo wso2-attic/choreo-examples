@@ -16,17 +16,10 @@
  * under the License.
  */
 
-import { AxiosResponse } from "axios";
-import { Doctor, DoctorInfo } from "../../../business-admin-app/types/doctor";
-import createHeaders from "../createHeaders";
-import { getDoctorInstance } from "../getDoctors/doctorInstance";
-
-export async function postDoctor(accessToken: string, payload?: DoctorInfo) {
-    const headers = createHeaders(accessToken);
-    const response = await getDoctorInstance().post("/doctors", payload, {
-        headers: headers
-    });
-
-    return response as AxiosResponse<Doctor>;
-
+export default function createHeaders(accessToken: string): Record<string, string> {
+    const headers: Record<string, string> = {
+        Authorization: `Bearer ${accessToken}`
+    };
+  
+    return headers;
 }

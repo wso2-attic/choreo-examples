@@ -18,12 +18,11 @@
 
 import { MedicalReport } from "apps/business-admin-app/types/pets";
 import { AxiosResponse } from "axios";
+import createHeaders from "../createHeaders";
 import { getPetInstance } from "../CreatePet/instance";
 
 export async function getMedicalReport(accessToken: string, petId: string) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getPetInstance().get("/pets/" + petId + "/medical-reports", {
         headers: headers
     });

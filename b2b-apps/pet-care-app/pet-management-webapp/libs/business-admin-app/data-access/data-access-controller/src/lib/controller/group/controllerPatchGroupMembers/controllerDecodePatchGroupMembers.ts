@@ -16,10 +16,10 @@
  * under the License.
  */
 
-import { commonControllerDecode } from "@b2bsample/shared/data-access/data-access-common-api-util";
+import { commonControllerDecode } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import { Group, SendEditGroupMembers, sendMemberList } 
-    from "@b2bsample/shared/data-access/data-access-common-models-util";
-import { PatchMethod } from "@b2bsample/shared/util/util-common";
+    from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
+import { PatchMethod } from "@pet-management-webapp/shared/util/util-common";
 import { Session } from "next-auth";
 import { controllerCallPatchGroupMembers } from "./controllerCallPatchGroupMembers";
 

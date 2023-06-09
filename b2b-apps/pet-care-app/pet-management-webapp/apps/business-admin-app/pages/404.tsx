@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { Custom404Component } from "@b2bsample/shared/ui/ui-components";
+import { Custom404Component } from "@pet-management-webapp/shared/ui/ui-components";
 
 export default function Custom404() {
 

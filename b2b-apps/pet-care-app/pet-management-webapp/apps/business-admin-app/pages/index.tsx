@@ -16,8 +16,8 @@
  * under the License.
  */
 
-import { LogoComponent } from "@b2bsample/business-admin-app/ui/ui-components";
-import { IndexHomeComponent } from "@b2bsample/shared/ui/ui-components";
+import { LogoComponent } from "@pet-management-webapp/business-admin-app/ui/ui-components";
+import { IndexHomeComponent } from "@pet-management-webapp/shared/ui/ui-components";
 import { NextRouter, useRouter } from "next/router";
 import React from "react";
 import "rsuite/dist/rsuite.min.css";

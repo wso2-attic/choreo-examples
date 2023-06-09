@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { orgSignin, redirect } from "@b2bsample/shared/util/util-authorization-config-util";
+import { orgSignin, redirect } from "@pet-management-webapp/shared/util/util-authorization-config-util";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import { useEffect } from "react";

@@ -19,11 +19,11 @@
 import {
     Application, AuthenticationSequence, AuthenticationSequenceModel, AuthenticationSequenceStepOption,
     IdentityProvider
-} from "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
-import { commonControllerDecode } from "@b2bsample/shared/data-access/data-access-common-api-util";
+} from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
+import { commonControllerDecode } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import {
     BASIC_AUTHENTICATOR_ID, BASIC_ID, ENTERPRISE_AUTHENTICATOR_ID, ENTERPRISE_ID, GOOGLE_AUTHENTICATOR_ID, GOOGLE_ID
-} from "@b2bsample/shared/util/util-common";
+} from "@pet-management-webapp/shared/util/util-common";
 import { Session } from "next-auth";
 import { controllerCallPatchApplicationAuthSteps } from "./controllerCallPatchApplicationAuthSteps";
 

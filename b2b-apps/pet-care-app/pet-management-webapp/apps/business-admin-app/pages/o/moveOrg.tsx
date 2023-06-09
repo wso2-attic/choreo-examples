@@ -16,8 +16,8 @@
  * under the License.
  */
 
-import { MoveOrganizationComponent } from "@b2bsample/shared/ui/ui-components";
-import { redirect } from "@b2bsample/shared/util/util-authorization-config-util";
+import { MoveOrganizationComponent } from "@pet-management-webapp/shared/ui/ui-components";
+import { redirect } from "@pet-management-webapp/shared/util/util-authorization-config-util";
 import { getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";

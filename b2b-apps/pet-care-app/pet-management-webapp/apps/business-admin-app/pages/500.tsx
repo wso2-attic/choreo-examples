@@ -16,8 +16,8 @@
  * under the License.
  */
 
-import { signout } from "@b2bsample/business-admin-app/util/util-authorization-config-util";
-import { Custom500Component } from "@b2bsample/shared/ui/ui-components";
+import { signout } from "@pet-management-webapp/business-admin-app/util/util-authorization-config-util";
+import { Custom500Component } from "@pet-management-webapp/shared/ui/ui-components";
 
 export default function Custom500() {
 

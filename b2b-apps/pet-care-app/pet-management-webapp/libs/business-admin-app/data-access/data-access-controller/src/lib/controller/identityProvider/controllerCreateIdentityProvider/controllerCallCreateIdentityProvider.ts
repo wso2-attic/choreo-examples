@@ -17,8 +17,8 @@
  */
 
 import { IdentityProvider, IdentityProviderTemplateModel } from
-    "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
-import { commonControllerCall } from "@b2bsample/shared/data-access/data-access-common-api-util";
+    "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
+import { commonControllerCall } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import { Session } from "next-auth";
 
 /**

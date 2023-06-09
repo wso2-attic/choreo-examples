@@ -17,7 +17,7 @@
  */
 
 import { ControllerCallParam, ControllerCallReturn, ControllerDecodeReturn }
-    from "@b2bsample/shared/data-access/data-access-common-models-util";
+    from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import RoleGroups from "./roleGroups";
 import RoleUsers from "./roleUsers";
 

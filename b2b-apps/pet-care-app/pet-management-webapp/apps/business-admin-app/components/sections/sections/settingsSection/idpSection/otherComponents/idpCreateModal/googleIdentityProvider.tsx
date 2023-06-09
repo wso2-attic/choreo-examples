@@ -18,14 +18,14 @@
 
 import {
     IdentityProvider, IdentityProviderConfigureType, IdentityProviderTemplate
-} from "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
+} from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
 import {
     controllerDecodeCreateIdentityProvider
-} from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { FormButtonToolbar, FormField } from "@b2bsample/shared/ui/ui-basic-components";
-import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
+} from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
+import { FormButtonToolbar, FormField } from "@pet-management-webapp/shared/ui/ui-basic-components";
+import { checkIfJSONisEmpty } from "@pet-management-webapp/shared/util/util-common";
 import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } from
-    "@b2bsample/shared/util/util-front-end-util";
+    "@pet-management-webapp/shared/util/util-front-end-util";
 import { Session } from "next-auth";
 import { useState } from "react";
 import { Form } from "react-final-form";

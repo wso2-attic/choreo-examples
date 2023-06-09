@@ -17,7 +17,7 @@
  */
 
 import { ControllerCallReturn, ControllerDecodeReturn } from
-    "@b2bsample/shared/data-access/data-access-common-models-util";
+    "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import Application from "./application";
 
 export interface ApplicationList extends ControllerCallReturn, ControllerDecodeReturn {

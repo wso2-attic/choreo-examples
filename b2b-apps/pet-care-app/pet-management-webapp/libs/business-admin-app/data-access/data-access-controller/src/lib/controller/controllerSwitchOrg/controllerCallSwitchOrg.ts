@@ -17,9 +17,9 @@
  */
 
 
-import { getHostedUrl } from "@b2bsample/business-admin-app/util/util-application-config-util";
-import { commonControllerCall } from "@b2bsample/shared/data-access/data-access-common-api-util";
-import { OrgSession } from "@b2bsample/shared/data-access/data-access-common-models-util";
+import { getHostedUrl } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
+import { commonControllerCall } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
+import { OrgSession } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 
 /**
  * call the switch organization API endpoint

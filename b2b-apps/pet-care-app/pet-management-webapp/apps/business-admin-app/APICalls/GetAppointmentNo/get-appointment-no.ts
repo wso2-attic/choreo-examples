@@ -18,15 +18,14 @@
 
 import { AppointmentNoInfo } from "apps/business-admin-app/types/booking";
 import { AxiosResponse } from "axios";
+import createHeaders from "../createHeaders";
 import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
 export async function getNextAppointmentNo(accessToken: string, 
     doctorId: string, date: string, 
     sessionStartTime: string, 
     sessionEndTime: string) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getDoctorInstance().
         get("/doctors/"+ doctorId +"/next-appointment-number?date=" + date + 
         "&sessionStartTime=" + sessionStartTime + 

@@ -16,8 +16,9 @@
  * under the License.
  */
 
-import { getManagementAPIServerBaseUrl, getOrgUrl } from "@b2bsample/shared/util/util-application-config-util";
-import { EMPTY_STRING, ENTERPRISE_ID, GOOGLE_ID } from "@b2bsample/shared/util/util-common";
+import { getManagementAPIServerBaseUrl, getOrgUrl } 
+    from "@pet-management-webapp/shared/util/util-application-config-util";
+import { EMPTY_STRING, ENTERPRISE_ID, GOOGLE_ID } from "@pet-management-webapp/shared/util/util-common";
 import IdentityProviderDiscoveryUrl from "./identityProviderDiscoveryUrl";
 import IdentityProviderTemplateModel from "./identityProviderTemplateModel";
 import enterpriseImage from "../../../../../ui/ui-assets/src/lib/images/enterprise.svg";

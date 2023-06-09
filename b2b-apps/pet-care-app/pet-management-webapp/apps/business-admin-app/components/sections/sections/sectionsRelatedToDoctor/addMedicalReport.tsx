@@ -16,11 +16,13 @@
  * under the License.
  */
 
-import { FormButtonToolbar, FormField, ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
-import { errorTypeDialog, successTypeDialog } from "@b2bsample/shared/ui/ui-components";
-import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
-import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } from "@b2bsample/shared/util/util-front-end-util";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { FormButtonToolbar, FormField, ModelHeaderComponent } 
+    from "@pet-management-webapp/shared/ui/ui-basic-components";
+import { errorTypeDialog, successTypeDialog } from "@pet-management-webapp/shared/ui/ui-components";
+import { checkIfJSONisEmpty } from "@pet-management-webapp/shared/util/util-common";
+import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } 
+    from "@pet-management-webapp/shared/util/util-front-end-util";
 import { postMedicalReport } from "apps/business-admin-app/APICalls/CreateMedicalReport/post-medical-report";
 import { Medicine, Pet, UpdateMedicalReport } from "apps/business-admin-app/types/pets";
 import { AxiosResponse } from "axios";

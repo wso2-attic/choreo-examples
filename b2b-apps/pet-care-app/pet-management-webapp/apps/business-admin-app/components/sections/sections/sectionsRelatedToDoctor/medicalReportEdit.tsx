@@ -16,8 +16,9 @@
  * under the License.
  */
 
-import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
-import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } 
+    from "@mui/material";
+import { ModelHeaderComponent } from "@pet-management-webapp/shared/ui/ui-basic-components";
 import PageIcon from "@rsuite/icons/Page";
 import TrashIcon from "@rsuite/icons/Trash";
 import { deleteMedicalReport } from "apps/business-admin-app/APICalls/DeleteMedicalReport/deleteMedicalReport";

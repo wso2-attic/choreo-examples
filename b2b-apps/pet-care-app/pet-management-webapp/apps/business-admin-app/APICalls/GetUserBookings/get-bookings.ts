@@ -18,12 +18,11 @@
 
 import { Booking } from "apps/business-admin-app/types/booking";
 import { AxiosResponse } from "axios";
+import createHeaders from "../createHeaders";
 import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
 export async function getBookings(accessToken: string) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getDoctorInstance().get("/bookings", {
         headers: headers
     });

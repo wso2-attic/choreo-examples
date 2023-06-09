@@ -17,11 +17,11 @@
  */
 
 import { IdentityProvider, IdentityProviderTemplate, getCallbackUrl } from
-    "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
-import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
-import { infoTypeDialog } from "@b2bsample/shared/ui/ui-components";
+    "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
+import { ModelHeaderComponent } from "@pet-management-webapp/shared/ui/ui-basic-components";
+import { infoTypeDialog } from "@pet-management-webapp/shared/ui/ui-components";
 import { CopyTextToClipboardCallback, ENTERPRISE_ID, GOOGLE_ID, copyTheTextToClipboard }
-    from "@b2bsample/shared/util/util-common";
+    from "@pet-management-webapp/shared/util/util-common";
 import CopyIcon from "@rsuite/icons/Copy";
 import InfoRoundIcon from "@rsuite/icons/InfoRound";
 import { Session } from "next-auth";

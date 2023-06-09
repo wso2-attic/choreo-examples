@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE } from "@b2bsample/shared/util/util-front-end-util";
+import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE } from "@pet-management-webapp/shared/util/util-front-end-util";
 import React, { useState } from "react";
 import { Button, ButtonToolbar, Loader, Modal, Stack } from "rsuite";
 import { SignOutComponentProps } from "../../models/signoutComponent/signoutComponent";

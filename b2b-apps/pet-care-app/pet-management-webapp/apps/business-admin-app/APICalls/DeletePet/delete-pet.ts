@@ -16,12 +16,11 @@
  * under the License.
  */
 
+import createHeaders from "../createHeaders";
 import { getPetInstance } from "../CreatePet/instance";
 
 export async function deletePet(accessToken: string, petId: string) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getPetInstance().delete("/pets/" + petId, {
         headers: headers
     });

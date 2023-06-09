@@ -16,17 +16,20 @@
  * under the License.
  */
 
-import { InviteConst, controllerDecodeAddGroup, controllerDecodeAddUser } from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { AddedGroup, InternalUser, Member, SendGroup, User } from "@b2bsample/shared/data-access/data-access-common-models-util";
-import { FormButtonToolbar, FormField, ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
-import { errorTypeDialog, successTypeDialog } from "@b2bsample/shared/ui/ui-components";
-import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
-import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } from "@b2bsample/shared/util/util-front-end-util";
-import EmailFillIcon from "@rsuite/icons/EmailFill";
+import { controllerDecodeAddGroup } 
+    from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
+import { AddedGroup, InternalUser, Member, SendGroup } 
+    from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
+import { FormButtonToolbar, FormField, ModelHeaderComponent } 
+    from "@pet-management-webapp/shared/ui/ui-basic-components";
+import { errorTypeDialog, successTypeDialog } from "@pet-management-webapp/shared/ui/ui-components";
+import { checkIfJSONisEmpty } from "@pet-management-webapp/shared/util/util-common";
+import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } 
+    from "@pet-management-webapp/shared/util/util-front-end-util";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { Form } from "react-final-form";
-import { Checkbox, Divider, Loader, Modal, Panel, Radio, RadioGroup, Stack, Table, useToaster } from "rsuite";
+import { Checkbox, Loader, Modal, Table, useToaster } from "rsuite";
 import FormSuite from "rsuite/Form";
 import styles from "../../../../../../styles/Settings.module.css";
 
@@ -49,9 +52,6 @@ export default function AddGroupComponent(props: AddGroupComponentProps) {
     const { session, users, open, onClose } = props;
 
     const [ loadingDisplay, setLoadingDisplay ] = useState(LOADING_DISPLAY_NONE);
-    const [ inviteSelect, serInviteSelect ] = useState<InviteConst>(InviteConst.INVITE);
-    const [ inviteShow, setInviteShow ] = useState(LOADING_DISPLAY_BLOCK);
-    const [ passwordShow, setPasswordShow ] = useState(LOADING_DISPLAY_NONE);
     const [ checkedUsers, setCheckedUsers ] = useState<InternalUser[]>([]);
 
     const { Column, HeaderCell, Cell } = Table;
@@ -169,7 +169,7 @@ export default function AddGroupComponent(props: AddGroupComponentProps) {
             </Modal.Body>
 
             <div style={ loadingDisplay }>
-                <Loader size="lg" backdrop content="User is adding" vertical />
+                <Loader size="lg" backdrop content="Group is adding" vertical />
             </div>
         </Modal>
 
@@ -187,11 +187,6 @@ function getSendGroupData(users: InternalUser[], groupName: string) {
         members: members,
         schemas: [ "urn:ietf:params:scim:schemas:core:2.0:Group" ]
     };
-
-    console.log("sendData: "+ sendData.displayName);
-    console.log("sendData: "+ sendData.members[0].display);
-    console.log("sendData: "+ sendData.members[0].value);
-    console.log("sendData: "+ sendData.schemas);
 
     return sendData;
 }

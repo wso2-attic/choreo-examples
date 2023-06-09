@@ -16,9 +16,10 @@
  * under the License.
  */
 
-import { requestOptions } from "@b2bsample/business-admin-app/data-access/data-access-common-api-util";
-import { dataNotRecievedError, notPostError } from "@b2bsample/shared/data-access/data-access-common-api-util";
-import { getOrgUrl } from "@b2bsample/shared/util/util-application-config-util";
+import { requestOptions } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-api-util";
+import { dataNotRecievedError, notPostError } 
+    from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
+import { getOrgUrl } from "@pet-management-webapp/shared/util/util-application-config-util";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function userRoles(req: NextApiRequest, res: NextApiResponse) {

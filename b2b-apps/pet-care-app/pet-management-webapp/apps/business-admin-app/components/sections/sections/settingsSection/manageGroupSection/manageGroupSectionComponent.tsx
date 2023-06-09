@@ -16,9 +16,11 @@
  * under the License.
  */
 
-import { controllerDecodeViewGroups, controllerDecodeViewUsers } from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { InternalGroup, InternalUser } from "@b2bsample/shared/data-access/data-access-common-models-util";
-import { SettingsTitleComponent } from "@b2bsample/shared/ui/ui-components";
+// eslint-disable-next-line max-len
+import { controllerDecodeViewGroups, controllerDecodeViewUsers } 
+    from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
+import { InternalGroup, InternalUser } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
+import { SettingsTitleComponent } from "@pet-management-webapp/shared/ui/ui-components";
 import EditIcon from "@rsuite/icons/Edit";
 import TrashIcon from "@rsuite/icons/Trash";
 import { Session } from "next-auth";

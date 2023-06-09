@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { LogoComponent } from "@b2bsample/business-admin-app/ui/ui-components";
+import { LogoComponent } from "@pet-management-webapp/business-admin-app/ui/ui-components";
 import PagePreviousIcon from "@rsuite/icons/PagePrevious";
 import Image from "next/image";
 import { Button, Panel, Stack } from "rsuite";

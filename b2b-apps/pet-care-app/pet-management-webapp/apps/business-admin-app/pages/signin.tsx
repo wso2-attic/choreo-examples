@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import { LogoComponent } from "@b2bsample/business-admin-app/ui/ui-components";
-import { SigninRedirectComponent } from "@b2bsample/shared/ui/ui-components";
-import { orgSignin } from "@b2bsample/shared/util/util-authorization-config-util";
+import { LogoComponent } from "@pet-management-webapp/business-admin-app/ui/ui-components";
+import { SigninRedirectComponent } from "@pet-management-webapp/shared/ui/ui-components";
+import { orgSignin } from "@pet-management-webapp/shared/util/util-authorization-config-util";
 import React, { useEffect, useState } from "react";
 import "rsuite/dist/rsuite.min.css";
 

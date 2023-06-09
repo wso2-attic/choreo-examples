@@ -16,10 +16,10 @@
  * under the License.
  */
 
-import { Role } from "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
-import { commonControllerDecode } from "@b2bsample/shared/data-access/data-access-common-api-util";
-import { PatchBody } from "@b2bsample/shared/data-access/data-access-common-models-util";
-import { PatchMethod } from "@b2bsample/shared/util/util-common";
+import { Role } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
+import { commonControllerDecode } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
+import { PatchBody } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
+import { PatchMethod } from "@pet-management-webapp/shared/util/util-common";
 import { Session } from "next-auth";
 import { controllerCallPatchRole } from "./controllerCallPatchRole";
 

@@ -16,8 +16,9 @@
  * under the License.
  */
 
-import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
-import { Checkbox, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Checkbox, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } 
+    from "@mui/material";
+import { ModelHeaderComponent } from "@pet-management-webapp/shared/ui/ui-basic-components";
 import { deletePet } from "apps/business-admin-app/APICalls/DeletePet/delete-pet";
 import { getMedicalReport } from "apps/business-admin-app/APICalls/GetMedicalReports/get-medical-reports";
 import { getThumbnail } from "apps/business-admin-app/APICalls/GetThumbnail/get-thumbnail";

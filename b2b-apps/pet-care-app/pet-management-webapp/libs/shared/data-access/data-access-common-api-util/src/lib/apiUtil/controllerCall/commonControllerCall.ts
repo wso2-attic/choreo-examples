@@ -17,8 +17,8 @@
  */
 
 import {
-    ControllerCallParam, ControllerCallReturn, OrgSessionControllerCallParam
-} from "@b2bsample/shared/data-access/data-access-common-models-util";
+    ControllerCallReturn, OrgSessionControllerCallParam
+} from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import { Session } from "next-auth";
 import {
     getControllerCallApiRequestOptions, getControllerCallApiRequestOptionsForSwitchCallWithParam

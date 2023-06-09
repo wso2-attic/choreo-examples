@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
-import { LOADING_DISPLAY_NONE } from "@b2bsample/shared/util/util-front-end-util";
 import { Grid } from "@mui/material";
+import { ModelHeaderComponent } from "@pet-management-webapp/shared/ui/ui-basic-components";
+import { LOADING_DISPLAY_NONE } from "@pet-management-webapp/shared/util/util-front-end-util";
 import { postBooking } from "apps/business-admin-app/APICalls/CreateBooking/post-booking";
 import { BookingInfo } from "apps/business-admin-app/types/booking";
 import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
@@ -156,7 +156,7 @@ export default function AddBookings(props: AddBookingsProps) {
                 petOwnerName: petOwner,
                 petType: pet.breed,
                 sessionEndTime: availabilityInfo.timeSlots[0].endTime,
-                sessionStartTime: availabilityInfo.timeSlots[0].startTime,
+                sessionStartTime: availabilityInfo.timeSlots[0].startTime
             };
 
             postBooking(accessToken, payload);

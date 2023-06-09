@@ -17,12 +17,12 @@
  */
 
 import { Application, IdentityProvider, PatchApplicationAuthMethod } from
-    "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
+    "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
 import { controllerDecodePatchApplicationAuthSteps } from
-    "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { errorTypeDialog, successTypeDialog } from "@b2bsample/shared/ui/ui-components";
-import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
-import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE } from "@b2bsample/shared/util/util-front-end-util";
+    "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
+import { errorTypeDialog, successTypeDialog } from "@pet-management-webapp/shared/ui/ui-components";
+import { checkIfJSONisEmpty } from "@pet-management-webapp/shared/util/util-common";
+import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE } from "@pet-management-webapp/shared/util/util-front-end-util";
 import { Session } from "next-auth";
 import React, { useState } from "react";
 import { Avatar, Button, Col, Grid, Loader, Modal, Row, Toaster, useToaster } from "rsuite";

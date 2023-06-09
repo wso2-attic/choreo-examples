@@ -17,12 +17,11 @@
  */
 import { Pet } from "apps/business-admin-app/types/pets";
 import { AxiosResponse } from "axios";
+import createHeaders from "../createHeaders";
 import { getPetInstance } from "../CreatePet/instance";
 
 export async function getPets(accessToken: string) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getPetInstance().get("/pets", {
         headers: headers
     });

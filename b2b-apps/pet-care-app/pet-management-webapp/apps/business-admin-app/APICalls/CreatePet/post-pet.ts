@@ -20,11 +20,10 @@
 
 import { updatePetInfo } from "apps/business-admin-app/types/pets";
 import { getPetInstance } from "./instance";
+import createHeaders from "../createHeaders";
 
 export async function postPet(accessToken: string, payload?: updatePetInfo) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getPetInstance().post("/pets", payload, {
         headers: headers
     });

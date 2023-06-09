@@ -16,9 +16,10 @@
  * under the License.
  */
 
-import { controllerDecodeViewUsers } from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { InternalUser } from "@b2bsample/shared/data-access/data-access-common-models-util";
-import { SettingsTitleComponent } from "@b2bsample/shared/ui/ui-components";
+import { controllerDecodeViewUsers } 
+    from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
+import { InternalUser } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
+import { SettingsTitleComponent } from "@pet-management-webapp/shared/ui/ui-components";
 import { Session } from "next-auth";
 import React, { useCallback, useEffect, useState } from "react";
 import { Table } from "rsuite";

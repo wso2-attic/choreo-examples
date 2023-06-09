@@ -16,10 +16,10 @@
  * under the License.
  */
 
-import { SideNavItem } from "@b2bsample/shared/data-access/data-access-common-models-util";
+import { SideNavItem } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import AdminIcon from "@rsuite/icons/Admin";
-import CalendarIcon from '@rsuite/icons/Calendar';
-import GridIcon from '@rsuite/icons/Grid';
+import CalendarIcon from "@rsuite/icons/Calendar";
+import GridIcon from "@rsuite/icons/Grid";
 import DashboardIcon from "@rsuite/icons/legacy/Dashboard";
 import GearCircleIcon from "@rsuite/icons/legacy/GearCircle";
 import MemberIcon from "@rsuite/icons/Member";

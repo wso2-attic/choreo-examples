@@ -16,8 +16,9 @@
  * under the License.
  */
 
-import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
-import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } 
+    from "@mui/material";
+import { ModelHeaderComponent } from "@pet-management-webapp/shared/ui/ui-basic-components";
 import { getDocThumbnail } from "apps/business-admin-app/APICalls/GetDocThumbnail/get-doc-thumbnail";
 import { Availability, Doctor } from "apps/business-admin-app/types/doctor";
 import axios, { AxiosError } from "axios";

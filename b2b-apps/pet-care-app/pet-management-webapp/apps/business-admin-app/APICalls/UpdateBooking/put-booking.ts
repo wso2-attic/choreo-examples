@@ -17,12 +17,11 @@
  */
 
 import { BookingInfo } from "apps/business-admin-app/types/booking";
+import createHeaders from "../createHeaders";
 import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
 export async function updateBooking(accessToken: string, bookingId: string, payload?: BookingInfo) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const path = "/bookings/" + bookingId;
     const response = await getDoctorInstance().put(path, payload, {
         headers: headers

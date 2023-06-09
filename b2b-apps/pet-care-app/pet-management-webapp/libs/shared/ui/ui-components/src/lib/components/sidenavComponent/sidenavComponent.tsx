@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import { SideNavItem, SideNavList } from "@b2bsample/shared/data-access/data-access-common-models-util";
-import { getIconFromString, hideBasedOnScopes } from "@b2bsample/shared/util/util-front-end-util";
-import { Button, FlexboxGrid, Nav, Sidenav, Stack, Tag } from "rsuite";
+import { SideNavItem, SideNavList } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
+import { getIconFromString, hideBasedOnScopes } from "@pet-management-webapp/shared/util/util-front-end-util";
+import { Button, Nav, Sidenav, Stack, Tag } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
 import styles from "./sidenavComponent.module.css";
 import { SidenavComponentProps } from "../../models/sidenavComponent/sidenavComponent";

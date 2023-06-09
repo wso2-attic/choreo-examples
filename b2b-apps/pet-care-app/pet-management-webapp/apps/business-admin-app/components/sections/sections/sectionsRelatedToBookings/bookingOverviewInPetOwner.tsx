@@ -16,9 +16,9 @@
  * under the License.
  */
 
-import { ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { Grid,Typography } from "@mui/material";
+import { ModelHeaderComponent } from "@pet-management-webapp/shared/ui/ui-basic-components";
 import { Booking } from "apps/business-admin-app/types/booking";
 import { Button, Modal } from "rsuite";
 import dateConverter from "./dateConverter";

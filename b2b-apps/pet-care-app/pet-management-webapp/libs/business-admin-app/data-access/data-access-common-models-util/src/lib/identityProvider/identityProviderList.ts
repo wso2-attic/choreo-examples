@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { ControllerCallReturn } from "@b2bsample/shared/data-access/data-access-common-models-util";
+import { ControllerCallReturn } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import IdentityProvider from "./identityProvider";
 
 /**

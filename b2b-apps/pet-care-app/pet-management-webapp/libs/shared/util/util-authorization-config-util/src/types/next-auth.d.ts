@@ -16,10 +16,8 @@
  * under the License.
  */
 
-import { User } from "@b2bsample/shared/data-access/data-access-common-models-util";
-import NextAuth, { Profile } from "next-auth";
+import { User } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import { Profile } from "next-auth";
-import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
     interface Session {

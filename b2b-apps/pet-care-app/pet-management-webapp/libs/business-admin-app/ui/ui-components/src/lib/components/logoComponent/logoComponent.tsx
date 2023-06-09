@@ -16,8 +16,8 @@
  * under the License.
  */
 
-import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
-import { SharedLogoComponent } from "@b2bsample/shared/ui/ui-components";
+import { getConfig } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
+import { SharedLogoComponent } from "@pet-management-webapp/shared/ui/ui-components";
 import React from "react";
 import logoImage from "../../../../../ui-assets/src/lib/images/pet_care_logo.png";
 import { LogoComponentProps } from "../../models/logoComponent/logoComponent";

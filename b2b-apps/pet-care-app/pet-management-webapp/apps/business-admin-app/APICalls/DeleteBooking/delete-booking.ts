@@ -15,12 +15,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import createHeaders from "../createHeaders";
 import { getDoctorInstance } from "../getDoctors/doctorInstance";
 
 export async function deleteBooking(accessToken: string, bookingId: string) {
-    const headers = {
-        Authorization: `Bearer ${accessToken}`
-    };
+    const headers = createHeaders(accessToken);
     const response = await getDoctorInstance().delete("/bookings/" + bookingId, {
         headers: headers
     });
