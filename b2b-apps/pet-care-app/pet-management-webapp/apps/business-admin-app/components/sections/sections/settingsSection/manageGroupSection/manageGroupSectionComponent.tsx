@@ -122,7 +122,7 @@ export default function ManageGroupSectionComponent(props: ManageGroupSectionCom
                     : null
             }
 
-            {/* {
+            {
                 deleteUserOpen
                     ? (<DeleteGroupComponent
                         session={ session }
@@ -131,7 +131,7 @@ export default function ManageGroupSectionComponent(props: ManageGroupSectionCom
                         group={ openGroup }
                         getGroups={ fetchData } />)
                     : null
-            } */}
+            }
 
 
             <AddGroupComponent
