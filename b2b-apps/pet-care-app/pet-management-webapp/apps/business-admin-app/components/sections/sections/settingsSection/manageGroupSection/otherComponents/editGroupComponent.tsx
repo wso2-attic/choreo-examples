@@ -19,18 +19,20 @@
 import { Role } from "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
 import {
     controllerDecodeEditRolesToAddOrRemoveUser, controllerDecodeEditUser, controllerDecodeListAllRoles,
+    controllerDecodePatchGroupMembers,
+    controllerDecodePatchGroupName,
     controllerDecodeUserRole,
     controllerDecodeViewUsersInGroup
 } from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { InternalGroup, InternalUser, User } from "@b2bsample/shared/data-access/data-access-common-models-util";
+import { Group, InternalGroup, InternalUser, Member, User, sendMemberList } from "@b2bsample/shared/data-access/data-access-common-models-util";
 import { FormButtonToolbar, FormField, ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
 import { errorTypeDialog, successTypeDialog, warningTypeDialog } from "@b2bsample/shared/ui/ui-components";
-import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
+import { PatchMethod, checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
 import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } from "@b2bsample/shared/util/util-front-end-util";
 import { Session } from "next-auth";
 import { useCallback, useEffect, useState } from "react";
 import { Form } from "react-final-form";
-import { Checkbox, Divider, Loader, Modal, Panel, Table, TagPicker, useToaster } from "rsuite";
+import { Checkbox, CheckboxGroup, Divider, Loader, Modal, Panel, Table, TagPicker, useToaster } from "rsuite";
 import FormSuite from "rsuite/Form";
 import stylesSettings from "../../../../../../styles/Settings.module.css";
 
@@ -55,19 +57,24 @@ export default function EditGroupComponent(prop: EditGroupComponentProps) {
     const toaster = useToaster();
 
     const [ loadingDisplay, setLoadingDisplay ] = useState(LOADING_DISPLAY_NONE);
-    const [ allRoles, setAllRoles ] = useState<Role[]>(null);
-    const [ userRoles, setUserRoles ] = useState<Role[]>(null);
-    const [ userRolesForForm, setUserRolesForForm ] = useState(null);
-    const [ initUserRolesForForm, setInitUserRolesForForm ] = useState<string[]>(null);
-    const usersList = [ { name: "David" }, { name:"Peter" }, { name:"Sheril" } ];
     const [ users, setUsers ] = useState<InternalUser[]>([]);
     const { Column, HeaderCell, Cell } = Table;
+    const [ initialAssignedUsers, setInitialAssignedUsers ] = useState<string[]>([]);
 
     const fetchData = useCallback(async () => {
         const res = await controllerDecodeViewUsersInGroup(session, group?.displayName);
 
         await setUsers(res);
+        setInitialAssignedUsers(getInitialAssignedUserEmails(res));
     }, [ open === true ]);
+
+    const getInitialAssignedUserEmails = (users: InternalUser[]): string[] => {
+        if (users) {
+            return users.map(user => user.email);
+        }
+
+        return [];
+    };
 
     useEffect(() => {
         fetchData();
@@ -81,27 +88,39 @@ export default function EditGroupComponent(prop: EditGroupComponentProps) {
         return errors;
     };
 
-    const onDataSubmit = (response: User): void => {
+    const onDataSubmit = (response: boolean | Group, form): void => {
         if (response) {
-            successTypeDialog(toaster, "Changes Saved Successfully", "Group details edited successfully.");
+            successTypeDialog(toaster, "Changes Saved Successfully", "Group added to the organization successfully.");
+            form.restart();
             onClose();
         } else {
-            errorTypeDialog(toaster, "Error Occured", "Error occured while editing the group. Try again.");
+            errorTypeDialog(toaster, "Error Occured", "Error occured while adding the group. Try again.");
         }
     };
 
     const onRolesSubmit = (response: boolean): void => {
         if (response) {
-            successTypeDialog(toaster, "Changes Saved Successfully", "User details edited successfully.");
+            successTypeDialog(toaster, "Changes Saved Successfully", "Group details edited successfully.");
             onClose();
         } else {
-            warningTypeDialog(toaster, "Roles not Properly Updated",
-                "Error occured while updating the roles. Try again.");
+            warningTypeDialog(toaster, "Groups not Properly Updated",
+                "Error occured while updating the groups. Try again.");
         }
     };
 
-    const onSubmit = async (values: Record<string, unknown>): Promise<void> => {
+    const onSubmit = async (values: Record<string, string>, form): Promise<void> => {
+        const name = "DEFAULT/"+ values.groupName;
+
         setLoadingDisplay(LOADING_DISPLAY_BLOCK);
+        controllerDecodePatchGroupName(session, group.id, PatchMethod.REPLACE, "displayName", name)
+            .then((response) => onDataSubmit(response, form))
+            .finally(() => setLoadingDisplay(LOADING_DISPLAY_NONE));
+
+        controllerDecodePatchGroupMembers(session, group.id, PatchMethod.REPLACE, getMembers(userList, values.users))
+            .then((response) => onDataSubmit(response, form))
+            .finally(() => setLoadingDisplay(LOADING_DISPLAY_NONE));    
+            
+            
     };
 
     return (
@@ -118,7 +137,8 @@ export default function EditGroupComponent(prop: EditGroupComponentProps) {
                         onSubmit={ onSubmit }
                         validate={ validate }
                         initialValues={ {
-                            groupName: group?.displayName
+                            groupName: group?.displayName,
+                            users: initialAssignedUsers
                         } }
                         render={ ({ handleSubmit, form, submitting, pristine, errors }) => (
                             <FormSuite
@@ -144,24 +164,22 @@ export default function EditGroupComponent(prop: EditGroupComponentProps) {
                                     <></>
                                 </FormField>
 
-                                <div>
-                                    <Table autoHeight autoWidth data={ userList }>
-                                        <Column width={ 500 } align="left">
-                                            <HeaderCell>
-                                                <h6>Users</h6>
-                                            </HeaderCell>
-                                            <Cell dataKey="email">
-                                                { (rowData: any) => (
-                                                    <Checkbox
-                                                        checked=
-                                                            { users.some(user => user.email === rowData.email) }>
-                                                        { rowData.email }
-                                                    </Checkbox>
-                                                ) }
-                                            </Cell>
-                                        </Column>
-                                    </Table>
-                                </div>
+                                <FormField
+                                    name="users"
+                                    label=""
+                                    needErrorMessage={ false }
+                                >
+                                    <FormSuite.Control
+                                        name="checkbox"
+                                        accepter={ CheckboxGroup }
+                                    >
+                                        { userList.map(user => (
+                                            <Checkbox key={ user.email } value={ user.email }>
+                                                { user.email }
+                                            </Checkbox>
+                                        )) }
+                                    </FormSuite.Control>
+                                </FormField>
 
                                 <FormButtonToolbar
                                     submitButtonText="Submit"
@@ -176,8 +194,28 @@ export default function EditGroupComponent(prop: EditGroupComponentProps) {
             </Modal.Body>
 
             <div style={ loadingDisplay }>
-                <Loader size="lg" backdrop content="User is adding" vertical />
+                <Loader size="lg" backdrop content="Group details are updating" vertical />
             </div>
         </Modal>
     );
+}
+
+function getMembers(fullUserList: InternalUser[], checkedUsers: string): sendMemberList {
+    const usernames = checkedUsers.toString().split(",").map(username => username.trim());
+    const members: Member[] = [];
+  
+    for (const user of fullUserList) {
+        if (usernames.includes(user.email)) {
+            members.push({
+                display: "DEFAULT/" + user.email,
+                value: user.id
+            });
+        }
+    }
+
+    const result: sendMemberList = {
+        members: members
+    };
+    
+    return result;
 }

@@ -23,7 +23,7 @@ import { PatchMethod } from "@b2bsample/shared/util/util-common";
 import { Session } from "next-auth";
 import { controllerCallPatchRole } from "./controllerCallPatchRole";
 
-function getAddReplaceBody(patchMethod: PatchMethod, path: string, value: string[] | string): PatchBody {
+export function getAddReplaceBody(patchMethod: PatchMethod, path: string, value: string[] | string): PatchBody {
     return {
         "operations": [
             {
@@ -35,7 +35,7 @@ function getAddReplaceBody(patchMethod: PatchMethod, path: string, value: string
     };
 }
 
-function getRemoveBody(patchMethod: PatchMethod, path: string, value: string[] | string): PatchBody {
+export function getRemoveBody(patchMethod: PatchMethod, path: string, value: string[] | string): PatchBody {
     return {
         "operations": [
             {
@@ -46,7 +46,7 @@ function getRemoveBody(patchMethod: PatchMethod, path: string, value: string[] |
     };
 }
 
-function getPatchBody(patchMethod: PatchMethod, path: string, value: string[] | string) {
+export function getPatchBody(patchMethod: PatchMethod, path: string, value: string[] | string) {
     switch (patchMethod) {
         case PatchMethod.ADD:
 

@@ -52,3 +52,6 @@ export * from
 export * from "./lib/controller/group/controllerViewGroup/controllerDecodeViewGroups";
 export * from "./lib/controller/group/controllerAddGroup/controllerCallDecodeAddGroup";
 export * from "./lib/controller/group/controllerViewUsersInGroup/controllerDecodeViewUsersInGroup";
+export * from "./lib/controller/group/controllerPatchGroupName/controllerDecodePatchGroupName";
+export * from "./lib/controller/group/controllerPatchGroupMembers/controllerDecodePatchGroupMembers";
+export * from "./lib/controller/group/controllerDeleteGroup/controllerDecodeDeleteGroup";

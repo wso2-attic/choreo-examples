@@ -16,13 +16,27 @@
  * under the License.
  */
 
-import Meta from "./meta";
 import ControllerCallReturn from "../controllerReturn/controllerCallReturn";
 
-export interface Group  extends ControllerCallReturn {
+interface Meta {
+    created: string;
+    location: string;
+    lastModified: string;
+  }
+  
+  interface Member {
+    display: string;
+    value: string;
+    $ref: string;
+  }
+  
+export interface UpdatedGroup extends ControllerCallReturn{
     displayName: string;
     meta: Meta;
+    schemas: string[];
+    members: Member[];
     id: string;
-}
+  }
 
-export default Group;
+
+export default UpdatedGroup;

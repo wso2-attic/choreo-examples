@@ -16,13 +16,27 @@
  * under the License.
  */
 
-import Meta from "./meta";
-import ControllerCallReturn from "../controllerReturn/controllerCallReturn";
+import { commonControllerDecode } from "@b2bsample/shared/data-access/data-access-common-api-util";
+import { Session } from "next-auth";
+import { controllerCallDeleteGroup } from "./controllerCallDeleteGroup";
 
-export interface Group  extends ControllerCallReturn {
-    displayName: string;
-    meta: Meta;
-    id: string;
+/**
+ * 
+ * @param session - session object
+ * @param id - group id
+ * 
+ * @returns - whether the group is deleted or not
+ */
+export async function controllerDecodeDeleteGroup(session: Session, id: string): Promise<boolean | null> {
+
+    const res = await commonControllerDecode(() => controllerCallDeleteGroup(session, id), null);
+
+    if(res){
+        return true;
+    }
+    
+    return null;
+
 }
 
-export default Group;
+export default controllerDecodeDeleteGroup;

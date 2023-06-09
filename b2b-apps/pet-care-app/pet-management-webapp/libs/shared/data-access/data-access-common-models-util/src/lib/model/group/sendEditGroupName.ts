@@ -16,13 +16,17 @@
  * under the License.
  */
 
-import Meta from "./meta";
-import ControllerCallReturn from "../controllerReturn/controllerCallReturn";
+import ControllerCallParam from "../controllerParam/controllerCallParam";
 
-export interface Group  extends ControllerCallReturn {
-    displayName: string;
-    meta: Meta;
-    id: string;
+interface Operation {
+    op: string,
+    path: string,
+    value : string
 }
 
-export default Group;
+export interface SendEditGroupName extends ControllerCallParam {
+    Operations: [Operation],
+    schemas: [string]
+}
+
+export default SendEditGroupName;

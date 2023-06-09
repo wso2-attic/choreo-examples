@@ -16,28 +16,25 @@
  * under the License.
  */
 
-import { Role } from "@b2bsample/business-admin-app/data-access/data-access-common-models-util";
 import {
-    controllerDecodeEditRolesToAddOrRemoveUser, controllerDecodeEditUser, controllerDecodeListAllRoles,
-    controllerDecodeUserRole
+    controllerDecodeDeleteGroup
 } from "@b2bsample/business-admin-app/data-access/data-access-controller";
-import { InternalUser, User } from "@b2bsample/shared/data-access/data-access-common-models-util";
+import { InternalGroup } from "@b2bsample/shared/data-access/data-access-common-models-util";
 import { FormButtonToolbar, ModelHeaderComponent } from "@b2bsample/shared/ui/ui-basic-components";
-import { errorTypeDialog, successTypeDialog, warningTypeDialog } from "@b2bsample/shared/ui/ui-components";
-import { checkIfJSONisEmpty } from "@b2bsample/shared/util/util-common";
-import { LOADING_DISPLAY_BLOCK, LOADING_DISPLAY_NONE, fieldValidate } from "@b2bsample/shared/util/util-front-end-util";
+import { errorTypeDialog, successTypeDialog } from "@b2bsample/shared/ui/ui-components";
+import { LOADING_DISPLAY_NONE } from "@b2bsample/shared/util/util-front-end-util";
 import { Session } from "next-auth";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { Form } from "react-final-form";
-import { Checkbox, Divider, Loader, Modal, Panel, Table, TagPicker, useToaster } from "rsuite";
+import { Loader, Modal, useToaster } from "rsuite";
 import FormSuite from "rsuite/Form";
-import stylesSettings from "../../../../../../styles/Settings.module.css";
 
 interface DeleteGroupComponentProps {
     session: Session
-    user: InternalUser
     open: boolean
     onClose: () => void
+    group: InternalGroup
+    getGroups: () => Promise<void>
 }
 
 /**
@@ -48,112 +45,26 @@ interface DeleteGroupComponentProps {
  */
 export default function DeleteGroupComponent(prop: DeleteGroupComponentProps) {
 
-    const { session, user, open, onClose } = prop;
-
+    const { session, open, onClose, group, getGroups } = prop;
+    const [ loadingDisplay, setLoadingDisplay ] = useState(LOADING_DISPLAY_NONE);
     const toaster = useToaster();
 
-    const [ loadingDisplay, setLoadingDisplay ] = useState(LOADING_DISPLAY_NONE);
-    const [ allRoles, setAllRoles ] = useState<Role[]>(null);
-    const [ userRoles, setUserRoles ] = useState<Role[]>(null);
-    const [ userRolesForForm, setUserRolesForForm ] = useState(null);
-    const [ initUserRolesForForm, setInitUserRolesForForm ] = useState<string[]>(null);
-    const usersList = [ { name: "David" }, { name:"Peter" }, { name:"Sheril" } ];
-    const { Column, HeaderCell, Cell } = Table;
-
-    /**
-     * fetch all the roles in the identity server available for the logged in organization
-     */
-    const fetchAllRoles = useCallback(async () => {
-        const res = await controllerDecodeListAllRoles(session);
-
-        await setAllRoles(res);
-    }, [ session ]);
-
-    useEffect(() => {
-        fetchAllRoles();
-    }, [ fetchAllRoles ]);
-
-    /**
-     * fetch the roles of the user
-     */
-    const fetchUserRoles = useCallback(async () => {
-        const res = await controllerDecodeUserRole(session, user.id);
-
-        await setUserRoles(res);
-
-    }, [ session, user ]);
-
-    useEffect(() => {
-        fetchUserRoles();
-    }, [ fetchUserRoles ]);
-
-    /**
-     * set `userRolesForForm` and `initUserRolesForForm`
-     */
-    useEffect(() => {
-        if (allRoles && userRoles) {
-            try {
-                setUserRolesForForm(allRoles.map(role => ({
-                    label: role.displayName,
-                    value: role.meta.location
-                })));
-
-                setInitUserRolesForForm(userRoles.map(role => (role.meta.location)));
-            } catch (err) {
-                setUserRolesForForm(null);
-                setInitUserRolesForForm([]);
-            }
-        }
-    }, [ allRoles, userRoles ]);
-
-    const validate = (values: Record<string, unknown>): Record<string, string> => {
-        let errors: Record<string, string> = {};
-
-        errors = fieldValidate("groupName", values.groupName, errors);
-
-        return errors;
-    };
-
-    const onDataSubmit = (response: User): void => {
+    const onGroupDelete = (response: boolean): void => {
         if (response) {
-            successTypeDialog(toaster, "Changes Saved Successfully", "User details edited successfully.");
-            onClose();
+            successTypeDialog(toaster, "Success", "Group Deleted Successfully");
         } else {
-            errorTypeDialog(toaster, "Error Occured", "Error occured while editing the user. Try again.");
+            errorTypeDialog(toaster, "Error Occured", "Error occured while deleting the Group. Try again.");
         }
     };
 
-    const onRolesSubmit = (response: boolean): void => {
-        if (response) {
-            successTypeDialog(toaster, "Changes Saved Successfully", "User details edited successfully.");
-            onClose();
-        } else {
-            warningTypeDialog(toaster, "Roles not Properly Updated",
-                "Error occured while updating the roles. Try again.");
-        }
-    };
+    const onSubmit = (): void => {
+        controllerDecodeDeleteGroup(session, group?.id)
+            .then((response) => onGroupDelete(response))
+            .finally(() => {
+                getGroups().finally();
+            });
 
-    const onSubmit = async (values: Record<string, unknown>): Promise<void> => {
-        setLoadingDisplay(LOADING_DISPLAY_BLOCK);
-
-        await controllerDecodeEditUser(session, user.id, values.firstName as string, values.familyName as string,
-            values.email as string)
-            .then((response) => {
-                if (initUserRolesForForm) {
-                    if (response) {
-                        controllerDecodeEditRolesToAddOrRemoveUser(
-                            session, user.id, initUserRolesForForm, values.roles as string[])
-                            .then((res) => {
-                                onRolesSubmit(res);
-                            });
-                    } else {
-                        onDataSubmit(response);
-                    }
-                } else {
-                    onDataSubmit(response);
-                }
-            })
-            .finally(() => setLoadingDisplay(LOADING_DISPLAY_NONE));
+        onClose();
     };
 
     return (
@@ -165,16 +76,25 @@ export default function DeleteGroupComponent(prop: DeleteGroupComponentProps) {
                 />
             </Modal.Header>
             <Modal.Body>
-                <FormButtonToolbar
-                    submitButtonText="Delete"
-                    submitButtonDisabled={ false }
-                    onCancel={ onClose }
-                />
-                
-            </Modal.Body>
+                <Form
+                    onSubmit={ onSubmit }
+                    render={ ({ handleSubmit, form, submitting, pristine, errors }) => (
+                        <FormSuite
+                            layout="vertical"
+                            onSubmit={ onSubmit }
+                            fluid>
 
+                            <FormButtonToolbar
+                                submitButtonText="Delete"
+                                submitButtonDisabled={ false }
+                                onCancel={ onClose }
+                            />
+                        </FormSuite>
+                    ) }
+                />
+            </Modal.Body>
             <div style={ loadingDisplay }>
-                <Loader size="lg" backdrop content="User is adding" vertical />
+                <Loader size="lg" backdrop content="User is deleteing" vertical />
             </div>
         </Modal>
     );

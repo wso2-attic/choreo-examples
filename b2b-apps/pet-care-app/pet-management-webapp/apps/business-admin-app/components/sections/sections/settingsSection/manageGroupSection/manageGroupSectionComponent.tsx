@@ -94,8 +94,8 @@ export default function ManageGroupSectionComponent(props: ManageGroupSectionCom
         setEditGroupOpen(true);
     };
 
-    const onDeleteClick = (user: InternalUser): void => {
-        setOpenGroup(user);
+    const onDeleteClick = (group: InternalGroup): void => {
+        setOpenGroup(group);
         setDeleteUserOpen(true);
     };
 
@@ -128,7 +128,8 @@ export default function ManageGroupSectionComponent(props: ManageGroupSectionCom
                         session={ session }
                         open={ deleteUserOpen }
                         onClose={ closeDeleteDialog }
-                        group={ openGroup } />)
+                        group={ openGroup }
+                        getGroups={ fetchData } />)
                     : null
             }
 
@@ -186,7 +187,7 @@ export default function ManageGroupSectionComponent(props: ManageGroupSectionCom
                                         { rowData => (
                                             <span>
                                                 <a
-                                                    onClick={ () => onDeleteClick(rowData as InternalUser) }
+                                                    onClick={ () => onDeleteClick(rowData as InternalGroup) }
                                                     style={ { cursor: "pointer" } }>
                                                     <TrashIcon/>
                                                 </a>
