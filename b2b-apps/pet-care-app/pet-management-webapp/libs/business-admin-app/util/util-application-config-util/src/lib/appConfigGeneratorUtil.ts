@@ -16,8 +16,8 @@
  * under the License.
  */
 
+import getNextConfig from "next/config";
 import config from "../../../../../../config.json";
-import getNextConfig from 'next/config';
 
 interface ConfigObject {
   CommonConfig: {
@@ -58,42 +58,42 @@ interface ConfigObject {
  */
 export function getConfig(): ConfigObject {
 
-  const { publicRuntimeConfig } = getNextConfig();
+    const { publicRuntimeConfig } = getNextConfig();
 
-  const configObj = {
-    CommonConfig: {
-      AuthorizationConfig: {
-        BaseOrganizationUrl: publicRuntimeConfig.baseOrgUrl
-      },
-      ApplicationConfig: {
-        SampleOrganization: config.CommonConfig.ApplicationConfig.SampleOrganization
-      }
-    },
-    // eslint-disable-next-line sort-keys
-    BusinessAdminAppConfig: {
-
-      // eslint-disable-next-line sort-keys
-      ApplicationConfig: {
-        HostedUrl: publicRuntimeConfig.hostedUrl,
+    const configObj = {
+        CommonConfig: {
+            AuthorizationConfig: {
+                BaseOrganizationUrl: publicRuntimeConfig.baseOrgUrl
+            },
+            ApplicationConfig: {
+                SampleOrganization: config.CommonConfig.ApplicationConfig.SampleOrganization
+            }
+        },
         // eslint-disable-next-line sort-keys
-        APIScopes: config.BusinessAdminAppConfig.ApplicationConfig.APIScopes,
-        Branding: {
-          name: config.BusinessAdminAppConfig.ApplicationConfig.Branding.name,
-          tag: config.BusinessAdminAppConfig.ApplicationConfig.Branding.tag
-        }
-      },
-      resourceServerURLs: {
-        channellingService: publicRuntimeConfig.channellingServiceUrl,
-        petManagementService: publicRuntimeConfig.petManagementServiceUrl
-      },
-      ManagementAPIConfig: {
-        SharedApplicationName: publicRuntimeConfig.sharedAppName,
-        UserStore: config.BusinessAdminAppConfig.ManagementAPIConfig.UserStore
-      }
-    }
-  };
+        BusinessAdminAppConfig: {
 
-  return configObj;
+            // eslint-disable-next-line sort-keys
+            ApplicationConfig: {
+                HostedUrl: publicRuntimeConfig.hostedUrl,
+                // eslint-disable-next-line sort-keys
+                APIScopes: config.BusinessAdminAppConfig.ApplicationConfig.APIScopes,
+                Branding: {
+                    name: config.BusinessAdminAppConfig.ApplicationConfig.Branding.name,
+                    tag: config.BusinessAdminAppConfig.ApplicationConfig.Branding.tag
+                }
+            },
+            resourceServerURLs: {
+                channellingService: publicRuntimeConfig.channellingServiceUrl,
+                petManagementService: publicRuntimeConfig.petManagementServiceUrl
+            },
+            ManagementAPIConfig: {
+                SharedApplicationName: publicRuntimeConfig.sharedAppName,
+                UserStore: config.BusinessAdminAppConfig.ManagementAPIConfig.UserStore
+            }
+        }
+    };
+
+    return configObj;
 }
 
 export default { getConfig };

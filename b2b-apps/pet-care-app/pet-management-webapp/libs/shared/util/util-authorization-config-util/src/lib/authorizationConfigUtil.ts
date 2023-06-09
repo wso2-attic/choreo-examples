@@ -16,6 +16,7 @@
  * under the License.
  */
 
+import { getConfig } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
 import { User } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import { getManagementAPIServerBaseUrl, getTenantDomain } 
     from "@pet-management-webapp/shared/util/util-application-config-util";
@@ -23,7 +24,6 @@ import { Profile, Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import { signIn, signOut } from "next-auth/react";
 import RedirectReturnType from "../model/authorizationConfigModal";
-import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 
 /**
 * 

@@ -16,9 +16,9 @@
  * under the License.
  */
 
+import { getConfig } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
 import InternalUser from "./internalUser";
 import User from "./user";
-import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 
 /**
  * 
