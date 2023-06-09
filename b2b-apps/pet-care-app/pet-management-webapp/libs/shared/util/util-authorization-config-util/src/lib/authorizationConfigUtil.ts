@@ -22,6 +22,7 @@ import { Profile, Session } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import { signIn, signOut } from "next-auth/react";
 import RedirectReturnType from "../model/authorizationConfigModal";
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 
 /**
 * 
@@ -120,7 +121,7 @@ function getOrgId(token: JWT): string {
         return parseJwt(token)["org_id"];
     }
 
-    return "";
+    return getConfig().CommonConfig.ApplicationConfig.SampleOrganization[0].id;
 }
 
 /**
@@ -136,7 +137,7 @@ function getOrgName(token: JWT): string {
         return parseJwt(token)["org_name"];
     }
 
-    return "";
+    return getConfig().CommonConfig.ApplicationConfig.SampleOrganization[0].name;
 }
 
 /**

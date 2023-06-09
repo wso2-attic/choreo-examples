@@ -17,92 +17,83 @@
  */
 
 import config from "../../../../../../config.json";
+import getNextConfig from 'next/config';
 
 interface ConfigObject {
-    CommonConfig: {
-      AuthorizationConfig: {
-        BaseOrganizationUrl?: string;
-      };
-      ApplicationConfig: {
-        SampleOrganization: {
-          id: string | undefined;
-          name: string | undefined;
-        }[];
+  CommonConfig: {
+    AuthorizationConfig: {
+      BaseOrganizationUrl: string;
+    };
+    ApplicationConfig: {
+      SampleOrganization: {
+        id: string;
+        name: string;
+      }[];
+    };
+  };
+  BusinessAdminAppConfig: {
+    ApplicationConfig: {
+      HostedUrl?: string;
+      APIScopes?: string[];
+      Branding: {
+        name?: string;
+        tag?: string;
       };
     };
-    BusinessAdminAppConfig: {
-      AuthorizationConfig: {
-        ClientId?: string;
-        ClientSecret?: string;
-      };
-      ManagementAuthorizationConfig: {
-        ClientId?: string;
-        ClientSecret?: string;
-      };
-      ApplicationConfig: {
-        HostedUrl?: string;
-        APIScopes?: string[];
-        Branding: {
-          name?: string;
-          tag?: string;
-        };
-      };
-      resourceServerURLs: {
-        channellingService?: string;
-        petManagementService?: string;
-      };
+    resourceServerURLs: {
+      channellingService?: string;
+      petManagementService?: string;
     };
-  }
+    ManagementAPIConfig: {
+      SharedApplicationName: string,
+      UserStore: string
+    };
+  };
+}
+
 
 /**
  * 
  * get config
  */
-export function getConfig() : ConfigObject {
+export function getConfig(): ConfigObject {
 
-    const configObj = {
-        CommonConfig: {
-            AuthorizationConfig: {
-                BaseOrganizationUrl: process.env["NEXT_PUBLIC_BASE_ORG_URL"]
-            },
-            // eslint-disable-next-line sort-keys
-            ApplicationConfig: {
-                SampleOrganization: [
-                    {
-                        id: process.env["NEXT_PUBLIC_SUB ORGANIZATION_ID"],
-                        name: process.env["NEXT_PUBLIC_SUB ORGANIZATION NAME"]
-                    }
-                ]
-            }
-        },
+  const { publicRuntimeConfig } = getNextConfig();
+
+  const configObj = {
+    CommonConfig: {
+      AuthorizationConfig: {
+        BaseOrganizationUrl: publicRuntimeConfig.baseOrgUrl
+      },
+      ApplicationConfig: {
+        SampleOrganization: config.CommonConfig.ApplicationConfig.SampleOrganization
+      }
+    },
+    // eslint-disable-next-line sort-keys
+    BusinessAdminAppConfig: {
+
+      // eslint-disable-next-line sort-keys
+      ApplicationConfig: {
+        HostedUrl: publicRuntimeConfig.hostedUrl,
         // eslint-disable-next-line sort-keys
-        BusinessAdminAppConfig: {
-            AuthorizationConfig: {
-                ClientId: process.env["NEXT_PUBLIC_CLIENT_ID"],
-                ClientSecret: process.env["NEXT_PUBLIC_CLIENT_SECRET"]
-            },
-            ManagementAuthorizationConfig: {
-                ClientId: process.env["NEXT_PUBLIC_MANAGEMENT_APP_CLIENT_ID"],
-                ClientSecret: process.env["NEXT_PUBLIC_MANAGEMENT_APPCLIENT_SECRET"]
-            },
-            // eslint-disable-next-line sort-keys
-            ApplicationConfig: {
-                HostedUrl: config.BusinessAdminAppConfig.ApplicationConfig.HostedUrl,
-                // eslint-disable-next-line sort-keys
-                APIScopes: config.BusinessAdminAppConfig.ApplicationConfig.APIScopes,
-                Branding: {
-                    name: config.BusinessAdminAppConfig.ApplicationConfig.Branding.name,
-                    tag: config.BusinessAdminAppConfig.ApplicationConfig.Branding.tag
-                }
-            },
-            resourceServerURLs: {
-                channellingService: process.env["NEXT_PUBLIC_CHANNELLING_SERVICE_URL"],
-                petManagementService: process.env["NEXT_PUBLIC_PET_MANAGEMENT_SERVICE_URL"]
-            }
+        APIScopes: config.BusinessAdminAppConfig.ApplicationConfig.APIScopes,
+        Branding: {
+          name: config.BusinessAdminAppConfig.ApplicationConfig.Branding.name,
+          tag: config.BusinessAdminAppConfig.ApplicationConfig.Branding.tag
         }
-    };
+      },
+      resourceServerURLs: {
+        channellingService: publicRuntimeConfig.channellingServiceUrl,
+        petManagementService: publicRuntimeConfig.petManagementServiceUrl
+      },
+      ManagementAPIConfig: {
+        SharedApplicationName: publicRuntimeConfig.sharedAppName,
+        UserStore: config.BusinessAdminAppConfig.ManagementAPIConfig.UserStore
+      }
+    }
+  };
 
-    return configObj;
+  return configObj;
 }
 
 export default { getConfig };

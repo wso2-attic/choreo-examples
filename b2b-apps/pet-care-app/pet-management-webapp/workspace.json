@@ -34,11 +34,13 @@
           "configurations": {
             "development": {
               "buildTarget": "business-admin-app:build:development",
-              "dev": true
+              "dev": true,
+              "hostname": "0.0.0.0"
             },
             "production": {
               "buildTarget": "business-admin-app:build:production",
-              "dev": false
+              "dev": false,
+              "hostname": "0.0.0.0"
             }
           }
         },

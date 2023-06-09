@@ -18,7 +18,7 @@
 
 import InternalUser from "./internalUser";
 import User from "./user";
-import config from "../../../../../../../../config.json";
+import { getConfig } from "@b2bsample/business-admin-app/util/util-application-config-util";
 
 /**
  * 
@@ -58,10 +58,13 @@ export function setEmail(email: string) {
  * @returns set username.
  */
 export function setUsername(userName: string) {
-    if(config.BusinessAdminAppConfig.ManagementAPIConfig.UserStore.trim()===""){
+
+    const userStore = getConfig().BusinessAdminAppConfig.ManagementAPIConfig.UserStore;
+
+    if(userStore.trim()===""){
         return userName;
     } else {
-        return `${config.BusinessAdminAppConfig.ManagementAPIConfig.UserStore}/${userName}`;
+        return `${userStore}/${userName}`;
     }
 }
 

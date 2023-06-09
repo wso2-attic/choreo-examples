@@ -39,7 +39,8 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
 
             if (account) {
                 token.accessToken = account.access_token;
-                token.idToken = account.id_token;
+                // Session token size is going beyond 4k when ID token is added. Hence commenting it out.
+                // token.idToken = account.id_token;
                 token.scope = account.scope;
                 token.user = profile;
             }
