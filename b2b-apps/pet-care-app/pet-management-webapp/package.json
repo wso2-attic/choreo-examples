@@ -81,6 +81,7 @@
     "react-dom": "^18.2.0",
     "react-final-form": "^6.5.9",
     "react-icons": "^4.8.0",
+    "react-loader-spinner": "^5.3.4",
     "react-router-dom": "^6.11.2",
     "regenerator-runtime": "0.13.7",
     "rsuite": "^5.22.2",

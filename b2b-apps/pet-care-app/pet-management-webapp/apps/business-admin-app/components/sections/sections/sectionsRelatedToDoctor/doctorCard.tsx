@@ -21,6 +21,7 @@ import axios, { AxiosError } from "axios";
 import { Session } from "next-auth";
 import Image from "next/image";
 import React, { useEffect } from "react";
+import { TailSpin } from "react-loader-spinner";
 // eslint-disable-next-line max-len
 import female_doc_thumbnail from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/female-doc-thumbnail.png";
 // eslint-disable-next-line max-len
@@ -38,7 +39,7 @@ interface DoctorCardProps {
 function DoctorCard(props: DoctorCardProps) {
     const { doctor, isDoctorEditOpen, session } = props;
     const [ url, setUrl ] = React.useState("");
-
+    const [ isLoading, setIsLoading ] = React.useState(true);
 
     async function getThumbnails() {
         const accessToken = session.accessToken;
@@ -67,6 +68,9 @@ function DoctorCard(props: DoctorCardProps) {
                     // eslint-disable-next-line no-console
                         console.log("An error occurred:", error);
                     }
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
         }
     }
@@ -80,32 +84,35 @@ function DoctorCard(props: DoctorCardProps) {
         <>
             <Card className={ styles.doctorCard }>
                 <CardContent>
-                    <div className={ styles.doctorIcon }>
-                        { url? (
-                            <Image 
-                                style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
-                                src={ url }
-                                alt="doc-thumbnail"
-                                width={ 10 }
-                                height={ 10 }
-                            />
-                        ): (
-                            <Image
-                                style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
-                                src={ 
-                                    doctor.gender.toLowerCase() === "male" ? male_doc_thumbnail : female_doc_thumbnail }
-                                alt="doc-thumbnail"
-                            />
+                    { isLoading ? (
+                        <div className={ styles.tailSpinDiv }>
+                            <TailSpin color="#4e40ed" height={ 80 } width={ 80 } />
+                        </div>
+                    ) : (
+                        <><div className={ styles.doctorIcon }>
+                            { url ? (
+                                <Image
+                                    style={ { borderRadius: "10%", height: "100%", width: "100%" } }
+                                    src={ url }
+                                    alt="doc-thumbnail"
+                                    width={ 10 }
+                                    height={ 10 } />
+                            ) : (
+                                <Image
+                                    style={ { borderRadius: "10%", height: "100%", width: "100%" } }
+                                    src={ doctor.gender.toLowerCase() === "male" ? 
+                                        male_doc_thumbnail : female_doc_thumbnail }
+                                    alt="doc-thumbnail" />
 
-                        ) } 
-                    </div>
-                    <div className={ styles.doctorSummary }>
-                        <label className={ styles.docTitleInCard }>{ doctor.name }</label>
-                        <br />
-                        <label className={ styles.docSummaryInCard }>{ doctor.specialty }</label>
-                        <br />
-                    </div>
+                            ) }
+                        </div><div className={ styles.doctorSummary }>
+                            <label className={ styles.docTitleInCard }>{ doctor.name }</label>
+                            <br />
+                            <label className={ styles.docSummaryInCard }>{ doctor.specialty }</label>
+                            <br />
+                        </div></>
 
+                    ) }
                 </CardContent>
             </Card>
         </>

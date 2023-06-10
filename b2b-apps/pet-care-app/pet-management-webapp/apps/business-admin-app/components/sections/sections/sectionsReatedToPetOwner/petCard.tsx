@@ -22,6 +22,7 @@ import axios, { AxiosError } from "axios";
 import { Session } from "next-auth";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 import PET_IMAGE from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/thumbnail.png";
 import styles from "../../../../styles/doctor.module.css";
 
@@ -37,10 +38,11 @@ interface PetCardProps {
 function PetCard(props: PetCardProps) {
     const { session, petId, petName, breed, isUpdateViewOpen } = props;
     const [ url, setUrl ] = useState(null);
+    const [ isLoading, setIsLoading ] = useState(true);
 
     async function getThumbnails() {
         const accessToken = session.accessToken;
-
+    
         getThumbnail(accessToken, petId)
             .then((res) => {
                 if (res.data.size > 0) {
@@ -50,61 +52,54 @@ function PetCard(props: PetCardProps) {
                 }
             })
             .catch((error) => {
-                if (axios.isAxiosError(error)) {
-                    const axiosError = error as AxiosError;
-
-                    if (axiosError.response?.status === 404) {
-                        // eslint-disable-next-line no-console
-                        console.log("Resource not found");
-                        // Handle the 404 error here
-                    } else {
-                        // eslint-disable-next-line no-console
-                        console.log("An error occurred:", axiosError.message);
-                        // Handle other types of errors
-                    }
-                } else {
-                    // eslint-disable-next-line no-console
-                    console.log("An error occurred:", error);
-                    // Handle other types of errors
-                }
+            // Handle errors
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }
-
+    
     useEffect(() => {
         getThumbnails();
     }, [ location.pathname === "/user_pets", isUpdateViewOpen ]);
-
-    return petName ? (
+    
+    return (
         <Card className={ styles.doctorCard }>
             <CardContent>
-                <div className={ styles.petIcon }>
-                    { url? (
-                        <Image 
-                            style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
-                            src={ url }
-                            alt="pet-thumbnail"
-                            width={ 10 }
-                            height={ 10 }
-                        />
-                    ): (
-                        <Image
-                            style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
-                            src={ PET_IMAGE }
-                            alt="pet-thumbnail"
-                        />
-                    ) } 
-                </div>
-                <div className={ styles.petSummary }>
-                    <label className={ styles.docTitleInCard }>{ petName }</label>
-                    <br />
-                    <label className={ styles.docSummaryInCard }>{ breed }</label>
-                    <br />
-                </div>
-
+                { isLoading ? (
+                    <div className={ styles.tailSpinDiv }>
+                        <TailSpin color="#4e40ed" height={ 80 } width={ 80 } />
+                    </div>
+                ) : (
+                    <>
+                        <div className={ styles.petIcon }>
+                            { url ? (
+                                <Image
+                                    style={ { borderRadius: "10%", height: "100%", width: "100%" } }
+                                    src={ url }
+                                    alt="pet-thumbnail"
+                                    width={ 10 }
+                                    height={ 10 }
+                                />
+                            ) : (
+                                <Image
+                                    style={ { borderRadius: "10%", height: "100%", width: "100%" } }
+                                    src={ PET_IMAGE }
+                                    alt="pet-thumbnail"
+                                />
+                            ) }
+                        </div>
+                        <div className={ styles.petSummary }>
+                            <label className={ styles.docTitleInCard }>{ petName }</label>
+                            <br />
+                            <label className={ styles.docSummaryInCard }>{ breed }</label>
+                            <br />
+                        </div>
+                    </>
+                ) }
             </CardContent>
         </Card>
-    ) : null;
-
+    );
 }
 
 export default React.memo(PetCard);
