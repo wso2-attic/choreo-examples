@@ -71,15 +71,13 @@ export default function EditPetComponent(props: EditPetComponentProps) {
         if (isImageNotFound) {
             setIsLoading(false);
         }
-    }, [ isOpen ]);
 
-    useEffect(() => {
         if (imageUrl !== null) {
             // Start loading
             setIsLoading(true);
       
             // Simulate loading delay
-            const delay = 1500;
+            const delay = 1600;
             const timeout = setTimeout(() => {
             // Finish loading
                 setIsLoading(false);
@@ -88,7 +86,7 @@ export default function EditPetComponent(props: EditPetComponentProps) {
             // Cleanup function
             return () => clearTimeout(timeout);
         }
-    }, [ imageUrl ]);
+    }, [ isOpen ]);
 
 
     const handleSave = () => {

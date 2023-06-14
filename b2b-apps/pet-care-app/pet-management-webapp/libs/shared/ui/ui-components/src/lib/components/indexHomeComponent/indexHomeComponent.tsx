@@ -52,37 +52,37 @@ export function IndexHomeComponent(prop: IndexHomeComponentProps) {
 
     return (
         <div>
-
-            <main className={ styles["main"] }>
-                { isLoading ? (
-                    <div className={ styles["homeImageDiv"] }>
-                        <div style={ { marginLeft: "40%", marginTop: "20%" } }>
-                            <ThreeDots color="#4e40ed" height={ 200 } width={ 200 } />
-                        </div>
+            { isLoading ? (
+                <div className={ styles["main"] }>
+                    <div className={ styles["loader"] }>
+                        <ThreeDots color="#4e40ed" height={ 200 } width={ 200 } />
                     </div>
-                ) : (
+                </div>
+            ) : (
+
+                <main className={ styles["main"] }>
+                
                     <div className={ styles["homeImageDiv"] }>
                         <Image src={ image } alt="home image" className={ styles["homeImage"] } />
                     </div>
-                ) }
+                    <div className={ styles["signInDiv"] }>
+                        { logoComponent }
 
-                <div className={ styles["signInDiv"] }>
-                    { logoComponent }
+                        <hr />
 
-                    <hr />
-
-                    <p className={ styles["buttonTag"] }>{ tagText }</p>
-                    <Button
-                        className={ styles["signInDivButton"] }
-                        size="lg"
-                        appearance="primary"
-                        onClick={ signinOnClick }>
+                        <p className={ styles["buttonTag"] }>{ tagText }</p>
+                        <Button
+                            className={ styles["signInDivButton"] }
+                            size="lg"
+                            appearance="primary"
+                            onClick={ signinOnClick }>
                         Sign In
-                    </Button>
+                        </Button>
 
-                </div>
+                    </div>
 
-            </main>
+                </main>
+            ) }
         </div>
     );
 }

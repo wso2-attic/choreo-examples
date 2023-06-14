@@ -88,16 +88,14 @@ export default function EditDoctor(props: EditDoctorProps) {
         if (isImageNotFound) {
             setIsLoading(false);
         }
-    }, [ isOpen ]);
 
-    useEffect(() => {
         if (url !== null && url !== "") {
             console.log("url: "+ url);
             // Start loading
             setIsLoading(true);
       
             // Simulate loading delay
-            const delay = 1500;
+            const delay = 1600;
             const timeout = setTimeout(() => {
             // Finish loading
                 setIsLoading(false);
@@ -106,7 +104,7 @@ export default function EditDoctor(props: EditDoctorProps) {
             // Cleanup function
             return () => clearTimeout(timeout);
         }
-    }, [ url ]);
+    }, [ isOpen ]);
 
     const handleOnAdd = () => {
         if (availableDate && startTime && endTime && bookingCount) {
