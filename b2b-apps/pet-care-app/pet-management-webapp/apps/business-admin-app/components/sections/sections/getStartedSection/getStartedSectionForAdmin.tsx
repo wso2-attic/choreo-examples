@@ -260,62 +260,104 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                     <div className={ styles.orgInfoGrid }>
                         <Grid container spacing={ 2 }>
                             <Grid item xs={ 6 }>
-                                <Typography className="typography-style">
-                                    <p className={ styles.orgInfoFont }>Organization Name</p>
-                                </Typography>
-                                <Typography className="typography-style">
-                                    <p className={ styles.orgInfoFont }>Registration Number</p>
-                                </Typography>
-                                <Typography className="typography-style">
-                                    <p className={ styles.orgInfoFont }>Adress</p>
-                                </Typography>
-                                <Typography className="typography-style">
-                                    <p className={ styles.orgInfoFont }>Telephone Number</p>
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={ 6 }>
-                                { !reload && (
-                                    <><Typography className="typography-style-doc-overview">
-                                        <input
-                                            className={ styles.orgInfoInputStyle }
-                                            id="org_name"
-                                            type="text"
-                                            placeholder="Organization Name"
-                                            disabled={ true }
-                                            defaultValue={ session.orgName } />
-                                    </Typography><Typography className="typography-style-doc-overview">
-                                        <input
-                                            className={ styles.orgInfoInputStyle }
-                                            id="registration_number"
-                                            type="text"
-                                            placeholder="Registration Number"
-                                            disabled={ !edit }
-                                            defaultValue={ orgInfo?.registrationNumber
-                                                    === "" ? "Registration Number" : orgInfo?.registrationNumber }
-                                            onChange={ (e) => setRegNo(e.target.value) } />
-                                    </Typography><Typography className="typography-style-doc-overview">
-                                        <input
-                                            className={ styles.orgInfoInputStyle }
-                                            id="address"
-                                            type="text"
-                                            placeholder="Address"
-                                            disabled={ !edit }
-                                            defaultValue={ orgInfo?.address === "" ? "Address" : orgInfo?.address }
-                                            onChange={ (e) => setOrgAddress(e.target.value) } />
-                                    </Typography><Typography className="typography-style-doc-overview">
-                                        <input
-                                            className={ styles.orgInfoInputStyle }
-                                            id="telephone_no"
-                                            type="text"
-                                            placeholder="Telephone Number"
-                                            disabled={ !edit }
-                                            defaultValue={ orgInfo?.telephoneNumber === "" ?
-                                                "Telephone Number" : orgInfo?.telephoneNumber }
-                                            onChange={ (e) => setTelephoneNo(e.target.value) } />
-                                    </Typography></>
+                                <Grid container direction="column">
+                                    { !reload && (
+                                        <><Grid item>
+                                            <p className={ styles.orgInfoFont }>Organization Name</p>
+                                            <input
+                                                className={ styles.orgInfoInputStyle }
+                                                id="org_name"
+                                                type="text"
+                                                placeholder="Organization Name"
+                                                disabled={ true }
+                                                defaultValue={ session.orgName } />
+                                        </Grid><Grid item>
+                                            <p className={ styles.orgInfoFont }>Registration Number</p>
+                                            <input
+                                                className={ styles.orgInfoInputStyle }
+                                                id="registration_number"
+                                                type="text"
+                                                placeholder="Registration Number"
+                                                disabled={ !edit }
+                                                defaultValue={ orgInfo?.registrationNumber
+                                                        === "" ? "Registration Number" : orgInfo?.registrationNumber }
+                                                onChange={ (e) => setRegNo(e.target.value) } />
 
-                                ) }
+                                        </Grid><Grid item>
+                                            <p className={ styles.orgInfoFont }>Adress</p>
+                                            <input
+                                                className={ styles.orgInfoInputStyle }
+                                                id="address"
+                                                type="text"
+                                                placeholder="Address"
+                                                disabled={ !edit }
+                                                defaultValue={ orgInfo?.address === "" ?
+                                                    "Address" : orgInfo?.address }
+                                                onChange={ (e) => setOrgAddress(e.target.value) } />
+                                        </Grid><Grid item>
+                                            <p className={ styles.orgInfoFont }>Telephone Number</p>
+                                            <input
+                                                className={ styles.orgInfoInputStyle }
+                                                id="telephone_no"
+                                                type="text"
+                                                placeholder="Telephone Number"
+                                                disabled={ !edit }
+                                                defaultValue={ orgInfo?.telephoneNumber === "" ?
+                                                    "Telephone Number" : orgInfo?.telephoneNumber }
+                                                onChange={ (e) => setTelephoneNo(e.target.value) } />
+                                        </Grid></>) }
+                                </Grid>
                             </Grid>
+                            {/* <Grid item xs={ 6 }>
+                                <Grid container direction="column">
+                                    { !reload && (
+                                        <>
+                                            <Grid item>
+                                                <input
+                                                    className={ styles.orgInfoInputStyle }
+                                                    id="org_name"
+                                                    type="text"
+                                                    placeholder="Organization Name"
+                                                    disabled={ true }
+                                                    defaultValue={ session.orgName } />
+                                            </Grid>
+                                            <Grid item>
+                                                <input
+                                                    className={ styles.orgInfoInputStyle }
+                                                    id="registration_number"
+                                                    type="text"
+                                                    placeholder="Registration Number"
+                                                    disabled={ !edit }
+                                                    defaultValue={ orgInfo?.registrationNumber
+                                                    === "" ? "Registration Number" : orgInfo?.registrationNumber }
+                                                    onChange={ (e) => setRegNo(e.target.value) } />
+                                            </Grid>
+                                            <Grid item>
+                                                <input
+                                                    className={ styles.orgInfoInputStyle }
+                                                    id="address"
+                                                    type="text"
+                                                    placeholder="Address"
+                                                    disabled={ !edit }
+                                                    defaultValue={ orgInfo?.address === "" ? 
+                                                        "Address" : orgInfo?.address }
+                                                    onChange={ (e) => setOrgAddress(e.target.value) } />
+                                            </Grid>
+                                            <Grid item>
+                                                <input
+                                                    className={ styles.orgInfoInputStyle }
+                                                    id="telephone_no"
+                                                    type="text"
+                                                    placeholder="Telephone Number"
+                                                    disabled={ !edit }
+                                                    defaultValue={ orgInfo?.telephoneNumber === "" ?
+                                                        "Telephone Number" : orgInfo?.telephoneNumber }
+                                                    onChange={ (e) => setTelephoneNo(e.target.value) } />
+                                            </Grid></>
+
+                                    ) }
+                                </Grid>
+                            </Grid> */}
                         </Grid>
                     </div>
                 </div>

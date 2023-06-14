@@ -25,6 +25,7 @@ import axios, { AxiosError } from "axios";
 import { Session } from "next-auth";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 import { Button, Modal } from "rsuite";
 import EditDoctor from "./editDoctor";
 import female_doc_thumbnail 
@@ -57,6 +58,8 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
     const [ stringDate, setStringDate ] = useState("");
     const [ url, setUrl ] = useState("");
     const [ availabilityInfo, setAvailabilityInfo ] = useState<Availability[] | null>([]);
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [ isImageNotFound, setIsImageNotFound ] = useState(false);
 
     async function getThumbnails() {
         const accessToken = session.accessToken;
@@ -67,6 +70,7 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
                     if (res.data.size > 0) {
                         const imageUrl = URL.createObjectURL(res.data);
 
+                        setIsImageNotFound(false);
                         setUrl(imageUrl);
                     }
                 })
@@ -77,6 +81,7 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
                         if (axiosError.response?.status === 404) {
                         // eslint-disable-next-line no-console
                             console.log("Resource not found");
+                            setIsImageNotFound(true);
                         // Handle the 404 error here
                         } else {
                         // eslint-disable-next-line no-console
@@ -88,6 +93,9 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
                         console.log("An error occurred:", error);
                     // Handle other types of errors
                     }
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
         }
 
@@ -95,6 +103,8 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
     }
 
     useEffect(() => {
+        setUrl ("");
+        setIsLoading(true);
         getThumbnails();
         if(doctor && doctor.createdAt != "") {
             const isoString = doctor.createdAt;
@@ -260,24 +270,30 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
                         ) }
                     </div>
                     <br /><br />
-                    <div className={ styles.docImageStyle }>
-                        { url ? (
-                            <Image
-                                style={ { borderRadius: "10%", height: "100%", width: "100%" } }
-                                src={ url }
-                                alt="doc-thumbnail" 
-                                width={ 10 }
-                                height={ 10 }
-                            />
-                        ) : (
-                            <Image
-                                style={ { borderRadius: "10%", height: "100%", width: "100%" } }
-                                src={ doctor?.gender.toLowerCase() === "male" ?
-                                    male_doc_thumbnail : female_doc_thumbnail }
-                                alt="doc-thumbnail" />
+                    { isLoading ? (
+                        <div className={ styles.docImageStyle }>
+                            <TailSpin color="#4e40ed" height={ 100 } width={ 100 } />
+                        </div>
+                    ) : (
+                        <div className={ styles.docImageStyle }>
+                            { url ? (
+                                <Image
+                                    style={ { borderRadius: "10%", height: "100%", width: "100%" } }
+                                    src={ url }
+                                    alt="doc-thumbnail" 
+                                    width={ 10 }
+                                    height={ 10 }
+                                />
+                            ) : (
+                                <Image
+                                    style={ { borderRadius: "10%", height: "100%", width: "100%" } }
+                                    src={ doctor?.gender.toLowerCase() === "male" ?
+                                        male_doc_thumbnail : female_doc_thumbnail }
+                                    alt="doc-thumbnail" />
 
-                        ) }
-                    </div>
+                            ) }
+                        </div> 
+                    ) }
                 </div>
             </Modal.Body>
             <Modal.Footer>
@@ -298,7 +314,8 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
                 availabilityInfo={ availabilityInfo }
                 setAvailabilityInfo={ setAvailabilityInfo }
                 url={ url }
-                setUrl={ setUrl } />
+                setUrl={ setUrl }
+                isImageNotFound = { isImageNotFound } />
         </div>
         </>
     );

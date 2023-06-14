@@ -24,6 +24,7 @@ import { Pet, VaccineInfo, updatePetInfo } from "apps/business-admin-app/types/p
 import { Session } from "next-auth";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 import { Button, Message, Modal } from "rsuite";
 import FileUploadSingle from "./imageUploader";
 import PET_IMAGE from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/thumbnail.png";
@@ -37,6 +38,7 @@ interface EditPetComponentProps {
     pet: Pet;
     imageUrl: any;
     setImageUrl: React.Dispatch<React.SetStateAction<File>>;
+    isImageNotFound: boolean;
 }
 
 /**
@@ -47,7 +49,7 @@ interface EditPetComponentProps {
  */
 export default function EditPetComponent(props: EditPetComponentProps) {
 
-    const { session, isOpen, setIsOpen, pet, imageUrl, setImageUrl } = props;
+    const { session, isOpen, setIsOpen, pet, imageUrl, setImageUrl, isImageNotFound } = props;
     const [ name, setName ] = useState("");
     const [ type, setType ] = useState("");
     const [ DoB, setDoB ] = useState("");
@@ -61,11 +63,33 @@ export default function EditPetComponent(props: EditPetComponentProps) {
     const [ nextDate, setNextDate ] = useState(null);
     const [ isDisable, setIsDisable ] = useState(false);
     const [ isChecked, setIsChecked ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(true);
 
 
     useEffect(() => {
         setVaccineInfo(pet?.vaccinations);
+        if (isImageNotFound) {
+            setIsLoading(false);
+        }
     }, [ isOpen ]);
+
+    useEffect(() => {
+        if (imageUrl !== null) {
+            // Start loading
+            setIsLoading(true);
+      
+            // Simulate loading delay
+            const delay = 1500;
+            const timeout = setTimeout(() => {
+            // Finish loading
+                setIsLoading(false);
+            }, delay);
+      
+            // Cleanup function
+            return () => clearTimeout(timeout);
+        }
+    }, [ imageUrl ]);
+
 
     const handleSave = () => {
         async function updatePets() {
@@ -91,6 +115,7 @@ export default function EditPetComponent(props: EditPetComponentProps) {
         setVaccineInfo([]);
         setIsOpen(false);
         setImageUrl(null);
+        setIsLoading(true);
     };
 
     const handleOnAdd = () => {
@@ -307,20 +332,27 @@ export default function EditPetComponent(props: EditPetComponentProps) {
                     </div>
                     <br /><br />
                     <div className={ styles.docImageStyle }>
-                        { imageUrl ? (
-                            <Image
-                                style={ { borderRadius: "10%", height: "100%", width: "100%" } }
-                                src={ imageUrl }
-                                alt="pet-thumbnail" 
-                                width={ 10 }
-                                height={ 10 }
-                            />
+                        { isLoading ? (
+                            <TailSpin color="#4e40ed" height={ 100 } width={ 100 } />
                         ) : (
-                            <Image
-                                style={ { borderRadius: "10%", height: "100%", width: "100%" } }
-                                src={ PET_IMAGE }
-                                alt="pet-thumbnail" />
+                            <div>
+                                { imageUrl ? (
+                                    <Image
+                                        style={ { borderRadius: "10%", height: "100%", width: "100%" } }
+                                        src={ imageUrl }
+                                        alt="pet-thumbnail" 
+                                        width={ 10 }
+                                        height={ 10 }
+                                    />
+                                ) : (
+                                    <Image
+                                        style={ { borderRadius: "10%", height: "100%", width: "100%" } }
+                                        src={ PET_IMAGE }
+                                        alt="pet-thumbnail" />
 
+                                ) }
+                            </div>
+                            
                         ) }
                     </div>
                     <div className={ styles.updateDocImageDiv }>

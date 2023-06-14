@@ -17,11 +17,11 @@
  */
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import { Button } from "rsuite";
 import styles from "./indexHomeComponent.module.css";
 import { IndexHomeComponentProps } from "../../models/indexHomeComponent/indexHomeComponent";
-import FooterComponent from "../footerComponent/footerComponent";
 
 /**
  * First page component
@@ -31,14 +31,40 @@ import FooterComponent from "../footerComponent/footerComponent";
 export function IndexHomeComponent(prop: IndexHomeComponentProps) {
 
     const { logoComponent, image, tagText, signinOnClick } = prop;
+    const [ isLoading, setIsLoading ] = useState(true);
+
+    useEffect(() => {
+        if (image !== null) {
+            // Start loading
+            setIsLoading(true);
+      
+            // Simulate loading delay
+            const delay = 500;
+            const timeout = setTimeout(() => {
+            // Finish loading
+                setIsLoading(false);
+            }, delay);
+      
+            // Cleanup function
+            return () => clearTimeout(timeout);
+        }
+    }, [ image ]);
 
     return (
         <div>
 
             <main className={ styles["main"] }>
-                <div className={ styles["homeImageDiv"] }>
-                    <Image src={ image } alt="home image" className={ styles["homeImage"] } />
-                </div>
+                { isLoading ? (
+                    <div className={ styles["homeImageDiv"] }>
+                        <div style={ { marginLeft: "40%", marginTop: "20%" } }>
+                            <ThreeDots color="#4e40ed" height={ 200 } width={ 200 } />
+                        </div>
+                    </div>
+                ) : (
+                    <div className={ styles["homeImageDiv"] }>
+                        <Image src={ image } alt="home image" className={ styles["homeImage"] } />
+                    </div>
+                ) }
 
                 <div className={ styles["signInDiv"] }>
                     { logoComponent }

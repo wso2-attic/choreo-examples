@@ -61,6 +61,7 @@ function PetCard(props: PetCardProps) {
     
     useEffect(() => {
         getThumbnails();
+        setIsLoading(true);
     }, [ location.pathname === "/user_pets", isUpdateViewOpen ]);
     
     return (

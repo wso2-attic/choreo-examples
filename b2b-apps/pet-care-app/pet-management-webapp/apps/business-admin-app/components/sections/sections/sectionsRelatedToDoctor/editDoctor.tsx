@@ -24,6 +24,7 @@ import { Availability, Doctor, DoctorInfo } from "apps/business-admin-app/types/
 import { Session } from "next-auth";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 import { Button, Message, Modal } from "rsuite";
 import FileUploadSingle from "./imageUploader";
 // eslint-disable-next-line max-len
@@ -43,6 +44,7 @@ interface EditDoctorProps {
     setAvailabilityInfo: React.Dispatch<React.SetStateAction<Availability[]>>;
     url: string;
     setUrl: React.Dispatch<React.SetStateAction<string>>;
+    isImageNotFound: boolean;
 }
 
 /**
@@ -53,7 +55,8 @@ interface EditDoctorProps {
  */
 export default function EditDoctor(props: EditDoctorProps) {
 
-    const { session, isOpen, setIsOpen, doctor, availabilityInfo, setAvailabilityInfo, url, setUrl } = props;
+    const { session, isOpen, setIsOpen, doctor, availabilityInfo, 
+        setAvailabilityInfo, url, setUrl, isImageNotFound } = props;
     const [ stringDate, setStringDate ] = useState("");
     const [ name, setName ] = useState("");
     const [ registrationNo, setRegistrationNo ] = useState("");
@@ -67,9 +70,11 @@ export default function EditDoctor(props: EditDoctorProps) {
     const [ startTime, setStartTime ] = useState("");
     const [ endTime, setEndTime ] = useState("");
     const [ bookingCount, setBookingCount ] = useState(0);
+    const [ isLoading, setIsLoading ] = useState(true);
 
     const closeEditDoctorDialog = (): void => {
         setIsOpen(false);
+        setUrl("");
     };
 
     useEffect(() => {
@@ -80,7 +85,28 @@ export default function EditDoctor(props: EditDoctorProps) {
 
             setStringDate(stringDate);
         }
+        if (isImageNotFound) {
+            setIsLoading(false);
+        }
     }, [ isOpen ]);
+
+    useEffect(() => {
+        if (url !== null && url !== "") {
+            console.log("url: "+ url);
+            // Start loading
+            setIsLoading(true);
+      
+            // Simulate loading delay
+            const delay = 1500;
+            const timeout = setTimeout(() => {
+            // Finish loading
+                setIsLoading(false);
+            }, delay);
+      
+            // Cleanup function
+            return () => clearTimeout(timeout);
+        }
+    }, [ url ]);
 
     const handleOnAdd = () => {
         if (availableDate && startTime && endTime && bookingCount) {
@@ -390,26 +416,32 @@ export default function EditDoctor(props: EditDoctorProps) {
                         </div>
                     ) }
                     <br />
-                    <div className={ styles.docImageStyle }>
-                        { url? (
-                            <Image 
-                                style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
-                                src={ url }
-                                alt="doc-thumbnail"
-                                width={ 10 }
-                                height={ 10 }
-                            />
-                        ): (
-                            <Image
-                                style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
-                                src={ 
-                                    doctor?.gender.toLowerCase() === "male" ? 
-                                        male_doc_thumbnail : female_doc_thumbnail }
-                                alt="doc-thumbnail"
-                            />
+                    { isLoading ? (
+                        <div className={ styles.docImageStyle }>
+                            <TailSpin color="#4e40ed" height={ 100 } width={ 100 } />
+                        </div>
+                    ) : (
+                        <div className={ styles.docImageStyle }>
+                            { url? (
+                                <Image 
+                                    style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
+                                    src={ url }
+                                    alt="doc-thumbnail"
+                                    width={ 10 }
+                                    height={ 10 }
+                                />
+                            ): (
+                                <Image
+                                    style={ { borderRadius: "10%", height: "100%",  width: "100%" } }
+                                    src={ 
+                                        doctor?.gender.toLowerCase() === "male" ? 
+                                            male_doc_thumbnail : female_doc_thumbnail }
+                                    alt="doc-thumbnail"
+                                />
 
-                        ) } 
-                    </div>
+                            ) } 
+                        </div> 
+                    ) }
                     <div className={ styles.updateDocImageDiv }>
                         Update Doctor Image
                     </div>

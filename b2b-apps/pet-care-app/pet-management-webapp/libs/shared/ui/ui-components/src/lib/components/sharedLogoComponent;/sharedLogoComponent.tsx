@@ -68,7 +68,7 @@ function Logo(prop: SharedLogoProps) {
 
         switch (size) {
             case "small":
-                imageStyle["width"] = "200px";
+                imageStyle["width"] = "15vw";
 
                 break;
             case "medium":

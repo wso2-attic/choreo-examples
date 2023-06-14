@@ -77,6 +77,7 @@ function DoctorCard(props: DoctorCardProps) {
 
     useEffect(() => {
         setUrl(null);
+        setIsLoading(true);
         getThumbnails();
     }, [ location.pathname === "/manage_doctors", isDoctorEditOpen ]);
 

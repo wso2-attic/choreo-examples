@@ -120,7 +120,7 @@
 
 .orgProfileDiv {
     width: 70vw;
-    height: 40vh;
+    height: 45vh;
     margin-top: 5vh;
     background-color: rgb(255, 255, 255);
     border-radius: 1vh;
@@ -225,14 +225,15 @@
     font-size: 2vh;
     color: rgb(105, 105, 105);
     font-weight: bold;
-    padding-bottom: 2.5vh;
+    /* margin-bottom: 2.5vh; */
 }
 
 .orgInfoInputStyle {
-    width: 18vw;
+    width: 25vw;
     font-size: 2vh;
-    padding: 0.1vh;
-    margin-bottom: 1vh;
+    margin-bottom: 1.5vh;
+    /* padding: 0.1vh;
+    margin-bottom: 1vh; */
 }
 
 .editOrgDetailBtn {

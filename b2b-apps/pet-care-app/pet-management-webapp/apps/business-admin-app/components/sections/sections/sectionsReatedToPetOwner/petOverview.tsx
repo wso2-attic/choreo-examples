@@ -27,6 +27,7 @@ import axios, { AxiosError } from "axios";
 import { Session } from "next-auth";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 import { Button, Modal } from "rsuite";
 import EditPetComponent from "./editPet";
 import PET_IMAGE from "../../../../../../libs/business-admin-app/ui/ui-assets/src/lib/images/thumbnail.png";
@@ -54,6 +55,8 @@ export default function PetOverview(props: PetOverviewProps) {
     const { session, isOpen, setIsOpen, isUpdateViewOpen, setIsUpdateViewOpen, pet } = props;
     const [ url, setUrl ] = useState(null);
     const [ medicalReportList, setMedicalReportList ] = useState<MedicalReport[] | null>(null);
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [ isImageNotFound, setIsImageNotFound ] = useState(false);
 
     async function getThumbnails() {
         const accessToken = session.accessToken;
@@ -64,6 +67,7 @@ export default function PetOverview(props: PetOverviewProps) {
                     if (res.data.size > 0) {
                         const imageUrl = URL.createObjectURL(res.data);
 
+                        setIsImageNotFound(false);
                         setUrl(imageUrl);
                     }
                 })
@@ -74,6 +78,7 @@ export default function PetOverview(props: PetOverviewProps) {
                         if (axiosError.response?.status === 404) {
                         // eslint-disable-next-line no-console
                             console.log("Resource not found");
+                            setIsImageNotFound(true);
                         // Handle the 404 error here
                         } else {
                         // eslint-disable-next-line no-console
@@ -85,6 +90,9 @@ export default function PetOverview(props: PetOverviewProps) {
                         console.log("An error occurred:", error);
                     // Handle other types of errors
                     }
+                })
+                .finally(() => {
+                    setIsLoading(false);
                 });
         }
 
@@ -95,6 +103,7 @@ export default function PetOverview(props: PetOverviewProps) {
         setUrl(null);
         getThumbnails();
         getMedicalReportInfo();
+        setIsLoading(true);
     }, [ isOpen ]);
 
     const handleEdit = () => {
@@ -105,6 +114,8 @@ export default function PetOverview(props: PetOverviewProps) {
     const closePetOverviewDialog = (): void => {
         setIsOpen(false);
         setUrl(null);
+        setIsLoading(true);
+        setIsImageNotFound(false);
     };
 
 
@@ -347,23 +358,29 @@ export default function PetOverview(props: PetOverviewProps) {
                             ) }
                         </div>
                     </div>
-                    <div className={ styles.docImageStyle }>
-                        { url ? (
-                            <Image
-                                style={ { borderRadius: "10%", height: "100%", width: "100%" } }
-                                src={ url }
-                                alt="pet-thumbnail" 
-                                width={ 10 }
-                                height={ 10 }
-                            />
-                        ) : (
-                            <Image
-                                style={ { borderRadius: "10%", height: "100%", width: "100%" } }
-                                src={ PET_IMAGE }
-                                alt="pet-thumbnail" />
+                    { isLoading ? (
+                        <div className={ styles.docImageStyle }>
+                            <TailSpin color="#4e40ed" height={ 100 } width={ 100 } />
+                        </div>
+                    ) : (
+                        <div className={ styles.docImageStyle }>
+                            { url ? (
+                                <Image
+                                    style={ { borderRadius: "10%", height: "100%", width: "100%" } }
+                                    src={ url }
+                                    alt="pet-thumbnail" 
+                                    width={ 10 }
+                                    height={ 10 }
+                                />
+                            ) : (
+                                <Image
+                                    style={ { borderRadius: "10%", height: "100%", width: "100%" } }
+                                    src={ PET_IMAGE }
+                                    alt="pet-thumbnail" />
 
-                        ) }
-                    </div>
+                            ) }
+                        </div> 
+                    ) }
                 </div>
             </Modal.Body>
             <Modal.Footer>
@@ -385,7 +402,8 @@ export default function PetOverview(props: PetOverviewProps) {
                 setIsOpen={ setIsUpdateViewOpen } 
                 pet={ pet }
                 imageUrl={ url } 
-                setImageUrl={ setUrl } />
+                setImageUrl={ setUrl }
+                isImageNotFound = { isImageNotFound } />
         </div>
         </>
     );
