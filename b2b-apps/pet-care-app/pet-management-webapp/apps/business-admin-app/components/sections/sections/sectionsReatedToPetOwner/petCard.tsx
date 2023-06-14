@@ -18,7 +18,6 @@
 
 import { Card, CardContent } from "@mui/material";
 import { getThumbnail } from "apps/business-admin-app/APICalls/GetThumbnail/get-thumbnail";
-import axios, { AxiosError } from "axios";
 import { Session } from "next-auth";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -52,7 +51,8 @@ function PetCard(props: PetCardProps) {
                 }
             })
             .catch((error) => {
-            // Handle errors
+                // eslint-disable-next-line no-console
+                console.log("An error occurred:", error);
             })
             .finally(() => {
                 setIsLoading(false);

@@ -17,7 +17,7 @@
  */
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { Button } from "rsuite";
 import styles from "./indexHomeComponent.module.css";

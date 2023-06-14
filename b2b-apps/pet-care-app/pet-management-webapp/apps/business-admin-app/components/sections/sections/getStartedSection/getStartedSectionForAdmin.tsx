@@ -17,7 +17,7 @@
  */
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import CheckOutlineIcon from "@rsuite/icons/CheckOutline";
 import CloseOutlineIcon from "@rsuite/icons/CloseOutline";
 import EditIcon from "@rsuite/icons/Edit";
@@ -308,56 +308,6 @@ export default function GetStartedSectionComponentForAdmin(props: GetStartedSect
                                         </Grid></>) }
                                 </Grid>
                             </Grid>
-                            {/* <Grid item xs={ 6 }>
-                                <Grid container direction="column">
-                                    { !reload && (
-                                        <>
-                                            <Grid item>
-                                                <input
-                                                    className={ styles.orgInfoInputStyle }
-                                                    id="org_name"
-                                                    type="text"
-                                                    placeholder="Organization Name"
-                                                    disabled={ true }
-                                                    defaultValue={ session.orgName } />
-                                            </Grid>
-                                            <Grid item>
-                                                <input
-                                                    className={ styles.orgInfoInputStyle }
-                                                    id="registration_number"
-                                                    type="text"
-                                                    placeholder="Registration Number"
-                                                    disabled={ !edit }
-                                                    defaultValue={ orgInfo?.registrationNumber
-                                                    === "" ? "Registration Number" : orgInfo?.registrationNumber }
-                                                    onChange={ (e) => setRegNo(e.target.value) } />
-                                            </Grid>
-                                            <Grid item>
-                                                <input
-                                                    className={ styles.orgInfoInputStyle }
-                                                    id="address"
-                                                    type="text"
-                                                    placeholder="Address"
-                                                    disabled={ !edit }
-                                                    defaultValue={ orgInfo?.address === "" ? 
-                                                        "Address" : orgInfo?.address }
-                                                    onChange={ (e) => setOrgAddress(e.target.value) } />
-                                            </Grid>
-                                            <Grid item>
-                                                <input
-                                                    className={ styles.orgInfoInputStyle }
-                                                    id="telephone_no"
-                                                    type="text"
-                                                    placeholder="Telephone Number"
-                                                    disabled={ !edit }
-                                                    defaultValue={ orgInfo?.telephoneNumber === "" ?
-                                                        "Telephone Number" : orgInfo?.telephoneNumber }
-                                                    onChange={ (e) => setTelephoneNo(e.target.value) } />
-                                            </Grid></>
-
-                                    ) }
-                                </Grid>
-                            </Grid> */}
                         </Grid>
                     </div>
                 </div>

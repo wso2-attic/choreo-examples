@@ -82,16 +82,13 @@ export default function DoctorOverview(props: DoctorOverviewProps) {
                         // eslint-disable-next-line no-console
                             console.log("Resource not found");
                             setIsImageNotFound(true);
-                        // Handle the 404 error here
                         } else {
                         // eslint-disable-next-line no-console
                             console.log("An error occurred:", axiosError.message);
-                        // Handle other types of errors
                         }
                     } else {
                     // eslint-disable-next-line no-console
                         console.log("An error occurred:", error);
-                    // Handle other types of errors
                     }
                 })
                 .finally(() => {

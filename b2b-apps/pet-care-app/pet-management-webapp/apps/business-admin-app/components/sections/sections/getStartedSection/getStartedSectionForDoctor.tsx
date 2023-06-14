@@ -173,8 +173,8 @@ export default function GetStartedSectionComponentForDoctor(props: GetStartedSec
                         options: {
                             plugins: {
                                 legend: {
-                                    position: "right", // Adjust the legend position to 'right'
-                                    align: "center" // Align the legend items to the end of the container
+                                    position: "right", 
+                                    align: "center"
                                 }
                             }
                         }

@@ -21,6 +21,4 @@ export default function dateConverter(isoDateString: string): string {
     const localDateString = date.toLocaleDateString();
 
     return localDateString;
-  
-   
 }
