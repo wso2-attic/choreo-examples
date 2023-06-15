@@ -1,0 +1,8 @@
+version: 1.0
+endpoints:
+  - name: HelloWorld
+    port: 8290
+    type: REST
+    networkVisibility: Public
+    context: /HelloWorld
+    schemaFilePath: helloworld_openapi.yaml
