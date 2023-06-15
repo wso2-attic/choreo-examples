@@ -20,6 +20,8 @@ import { controllerDecodeViewUsers }
     from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
 import { InternalUser } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import { SettingsTitleComponent } from "@pet-management-webapp/shared/ui/ui-components";
+import EditIcon from "@rsuite/icons/Edit";
+import TrashIcon from "@rsuite/icons/Trash";
 import { Session } from "next-auth";
 import React, { useCallback, useEffect, useState } from "react";
 import { Table } from "rsuite";
@@ -27,6 +29,7 @@ import AddUserButton from "./otherComponents/addUserButton";
 import AddUserComponent from "./otherComponents/addUserComponent";
 import EditUserComponent from "./otherComponents/editUserComponent";
 import styles from "../../../../../styles/Settings.module.css";
+import DeleteUserComponent from "./otherComponents/deleteUserComponent";
 
 interface ManageUserSectionComponentProps {
     session: Session
@@ -46,6 +49,7 @@ export default function ManageUserSectionComponent(props: ManageUserSectionCompo
     const [ editUserOpen, setEditUserOpen ] = useState<boolean>(false);
     const [ addUserOpen, setAddUserOpen ] = useState<boolean>(false);
     const [ openUser, setOpenUser ] = useState<InternalUser>(null);
+    const [ deleteUserOpen, setDeleteUserOpen ] = useState<boolean>(false);
 
     const fetchData = useCallback(async () => {
         const res = await controllerDecodeViewUsers(session);
@@ -83,6 +87,16 @@ export default function ManageUserSectionComponent(props: ManageUserSectionCompo
         setAddUserOpen(true);
     };
 
+    const onDeleteClick = (user: InternalUser): void => {
+        setOpenUser(user);
+        setDeleteUserOpen(true);
+    };
+
+    const closeDeleteDialog = (): void => {
+        setOpenUser(null);
+        setDeleteUserOpen(false);
+    };
+
     return (
         <div
             className={ styles.tableMainPanelDiv }
@@ -97,6 +111,16 @@ export default function ManageUserSectionComponent(props: ManageUserSectionCompo
                     : null
             }
 
+            {
+                deleteUserOpen
+                    ? (<DeleteUserComponent
+                        session={ session }
+                        open={ deleteUserOpen }
+                        onClose={ closeDeleteDialog }
+                        user={ openUser }
+                        getUsers={ fetchData } />)
+                    : null
+            }
 
             <AddUserComponent
                 session={ session }
@@ -139,7 +163,23 @@ export default function ManageUserSectionComponent(props: ManageUserSectionCompo
                                         <a
                                             onClick={ () => onEditClick(rowData as InternalUser) }
                                             style={ { cursor: "pointer" } }>
-                                            Edit
+                                            <EditIcon/>
+                                        </a>
+                                    </span>
+                                ) }
+                            </Cell>
+                        </Column>
+
+                        <Column flexGrow={ 1 } align="center" fixed="right">
+                            <HeaderCell><h6>Delete User</h6></HeaderCell>
+
+                            <Cell>
+                                { rowData => (
+                                    <span>
+                                        <a
+                                            onClick={ () => onDeleteClick(rowData as InternalUser) }
+                                            style={ { cursor: "pointer" } }>
+                                            <TrashIcon/>
                                         </a>
                                     </span>
                                 ) }

@@ -16,21 +16,27 @@
  * under the License.
  */
 
-import { commonControllerCall } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
-import { UserList } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
+import { commonControllerDecode } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import { Session } from "next-auth";
+import { controllerCallDeleteUser } from "./controllerCallDeleteUser";
 
 /**
- * call GET `getManagementAPIServerBaseUrl()/o/<subOrgId>/scim2/Groups` to view all the groups
  * 
  * @param session - session object
+ * @param userId - user id
  * 
- * @returns - list all groups
+ * @returns - whether the group is deleted or not
  */
-export async function controllerCallViewUsersInGroup(session: Session, group: string): Promise<UserList | null> {
+export async function controllerDecodeDeleteUser(session: Session, userId: string): Promise<boolean | null> {
 
-    const data = (await commonControllerCall(`/api/settings/group/viewUsersInGroup?group=${group}`, 
-        session ) as UserList | null);
+    const res = await commonControllerDecode(() => controllerCallDeleteUser(session, userId), null);
 
-    return data;
+    if(res){
+        return true;
+    }
+    
+    return null;
+
 }
+
+export default controllerDecodeDeleteUser;

@@ -17,7 +17,7 @@
  */
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { Button } from "rsuite";
 import styles from "./indexHomeComponent.module.css";
@@ -33,56 +33,43 @@ export function IndexHomeComponent(prop: IndexHomeComponentProps) {
     const { logoComponent, image, tagText, signinOnClick } = prop;
     const [ isLoading, setIsLoading ] = useState(true);
 
-    useEffect(() => {
-        if (image !== null) {
-            // Start loading
-            setIsLoading(true);
-      
-            // Simulate loading delay
-            const delay = 500;
-            const timeout = setTimeout(() => {
-            // Finish loading
-                setIsLoading(false);
-            }, delay);
-      
-            // Cleanup function
-            return () => clearTimeout(timeout);
-        }
-    }, [ image ]);
-
     return (
         <div>
-            { isLoading ? (
+            
+            { isLoading && (
                 <div className={ styles["main"] }>
                     <div className={ styles["loader"] }>
                         <ThreeDots color="#4e40ed" height={ 200 } width={ 200 } />
                     </div>
-                </div>
-            ) : (
+                </div> ) }
 
-                <main className={ styles["main"] }>
+            <main className={ styles["main"] }>
                 
-                    <div className={ styles["homeImageDiv"] }>
-                        <Image src={ image } alt="home image" className={ styles["homeImage"] } />
-                    </div>
-                    <div className={ styles["signInDiv"] }>
-                        { logoComponent }
+                <div className={ styles["homeImageDiv"] }>
+                    <Image
+                        src={ image }
+                        alt="home image"
+                        className={ styles["homeImage"] } 
+                        onLoad={ () => setIsLoading(false) }/>
+                </div>
+                <div className={ styles["signInDiv"] }>
+                    { logoComponent }
 
-                        <hr />
+                    <hr />
 
-                        <p className={ styles["buttonTag"] }>{ tagText }</p>
-                        <Button
-                            className={ styles["signInDivButton"] }
-                            size="lg"
-                            appearance="primary"
-                            onClick={ signinOnClick }>
+                    <p className={ styles["buttonTag"] }>{ tagText }</p>
+                    <Button
+                        className={ styles["signInDivButton"] }
+                        size="lg"
+                        appearance="primary"
+                        onClick={ signinOnClick }>
                         Sign In
-                        </Button>
+                    </Button>
 
-                    </div>
+                </div>
 
-                </main>
-            ) }
+            </main>
+            
         </div>
     );
 }

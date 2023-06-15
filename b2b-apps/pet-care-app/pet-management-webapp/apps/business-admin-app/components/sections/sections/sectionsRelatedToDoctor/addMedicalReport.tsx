@@ -126,7 +126,7 @@ export default function AddMedicalReportComponent(props: AddMedicalReportCompone
             </Modal.Header>
 
             <Modal.Body>
-                <div className={ styles.addUserMainDiv }>
+                <div className={ styles.addMedicalMainDiv }>
 
                     <Form
                         onSubmit={ onSubmit }

@@ -16,21 +16,14 @@
  * under the License.
  */
 
-import { requestOptions } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-api-util";
-import { dataNotRecievedError, notPostError } 
-    from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
+import { requestOptionsWithBody } 
+    from "@pet-management-webapp/business-admin-app/data-access/data-access-common-api-util";
+import { RequestMethod, dataNotRecievedError, notPostError } from
+    "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import { getOrgUrl } from "@pet-management-webapp/shared/util/util-application-config-util";
 import { NextApiRequest, NextApiResponse } from "next";
 
-/**
- * backend API call to view users
- * 
- * @param req - request
- * @param res - response
- * 
- * @returns correct data if the call is successful, else an error message
- */
-export default async function viewUsersInGroup(req: NextApiRequest, res: NextApiResponse) {
+export default async function deleteUser(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "POST") {
         notPostError(res);
     }
@@ -38,18 +31,17 @@ export default async function viewUsersInGroup(req: NextApiRequest, res: NextApi
     const body = JSON.parse(req.body);
     const session = body.session;
     const orgId = body.orgId;
-    const group = req.query.group;
+    const userId = req.query.userId;
 
     try {
         const fetchData = await fetch(
-            `${getOrgUrl(orgId)}/scim2/Users?domain=DEFAULT&filter=groups+eq+${group}`,
-            requestOptions(session)
+            `${getOrgUrl(orgId)}/scim2/Users/${userId}`,
+            requestOptionsWithBody(session, RequestMethod.DELETE, null)
         );
-        const users = await fetchData.json();
-        
-        res.status(200).json(users);
-    } catch (err) {
 
+        res.status(200).json(fetchData);
+    } catch (err) {
+        
         return dataNotRecievedError(res);
     }
 }

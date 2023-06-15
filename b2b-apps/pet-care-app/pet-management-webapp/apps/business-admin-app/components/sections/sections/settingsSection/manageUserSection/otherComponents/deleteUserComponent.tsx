@@ -17,9 +17,9 @@
  */
 
 import {
-    controllerDecodeDeleteGroup
+    controllerDecodeDeleteGroup, controllerDecodeDeleteUser
 } from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
-import { InternalGroup } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
+import { InternalGroup, InternalUser } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import { FormButtonToolbar, ModelHeaderComponent } from "@pet-management-webapp/shared/ui/ui-basic-components";
 import { errorTypeDialog, successTypeDialog } from "@pet-management-webapp/shared/ui/ui-components";
 import { LOADING_DISPLAY_NONE } from "@pet-management-webapp/shared/util/util-front-end-util";
@@ -29,39 +29,39 @@ import { Form } from "react-final-form";
 import { Loader, Modal, useToaster } from "rsuite";
 import FormSuite from "rsuite/Form";
 
-interface DeleteGroupComponentProps {
+interface DeleteUserComponentProps {
     session: Session
     open: boolean
     onClose: () => void
-    group: InternalGroup
-    getGroups: () => Promise<void>
+    user: InternalUser
+    getUsers: () => Promise<void>
 }
 
 /**
  * 
  * @param prop - session, user (user details), open (whether the modal open or close), onClose (on modal close)
  * 
- * @returns Modal form to delete the group
+ * @returns Modal form to delete the user
  */
-export default function DeleteGroupComponent(prop: DeleteGroupComponentProps) {
+export default function DeleteUserComponent(prop: DeleteUserComponentProps) {
 
-    const { session, open, onClose, group, getGroups } = prop;
+    const { session, open, onClose, user, getUsers } = prop;
     const [ loadingDisplay, setLoadingDisplay ] = useState(LOADING_DISPLAY_NONE);
     const toaster = useToaster();
 
     const onGroupDelete = (response: boolean): void => {
         if (response) {
-            successTypeDialog(toaster, "Success", "Group Deleted Successfully");
+            successTypeDialog(toaster, "Success", "User Deleted Successfully");
         } else {
-            errorTypeDialog(toaster, "Error Occured", "Error occured while deleting the Group. Try again.");
+            errorTypeDialog(toaster, "Error Occured", "Error occured while deleting the User. Try again.");
         }
     };
 
     const onSubmit = (): void => {
-        controllerDecodeDeleteGroup(session, group?.id)
+        controllerDecodeDeleteUser(session, user?.id)
             .then((response) => onGroupDelete(response))
             .finally(() => {
-                getGroups().finally();
+                getUsers().finally();
             });
 
         onClose();
@@ -72,7 +72,7 @@ export default function DeleteGroupComponent(prop: DeleteGroupComponentProps) {
 
             <Modal.Header>
                 <ModelHeaderComponent
-                    title="Are you sure you want to delete the group?"
+                    title="Are you sure you want to delete the user?"
                 />
             </Modal.Header>
             <Modal.Body>
@@ -94,7 +94,7 @@ export default function DeleteGroupComponent(prop: DeleteGroupComponentProps) {
                 />
             </Modal.Body>
             <div style={ loadingDisplay }>
-                <Loader size="lg" backdrop content="Group is deleteing" vertical />
+                <Loader size="lg" backdrop content="User is deleteing" vertical />
             </div>
         </Modal>
     );

@@ -17,20 +17,18 @@
  */
 
 import { commonControllerCall } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
-import { UserList } from "@pet-management-webapp/shared/data-access/data-access-common-models-util";
 import { Session } from "next-auth";
 
 /**
- * call GET `getManagementAPIServerBaseUrl()/o/<subOrgId>/scim2/Groups` to view all the groups
  * 
  * @param session - session object
+ * @param userId - user id
  * 
- * @returns - list all groups
+ * @returns delete success, if the call failed `null`
  */
-export async function controllerCallViewUsersInGroup(session: Session, group: string): Promise<UserList | null> {
+export async function controllerCallDeleteUser(session: Session, userId: string) {
 
-    const data = (await commonControllerCall(`/api/settings/group/viewUsersInGroup?group=${group}`, 
-        session ) as UserList | null);
+    const data = await commonControllerCall(`/api/settings/user/deleteUser?userId=${userId}`, session);
 
     return data;
 }

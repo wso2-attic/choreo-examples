@@ -55,3 +55,4 @@ export * from "./lib/controller/group/controllerViewUsersInGroup/controllerDecod
 export * from "./lib/controller/group/controllerPatchGroupName/controllerDecodePatchGroupName";
 export * from "./lib/controller/group/controllerPatchGroupMembers/controllerDecodePatchGroupMembers";
 export * from "./lib/controller/group/controllerDeleteGroup/controllerDecodeDeleteGroup";
+export * from "./lib/controller/user/controllerDeleteUser/controllerDecodeDeleteUser";

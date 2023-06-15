@@ -385,6 +385,16 @@
     margin-bottom: 10px;
 }
 
+.addMedicalMainDiv {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 60vh;
+    width: 40vw
+}
+
 .petOverviewMainDiv {
     display: flex;
     overflow: hidden;
