@@ -1,6 +1,6 @@
 # Pet Care Veterinary Practise Management Application User Guide
 
-The Pet Care Veterinary Practise Management Application is a B2B (Business-to-Business) application designed to streamline and optimize the management and operations of veterinary practices. This comprehensive application caters specifically to the needs of veterinary clinics, hospitals, and other related healthcare facilities, providing a centralized platform to efficiently manage appointments, patient records, and other essential aspects of veterinary practice. 
+The Pet Care Veterinary Practise Management Application is a B2B (Business-to-Business) application designed to streamline and optimize the management and operations of veterinary practices. This comprehensive application caters specifically to the needs of veterinary clinics, hospitals, and other related healthcare facilities, providing a centralized platform to efficiently manage appointments, patient records, and other essential aspects of veterinary practice. Vet hospitals and other vet clinics can become part of the Pet Care application and access its services by joining the platform.
 
 ## Overview
 
@@ -140,7 +140,7 @@ For the Service to be invokable, you need to deploy it. To deploy the Service, f
 
 ## Step 1.3: Create the Channel Service
 
-1. To add a new component, select **Components** from the left-side menu and click **Create**.
+1. Navigate to the project home and select **Components** from the left-side menu to add a new component. Then click **Create**.
 2. Click **Create** in the **Service** card.
 3. Enter a unique name and a description for the Service. For example, you can enter the name and the description given below:
 
@@ -273,7 +273,7 @@ The Service opens on a separate page where you can see its overview.
 
 ## Step 1.5: Create the Pet Management Service
 
-1. To add a new component, select **Components** from the left-side menu and click **Create**.
+1. Navigate to the project home and select **Components** from the left-side menu to add a new component. Then click **Create**.
 2. Click **Create** in the **Service** card.
 3. Enter a unique name and a description for the Service. For example, you can enter the name and the description given below:
 
@@ -382,17 +382,16 @@ The Service opens on a separate page where you can see its overview.
 
 ## Step 1.7: Update runtime settings
 
-If you are not connecting the service to a MySQL database and storing the service's data in memory, then you must follow the steps below to ensure that only one container is running for the **channel service** and **pet management service**.
+If you are not connecting the service to a MySQL database and storing the service's data in memory, then you must follow the steps below to ensure that only one container is running for the **Channel Service** and **Pet Management Service**.
 
-1. Navigate to the **Deploy** section in the component.
-2. In the left pane, click **Runtime**.
-3. Make the Min replicas and Max replicas count to **1** and click **Update**.
-4. Click **Redeploy Release** button.
-5. Make sure to apply the same change to the **channel service** and **pet management service**.
+1. Navigate to the **DevOps** section in the component and click **Runtime**.
+2. Make the Min replicas and Max replicas count to **1** and click **Update**.
+3. Click **Redeploy Release** button.
+4. Make sure to apply the same change to the **Channel Service** and **Pet Management Service**.
 
 ## Step 1.8: Update API settings
 
-Both **channel service** and **pet management service** are exposed as APIs. Hence follow the below steps for those services.
+Both **Channel Service** and **Pet Management Service** are exposed as APIs. Hence follow the below steps for those services.
 
 1. Navigate to the **Manage** section in the component.
 2. Click **Settings**.
@@ -402,8 +401,8 @@ Both **channel service** and **pet management service** are exposed as APIs. Hen
 
 ## Step 1.9: Test the Services
 
-Let's test the Pet Management Service via Choreo's Open API Console by following the steps given below:
-1. Click **Test** in the left pane, and be sure that you are in the OpenAPI Console view. If not, click OpenAPI Console in the left pane.
+Let's test the **Pet Management Service** via Choreo's Open API Console by following the steps given below:
+1. Navigate to the **Test** section in the component and click **Console**. This will open up the Open API definition of the service.
 2. Expand the **POST** method of the `/pets` resource and click **Try it out**.
 3. Update the request body as below:
     ``` 
@@ -425,15 +424,15 @@ Let's test the Pet Management Service via Choreo's Open API Console by following
 4. Click **Execute**.
 5. Check the Server Response section. On successful invocation, you will receive the **201** HTTP code.
 
-Similarly, you can test the channel service.
+Similarly, you can test the **Channel Service**.
 
 ## Step 1.10: Publish the Services
 
-Now that your services are tested, let's publish **channel service** and **pet management service** in order to make it available for applications to consume. You don't need to publish the email service as it is used within the project. 
+Now that your services are tested, let's publish **Channel Service** and **Pet Management Service** in order to make it available for applications to consume. You don't need to publish the email service as it is used within the project. 
 
 1. Navigate to the **Manage** section of the channel service and click **Lifecycle**.
 2. Click **Publish** to publish the Service to the **Developer Portal**. External applications can subscribe to the API via the Developer Portal.
-3. Repeat the same steps for the pet management service.
+3. Repeat the same steps for the **Pet Management Service**.
 4. To access the Developer Portal, click **Go to DevPortal** in the top right corner.
 5. The API will open in the Developer Portal.
 
@@ -444,7 +443,7 @@ Now that your services are tested, let's publish **channel service** and **pet m
 
 You can skip this step if you are new to Choreo. If not, follow the below steps to **Enable Asgardeo Key Manager**.
 
-1. Go to the **Choreo Console**, click **Settings**, and then click **API Management**.
+1. Go to the **Choreo Console** home page, click **Settings**, and then click **API Management**.
 2. On the API Management page, click **Enable Asgardeo Key Manager**.
 
 ![Alt text](readme-resources/enable-km.png?raw=true "Enable Asgardeo Key Manager")
@@ -462,16 +461,16 @@ Your Application will open on a separate page.
 
 ## Step 2.3: Subscribe to the Services
 
-To consume the Services, the `Pet Care App` application needs to subscribe to the services. To subscribe your application to the Services, follow the steps given below:
+To consume the services, the `Pet Care App` application needs to subscribe to the APIs. To subscribe your application to the APIs, follow the steps given below:
 1. In the left navigation menu, click **Subscriptions**.
 2. Click **Add APIs**.
-3. Find your Services and click **Add**.
+3. Find your APIs and click **Add**.
 
 Now your application has subscribed to the `Pet Management Service` and `Channel Service`.
 
 ## Step 2.4: Generate Credentials for the Application
 
-To consume the Service, you need to use the application keys. The below steps specify how you can generate keys for the application.
+To consume the APIs, you need to use the application keys. The below steps specify how you can generate keys for the application.
 1. In the left navigation menu, click **Production** on **Credentials**.
 2. Click **Generate Credentials**.
 
@@ -485,7 +484,7 @@ Now you have generated keys for the application.
 You can skip this step if you are new to Choreo. If not, follow the below steps to **Enable Web Application Creation feature**.
 
 1. Navigate to **Choreo Console**.
-2. Click on the **User Profile**in the top right corner.
+2. Click on the **User Profile** in the top right corner.
 3. Click on the **Feature Preview** in the user menu.
 4. Toggle the **Web Application Creation** Switch.
 
@@ -533,35 +532,44 @@ Let's deploy the front-end application first. Later we can update the configurat
 &nbsp;<br>
 # Step 4: Configure Asgardeo
 
-## Step 4.1: Create a suborganization
+## Step 4.1: Configure a sub organization
 
 1. Access **Asgardeo** at https://console.asgardeo.io/ and log in with the same credentials with which you logged in to Choreo. 
 2. Verify that you are logged into the **organization** you used for Choreo. Otherwise, select the appropriate **organization** by clicking on the organization menu at the top.
-3. Click the **Manage** tab in the top and then select **Organizations**.
-4. Click **Add organization** and provide `City Vet Hospital` as the **Organization Name**.
-5. You can provide a description and register the organization. 
+3. Click **Sub Organizations** in the left navigation menu.
+4. Click **Add Sub Organization** and provide `City Vet Hospital` as the **Organization Name**.
+5. You can provide a description and register the sub organization. 
+6. To switch to the sub organization, click on the **Switch** button located in the right corner of the sub organization's row. 
+7. Click **Users** in the left navigation menu and click **Add User**. 
+8. Provide the necessary information and register the user. You can use `admin@cityvet.com` as the username of the user.
+9. Click **Groups** in the left navigation menu and click **New Group**. 
+10. Use `admin` as the group name and add the `admin@cityvet.com` user to the group.
+11. Click **Roles** in the left navigation menu and click **Configure** in the **Organization Roles**. 
+12. Click on the `Administrator` role and navigate to **Users** section in the role. 
+13. Click on the pencil icon and assign `admin@cityvet.com` to the `Administrator` role.
 
 ## Step 4.2: Configure application in Asgardeo
 
-1. Navigate to the **Develop** tab in the top and then select **Applications**.
-2. You can see the application you created before from the devportal(`Pet Care App`).
-3. Click the `Pet Care App`.
-4. Click the **Shared Access** tab.
-5. Select **select with only selected sub-organizations** from the options and tick `City Vet Hospital`. Then click **Update**.
-6. Click the **Protocol** tab.
-7. Scroll down to the **Allowed grant types** and tick **Refresh Token**, **Code** and **Organization Switch**.
-8. Tick **Public client** on the next section.
-9. Use **Web App URL** in the step 3.3 as an **Authorized redirect URLs** and **Allowed origins**.
-10. Additionally, as an **Authorized redirect URLs**, enter the following URL after updating the **Web App URL** with the right value.
+1. Navigate to root organization by clicking the root organization name at the top bar.
+2. Click **Applications** in the left navigation menu.
+3. You can see the application you created before from the devportal(`Pet Care App`).
+4. Click the `Pet Care App`.
+5. Click the **Shared Access** tab.
+6. Select **select with only selected sub-organizations** from the options and tick `City Vet Hospital`. Then click **Update**.
+7. Click the **Protocol** tab.
+8. Scroll down to the **Allowed grant types** and tick **Refresh Token**, **Code** and **Organization Switch**.
+9. Tick **Public client** on the next section.
+10. Use **Web App URL** in the step 3.3 as an **Authorized redirect URLs** and **Allowed origins**.
+11. Additionally, as an **Authorized redirect URLs**, enter the following URL after updating the **Web App URL** with the right value.
 
      `{Web_APP_URL}/api/auth/callback/wso2isAdmin`
 
-11. Keep the rest of the default configurations and click **Update**.
-12. Go to the **User Attributes** tab.
-13. Tick on the **Email** and **Groups** sections.
-14. Expand the **Profile** section.
-15. Add a tick on the Requested Column for the **First Name** and **Last Name**. Then click **Update**.
-16. Then go to the **Sign-In Method** tab and ensure that the Organization Login authenticator is added as below.
+12. Keep the rest of the default configurations and click **Update**.
+13. Go to the **User Attributes** tab.
+14. Tick on the **Email** and **Groups** sections.
+15. Expand the **Profile** section.
+16. Add a tick on the Requested Column for the **First Name** and **Last Name**. Then click **Update**.
+17. Then go to the **Sign-In Method** tab and ensure that the Organization Login authenticator is added as below.
 
 ![Alt text](readme-resources/organization-login-signin-method.png?raw=true "Sign In Methods")
 
@@ -569,10 +577,10 @@ Let's deploy the front-end application first. Later we can update the configurat
 
 A management application must be created in order to use the Asagrdeo management APIs. Please follow the instructions outlined below.
 
-1. Navigate to the **Develop** tab in the top and then select **Applications**.
+1. Click **Applications** in the left navigation menu.
 2. Click **New Application** and select **Standard-Based Application**.
 3. Use `Pet Care Admin App` as the name and **OAuth2.0 OpenID Connect** as the protocol.
-4. Tick **management application** tick box and register the application.
+4. Tick **Management Application** tick box and register the application.
 5. Click the **Shared Access** tab.
 6. Select **select with only selected sub-organizations** from the options and tick `City Vet Hospital`. Then click **Update**.
 7. Click the **Protocol** tab.
@@ -582,7 +590,7 @@ A management application must be created in order to use the Asagrdeo management
 ## Step 4.4: Enable features in Asgardeo
 
 1. [Branding and theming](https://wso2.com/asgardeo/docs/guides/branding/configure-ui-branding/)
-    - On the **Asgardeo Console**, go to **Develop > Branding**
+    - On the **Asgardeo Console**, click **Branding** in the left navigation menu.
     - Enable the **Branding** toggle on top.
     - Go to **General** tab and enter the **site title** as `Pet Care App`.
     - You can provide values to **Copyright Text** and **Contact Email**.
@@ -593,16 +601,16 @@ A management application must be created in order to use the Asagrdeo management
     - Enter **Favicon url**: https://user-images.githubusercontent.com/1329596/242288450-b511d3dd-5e02-434f-9924-3399990fa011.png
     - Go to **Color Pallet** and choose primary color as **#4f40ee**
     - Keep other options as default
-    - Click **Save**.
+    - Click **Save and Publish**.
     
 2. [Configure password recovery](https://wso2.com/asgardeo/docs/guides/user-accounts/password-recovery/)
-    - On the **Asgardeo Console**, click **Manage > Account Recovery**.
+    - On the **Asgardeo Console**, click **Account Recovery** in the left navigation menu.
     - Go to **Password Recovery**.
     - Click **Configure** to open the Password Recovery page.
     - Turn on **Enabled** to enable this configuration.
     
 3. [Configure login-attempts security](https://wso2.com/asgardeo/docs/guides/user-accounts/account-security/login-attempts-security/#enable-login-attempts-security)    
-    - On the **Asgardeo Console**, click **Manage > Account Security**.
+    - On the **Asgardeo Console**, click **Account Security** in the left navigation menu.
     - Click **Configure** to open the **Login Attempts** page.
     - Turn on **Enabled** to enable this configuration.
     
@@ -612,7 +620,7 @@ A management application must be created in order to use the Asagrdeo management
 
 ## Step 5.1: Update configurations of the front-end application
 
-1. Open the web application you created on **Choreo Console** and click **Deploy** section. Then click on the **Configs & Secrets** section on the left navigation menu.
+1. Open the web application you created on **Choreo Console**. Click **DevOps** section in the component and click **Configs & Secrets**.
 2. Click **Create**.
 3. Select config type as **Secret** and mount type as **Environment Variables**. Then click **Next**.
 4. Provide the **Config Name** as `web-app-envs`.
@@ -654,60 +662,79 @@ A management application must be created in order to use the Asagrdeo management
         - Use **Web App URL** in the step 3.3.
 
     - MANAGEMENT_APP_CLIENT_ID
-        - Navigate to the **Asgardeo Console**, go to **Develop > Applications**
+        - Navigate to the **Asgardeo Console**, go to **Applications**
         - Click on the management app (`Pet Care Admin App`) created.
         - Click the **Protocol** tab.
         - Copy and paste the value of the **Client ID**.
 
     - MANAGEMENT_APP_CLIENT_SECRET
-        - Navigate to the **Asgardeo Console**, go to **Develop > Applications**
+        - Navigate to the **Asgardeo Console**, go to **Applications**
         - Click on the management app (`Pet Care Admin App`) created.
         - Click the **Protocol** tab.
         - Copy and paste the value of the **Client secret**.
 
 6. After adding the environment variables above, click **create**.
 
-## Step 5.2: Consume the Pet Management Application
+## Step 5.2: Consume the Pet Care Application
     
 1. Use **Web App URL** in **step 3.3** to access the Pet Care web application. 
 
 ![Alt text](readme-resources/landing-page.png?raw=true "Landing Page")
 
-2. Click on the **Get Started** button.
-3. You will get a **Sign In** prompt.
-4. You can create an **account** by giving an email address or use a **Google** account to login into the Pet Management application. After login successfully you will redirect to the home page:
+2. Click on the **Sign In** to get started.
+3. You will get a **Sign In** prompt and click on the **Sign In With Organization Login** at the bottom of the menu.
+4. Provide the `City Vet Hospital` as the Name of the Organization and click **Submit**.
+5. Use admin user credentials (`admin@cityvet.com`) created in the step 4.1 to login to the application. 
 
-![Alt text](readme-resources/home-page.png?raw=true "Home Page")
+![Alt text](readme-resources/admin-view.png?raw=true "Admin Home Page")
 
-5. To add a new pet, Click on the **+** button next to `My Pets` in the home page.
-6. Provide a name, breed and date of birth.
-7. Then click on the **Save** button.
-8. Click on the created card and you can see an **overview** of the pet.
-9. Click on the **edit** button to update details of the pet. You will get an Update view for the pet.
-10. In there you can edit the name, breed and date of birth of the pet.
-11. Furthermore, you can add **vaccination details** for your pet.
-    - Go to the Vaccination Details section.
-    - Give the vaccination name, last vaccination date and next vaccination date.
-    - Click on the + button.
-    - You can check the enable alerts checkbox if you wish to receive alerts for the next vaccination date.
-    - Click on the **Save** button.
+## Step 5.3: Perform Administrative tasks within the Pet Care Application
 
-    &nbsp;<br>
-    > **Note:**
-      If you have given **email configuration** when deploying the **Pet Management Service**, then you can test the email sending feature. You need to provide the **next vaccination date** of your pet as next day and **enable alerts**. Then you should receive an email similar to this. 
+As an Admin in the Pet Care Application, you are going to onboard a Doctor to the system. Please follow the instructions outlined below.
 
-      ![Alt text](readme-resources/email.png?raw=true "Email")
+1. From the left-side menu, click **Manage Users** under **Settings** menu.
+2. Click **Add User** and provide relevant information to add a Doctor to the system. You can use `henry@cityvet.com` as the username of the Doctor.
+3. Click **Manage Groups** from the left-side menu and click **New Group**.
+4. Use `doctor` as the Group Name and select the user `henry@cityvet.com` to add to the group. Then click **Submit**.
 
-12. You can update the **image** of your pet in the update details prompt.
-    - Click on the Choose a file button.
-    - Select a photo from your local device.
-    - Click on the **Update** button.
-13. Also you can **enable/disable** alerts from the **settings**.
-    - Click on the user menu on the top right corner in the home page.
-    - Click **Settings**.
-    - Toggle the switch to **enable alerts**.
-    - Provide an email address.
-    - Click **Save**.
+Let's proceed with registering the doctor in the Pet Care Application, granting them the ability to log into the system and allowing Pet Owners to consult with them.
 
+1. From the left-side menu, click **Manage Doctors**.
+2. Click **Add Doctor** and provide details of the doctor. Make sure to use the correct email address(`henry@cityvet.com`) of the doctor.
+3. Click **Submit** to register the doctor.
 
+The Admin has the capability to add pet owners to the system, enabling them to log in and manage their pets within the system.
 
+1. From the left-side menu, click **Manage Users** under **Settings** menu.
+2. Click **Add User** and provide relevant information to add a pet owner to the system. You can use `peter@cityvet.com` as the username of the pet owner.
+
+## Step 5.4: Perform Doctor related tasks within the Pet Care Application
+
+Now you can login as the Doctor and perform doctor related tasks in the Pet Care Application.
+
+> Note: Due to an issue with the sub organization sign out, please use a private window to log in to the Pet Care Application.
+
+1. Access the Pet Care Application and click on the **Sign In** to get started.
+2. You will get a **Sign In** prompt and click on the **Sign In With Organization Login** at the bottom of the menu.
+3. Provide the `City Vet Hospital` as the Name of the Organization and click **Submit**.
+4. Use the doctor credentials (`henry@cityvet.com`) created in the step 5.3 to login to the application.
+5. You can go to the **Profile** page and click on the **Edit Profile** to update the profile information and availability information.
+6. Add the availability information of the doctor to allow pet owners to schedule consultations.
+7. Once bookings are available, the doctor can conduct consultations and add medical reports for the pets. (The Pet Owner should schedule bookings.)
+
+![Alt text](readme-resources/doctor-view.png?raw=true "Doctor Home Page")
+
+## Step 5.5: Perform Pet Owner related tasks within the Pet Care Application
+
+Now you can login as the Pet Owner and perform Pet Owner related tasks in the Pet Care Application.
+
+> Note: Due to an issue with the sub organization sign out, please use a private window to log in to the Pet Care Application.
+
+1. Access the Pet Care Application and click on the **Sign In** to get started.
+2. You will get a **Sign In** prompt and click on the **Sign In With Organization Login** at the bottom of the menu.
+3. Provide the `City Vet Hospital` as the Name of the Organization and click **Submit**.
+4. Use the pet owner credentials (`peter@cityvet.com`) created in the step 5.3 to login to the application.
+5. By visiting the **Pets** page, you have the ability to add pets to the system.
+6. If you go to the **Channel a Doctor** page, you can channel a doctor.
+
+![Alt text](readme-resources/pet-owner-view.png?raw=true "Pet Owner Home Page")
