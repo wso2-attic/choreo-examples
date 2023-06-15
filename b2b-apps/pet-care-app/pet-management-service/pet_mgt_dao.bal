@@ -11,7 +11,7 @@ function dbGetPetsByOwner(string org, string owner) returns Pet[]|error {
 
     do {
         sql:ParameterizedQuery query = `SELECT p.id, p.name, p.breed, p.dateOfBirth, p.owner, p.org, v.name as vaccinationName,
-        v.lastVaccinationDate, v.nextVaccinationDate, v.enableAlerts FROM Pet p LEFT JOIN Vaccination v 
+        v.lastVaccinationDate, v.nextVaccinationDate, v.enableAlerts FROM Pet p LEFT JOIN Vaccination v
         ON p.id = v.petId WHERE p.owner = ${owner} and p.org = ${org}`;
         stream<PetVaccinationRecord, sql:Error?> petsStream = dbClient->query(query);
 
@@ -253,7 +253,7 @@ function dbAddOrUpdateMedicalRecord(string petId, MedicalReport medicalReport, b
     transaction {
         sql:ParameterizedQuery query = `INSERT INTO MedicalReport (reportId, diagnosis, treatment, createdAt, updatedAt, petId)
             VALUES (${medicalReport.reportId}, ${medicalReport.diagnosis}, ${medicalReport.treatment}, ${medicalReport.createdAt},
-             ${medicalReport.updatedAt}, ${petId}) ON DUPLICATE KEY UPDATE diagnosis = ${medicalReport.diagnosis}, 
+             ${medicalReport.updatedAt}, ${petId}) ON DUPLICATE KEY UPDATE diagnosis = ${medicalReport.diagnosis},
              treatment = ${medicalReport.treatment}, updatedAt = ${medicalReport.updatedAt};`;
         _ = check dbClient->execute(query);
 
@@ -383,8 +383,8 @@ function dbUpdateSettingsByOwner(SettingsRecord settingsRecord) returns string|e
 
     do {
         sql:ParameterizedQuery query = `INSERT INTO Settings (owner, org, notifications_enabled, notifications_emailAddress)
-            VALUES (${settingsRecord.owner}, ${settingsRecord.org}, ${settingsRecord.notifications.enabled}, 
-            ${settingsRecord.notifications.emailAddress}) 
+            VALUES (${settingsRecord.owner}, ${settingsRecord.org}, ${settingsRecord.notifications.enabled},
+            ${settingsRecord.notifications.emailAddress})
             ON DUPLICATE KEY UPDATE notifications_enabled = ${settingsRecord.notifications.enabled}
             ,notifications_emailAddress = ${settingsRecord.notifications.emailAddress};`;
 
