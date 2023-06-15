@@ -137,13 +137,13 @@ For the Service to be invokable, you need to deploy it. To deploy the Service, f
 
 If you are not connecting the service to a MySQL database and storing the service's data in memory, then you must follow the steps below to ensure that only one container is running for the service.
 
-1. In the left pane, click **Runtime**.
+1. Navigate to the **DevOps** section in the component and click **Runtime**.
 2. Make the Min replicas and Max replicas count to **1** and click **Update**.
 3. Click **Redeploy Release** button.
 
 ## Step 1.4: Update API settings
 
-1. In the left pane, click **Manage**.
+1. Navigate to the **Manage** section in the component.
 2. Click **Settings**.
 3. Under API Settings click **Edit**.
 4. Toggle the **Pass Security Context To Backend** to pass the security context details to backend and click **Save**.
@@ -152,7 +152,7 @@ If you are not connecting the service to a MySQL database and storing the servic
 ## Step 1.5: Test the Service
 
 Let's test the Pet Management Service via Choreo's Open API Console by following the steps given below:
-1. Click **Test** in the left pane, and be sure that you are in the OpenAPI Console view. If not, click OpenAPI Console in the left pane.
+1. Navigate to the **Test** section in the component and click **OpenAPI Console**. This will open up the Open API definition of the service.
 2. Expand the **POST** method and click **Try it out**.
 3. Update the request body as below:
     ``` 
@@ -179,7 +179,7 @@ Similarly, you can expand and try out the other methods.
 
 Now that yourService is tested, let's publish it and make it available for applications to consume.
 
-1. In the **Manage** tab, click **Lifecycle**.
+1. Navigate to the **Manage** section of the channel service and click **Lifecycle**.
 2. Click **Publish** to publish the Service to the **Developer Portal**. External applications can subscribe to the API via the Developer Portal.
 3. To access the Developer Portal, click **Go to DevPortal** in the top right corner.
 4. The Pet Management Service will open in the Developer Portal.
@@ -232,7 +232,7 @@ Now you have generated keys for the application.
 You can skip this step if you are new to Choreo. If not, follow the below steps to **Enable Web Application Creation feature**.
 
 1. Navigate to **Choreo Console**.
-2. Click on the **User Profile**in the top right corner.
+2. Click on the **User Profile** in the top right corner.
 3. Click on the **Feature Preview** in the user menu.
 4. Toggle the **Web Application Creation** Switch.
 
@@ -293,7 +293,7 @@ In this step, you are going to deploy the pet management front-end application i
     - SIGN-IN-REDIRECT-URL and SIGN-OUT-REDIRECT-URL
       - You will receive values for SIGN-IN-REDIRECT-URL and SIGN-OUT-REDIRECT-URL in the next sections. For now keep the default values for those configurations.
 
-3. Open the web application you created on **Choreo Console** and click on the **Configs & Secrets** section on the left navigation menu.
+3. Open the web application you created on **Choreo Console**. Click **DevOps** section in the component and click **Configs & Secrets**.
 4. Click **Create**.
 5. Select config type as **Secret** and mount type as **File Mount**. Then click **Next**.
 6. Provide the following information and click **Create**.
@@ -311,7 +311,7 @@ In this step, you are going to deploy the pet management front-end application i
 2. Click **Deploy Manually** on the **Build Area**.
 3. When the application is deployed successfully you will get an url in the section **Web App URL**.
 4. Copy and paste the url as the **SIGN-IN-REDIRECT-URL** and **SIGN-OUT-REDIRECT-URL** in the config.json in **step 3.2**.
-5. Navigate to **Configs & Secrets** section on the left navigation menu.
+5. Click **DevOps** section in the component and click **Configs & Secrets**.
 6. On the secret, webapp-configs you created, click the **edit icon** on the right side corner.
 7. Provide the config.json content and click **Save**.
 
@@ -322,7 +322,7 @@ In this step, you are going to deploy the pet management front-end application i
 
 1. Access **Asgardeo** at https://console.asgardeo.io/ and log in with the same credentials with which you logged in to Choreo. 
 2. Verify that you are logged into the **organization** you used for Choreo. Otherwise, select the appropriate **organization** by clicking on the organization menu at the top.
-3. Click the **Develop** tab in the top and then select **Applications**.
+3. Click **Applications** in the left navigation menu.
 4. You can see the application you created before from the devportal(`Pet Management App`).
 5. Click the `Pet Management App`.
 6. Click the **Protocol** tab.
@@ -343,7 +343,7 @@ In this step, you are going to deploy the pet management front-end application i
 ## Step 4.2: Enable features in Asgardeo
 
 1. [Branding and theming](https://wso2.com/asgardeo/docs/guides/branding/configure-ui-branding/)
-    - On the **Asgardeo Console**, go to **Develop > Branding**
+    - On the **Asgardeo Console**, click **Branding** in the left navigation menu.
     - Enable the **Branding** toggle on top.
     - Go to **General** tab and enter the **site title** as `Pet Management App`.
     - You can provide values to **Copyright Text** and **Contact Email**.
@@ -357,19 +357,19 @@ In this step, you are going to deploy the pet management front-end application i
     - Click **Save**.
     
 2. [Configure password recovery](https://wso2.com/asgardeo/docs/guides/user-accounts/password-recovery/)
-    - On the **Asgardeo Console**, click **Manage > Account Recovery**.
+    - On the **Asgardeo Console**, click **Account Recovery** in the left navigation menu.
     - Go to **Password Recovery**.
     - Click **Configure** to open the Password Recovery page.
     - Turn on **Enabled** to enable this configuration.
     
 3. [Self registration](https://wso2.com/asgardeo/docs/guides/user-accounts/configure-self-registration)
-    - On the **Asgardeo Console**, click **Manage > Self Registration**. 
+    - On the **Asgardeo Console**, click **Self Registration** in the left navigation menu.
     - Click **Configure**.
     - **Enable** self registration toggle.
     - Tick **Account verification** and then click the **Update** button.
     
 4. [Configure login-attempts security](https://wso2.com/asgardeo/docs/guides/user-accounts/account-security/login-attempts-security/#enable-login-attempts-security)    
-    - On the **Asgardeo Console**, click **Manage > Account Security**.
+    - On the **Asgardeo Console**, click **Account Security** in the left navigation menu.
     - Click **Configure** to open the **Login Attempts** page.
     - Turn on **Enabled** to enable this configuration.
     

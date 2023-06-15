@@ -402,7 +402,7 @@ Both **Channel Service** and **Pet Management Service** are exposed as APIs. Hen
 ## Step 1.9: Test the Services
 
 Let's test the **Pet Management Service** via Choreo's Open API Console by following the steps given below:
-1. Navigate to the **Test** section in the component and click **Console**. This will open up the Open API definition of the service.
+1. Navigate to the **Test** section in the component and click **OpenAPI Console**. This will open up the Open API definition of the service.
 2. Expand the **POST** method of the `/pets` resource and click **Try it out**.
 3. Update the request body as below:
     ``` 
