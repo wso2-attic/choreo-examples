@@ -391,8 +391,8 @@
     flex-direction: column;
     margin-top: 10px;
     margin-bottom: 10px;
-    height: 60vh;
-    width: 40vw
+    height: fit-content;
+    width: 45vw
 }
 
 .petOverviewMainDiv {
