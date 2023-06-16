@@ -262,7 +262,7 @@ In this step, you are going to deploy the pet management front-end application i
     | GitHub Account | Your account |
     | GitHub Repository | choreo-examples |
     | Branch | main |
-    | Build Present | Dockerfile |
+    | Build Preset | Dockerfile |
     | Dockerfile Path | /b2c-apps/pet-care-app/pet-management-webapp/Dockerfile |
     | Docker Context Path | /b2c-apps/pet-care-app/pet-management-webapp|
     | Port |3000|
