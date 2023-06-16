@@ -16,7 +16,7 @@
  * under the License.
  */
 
-import { controllerDecodeSwitchOrg } 
+import { controllerDecodeSwitchOrg }
     from "@pet-management-webapp/business-admin-app/data-access/data-access-controller";
 import { getConfig } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
 import { getLoggedUserFromProfile, getLoggedUserId, getOrgId, getOrgName } from
@@ -72,15 +72,15 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
                 session.user = getLoggedUserFromProfile(token.user);
                 session.orgId = getOrgId(session.idToken);
                 session.orgName = getOrgName(session.idToken);
-                session.orginalIdToken = token.idToken; 
+                session.orginalIdToken = token.idToken;
 
                 const groupsList = token.user.groups;
 
                 if (groupsList == null) {
                     session.group = "petOwner";
-                } else if (groupsList.includes("doctor")) {
+                } else if (groupsList.some(x => x.toLowerCase() == "doctor")) {
                     session.group = "doctor";
-                } else if (groupsList.includes("admin")) {
+                } else if (groupsList.some(x => x.toLowerCase() == "admin")) {
                     session.group = "admin";
                 } else {
                     session.group = "petOwner";
