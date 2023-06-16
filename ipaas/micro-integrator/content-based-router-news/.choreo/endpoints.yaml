@@ -4,5 +4,5 @@ endpoints:
     port: 8290
     type: REST
     networkVisibility: Public
-    context: /
+    context: /newsapi
     schemaFilePath: news_openapi.yaml
