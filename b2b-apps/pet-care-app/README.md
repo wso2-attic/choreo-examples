@@ -543,7 +543,7 @@ Let's deploy the front-end application first. Later we can update the configurat
 7. Click **Users** in the left navigation menu and click **Add User**. 
 8. Provide the necessary information and register the user. You can use `admin@cityvet.com` as the username of the user.
 9. Click **Groups** in the left navigation menu and click **New Group**. 
-10. Use `admin` as the group name and add the `admin@cityvet.com` user to the group.
+10. Use `Admin` as the group name and add the `admin@cityvet.com` user to the group.
 11. Click **Roles** in the left navigation menu and click **Configure** in the **Organization Roles**. 
 12. Click on the `Administrator` role and navigate to **Users** section in the role. 
 13. Click on the pencil icon and assign `admin@cityvet.com` to the `Administrator` role.
@@ -695,7 +695,7 @@ As an Admin in the Pet Care Application, you are going to onboard a Doctor to th
 1. From the left-side menu, click **Manage Users** under **Settings** menu.
 2. Click **Add User** and provide relevant information to add a Doctor to the system. You can use `henry@cityvet.com` as the username of the Doctor.
 3. Click **Manage Groups** from the left-side menu and click **New Group**.
-4. Use `doctor` as the Group Name and select the user `henry@cityvet.com` to add to the group. Then click **Submit**.
+4. Use `Doctor` as the group name and select the user `henry@cityvet.com` to add to the group. Then click **Submit**.
 
 Let's proceed with registering the doctor in the Pet Care Application, granting them the ability to log into the system and allowing Pet Owners to consult with them.
 
