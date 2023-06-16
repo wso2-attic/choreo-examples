@@ -514,7 +514,7 @@ In this step, you are going to deploy the pet care front-end application in Chor
     | GitHub Account | Your account |
     | GitHub Repository | choreo-examples |
     | Branch | main |
-    | Build Present | Dockerfile |
+    | Build Preset | Dockerfile |
     | Dockerfile Path | /b2b-apps/pet-care-app/pet-management-webapp/Dockerfile |
     | Docker Context Path | /b2b-apps/pet-care-app/pet-management-webapp|
     | Port |3001|
