@@ -514,6 +514,7 @@ In this step, you are going to deploy the pet care front-end application in Chor
     | GitHub Account | Your account |
     | GitHub Repository | choreo-examples |
     | Branch | main |
+    | Build Preset | Dockerfile |
     | Dockerfile Path | /b2b-apps/pet-care-app/pet-management-webapp/Dockerfile |
     | Docker Context Path | /b2b-apps/pet-care-app/pet-management-webapp|
     | Port |3001|
@@ -555,7 +556,7 @@ Let's deploy the front-end application first. Later we can update the configurat
 3. You can see the application you created before from the devportal(`Pet Care App`).
 4. Click the `Pet Care App`.
 5. Click the **Shared Access** tab.
-6. Select **select with only selected sub-organizations** from the options and tick `City Vet Hospital`. Then click **Update**.
+6. Select **Share with only selected sub-organizations** from the options and tick `City Vet Hospital`. Then click **Update**.
 7. Click the **Protocol** tab.
 8. Scroll down to the **Allowed grant types** and tick **Refresh Token**, **Code** and **Organization Switch**.
 9. Tick **Public client** on the next section.
@@ -582,7 +583,7 @@ A management application must be created in order to use the Asagrdeo management
 3. Use `Pet Care Admin App` as the name and **OAuth2.0 OpenID Connect** as the protocol.
 4. Tick **Management Application** tick box and register the application.
 5. Click the **Shared Access** tab.
-6. Select **select with only selected sub-organizations** from the options and tick `City Vet Hospital`. Then click **Update**.
+6. Select **Share with only selected sub-organizations** from the options and tick `City Vet Hospital`. Then click **Update**.
 7. Click the **Protocol** tab.
 8. Scroll down to the **Allowed grant types** and tick **Organization Switch**.
 9. Keep the rest of the default configurations and click **Update**.
