@@ -17,11 +17,13 @@
  */
 
 import { signout } from "@pet-management-webapp/business-admin-app/util/util-authorization-config-util";
-import { Custom500Component } from "@pet-management-webapp/shared/ui/ui-components";
+import dynamic from "next/dynamic";
 
 export default function Custom500() {
+    const DynamicCustom500Component = dynamic(() => 
+        import("@pet-management-webapp/shared/ui/ui-components").then((module) => module.Custom500Component));
 
     const goBack = async (): Promise<void> => await signout(null);
 
-    return (<Custom500Component goBack={ goBack } />);
+    return (<DynamicCustom500Component goBack={ goBack } />);
 }
