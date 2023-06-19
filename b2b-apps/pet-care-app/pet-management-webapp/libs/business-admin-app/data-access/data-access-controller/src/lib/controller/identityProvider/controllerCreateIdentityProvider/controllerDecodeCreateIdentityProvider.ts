@@ -69,7 +69,6 @@ export async function controllerDecodeCreateIdentityProvider(session: Session, t
             case IdentityProviderConfigureType.MANUAL: {
 
                 model = setIdpTemplate(model, (template.templateId as string), formValues, (session.orgId as string));
-                console.log("Image url>>>>>>>>>>>>>> "+ model.image);
 
                 break;
             }

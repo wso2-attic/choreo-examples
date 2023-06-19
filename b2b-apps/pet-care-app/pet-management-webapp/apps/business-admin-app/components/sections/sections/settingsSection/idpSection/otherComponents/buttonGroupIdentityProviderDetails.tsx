@@ -64,7 +64,7 @@ export default function ButtonGroupIdentityProviderDetails(props : ButtonGroupId
         if (!checkIfJSONisEmpty(allApplications) && allApplications.totalResults !== 0) {
             const res : Application = ( 
                 await controllerDecodeGetApplication(session, allApplications.applications[0].id) as Application );
-
+                      
             await setApplicationDetail(res);
         }
     }, [ session, allApplications ]);
@@ -78,9 +78,7 @@ export default function ButtonGroupIdentityProviderDetails(props : ButtonGroupId
     }, [ fetchApplicatioDetails ]);
 
     useEffect(() => {
-        console.log("Inside useEffect");
         if (!checkIfJSONisEmpty(applicationDetail)) {
-            console.log("Inside if");
             const check = checkIfIdpIsinAuthSequence(applicationDetail, idpDetails);
 
             setIdpIsinAuthSequence(check[0]);
