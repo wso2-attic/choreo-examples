@@ -78,7 +78,9 @@ export default function ButtonGroupIdentityProviderDetails(props : ButtonGroupId
     }, [ fetchApplicatioDetails ]);
 
     useEffect(() => {
+        console.log("Inside useEffect");
         if (!checkIfJSONisEmpty(applicationDetail)) {
+            console.log("Inside if");
             const check = checkIfIdpIsinAuthSequence(applicationDetail, idpDetails);
 
             setIdpIsinAuthSequence(check[0]);

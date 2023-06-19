@@ -62,6 +62,7 @@ export function checkIfIdpIsinAuthSequence(template: Application, idpDetails): b
         step.options.forEach((option) => {
             if (option.idp === idpName) {
                 check = true;
+                console.log("Check true");
             }
         });
 
