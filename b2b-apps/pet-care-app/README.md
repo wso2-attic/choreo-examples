@@ -1,4 +1,4 @@
-# Pet Care Veterinary Practise Management Application User Guide
+# Pet Care Veterinary Practice Management Application User Guide
 
 The Pet Care Veterinary Practise Management Application is a B2B (Business-to-Business) application designed to streamline and optimize the management and operations of veterinary practices. This comprehensive application caters specifically to the needs of veterinary clinics, hospitals, and other related healthcare facilities, providing a centralized platform to efficiently manage appointments, patient records, and other essential aspects of veterinary practice. Vet hospitals and other vet clinics can become part of the Pet Care application and access its services by joining the platform.
 
