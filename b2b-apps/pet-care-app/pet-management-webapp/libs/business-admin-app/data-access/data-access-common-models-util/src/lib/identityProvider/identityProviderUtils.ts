@@ -102,7 +102,7 @@ export function setIdpTemplate(model: IdentityProviderTemplateModel, templateId:
 function googleIdpTemplate(model: IdentityProviderTemplateModel, clientId: string, clientSecret: string,
     orgId: string): IdentityProviderTemplateModel {
 
-    model.image = "/libs/themes/default/assets/images/identity-providers/google-idp-illustration.svg";
+    model.image = "https://console.asgardeo.io/app/libs/themes/default/assets/images/identity-providers/google-idp-illustration.svg";
 
     model.alias = `${getManagementAPIServerBaseUrl()}/oauth2/token`;
 
@@ -165,7 +165,7 @@ function enterpriseIdpTemplate(model: IdentityProviderTemplateModel, clientId: s
         }
     }
 
-    model.image = "/libs/themes/default/assets/images/identity-providers/enterprise-idp-illustration.svg";
+    model.image = "https://console.asgardeo.io/app/libs/themes/default/assets/images/identity-providers/enterprise-idp-illustration.svg";
 
     model.federatedAuthenticators.authenticators[0].properties = [
         {

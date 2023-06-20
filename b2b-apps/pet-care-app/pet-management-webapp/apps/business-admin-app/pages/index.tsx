@@ -15,9 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { LogoComponent } from "@pet-management-webapp/business-admin-app/ui/ui-components";
-import { IndexHomeComponent } from "@pet-management-webapp/shared/ui/ui-components";
+import dynamic from "next/dynamic";
 import { NextRouter, useRouter } from "next/router";
 import React from "react";
 import "rsuite/dist/rsuite.min.css";
@@ -29,6 +27,13 @@ import homeImage from "../../../libs/business-admin-app/ui/ui-assets/src/lib/ima
  */
 export default function Home() {
 
+    const DynamicIndexHomeComponent = dynamic(() => 
+        import("@pet-management-webapp/shared/ui/ui-components").then((module) => module.IndexHomeComponent));
+
+    const DynamicLogoComponent = dynamic(() => 
+        import("@pet-management-webapp/business-admin-app/ui/ui-components").
+            then((module) => module.LogoComponent));    
+
     const router: NextRouter = useRouter();
 
     const signinOnClick = (): void => {
@@ -36,11 +41,11 @@ export default function Home() {
     };
 
     return (
-        <IndexHomeComponent
+        <DynamicIndexHomeComponent
             image={ homeImage }
             tagText="Sign in to continue"
             signinOnClick={ signinOnClick }
-            logoComponent = { <LogoComponent imageSize="medium"/> }
+            logoComponent = { <DynamicLogoComponent imageSize="medium"/> }
         />
        
     );

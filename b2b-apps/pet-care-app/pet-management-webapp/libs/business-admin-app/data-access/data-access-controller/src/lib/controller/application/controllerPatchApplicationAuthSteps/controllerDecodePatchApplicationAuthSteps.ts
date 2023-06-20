@@ -94,7 +94,12 @@ function addRemoveAuthSequence(template: Application, idpTempleteId: string, idp
     const authenticationSequenceModel = getAuthenticationSequenceModel(template);
 
     if (method) {
-        authenticationSequenceModel.steps[0].options = [ (getAuthenticatorBody(idpTempleteId, idpName)) ];
+        const options = authenticationSequenceModel.steps[0].options;
+        const idpOptions = getAuthenticatorBody(idpTempleteId, idpName);
+
+        if (idpOptions) {
+            options.push(idpOptions);
+        }
 
         return authenticationSequenceModel;
     } else {

@@ -15,10 +15,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { MoveOrganizationComponent } from "@pet-management-webapp/shared/ui/ui-components";
 import { redirect } from "@pet-management-webapp/shared/util/util-authorization-config-util";
 import { getSession } from "next-auth/react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
@@ -70,6 +69,9 @@ export default function MoveOrg(props: MoveOrgProps) {
         router.push(`/o/${orgId}`);
     }, [ orgId, router ]);
 
+    const DynamicMoveOrganizationComponent = dynamic(() => 
+        import("@pet-management-webapp/shared/ui/ui-components").then((module) => module.MoveOrganizationComponent));
+
     useEffect(() => {
         if (redirectSeconds <= 1) {
             redirectToOrg();
@@ -83,6 +85,6 @@ export default function MoveOrg(props: MoveOrgProps) {
     }, [ redirectSeconds, orgId, redirectToOrg ]);
 
     return (
-        <MoveOrganizationComponent orgName={ orgName } />
+        <DynamicMoveOrganizationComponent orgName={ orgName } />
     );
 }

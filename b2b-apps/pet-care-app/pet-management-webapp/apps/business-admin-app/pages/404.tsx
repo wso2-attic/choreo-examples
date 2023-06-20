@@ -15,10 +15,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import { Custom404Component } from "@pet-management-webapp/shared/ui/ui-components";
+import dynamic from "next/dynamic";
 
 export default function Custom404() {
+    const DynamicCustom404Component = dynamic(() => 
+        import("@pet-management-webapp/shared/ui/ui-components").then((module) => module.Custom404Component));
 
-    return (<Custom404Component />);
+    return (<DynamicCustom404Component />);
 }

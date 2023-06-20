@@ -17,6 +17,7 @@
  */
 
 import { ApplicationList } from "@pet-management-webapp/business-admin-app/data-access/data-access-common-models-util";
+import { getConfig } from "@pet-management-webapp/business-admin-app/util/util-application-config-util";
 import { commonControllerCall } from "@pet-management-webapp/shared/data-access/data-access-common-api-util";
 import { Session } from "next-auth";
 
@@ -30,8 +31,11 @@ import { Session } from "next-auth";
  */
 export async function controllerCallListCurrentApplication(session: Session): Promise<ApplicationList | null> {
 
-    const data = (await commonControllerCall("/api/settings/application/listCurrentApplication", session) as
-        ApplicationList | null);
+    const applicationName = getConfig().BusinessAdminAppConfig.ManagementAPIConfig.SharedApplicationName;
+
+    const data = 
+    (await commonControllerCall(`/api/settings/application/listCurrentApplication?appName=${applicationName}`, 
+        session) as ApplicationList | null);
 
     return data;
 }

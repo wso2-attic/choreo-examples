@@ -77,7 +77,6 @@ export default function DoctorBookingsSection(props: DoctorBookingsSectionProps)
 
     const getFormattedDate = (date: Date): string => {
         const formattedDate = format(date, 'yyyy-MM-dd');
-        console.log("formattedDate"+ formattedDate);
 
         return formattedDate;
     };

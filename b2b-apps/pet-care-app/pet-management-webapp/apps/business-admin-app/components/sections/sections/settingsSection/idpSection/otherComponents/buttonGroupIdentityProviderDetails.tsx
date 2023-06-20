@@ -64,7 +64,7 @@ export default function ButtonGroupIdentityProviderDetails(props : ButtonGroupId
         if (!checkIfJSONisEmpty(allApplications) && allApplications.totalResults !== 0) {
             const res : Application = ( 
                 await controllerDecodeGetApplication(session, allApplications.applications[0].id) as Application );
-
+                      
             await setApplicationDetail(res);
         }
     }, [ session, allApplications ]);
