@@ -385,7 +385,7 @@ The Service opens on a separate page where you can see its overview.
 If you are not connecting the service to a MySQL database and storing the service's data in memory, then you must follow the steps below to ensure that only one container is running for the **Channel Service** and **Pet Management Service**.
 
 1. Navigate to the **DevOps** section in the component and click **Runtime**.
-2. Make the Min replicas and Max replicas count to **1** and click **Update**.
+2. Make the Min replicas and Max replicas count to **1** and click **Update**. If you are using the free version of Choreo, you will be operating with a single replica. In this case, you can skip the remaining steps.
 3. Click **Redeploy Release** button.
 4. Make sure to apply the same change to the **Channel Service** and **Pet Management Service**.
 
@@ -479,18 +479,7 @@ Now you have generated keys for the application.
 &nbsp;<br>
 # Step 3: Deploy the Pet Care Web application
 
-## Step 3.1: Enable Web Application Creation feature
-
-You can skip this step if you are new to Choreo. If not, follow the below steps to **Enable Web Application Creation feature**.
-
-1. Navigate to **Choreo Console**.
-2. Click on the **User Profile** in the top right corner.
-3. Click on the **Feature Preview** in the user menu.
-4. Toggle the **Web Application Creation** Switch.
-
-![Alt text](readme-resources/feature-preview.png?raw=true "Feature Preview")
-
-## Step 3.2: Configure the front-end application
+## Step 3.1: Configure the front-end application
 
 In this step, you are going to deploy the pet care front-end application in Choreo.
 
@@ -522,7 +511,7 @@ In this step, you are going to deploy the pet care front-end application in Chor
 9. Click on the **Create** button.
 10. The Web Application opens on a separate page where you can see its overview.
 
-## Step 3.3: Deploy the front-end application
+## Step 3.2: Deploy the front-end application
 
 Let's deploy the front-end application first. Later we can update the configurations.
 
@@ -540,7 +529,7 @@ Let's deploy the front-end application first. Later we can update the configurat
 3. Click **Sub Organizations** in the left navigation menu.
 4. Click **Add Sub Organization** and provide `City Vet Hospital` as the **Organization Name**.
 5. You can provide a description and register the sub organization. 
-6. To switch to the sub organization, click on the **Switch** button located in the right corner of the sub organization's row. 
+6. To switch to the sub organization, click on the **Switch** button located in the right corner of the sub organization's row. The next steps are executed inside the sub organization.
 7. Click **Users** in the left navigation menu and click **Add User**. 
 8. Provide the necessary information and register the user. You can use `admin@cityvet.com` as the username of the user.
 9. Click **Groups** in the left navigation menu and click **New Group**. 
@@ -560,7 +549,7 @@ Let's deploy the front-end application first. Later we can update the configurat
 7. Click the **Protocol** tab.
 8. Scroll down to the **Allowed grant types** and tick **Refresh Token**, **Code** and **Organization Switch**.
 9. Tick **Public client** on the next section.
-10. Use **Web App URL** in the step 3.3 as an **Authorized redirect URLs** and **Allowed origins**.
+10. Use **Web App URL** in the step 3.2 as an **Authorized redirect URLs** and **Allowed origins**.
 11. Additionally, as an **Authorized redirect URLs**, enter the following URL after updating the **Web App URL** with the right value.
 
      `{Web_APP_URL}/api/auth/callback/wso2isAdmin`
@@ -657,10 +646,10 @@ A management application must be created in order to use the Asagrdeo management
         - Copy and paste the value of On the **Endpoint(s)** section.
 
     - HOSTED_URL
-        - Use **Web App URL** in the step 3.3.
+        - Use **Web App URL** in the step 3.2.
 
     - NEXTAUTH_URL
-        - Use **Web App URL** in the step 3.3.
+        - Use **Web App URL** in the step 3.2.
 
     - MANAGEMENT_APP_CLIENT_ID
         - Navigate to the **Asgardeo Console**, go to **Applications**
@@ -678,7 +667,7 @@ A management application must be created in order to use the Asagrdeo management
 
 ## Step 5.2: Consume the Pet Care Application
     
-1. Use **Web App URL** in **step 3.3** to access the Pet Care web application. 
+1. Use **Web App URL** in **step 3.2** to access the Pet Care web application. 
 
 ![Alt text](readme-resources/landing-page.png?raw=true "Landing Page")
 
@@ -691,23 +680,64 @@ A management application must be created in order to use the Asagrdeo management
 
 ## Step 5.3: Perform Administrative tasks within the Pet Care Application
 
-As an Admin in the Pet Care Application, you are going to onboard a Doctor to the system. Please follow the instructions outlined below.
+- As an Admin in the Pet Care Application, you are going to onboard a Doctor to the system. Please follow the instructions outlined below.
 
-1. From the left-side menu, click **Manage Users** under **Settings** menu.
-2. Click **Add User** and provide relevant information to add a Doctor to the system. You can use `henry@cityvet.com` as the username of the Doctor.
-3. Click **Manage Groups** from the left-side menu and click **New Group**.
-4. Use `Doctor` as the group name and select the user `henry@cityvet.com` to add to the group. Then click **Submit**.
+    1. From the left-side menu, click **Manage Users** under **Settings** menu.
+    2. Click **Add User** and provide relevant information to add a Doctor to the system. You can use `henry@cityvet.com` as the username of the Doctor.
+    3. Click **Manage Groups** from the left-side menu and click **New Group**.
+    4. Use `Doctor` as the group name and select the user `henry@cityvet.com` to add to the group. Then click **Submit**.
 
-Let's proceed with registering the doctor in the Pet Care Application, granting them the ability to log into the system and allowing Pet Owners to consult with them.
 
-1. From the left-side menu, click **Manage Doctors**.
-2. Click **Add Doctor** and provide details of the doctor. Make sure to use the correct email address(`henry@cityvet.com`) of the doctor.
-3. Click **Submit** to register the doctor.
+- Let's proceed with registering the doctor in the Pet Care Application, granting them the ability to log into the system and allowing Pet Owners to consult with them.
 
-The Admin has the capability to add pet owners to the system, enabling them to log in and manage their pets within the system.
+    1. From the left-side menu, click **Manage Doctors**.
+    2. Click **Add Doctor** and provide details of the doctor. Make sure to use the correct email address(`henry@cityvet.com`) of the doctor.
+    3. Click **Submit** to register the doctor.
 
-1. From the left-side menu, click **Manage Users** under **Settings** menu.
-2. Click **Add User** and provide relevant information to add a pet owner to the system. You can use `peter@cityvet.com` as the username of the pet owner.
+- The Admin has the ability to include pet owners in the system, allowing them to create an account and oversee their pets. You can choose from the following options to onboard users into the system. Click on any of the options to view the corresponding steps.
+
+    <details><summary> Add Users Manually to the system</summary>
+    <p>
+
+    1. From the left-side menu, click **Manage Users** under **Settings** menu.
+
+    2. Click **Add User** and provide relevant information to add a pet owner to the system. You can use `peter@cityvet.com` as the username of the pet owner.
+
+    </p>
+    </details>
+
+    <details><summary> Configure Google Login</summary>
+    <p>
+
+    1. From the left-side menu, click **Identity Providers** under **Settings** menu.
+
+    2. Click **Add Identity Provider** and then click **Google**.
+
+    3. Under the **Prerequisite** section, it shows the **Authorized Redirect URI** to be used when registering Asgardeo on Google. Follow the steps in the Register Asgardeo on Google - https://wso2.com/asgardeo/docs/guides/authentication/social-login/add-google-login/#register-asgardeo-on-google
+
+    4. Use the client id and secret values obtained from Google to fill the form and complete the task.
+
+    5. To include the Identity Provider in the sign-in flow, select the **Add to the Login Flow** button located in the upper right corner of the provider's interface. 
+
+    </p>
+    </details>
+
+    <details><summary> Configure Enterprise IDP</summary>
+    <p>
+
+    1. From the left-side menu, click **Identity Providers** under **Settings** menu.
+
+    2. Click **Add Identity Provider** and then click **Enterprise**.
+
+    3. Under the **Prerequisite** section, it shows the **Authorized Redirect URI** to be used when registering Asgardeo on IDP. Follow the steps in the Register Asgardeo on IDP - https://wso2.com/asgardeo/docs/guides/authentication/enterprise-login/add-oidc-idp-login/#register-asgardeo-in-the-idp
+
+    4. Use the client id, secret and other values obtained from the IDP to fill the form and complete the task.
+
+    5. To include the Identity Provider in the sign-in flow, select the **Add to the Login Flow** button located in the upper right corner of the provider's interface.
+
+    </p>
+    </details>
+
 
 ## Step 5.4: Perform Doctor related tasks within the Pet Care Application
 
