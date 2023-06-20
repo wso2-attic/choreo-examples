@@ -15,8 +15,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import { LogoComponent } from "@pet-management-webapp/business-admin-app/ui/ui-components";
+import { SigninRedirectComponent } from "@pet-management-webapp/shared/ui/ui-components";
 import { orgSignin } from "@pet-management-webapp/shared/util/util-authorization-config-util";
-import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import "rsuite/dist/rsuite.min.css";
 
@@ -28,10 +29,6 @@ export default function Signin() {
 
     const moveTime = 40;
     const [ redirectSeconds, setRedirectSeconds ] = useState<number>(moveTime);
-    const DynamicSigninRedirectComponent = dynamic(() => 
-        import("@pet-management-webapp/shared/ui/ui-components").then((module) => module.SigninRedirectComponent));
-    const DynamicLogoComponent = dynamic(() => 
-        import("@pet-management-webapp/business-admin-app/ui/ui-components").then((module) => module.LogoComponent));
 
     useEffect(() => {
         if (redirectSeconds <= 1) {
@@ -46,8 +43,8 @@ export default function Signin() {
     }, [ redirectSeconds ]);
 
     return (
-        <DynamicSigninRedirectComponent
-            logoComponent={ <DynamicLogoComponent imageSize="medium" /> }
+        <SigninRedirectComponent
+            logoComponent={ <LogoComponent imageSize="medium" /> }
             loaderContent="Redirecting to the organization login."
         />
     );
