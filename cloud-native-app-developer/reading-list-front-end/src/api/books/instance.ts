@@ -14,9 +14,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-
-import { initInstance } from "../instance";
+import axios from "axios";
 
 export const getReadingListInstance = () => {
-  return initInstance(import.meta.env.VITE_CHOREO_BACKEND_URL);
+  let baseUrl = window.config.choreoApiUrl;
+  return axios.create({ baseURL: baseUrl });
 };

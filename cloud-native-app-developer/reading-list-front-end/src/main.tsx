@@ -22,11 +22,24 @@ import "./App.css";
 import "./index.css";
 import { AuthProvider } from "@asgardeo/auth-react";
 
+interface Config {
+  redirectUrl: string;
+  asgardeoClientId: string;
+  asgardeoBaseUrl: string;
+  choreoApiUrl: string;
+}
+
+declare global {
+  interface Window {
+    config: Config;
+  }
+}
+
 const authConfig = {
-  signInRedirectURL: import.meta.env.VITE_REDIRECT_URL,
-  signOutRedirectURL: import.meta.env.VITE_REDIRECT_URL,
-  clientID: import.meta.env.VITE_ASGARDEO_CLIENT_ID,
-  baseUrl: import.meta.env.VITE_ASGARDEO_BASE_URL,
+  signInRedirectURL: window.config.redirectUrl,
+  signOutRedirectURL: window.config.redirectUrl,
+  clientID: window.config.asgardeoClientId,
+  baseUrl: window.config.asgardeoBaseUrl,
   scope: ["openid", "profile"],
 };
 
