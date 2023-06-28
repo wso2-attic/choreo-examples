@@ -1,0 +1,7 @@
+[container.image]
+name="ads-service"
+repository="wso2inc"
+tag="v0.1.0"
+
+[cloud.deployment]
+internal_domain_name="ads-service"

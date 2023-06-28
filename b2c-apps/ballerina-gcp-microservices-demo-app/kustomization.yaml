@@ -1,0 +1,14 @@
+resources:
+  - adservice/target/kubernetes/adservice/adservice.yaml
+  - cartservice/target/kubernetes/cartservice/cartservice.yaml
+  - checkoutservice/target/kubernetes/checkoutservice/checkoutservice.yaml
+  - currencyservice/target/kubernetes/currencyservice/currencyservice.yaml
+  - emailservice/target/kubernetes/emailservice/emailservice.yaml
+  - frontend/target/kubernetes/frontend/frontend.yaml
+  - paymentservice/target/kubernetes/paymentservice/paymentservice.yaml
+  - productcatalogservice/target/kubernetes/productcatalogservice/productcatalogservice.yaml
+  - recommendationservice/target/kubernetes/recommendationservice/recommendationservice.yaml
+  - shippingservice/target/kubernetes/shippingservice/shippingservice.yaml
+
+patchesStrategicMerge:
+- secret-env-patch.yaml

@@ -1,0 +1,41 @@
+{
+	"folders": [
+		{
+			"path": "adservice"
+		},
+		{
+			"path": "cartservice"
+		},
+		{
+			"path": "checkoutservice"
+		},
+		{
+			"path": "currencyservice"
+		},
+		{
+			"path": "emailservice"
+		},
+		{
+			"path": "frontend"
+		},
+		{
+			"path": "paymentservice"
+		},
+		{
+			"path": "productcatalogservice"
+		},
+		{
+			"path": "recommendationservice"
+		},
+		{
+			"path": "shippingservice"
+		},
+		{
+			"path": "client_stubs"
+		},
+		{
+			"path": "ui"
+		}
+	],
+	"settings": {}
+}

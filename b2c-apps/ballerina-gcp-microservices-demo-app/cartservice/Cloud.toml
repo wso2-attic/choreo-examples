@@ -1,0 +1,7 @@
+[container.image]
+name="cart-service"
+repository="wso2inc"
+tag="v0.1.0"
+
+[cloud.deployment]
+internal_domain_name="cart-service"

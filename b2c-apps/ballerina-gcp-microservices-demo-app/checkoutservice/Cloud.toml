@@ -1,0 +1,11 @@
+[container.image]
+name="checkout-service"
+repository="wso2inc"
+tag="v0.1.0"
+
+[cloud.deployment]
+internal_domain_name="checkout-service"
+
+[[cloud.config.files]]
+file="./k8s/Config.toml"
+name="checkout-config" 

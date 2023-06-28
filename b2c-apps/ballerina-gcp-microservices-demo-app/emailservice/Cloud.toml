@@ -1,0 +1,15 @@
+[container.image]
+name="email-service"
+repository="wso2inc"
+tag="v0.1.0"
+
+# [[cloud.secret.files]]
+# file="./GmailConfig.toml"
+# mount_path="/home/ballerina/GmailConfig.toml"
+
+[[cloud.config.files]]
+file="./ObserveConfig.toml"
+name="observe-config"
+
+[cloud.deployment]
+internal_domain_name="email-service"

@@ -1,0 +1,7 @@
+[container.image]
+name="payment-service"
+repository="wso2inc"
+tag="v0.1.0"
+
+[cloud.deployment]
+internal_domain_name="payment-service"

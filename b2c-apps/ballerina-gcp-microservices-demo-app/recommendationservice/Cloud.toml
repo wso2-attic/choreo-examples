@@ -1,0 +1,11 @@
+[container.image]
+name="recommendation-service"
+repository="wso2inc"
+tag="v0.1.0"
+
+[cloud.deployment]
+internal_domain_name="recommendation-service"
+
+[[cloud.config.files]]
+file="./k8s/Config.toml"
+name="recommend-config" 

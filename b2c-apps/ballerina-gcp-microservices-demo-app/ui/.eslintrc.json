@@ -1,0 +1,56 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "standard"
+    ],
+    "overrides": [],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "ignorePatterns": [
+        "**/*/*.css"
+    ],
+    "rules": {
+        "semi": [
+            2,
+            "always"
+        ],
+        "space-before-function-paren": "off",
+        "react/self-closing-comp": [
+            "error",
+            {
+                "component": true,
+                "html": true
+            }
+        ],
+        "indent": [
+            "error",
+            4
+        ],
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-fragments": [
+            "error",
+            "syntax"
+        ],
+        "react/jsx-wrap-multilines": [
+            "error",
+            {
+                "declaration": "parens",
+                "assignment": "parens",
+                "return": "parens",
+                "arrow": "parens",
+                "condition": "ignore",
+                "logical": "ignore",
+                "prop": "ignore"
+            }
+        ]
+    }
+}

@@ -1,0 +1,11 @@
+[container.image]
+name="currency-service"
+repository="wso2inc"
+tag="v0.1.0"
+
+[[container.copy.files]]
+sourceFile="./data/currency_conversion.json"
+target="/home/ballerina/data/currency_conversion.json"
+
+[cloud.deployment]
+internal_domain_name="currency-service"

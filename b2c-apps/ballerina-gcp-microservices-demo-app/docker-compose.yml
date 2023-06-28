@@ -1,0 +1,147 @@
+version: '3.1'
+
+services:
+  jaeger:
+    image: jaegertracing/opentelemetry-all-in-one:latest
+    ports:
+      - 16686:16686
+      - 13133:13133
+      - 55680:55680
+  ads:
+    image: wso2inc/ads-service:v0.1.0
+    volumes:
+      - type: bind
+        source: ./adservice/docker/Config.toml
+        target: /home/ballerina/Config.toml
+    links:
+      - jaeger
+    depends_on:
+      - jaeger
+  cart:
+    image: wso2inc/cart-service:v0.1.0 #add redis
+    volumes:
+      - type: bind
+        source: ./cartservice/docker/Config.toml
+        target: /home/ballerina/Config.toml
+    links:
+      - jaeger
+    depends_on:
+      - jaeger
+  checkout:
+    image: wso2inc/checkout-service:v0.1.0
+    volumes:
+      - type: bind
+        source: ./checkoutservice/docker/Config.toml
+        target: /home/ballerina/Config.toml
+    links:
+      - catalog
+      - cart
+      - currency
+      - shipping
+      - payment
+      - email
+      - jaeger
+    depends_on:
+      - catalog
+      - cart
+      - currency
+      - shipping
+      - payment
+      - email
+      - jaeger
+  currency:
+    image: wso2inc/currency-service:v0.1.0
+    volumes:
+      - type: bind
+        source: ./currencyservice/docker/Config.toml
+        target: /home/ballerina/Config.toml
+    links:
+      - jaeger
+    depends_on:
+      - jaeger
+  email:
+    image: wso2inc/email-service:v0.1.0
+    volumes:
+      - type: bind
+        source: ./emailservice/ObserveConfig.toml
+        target: /home/ballerina/ObserveConfig.toml
+    secrets:
+      - source: email_config  
+        target: /home/ballerina/GmailConfig.toml
+    environment:
+      - BAL_CONFIG_FILES=/home/ballerina/ObserveConfig.toml:/home/ballerina/GmailConfig.toml
+    links:
+      - jaeger
+    depends_on:
+      - jaeger
+  frontend:
+    image: wso2inc/frontend-service:v0.1.0
+    volumes:
+      - type: bind
+        source: ./frontend/docker/Config.toml
+        target: /home/ballerina/Config.toml
+    ports:
+      - 9098:9098
+    links:
+      - catalog
+      - cart
+      - recommendation
+      - currency
+      - shipping
+      - checkout
+      - ads
+      - jaeger
+    depends_on:
+      - catalog
+      - cart
+      - recommendation
+      - currency
+      - shipping
+      - checkout
+      - ads
+      - jaeger
+  payment:
+    image: wso2inc/payment-service:v0.1.0
+    volumes:
+      - type: bind
+        source: ./paymentservice/docker/Config.toml
+        target: /home/ballerina/Config.toml
+    links:
+      - jaeger
+    depends_on:
+      - jaeger
+  catalog:
+    image: wso2inc/catalog-service:v0.1.0
+    volumes:
+      - type: bind
+        source: ./productcatalogservice/docker/Config.toml
+        target: /home/ballerina/Config.toml
+    links:
+      - jaeger
+    depends_on:
+      - jaeger
+  recommendation:
+    image: wso2inc/recommendation-service:v0.1.0
+    volumes:
+      - type: bind
+        source: ./recommendationservice/docker/Config.toml
+        target: /home/ballerina/Config.toml
+    links:
+      - catalog
+      - jaeger
+    depends_on:
+      - catalog
+      - jaeger
+  shipping:
+    image: wso2inc/shipping-service:v0.1.0
+    volumes:
+      - type: bind
+        source: ./shippingservice/docker/Config.toml
+        target: /home/ballerina/Config.toml
+    links:
+      - jaeger
+    depends_on:
+      - jaeger
+secrets:
+    email_config:
+      file: ./emailservice/GmailConfig.toml

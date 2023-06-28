@@ -1,0 +1,11 @@
+[container.image]
+name="frontend-service"
+repository="wso2inc"
+tag="v0.1.0"
+
+[cloud.deployment]
+internal_domain_name="frontend-service"
+
+[[cloud.config.files]]
+file="./k8s/Config.toml"
+name="frontend-config" 
