@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/HelloWorld" name="HelloWorld" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" url-mapping="/integration">
+        <inSequence>
+            <payloadFactory media-type="json">
+                <format>{"Hello":"Integration"}</format>
+                <args/>
+            </payloadFactory>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>
