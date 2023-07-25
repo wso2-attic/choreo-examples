@@ -17,6 +17,5 @@
 import axios from "axios";
 
 export const getReadingListInstance = () => {
-  let baseUrl = window.config.choreoApiUrl;
-  return axios.create({ baseURL: baseUrl });
+  return axios.create({ baseURL: window.config.choreoApiUrl });
 };
