@@ -41,7 +41,7 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
             if (account) {
                 token.accessToken = account.access_token;
                 // Session token size is going beyond 4k when ID token is added. Hence commenting it out.
-                // token.idToken = account.id_token;
+                //token.idToken = account.id_token;
                 token.scope = account.scope;
                 token.user = profile;
             }
@@ -72,15 +72,15 @@ const wso2ISProvider = (req: NextApiRequest, res: NextApiResponse) => NextAuth(r
                 session.user = getLoggedUserFromProfile(token.user);
                 session.orgId = getOrgId(session.idToken);
                 session.orgName = getOrgName(session.idToken);
-                session.orginalIdToken = token.idToken;
+                session.orginalIdToken = orgSession.id_token.toString();
 
                 const groupsList = token.user.groups;
 
                 if (groupsList == null) {
                     session.group = "petOwner";
-                } else if (groupsList.some(x => x.toLowerCase() == "doctor")) {
+                } else if (groupsList.some(x => x.toLowerCase() === "doctor")) {
                     session.group = "doctor";
-                } else if (groupsList.some(x => x.toLowerCase() == "admin")) {
+                } else if (groupsList.some(x => x.toLowerCase() === "admin")) {
                     session.group = "admin";
                 } else {
                     session.group = "petOwner";
