@@ -1,8 +1,7 @@
 import ballerina/http;
 import ballerina/io;
-import rukshanpremathunga/edifact.d03a.supplychain.mORDERS as mORDERS;
-import rukshanpremathunga/edifact.d03a.supplychain.mORDRSP as mORDRSP;
-import ballerina/edi;
+import rukshanpremathunga/edifact.d03a.supplychain.mORDERS;
+import rukshanpremathunga/edifact.d03a.supplychain.mORDRSP;
 
 public type SupplierRequest record {|
     string buyerName?;
@@ -42,13 +41,8 @@ service / on new http:Listener(8090) {
             return response;
         } else {
 
-            edi:EdiSchema schema = check mORDERS:getSchema();
-            schema.delimiters.segment = "'";
-            schema.delimiters.'field = "+";
-            schema.delimiters.component = ":";
-
             //  transformation and data mapping : process EDI message request
-            mORDERS:EDI_ORDERS_Purchase_order_message purchaseOrder = check mORDERS:fromEdiStringWithSchema(ediMsg, schema);
+            mORDERS:EDI_ORDERS_Purchase_order_message purchaseOrder = check mORDERS:fromEdiString(ediMsg);
             mORDERS:BEGINNING_OF_MESSAGE_Type beginningOfMessage = purchaseOrder.BEGINNING_OF_MESSAGE;
             mORDERS:DATE_TIME_PERIOD_Type[] dateTimePeriod = purchaseOrder.DATE_TIME_PERIOD;
             mORDERS:Segment_group_1_GType[] references = purchaseOrder.Segment_group_1;
