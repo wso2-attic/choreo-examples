@@ -55,7 +55,8 @@ service /readinglist on new http:Listener(9090) {
         map<Book>|http:BadRequest usersBooks = check getUsersBooks(headers);
         if (usersBooks is map<Book>) {
             usersBooks[bookId] = {...newBook, id: bookId};
-            return <http:Created>{};
+            map<string> locationHeader = {"Location": "/readinglist/books/" + bookId};
+            return <http:Created>{headers: locationHeader};
         }
         return <http:BadRequest>usersBooks;
     }
