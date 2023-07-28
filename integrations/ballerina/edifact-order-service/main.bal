@@ -8,7 +8,7 @@ public type SupplierRequest record {|
     string date?;
     string productIdentifier;
     int productQty;
-    string msgTypes;
+    string msgType;
 |};
 
 public type SupplierResponse record {|
@@ -72,12 +72,12 @@ service / on new http:Listener(8090) {
                 date: orderDate,
                 productIdentifier: productIdentifier,
                 productQty: productQty,
-                msgTypes: msgTypeId
+                msgType: msgTypeId
             };
 
             // communicate with the supplier
             io:println("Buyer Request: " + supplierRequest.toString());
-            http:Client supplierService = check new ("http://localhost:9090/supplier");
+            http:Client supplierService = check new ("https://samples.choreoapps.dev/supplier");
             SupplierResponse supplierResponse = check supplierService->post("/", supplierRequest);
             io:println("Supplier Response: " + supplierResponse.toString());
 
