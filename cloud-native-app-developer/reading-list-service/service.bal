@@ -49,7 +49,7 @@ service /readinglist on new http:Listener(9090) {
     }
 
     resource function post books(http:Headers headers,
-                                 @http:Payload BookItem newBook) returns http:Created|http:BadRequest|error {
+            @http:Payload BookItem newBook) returns http:Created|http:BadRequest|error {
 
         string bookId = uuid:createType1AsString();
         map<Book>|http:BadRequest usersBooks = check getUsersBooks(headers);
@@ -60,8 +60,28 @@ service /readinglist on new http:Listener(9090) {
         return <http:BadRequest>usersBooks;
     }
 
+    resource function get books/[string bookId](http:Headers headers) returns http:NotFound|http:BadRequest|Book|error {
+        
+        //Get the booklist that belongs to the logged in user.
+        map<Book>|http:BadRequest usersBooks = check getUsersBooks(headers);
+        if (usersBooks is map<Book>) {
+            //Iterate the booklist to find book with matching id.
+            foreach Book book in usersBooks {
+                if (book.id == bookId) {
+                    //Return matched book.
+                    return book;
+                }
+            }
+            //Return 404 not found since matching book hasn't been found.
+            return <http:NotFound>{};
+        }
+        else {
+            return <http:BadRequest>{};
+        }
+    }
+
     resource function delete books(http:Headers headers,
-                                   string id) returns http:Ok|http:BadRequest|error? {
+            string id) returns http:Ok|http:BadRequest|error? {
         map<Book>|http:BadRequest usersBooks = check getUsersBooks(headers);
         if (usersBooks is map<Book>) {
             _ = usersBooks.remove(id);
@@ -69,26 +89,27 @@ service /readinglist on new http:Listener(9090) {
         }
         return <http:BadRequest>usersBooks;
     }
+
 }
 
 // This function is used to get the books of the user who is logged in.
 // User information is extracted from the JWT token.
 function getUsersBooks(http:Headers headers) returns map<Book>|http:BadRequest|error {
-        string|error jwtAssertion = headers.getHeader("x-jwt-assertion");
-        if (jwtAssertion is error) {
-            http:BadRequest badRequest = {
-                body: {
-                    "error": "Bad Request",
-                    "error_description": "Error while getting the JWT token"
-                }
-            };
-            return badRequest;
-        }
-
-        [jwt:Header, jwt:Payload] [_, payload] = check jwt:decode(jwtAssertion);
-        string username = payload.sub is string ? <string>payload.sub : DEFAULT_USER;
-        if (books[username] is ()) {
-            books[username] = {};
-        }
-        return <map<Book>>books[username];
+    string|error jwtAssertion = headers.getHeader("x-jwt-assertion");
+    if (jwtAssertion is error) {
+        http:BadRequest badRequest = {
+            body: {
+                "error": "Bad Request",
+                "error_description": "Error while getting the JWT token"
+            }
+        };
+        return badRequest;
     }
+
+    [jwt:Header, jwt:Payload] [_, payload] = check jwt:decode(jwtAssertion);
+    string username = payload.sub is string ? <string>payload.sub : DEFAULT_USER;
+    if (books[username] is ()) {
+        books[username] = {};
+    }
+    return <map<Book>>books[username];
+}
