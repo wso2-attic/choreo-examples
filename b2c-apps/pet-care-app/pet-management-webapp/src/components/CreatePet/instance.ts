@@ -18,10 +18,8 @@
 
 import { initInstance } from "../../pages/instance";
 import { getConfig } from "../../util/getConfig";
-//import { default as authConfig } from "../../config.json";
 
 export const getPetInstance = () => {
-  //let conf = authConfig.resourceServerURL;
   let conf =  getConfig().resourceServerURL;
   return initInstance(conf);
 };
