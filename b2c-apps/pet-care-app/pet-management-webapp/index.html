@@ -1,4 +1,4 @@
-/**
+<!--
  * Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
@@ -14,14 +14,38 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations
  * under the License.
- */
+ -->
 
-import { initInstance } from "../../pages/instance";
-import { getConfig } from "../../util/getConfig";
-//import { default as authConfig } from "../../config.json";
+<!DOCTYPE html>
+<html>
 
-export const getPetInstance = () => {
-  //let conf = authConfig.resourceServerURL;
-  let conf =  getConfig().resourceServerURL;
-  return initInstance(conf);
-};
+<head>
+    <meta charset="utf-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+        name="referrer"
+        content="no-referrer"
+    />
+    <script src="/config.js"></script>
+
+    <title>Pet Management App</title>
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="favicon.ico"
+    >
+</head>
+
+<body>
+    <noscript>
+        You need to enable JavaScript to run this app.
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/app.tsx"></script>
+</body>
+
+</html>
