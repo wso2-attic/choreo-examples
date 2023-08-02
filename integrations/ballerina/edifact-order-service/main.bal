@@ -1,7 +1,7 @@
 import ballerina/http;
 import ballerina/io;
-import rukshanpremathunga/edifact.d03a.supplychain.mORDERS;
-import rukshanpremathunga/edifact.d03a.supplychain.mORDRSP;
+import ballerinax/edifact.d03a.supplychain.mORDERS;
+import ballerinax/edifact.d03a.supplychain.mORDRSP;
 
 public type SupplierRequest record {|
     string buyerName?;
@@ -40,7 +40,6 @@ service / on new http:Listener(8090) {
             response.setPayload("Invalid message type");
             return response;
         } else {
-
             //  transformation and data mapping : process EDI message request
             mORDERS:EDI_ORDERS_Purchase_order_message purchaseOrder = check mORDERS:fromEdiString(ediMsg);
             mORDERS:BEGINNING_OF_MESSAGE_Type beginningOfMessage = purchaseOrder.BEGINNING_OF_MESSAGE;
@@ -90,6 +89,7 @@ service / on new http:Listener(8090) {
                     Section_identification: ""
                 }
             };
+
             if (supplierResponse.isConfirmed == true) {
                 responseEdiMsg.Segment_group_26 = [
                     {
