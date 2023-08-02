@@ -240,7 +240,7 @@ You can skip this step if you are new to Choreo. If not, follow the below steps 
 
 ## Step 3.2: Create a web application component
 
-In this step, you are going to deploy the pet management front-end application in Choreo.
+In this step, you are going to create the pet management front-end application in Choreo.
 
 1. Navigate to **Choreo Console**.
 2. Navigate to the **Components** section from the left navigation menu.
