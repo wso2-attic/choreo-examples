@@ -6,7 +6,7 @@ Electronic Data Interchange (EDI) revolutionizes business communication by enabl
 Ballerina emerges as the solution to handle EDIFACT data effortlessly. With its EDIFACT modules, Ballerina allows parsing EDI messages without manual schema creation, making data transformation and mapping effortless.
 
 ## What's in this directory 
-This directory contains Ballerina implementation of the `Integration Service` for bellow describe scenario.
+This directory contains Ballerina implementation of the `Integration Service` for the below described scenario.
 
 ## Prerequisites
 - Ballerina version `2201.7.0` or higher
@@ -18,7 +18,7 @@ This directory contains Ballerina implementation of the `Integration Service` fo
 `Foo Corp` represents a company that utilizes the EDIFACT format for its B2B communication. They will interact with Bar Industries by sending EDI messages (ORDERS) via HTTP requests.
 
 **Bar Industries:**
-`Bar Industries` is another business entity that operates with a backend system designed to accept JSON input and respond with JSON output (`JSON Backend`). For the purpose of this tutorial, this backend is already deployed to a public URL, so implementing it is beyond the scope of our current focus. Instead of that, Bar Industries exposes their JSON backend via an `Integration service`. Code in this directory is the Ballerina implementation of this Integration service.
+`Bar Industries` is another business entity that operates with a backend system designed to accept JSON input and respond with JSON output (`JSON Backend`). For the purpose of this tutorial, this backend is already deployed to a public URL, so implementing it is beyond the scope of our current focus. Instead of that, Bar Industries exposes their JSON backend via an `Integration service`.
 
 ## Integration Flow
 1. `Foo Corp` sends an HTTP POST request containing an EDIFACT message (ORDERS) to the Integration service.
