@@ -1,4 +1,4 @@
-<!--
+/**
  * Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
@@ -14,36 +14,34 @@
  * KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations
  * under the License.
- -->
+ */
 
-<!DOCTYPE html>
-<html>
+interface Config {
+    baseUrl: string;
+    clientID: string;
+    scope: string[];
+    signInRedirectURL: string;
+    signOutRedirectURL: string;
+    resourceServerURL: string;
+  }
 
-<head>
-    <meta charset="utf-8" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta
-        name="referrer"
-        content="no-referrer"
-    />
+declare global {
+    interface Window {
+      config: Config;
+    }
+}  
 
-    <title>Pet Management App</title>
+const authConfig = {
+    baseUrl: window.config.baseUrl,
+    clientID: window.config.clientID,
+    signInRedirectURL: window.config.signInRedirectURL,
+    signOutRedirectURL: window.config.signOutRedirectURL,
+    resourceServerURL: window.config.resourceServerURL,
+    scope: ["openid", "profile", "email"],
+  };
 
-    <link
-        rel="icon"
-        type="image/x-icon"
-        href="favicon.ico"
-    >
-</head>
+export function getConfig() {
+    return authConfig;
+}
 
-<body>
-    <noscript>
-        You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-</body>
 
-</html>
