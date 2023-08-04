@@ -574,8 +574,12 @@ A management application must be created in order to use the Asagrdeo management
 5. Click the **Shared Access** tab.
 6. Select **Share with only selected sub-organizations** from the options and tick `City Vet Hospital`. Then click **Update**.
 7. Click the **Protocol** tab.
-8. Scroll down to the **Allowed grant types** and tick **Organization Switch**.
-9. Keep the rest of the default configurations and click **Update**.
+8. Scroll down to the **Allowed grant types** and tick **Code** and **Organization Switch**.
+9. Use **Web App URL** in the step 3.2 as an **Authorized redirect URLs** and **Allowed origins**.
+10. Additionally, as an **Authorized redirect URLs**, enter the following URL after updating the **Web App URL** with the right value.
+
+     `{Web_APP_URL}/api/auth/callback/wso2isAdmin`
+11. Keep the rest of the default configurations and click **Update**.
 
 ## Step 4.4: Enable features in Asgardeo
 
@@ -743,8 +747,6 @@ A management application must be created in order to use the Asagrdeo management
 
 Now you can login as the Doctor and perform doctor related tasks in the Pet Care Application.
 
-> Note: Due to an issue with the sub organization sign out, please use a private window to log in to the Pet Care Application.
-
 1. Access the Pet Care Application and click on the **Sign In** to get started.
 2. You will get a **Sign In** prompt and click on the **Sign In With Organization Login** at the bottom of the menu.
 3. Provide the `City Vet Hospital` as the Name of the Organization and click **Submit**.
@@ -758,8 +760,6 @@ Now you can login as the Doctor and perform doctor related tasks in the Pet Care
 ## Step 5.5: Perform Pet Owner related tasks within the Pet Care Application
 
 Now you can login as the Pet Owner and perform Pet Owner related tasks in the Pet Care Application.
-
-> Note: Due to an issue with the sub organization sign out, please use a private window to log in to the Pet Care Application.
 
 1. Access the Pet Care Application and click on the **Sign In** to get started.
 2. You will get a **Sign In** prompt and click on the **Sign In With Organization Login** at the bottom of the menu.
