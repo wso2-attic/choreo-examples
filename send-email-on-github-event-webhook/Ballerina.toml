@@ -1,5 +1,5 @@
 [package]
-org = "wso2"
+org = "shaninew"
 name = "send_email_on_github_event_webhook"
 version = "0.1.0"
 distribution = "2201.7.0"
