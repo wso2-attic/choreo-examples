@@ -15,9 +15,9 @@ Create a `Config.toml` file and configure the following properties to match your
 
 ```toml
 [wso2.kakfa.integration.kafkaConfig]
-url = "KAFKA_SERVER_URL"
-username = "KAFKA_USERNAME"
-password = "KAFKA_PASSWORD"
+kafkaEndpoint = "KAFKA_SERVER_URL"
+kafkaUsername = "KAFKA_USERNAME"
+kafkaPass = "KAFKA_PASSWORD"
 ```
 > If you are using Choreo, you can provide values for configuarables via the Choreo Console.
 
