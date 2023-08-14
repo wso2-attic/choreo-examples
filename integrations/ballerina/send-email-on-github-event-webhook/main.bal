@@ -6,6 +6,7 @@ import ballerina/http;
 
 configurable github:ListenerConfig config = ?;
 configurable string toEmail = ?;
+
 listener http:Listener httpListener = new (8090);
 listener github:Listener webhookListener = new (config, httpListener);
 
