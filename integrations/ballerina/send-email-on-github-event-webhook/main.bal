@@ -28,7 +28,6 @@ service github:IssuesService on webhookListener {
         //Not Implemented
     }
     remote function onLabeled(github:IssuesEvent payload) returns error? {
-        //Not Implemented
         github:Label? label = payload.label;
         if label is github:Label && label.name == "bug" {
 
