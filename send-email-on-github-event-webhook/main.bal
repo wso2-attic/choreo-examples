@@ -4,7 +4,6 @@ import ballerinax/trigger.github;
 import ballerina/http;
 
 //configurable string toEmail = ?;
-
 configurable github:ListenerConfig config = ?;
 
 listener http:Listener httpListener = new (8090);
@@ -33,7 +32,7 @@ service github:IssuesService on webhookListener {
         if label is github:Label && label.name == "bug" {
 
             sendemail:Client sendemailEp = check new ();
-            string sendEmailResponse = check sendemailEp->sendEmail(toEmail, subject = "Bug reported: " + payload.issue.title, body = "A bug has been reported. Please check " + payload.issue.html_url);
+            string sendEmailResponse = check sendemailEp->sendEmail("",subject = "Bug reported: " + payload.issue.title, body = "A bug has been reported. Please check " + payload.issue.html_url);
             log:printInfo("Email sent " + sendEmailResponse);
         } else {
 
