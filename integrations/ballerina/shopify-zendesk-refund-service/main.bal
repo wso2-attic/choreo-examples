@@ -43,7 +43,7 @@ service /refund on new http:Listener(8090) {
         shopifyAdmin:OrderObject|error orderDetail = shopifyClient->getOrder(orderId);
         if (orderDetail is error) {
             log:printError("Failed to get order details", err = orderDetail.toString());
-            return getResponse(http:STATUS_NOT_FOUND, "Invalid order id");
+            return getResponse(http:STATUS_NOT_FOUND, "Failed to get order details");
         } else if (orderDetail["order"]["financial_status"] !== "paid") {
             return getResponse(http:STATUS_BAD_REQUEST, "Order is not paid");
         } else {
