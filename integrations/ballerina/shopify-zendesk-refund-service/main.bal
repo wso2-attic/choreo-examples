@@ -2,6 +2,7 @@ import ballerinax/shopify.admin as shopifyAdmin;
 import ballerinax/zendesk.support as zenSupport;
 import ballerina/http;
 import wso2/choreo.sendemail;
+import ballerina/log;
 
 configurable string shopifyAccessToken = ?;
 configurable string shopifyStoreName = ?;
@@ -41,6 +42,7 @@ service /refund on new http:Listener(8090) {
         // validate order
         shopifyAdmin:OrderObject|error orderDetail = shopifyClient->getOrder(orderId);
         if (orderDetail is error) {
+            log:printError("Failed to get order details", err = orderDetail.toString());
             return getResponse(http:STATUS_NOT_FOUND, "Invalid order id");
         } else if (orderDetail["order"]["financial_status"] !== "paid") {
             return getResponse(http:STATUS_BAD_REQUEST, "Order is not paid");
@@ -64,6 +66,7 @@ service /refund on new http:Listener(8090) {
             };
             shopifyAdmin:RefundObject|error refund = shopifyClient->createRefundForOrder(orderId, createRefund);
             if (refund is error) {
+                log:printError("Failed to create refund request", err = refund.toString());
                 return getResponse(http:STATUS_INTERNAL_SERVER_ERROR, "Failed to create refund request");
             } else {
 
@@ -78,6 +81,7 @@ service /refund on new http:Listener(8090) {
                     }
                 });
                 if (ticket is error) {
+                    log:printError("Failed to create zendesk ticket", err = ticket.toString());
                     return getResponse(http:STATUS_INTERNAL_SERVER_ERROR, "Failed to create zendesk ticket");
                 } else {
 
