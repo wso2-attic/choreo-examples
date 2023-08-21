@@ -29,7 +29,7 @@ zenSupport:Client zendeskClient = check new (zendeskConfig, serviceUrl = "https:
 sendemail:Client emailClient = check new ();
 
 // helper function to prepare HTTP response
-function getResponse(int statusCode, string|json payload) returns http:Response {
+function createResponse(int statusCode, string|json payload) returns http:Response {
     http:Response response = new;
     response.statusCode = statusCode;
     response.setPayload(payload);
@@ -43,9 +43,9 @@ service /refund on new http:Listener(8090) {
         shopifyAdmin:OrderObject|error orderDetail = shopifyClient->getOrder(orderId);
         if (orderDetail is error) {
             log:printError("Failed to get order details", err = orderDetail.toString());
-            return getResponse(http:STATUS_NOT_FOUND, "Failed to get order details");
+            return createResponse(http:STATUS_NOT_FOUND, "Failed to get order details");
         } else if (orderDetail["order"]["financial_status"] !== "paid") {
-            return getResponse(http:STATUS_BAD_REQUEST, "Order is not paid");
+            return createResponse(http:STATUS_BAD_REQUEST, "Order is not paid");
         } else {
 
             // initiate a refund
@@ -67,7 +67,7 @@ service /refund on new http:Listener(8090) {
             shopifyAdmin:RefundObject|error refund = shopifyClient->createRefundForOrder(orderId, createRefund);
             if (refund is error) {
                 log:printError("Failed to create refund request", err = refund.toString());
-                return getResponse(http:STATUS_INTERNAL_SERVER_ERROR, "Failed to create refund request");
+                return createResponse(http:STATUS_INTERNAL_SERVER_ERROR, "Failed to create refund request");
             } else {
 
                 // create Zendesk ticket
@@ -82,7 +82,7 @@ service /refund on new http:Listener(8090) {
                 });
                 if (ticket is error) {
                     log:printError("Failed to create zendesk ticket", err = ticket.toString());
-                    return getResponse(http:STATUS_INTERNAL_SERVER_ERROR, "Failed to create zendesk ticket");
+                    return createResponse(http:STATUS_INTERNAL_SERVER_ERROR, "Failed to create zendesk ticket");
                 } else {
 
                     string emailBody = "Your refund request has been received" + "\nOrder ID: " + orderId + "\nTicket ID: " + ticket["ticket"]["id"].toString() +
@@ -96,7 +96,7 @@ service /refund on new http:Listener(8090) {
                         ticketId: ticket["ticket"]["id"],
                         refundId: refund["refund"]["id"]
                     };
-                    return getResponse(http:STATUS_OK, payload);
+                    return createResponse(http:STATUS_OK, payload);
                 }
             }
         }
