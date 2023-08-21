@@ -85,8 +85,8 @@ service /refund on new http:Listener(8090) {
                     return getResponse(http:STATUS_INTERNAL_SERVER_ERROR, "Failed to create zendesk ticket");
                 } else {
 
-                    string emailBody = "<html><body><table><tr><th>Order ID</th><th>Ticket ID</th><th>Refund ID</th></tr><tr><td>" + orderId + "</td><td>" + ticket["ticket"]["id"].toString() +
-                    "</td><td>" + refund["refund"]["id"].toString() + "</td></tr></table></body></html>";
+                    string emailBody = "Your refund request has been received" + "\nOrder ID: " + orderId + "\nTicket ID: " + ticket["ticket"]["id"].toString() +
+                    "\nRefund ID: " + refund["refund"]["id"].toString();
 
                     string _ = check emailClient->sendEmail(userEmail, "Refund Requested", emailBody);
 
