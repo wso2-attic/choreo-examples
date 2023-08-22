@@ -76,7 +76,7 @@ service /refund on new http:Listener(8090) {
                         subject: "Shopify Refund Request",
                         comment: {
                             body: "Refund request for Shopify order:" + orderId + " by user:" + userEmail + ". Reason: "
-                            + check reason.getTextPayload() + ". Refund Id: "
+                            + check reason.getTextPayload() + ". Refund Id: " + refund["refund"]["id"].toString()
                         }
                     }
                 });
