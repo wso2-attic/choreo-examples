@@ -14,7 +14,7 @@ To work with these examples:
 1. **Fork the Main Repository**: If you haven't already, fork the main Choreo Examples repository to your GitHub account.
 2. **Clone Your Forked Repository**: 
    ```
-   git clone https://github.com/wso2/choreo-examples.git
+   git clone [URL of your forked repository]
    ```
 3. **Navigate to This Directory**: Change your directory to the MI-based integration examples folder.
    ```
