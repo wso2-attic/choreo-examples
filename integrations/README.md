@@ -23,7 +23,7 @@ To engage with these examples:
 1. **Fork the Repository**: Begin by forking this repository to your GitHub account.
 2. **Clone Your Forked Repository**: 
    ```
-   git clone https://github.com/wso2/choreo-examples.git
+   git clone [URL of your forked repository]
    ```
 
 ### Contribution & Feedback
