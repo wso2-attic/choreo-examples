@@ -1,6 +1,16 @@
 # Pet Management Application User Guide
 
-The Pet Management Application is a B2C (Business-to-Consumer) application that allows users to easily register and manage their pets. Users can enter vital information such as their pets' basic information and vaccination records into the app. They can then set up email alerts for their pets' upcoming vaccination dates. This guide will show you how to use [Choreo](https://wso2.com/choreo/) to expose a service endpoint as a REST API and safely consume the API from a web application. To secure user authentication to the web application and add CIAM features to your web application, you will use [Asgardeo](https://wso2.com/asgardeo/), WSO2's SaaS Customer IAM (CIAM) solution.
+The Pet Management Application is a B2C (Business-to-Consumer) application that allows users to easily register and manage their pets. Users can enter vital information such as their pets' basic information and vaccination records into the app. They can then set up email alerts for their pets' upcoming vaccination dates. The solution is based on [Ballerina](https://ballerina.io/), [Choreo](https://wso2.com/choreo/) and [Asgardeo](https://wso2.com/asgardeo/). 
+
+- [Ballerina](https://ballerina.io/) is an open-source language for cloud-native app development. It simplifies building microservices-based applications with modern syntax, built-in network support, service discovery, distributed transactions, and security features.
+
+- [Choreo](https://wso2.com/choreo/), a SaaS application development suite, streamlines integration creation and management in cloud-native environments. It empowers developers with tools to connect, orchestrate, and secure applications and services, expediting digital experience development.
+
+- [Asgardeo](https://wso2.com/asgardeo/), a Customer IAM (CIAM) solution by WSO2, offers extensive features for managing user identities, access privileges, and security in digital ecosystems. It caters to both B2C and B2B applications.
+
+In this solution, the pet management service is developed using Ballerina and deployed within Choreo. It's then made available as an API for use by various applications. The Pet management web application, which is built using React JS, is also hosted within Choreo using its hosting capabilities Asgardeo handles user authentication and leverages its Customer Identity and Access Management (CIAM) capabilities to enrich the overall user experience.
+
+![Alt text](readme-resources/pet-care-solution.png?raw=true "Pet Care Solution")
 
 This guide walks you through the following steps:
 
