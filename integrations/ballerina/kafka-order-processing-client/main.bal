@@ -1,4 +1,4 @@
-import ballerina/io;
+import ballerina/log;
 import ballerinax/kafka;
 
 configurable string groupId = "order-consumers";
@@ -40,15 +40,15 @@ service on new kafka:Listener(kafkaEndpoint, consumerConfigs) {
     private final kafka:Producer orderProducer;
 
     function init() returns error? {
-        io:println("Order consumer service configs: " , consumerConfigs.auth , kafkaEndpoint);
         self.orderProducer = check new (kafkaEndpoint, producerConfigs);
+        log:printInfo("Order consumer service started");
     }
 
     remote function onConsumerRecord(Order[] orders) returns error? {
         from Order 'order in orders
             where 'order.paymentStatus == SUCCESS
             do {
-                io:println("Order received: " + 'order.desc);
+                log:printInfo("Order received: " + 'order.desc);
                 check self.orderProducer->send({
                     topic: paymentSuccessOrders,
                     value: 'order
