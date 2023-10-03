@@ -11,7 +11,7 @@ This integration project enables you to produce and consume messages from a Kafk
 ## Deploying in Choreo
 
 1. Fork this repository.
-2. Create service component in Choreo under the Micro Integrator preset.
+2. Create a service component in Choreo under the WSO2 MI build preset.
 3. Add the following environment variables to the service component:
     - `KAFKA_URL`: The URL of the Kafka broker.
     - `KAFKA_JAAS_CONFIG`: The JAAS configuration for the Kafka broker. In the format `org.apache.kafka.common.security.plain.PlainLoginModule required username="<username>" password="<password>";`.
