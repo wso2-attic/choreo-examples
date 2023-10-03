@@ -1,4 +1,4 @@
-# Integration Studio - Kafka Producer Consumer Integration
+# WSO2 MI - Kafka Producer Consumer Integration
 
 This integration project enables you to produce and consume messages from a Kafka topic. It consists of a Kafka producer and a Kafka consumer. The producer sends order payloads to a specified Kafka topic, and the consumer listens to the same topic, retrieving and logging the order payloads.
 
