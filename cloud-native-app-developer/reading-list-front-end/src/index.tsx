@@ -42,7 +42,7 @@ export default function App() {
   //   getBasicUserInfo,
   //   state,
   // } = useAuthContext();
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [signedIn, setSignedIn] = useState(false);
   const [user, setUser] = useState<any>(null);
 
@@ -68,6 +68,7 @@ export default function App() {
         console.log(userInfo);
         getReadingList();
       } else {
+        setIsAuthLoading(false);
         console.log("User has not signed in");
       }
   }, []);
