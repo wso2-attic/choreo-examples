@@ -17,6 +17,16 @@
 
 import { initInstance } from "../instance";
 
+declare global {
+  interface Window {
+    config: {
+      apiUrl: string;
+    };
+  }
+}
+
+const apiUrl = window?.config?.apiUrl ? window.config.apiUrl : "/";
+
 export const getReadingListInstance = () => {
-  return initInstance('/choreo-apis/zhxr/reading-list-svc/readinglist-a57/v1.0');
+  return initInstance(apiUrl);
 };
