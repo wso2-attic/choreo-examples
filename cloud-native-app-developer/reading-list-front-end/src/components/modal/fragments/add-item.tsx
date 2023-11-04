@@ -39,17 +39,16 @@ export default function AddItem(props: AddItemProps) {
   const [name, setName] = useState("");
   const [author, setAuthor] = useState("");
   const [status, setStatus] = useState(statuses[0]);
-  const { getAccessToken } = useAuthContext();
+  // const { getAccessToken } = useAuthContext();
 
   const handleOnSubmit = () => {
     async function setBooks() {
-      const accessToken = await getAccessToken();
       const payload: Book = {
         title: name,
         author: author,
         status: status.name,
       };
-      const response = await postBooks(accessToken, payload);
+      const response = await postBooks(payload);
       setIsOpen(false);
     }
     setBooks();
