@@ -22,7 +22,7 @@ import { Book } from "./api/books/types/book";
 import groupBy from "lodash/groupBy";
 import AddItem from "./components/modal/fragments/add-item";
 import { deleteBooks } from "./api/books/delete-books";
-import { BasicUserInfo, useAuthContext } from "@asgardeo/auth-react";
+// import { BasicUserInfo, useAuthContext } from "@asgardeo/auth-react";
 import { Dictionary } from "lodash";
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
 
@@ -44,23 +44,21 @@ export default function App() {
   // } = useAuthContext();
   const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
-  const [user, setUser] = useState<BasicUserInfo | null>(null);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    async function signInCheck() {
       const encodedUserInfo = sessionStorage.getItem("userInfo");
       if (encodedUserInfo !== null) {
+        console.log("encodedUserInfo: " + encodedUserInfo);
         var userInfo = JSON.parse(atob(encodedUserInfo));
         setSignedIn(true);
         setUser(userInfo);
         setIsAuthLoading(false);
         console.log(userInfo);
-        return true;
-      };
-  
-      const userInfoCookie =  Cookies.get('userinfo')
-      if (userInfoCookie) {
-        // We are in the callback from app gateway
+        getReadingList();
+      } else if (Cookies.get('userinfo')) {
+        const userInfoCookie =  Cookies.get('userinfo')
+        console.log("userInfoCookie: " + userInfoCookie);
         sessionStorage.setItem("userInfo", userInfoCookie);
         Cookies.remove('userinfo');
         var userInfo = JSON.parse(atob(userInfoCookie));
@@ -68,18 +66,10 @@ export default function App() {
         setUser(userInfo);
         setIsAuthLoading(false);
         console.log(userInfo);
-        return true;
-      }
-      return false;
-    }
-
-    signInCheck().then((res) => {
-      if (res) {
         getReadingList();
       } else {
         console.log("User has not signed in");
       }
-    });
   }, []);
 
   async function getReadingList() {
