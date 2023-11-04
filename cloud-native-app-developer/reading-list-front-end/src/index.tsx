@@ -140,6 +140,7 @@ export default function App() {
             <button
               className="float-right bg-[#5b86e5] p-2 rounded-md text-sm my-3 font-medium text-white"
               onClick={() => {
+                sessionStorage.removeItem("userInfo");
                 window.location.href = `/auth/logout?session_hint=${Cookies.get('session_hint')}`;
               }}
             >
