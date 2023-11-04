@@ -42,7 +42,7 @@ export default function App() {
   //   getBasicUserInfo,
   //   state,
   // } = useAuthContext();
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
   const [user, setUser] = useState<BasicUserInfo | null>(null);
 
