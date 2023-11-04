@@ -18,5 +18,5 @@
 import { initInstance } from "../instance";
 
 export const getReadingListInstance = () => {
-  return initInstance(import.meta.env.VITE_CHOREO_BACKEND_URL);
+  return initInstance('/choreo-apis/zhxr/reading-list-svc/readinglist-a57/v1.0');
 };
