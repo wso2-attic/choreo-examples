@@ -14,7 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-
+import Cookies from 'js-cookie';
 import React, { useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
 import { getBooks } from "./api/books/get-books";
@@ -34,51 +34,58 @@ export default function App() {
   const [readList, setReadList] = useState<Dictionary<Book[]> | null>(null);
   const [isAddItemOpen, setIsAddItemOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    signIn,
-    signOut,
-    getAccessToken,
-    isAuthenticated,
-    getBasicUserInfo,
-    state,
-  } = useAuthContext();
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
+  // const {
+  //   signIn,
+  //   signOut,
+  //   getAccessToken,
+  //   isAuthenticated,
+  //   getBasicUserInfo,
+  //   state,
+  // } = useAuthContext();
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [signedIn, setSignedIn] = useState(false);
   const [user, setUser] = useState<BasicUserInfo | null>(null);
 
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
   useEffect(() => {
     async function signInCheck() {
-      setIsAuthLoading(true);
-      await sleep(2000);
-      const isSignedIn = await isAuthenticated();
-      setSignedIn(isSignedIn);
-      setIsAuthLoading(false);
-      return isSignedIn;
+      const encodedUserInfo = sessionStorage.getItem("userInfo");
+      if (encodedUserInfo !== null) {
+        var userInfo = JSON.parse(atob(encodedUserInfo));
+        setSignedIn(true);
+        setUser(userInfo);
+        setIsAuthLoading(false);
+        console.log(userInfo);
+        return true;
+      };
+  
+      const userInfoCookie =  Cookies.get('userinfo')
+      if (userInfoCookie) {
+        // We are in the callback from app gateway
+        sessionStorage.setItem("userInfo", userInfoCookie);
+        Cookies.remove('userinfo');
+        var userInfo = JSON.parse(atob(userInfoCookie));
+        setSignedIn(true);
+        setUser(userInfo);
+        setIsAuthLoading(false);
+        console.log(userInfo);
+        return true;
+      }
+      return false;
     }
+
     signInCheck().then((res) => {
       if (res) {
         getReadingList();
-        getUser();
       } else {
         console.log("User has not signed in");
       }
     });
   }, []);
 
-  async function getUser() {
-    setIsLoading(true);
-    const userResponse = await getBasicUserInfo();
-    setUser(userResponse);
-    setIsLoading(false);
-  }
-
   async function getReadingList() {
     if (signedIn) {
       setIsLoading(true);
-      const accessToken = await getAccessToken();
-      getBooks(accessToken)
+      getBooks()
         .then((res) => {
           const grouped = groupBy(res.data, (item) => item.status);
           setReadList(grouped);
@@ -97,21 +104,10 @@ export default function App() {
   }, [isAddItemOpen]);
 
   const handleDelete = async (id: string) => {
-    const accessToken = await getAccessToken();
     setIsLoading(true);
-    await deleteBooks(accessToken, id);
+    await deleteBooks(id);
     getReadingList();
     setIsLoading(false);
-  };
-
-  const handleSignIn = async () => {
-    signIn()
-      .then(() => {
-        setSignedIn(true);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
   };
 
   if (isAuthLoading) {
@@ -122,7 +118,7 @@ export default function App() {
     return (
       <button
         className="float-right bg-black bg-opacity-20 p-2 rounded-md text-sm my-3 font-medium text-white"
-        onClick={handleSignIn}
+        onClick={() => {window.location.href="/auth/login"}}
       >
         Login
       </button>
@@ -153,7 +149,9 @@ export default function App() {
           >
             <button
               className="float-right bg-[#5b86e5] p-2 rounded-md text-sm my-3 font-medium text-white"
-              onClick={() => signOut()}
+              onClick={() => {
+                window.location.href = `/auth/logout?session_hint=${Cookies.get('session_hint')}`;
+              }}
             >
               Logout
             </button>
