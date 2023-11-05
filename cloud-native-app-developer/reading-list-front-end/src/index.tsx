@@ -22,7 +22,6 @@ import { Book } from "./api/books/types/book";
 import groupBy from "lodash/groupBy";
 import AddItem from "./components/modal/fragments/add-item";
 import { deleteBooks } from "./api/books/delete-books";
-// import { BasicUserInfo, useAuthContext } from "@asgardeo/auth-react";
 import { Dictionary } from "lodash";
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
 
@@ -34,14 +33,6 @@ export default function App() {
   const [readList, setReadList] = useState<Dictionary<Book[]> | null>(null);
   const [isAddItemOpen, setIsAddItemOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // const {
-  //   signIn,
-  //   signOut,
-  //   getAccessToken,
-  //   isAuthenticated,
-  //   getBasicUserInfo,
-  //   state,
-  // } = useAuthContext();
   const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [signedIn, setSignedIn] = useState(false);
   const [user, setUser] = useState<any>(null);
@@ -49,25 +40,21 @@ export default function App() {
   useEffect(() => {
     const encodedUserInfo = sessionStorage.getItem("userInfo");
     if (encodedUserInfo !== null) {
-      console.log("encodedUserInfo: " + encodedUserInfo);
       var userInfo = JSON.parse(atob(encodedUserInfo));
       setSignedIn(true);
       setUser(userInfo);
       setIsAuthLoading(false);
-      console.log(userInfo);
     } else if (Cookies.get('userinfo')) {
       const userInfoCookie = Cookies.get('userinfo')
-      console.log("userInfoCookie: " + userInfoCookie);
       sessionStorage.setItem("userInfo", userInfoCookie);
       Cookies.remove('userinfo');
       var userInfo = JSON.parse(atob(userInfoCookie));
       setSignedIn(true);
       setUser(userInfo);
       setIsAuthLoading(false);
-      console.log(userInfo);
     } else {
+      console.log("User is not signed in");
       setIsAuthLoading(false);
-      console.log("User has not signed in");
     }
   }, []);
 
@@ -76,8 +63,6 @@ export default function App() {
   }, [signedIn]);
 
   async function getReadingList() {
-    console.log("getReadingList");
-    console.log("signedIn: " + signedIn);
     if (signedIn) {
       setIsLoading(true);
       getBooks()
