@@ -9,8 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@asgardeo/auth-react": "^1.1.18",
-    "@asgardeo/token-exchange-plugin": "^0.1.6",
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
     "axios": "^1.2.0",
