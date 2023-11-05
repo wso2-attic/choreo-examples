@@ -47,41 +47,32 @@ export default function App() {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-      const checkSignedIn = async () => {
-        const encodedUserInfo = sessionStorage.getItem("userInfo");
-        if (encodedUserInfo !== null) {
-          console.log("encodedUserInfo: " + encodedUserInfo);
-          var userInfo = JSON.parse(atob(encodedUserInfo));
-          setSignedIn(true);
-          setUser(userInfo);
-          setIsAuthLoading(false);
-          console.log(userInfo);
-          return true;
-          // getReadingList();
-        } else if (Cookies.get('userinfo')) {
-          const userInfoCookie =  Cookies.get('userinfo')
-          console.log("userInfoCookie: " + userInfoCookie);
-          sessionStorage.setItem("userInfo", userInfoCookie);
-          Cookies.remove('userinfo');
-          var userInfo = JSON.parse(atob(userInfoCookie));
-          setSignedIn(true);
-          setUser(userInfo);
-          setIsAuthLoading(false);
-          console.log(userInfo);
-          return true;
-          // getReadingList();
-        } else {
-          setIsAuthLoading(false);
-          console.log("User has not signed in");
-          return false;
-        }
-      }
+    const encodedUserInfo = sessionStorage.getItem("userInfo");
+    if (encodedUserInfo !== null) {
+      console.log("encodedUserInfo: " + encodedUserInfo);
+      var userInfo = JSON.parse(atob(encodedUserInfo));
+      setSignedIn(true);
+      setUser(userInfo);
+      setIsAuthLoading(false);
+      console.log(userInfo);
+    } else if (Cookies.get('userinfo')) {
+      const userInfoCookie = Cookies.get('userinfo')
+      console.log("userInfoCookie: " + userInfoCookie);
+      sessionStorage.setItem("userInfo", userInfoCookie);
+      Cookies.remove('userinfo');
+      var userInfo = JSON.parse(atob(userInfoCookie));
+      setSignedIn(true);
+      setUser(userInfo);
+      setIsAuthLoading(false);
+      console.log(userInfo);
+    } else {
+      setIsAuthLoading(false);
+      console.log("User has not signed in");
+    }
+  }, []);
 
-      checkSignedIn().then(() => {
-        console.log("signedIn: " + signedIn);
-        getReadingList();
-      });
-
+  useEffect(() => {
+    getReadingList();
   }, [signedIn]);
 
   async function getReadingList() {
@@ -122,7 +113,7 @@ export default function App() {
     return (
       <button
         className="float-right bg-black bg-opacity-20 p-2 rounded-md text-sm my-3 font-medium text-white"
-        onClick={() => {window.location.href="/auth/login"}}
+        onClick={() => { window.location.href = "/auth/login" }}
       >
         Login
       </button>
@@ -211,11 +202,11 @@ export default function App() {
                       className={
                         isLoading
                           ? classNames(
-                              "rounded-xl bg-white p-3 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 animate-pulse"
-                            )
+                            "rounded-xl bg-white p-3 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2 animate-pulse"
+                          )
                           : classNames(
-                              "rounded-xl bg-white p-3 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
-                            )
+                            "rounded-xl bg-white p-3 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                          )
                       }
                     >
                       <ul>
