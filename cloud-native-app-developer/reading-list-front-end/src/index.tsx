@@ -47,30 +47,38 @@ export default function App() {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-      const encodedUserInfo = sessionStorage.getItem("userInfo");
-      if (encodedUserInfo !== null) {
-        console.log("encodedUserInfo: " + encodedUserInfo);
-        var userInfo = JSON.parse(atob(encodedUserInfo));
-        setSignedIn(true);
-        setUser(userInfo);
-        setIsAuthLoading(false);
-        console.log(userInfo);
-        getReadingList();
-      } else if (Cookies.get('userinfo')) {
-        const userInfoCookie =  Cookies.get('userinfo')
-        console.log("userInfoCookie: " + userInfoCookie);
-        sessionStorage.setItem("userInfo", userInfoCookie);
-        Cookies.remove('userinfo');
-        var userInfo = JSON.parse(atob(userInfoCookie));
-        setSignedIn(true);
-        setUser(userInfo);
-        setIsAuthLoading(false);
-        console.log(userInfo);
-        getReadingList();
-      } else {
-        setIsAuthLoading(false);
-        console.log("User has not signed in");
+      const checkSignedIn = async () => {
+        const encodedUserInfo = sessionStorage.getItem("userInfo");
+        if (encodedUserInfo !== null) {
+          console.log("encodedUserInfo: " + encodedUserInfo);
+          var userInfo = JSON.parse(atob(encodedUserInfo));
+          setSignedIn(true);
+          setUser(userInfo);
+          setIsAuthLoading(false);
+          console.log(userInfo);
+          // getReadingList();
+        } else if (Cookies.get('userinfo')) {
+          const userInfoCookie =  Cookies.get('userinfo')
+          console.log("userInfoCookie: " + userInfoCookie);
+          sessionStorage.setItem("userInfo", userInfoCookie);
+          Cookies.remove('userinfo');
+          var userInfo = JSON.parse(atob(userInfoCookie));
+          setSignedIn(true);
+          setUser(userInfo);
+          setIsAuthLoading(false);
+          console.log(userInfo);
+          // getReadingList();
+        } else {
+          setIsAuthLoading(false);
+          console.log("User has not signed in");
+        }
       }
+
+      checkSignedIn().then(() => {
+        console.log("signedIn: " + signedIn);
+        getReadingList();
+      });
+
   }, []);
 
   async function getReadingList() {
