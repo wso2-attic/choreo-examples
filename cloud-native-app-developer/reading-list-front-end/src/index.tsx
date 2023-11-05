@@ -43,7 +43,6 @@ export default function App() {
       var userInfo = JSON.parse(atob(encodedUserInfo));
       setSignedIn(true);
       setUser(userInfo);
-      setIsAuthLoading(false);
     } else if (Cookies.get('userinfo')) {
       const userInfoCookie = Cookies.get('userinfo')
       sessionStorage.setItem("userInfo", userInfoCookie);
@@ -51,11 +50,10 @@ export default function App() {
       var userInfo = JSON.parse(atob(userInfoCookie));
       setSignedIn(true);
       setUser(userInfo);
-      setIsAuthLoading(false);
     } else {
       console.log("User is not signed in");
-      setIsAuthLoading(false);
     }
+    setIsAuthLoading(false);
   }, []);
 
   useEffect(() => {
