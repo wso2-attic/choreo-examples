@@ -56,6 +56,7 @@ export default function App() {
           setUser(userInfo);
           setIsAuthLoading(false);
           console.log(userInfo);
+          return true;
           // getReadingList();
         } else if (Cookies.get('userinfo')) {
           const userInfoCookie =  Cookies.get('userinfo')
@@ -67,10 +68,12 @@ export default function App() {
           setUser(userInfo);
           setIsAuthLoading(false);
           console.log(userInfo);
+          return true;
           // getReadingList();
         } else {
           setIsAuthLoading(false);
           console.log("User has not signed in");
+          return false;
         }
       }
 
@@ -79,7 +82,7 @@ export default function App() {
         getReadingList();
       });
 
-  }, []);
+  }, [signedIn]);
 
   async function getReadingList() {
     console.log("getReadingList");
