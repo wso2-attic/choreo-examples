@@ -74,6 +74,8 @@ export default function App() {
   }, []);
 
   async function getReadingList() {
+    console.log("getReadingList");
+    console.log("signedIn: " + signedIn);
     if (signedIn) {
       setIsLoading(true);
       getBooks()
