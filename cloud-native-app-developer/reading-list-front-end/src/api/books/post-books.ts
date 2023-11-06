@@ -16,10 +16,18 @@
 
 
 import { AxiosResponse } from "axios";
-import { getReadingListInstance } from "./instance";
+import { getReadingListInstance, apiUrl } from "./instance";
 import { Book } from "./types/book";
+import { performRequestWithRetry } from "../retry";
 
 export async function postBooks(payload?: Book) {
-  const response = await getReadingListInstance().post("/books", payload);
+
+  const options = {
+    method: 'POST',
+    data: payload,
+  };
+
+  const response = await performRequestWithRetry(`${apiUrl}/books`, options);
+  // const response = await getReadingListInstance().post("/books", payload);
   return response;
 }

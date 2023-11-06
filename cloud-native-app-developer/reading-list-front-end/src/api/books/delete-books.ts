@@ -15,9 +15,17 @@
 // under the License.
 
 
-import { getReadingListInstance } from "./instance";
+import { getReadingListInstance, apiUrl } from "./instance";
+import { performRequestWithRetry } from "../retry";
+
 
 export async function deleteBooks(id: string) {
-  const response = await getReadingListInstance().delete(`/books?id=${id}`);
+  // const response = await getReadingListInstance().delete(`/books?id=${id}`);
+
+  const options = {
+    method: 'DELETE',
+  };
+
+  const response = await performRequestWithRetry(`${apiUrl}/books?id=${id}`, options);
   return response;
 }

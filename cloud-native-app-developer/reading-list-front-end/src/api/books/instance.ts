@@ -25,7 +25,7 @@ declare global {
   }
 }
 
-const apiUrl = window?.config?.apiUrl ? window.config.apiUrl : "/";
+export const apiUrl = window?.config?.apiUrl ? window.config.apiUrl : "/";
 
 export const getReadingListInstance = () => {
   return initInstance(apiUrl);
