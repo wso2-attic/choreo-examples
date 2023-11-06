@@ -15,8 +15,6 @@
 // under the License.
 
 
-import { initInstance } from "../instance";
-
 declare global {
   interface Window {
     config: {
@@ -26,7 +24,3 @@ declare global {
 }
 
 export const apiUrl = window?.config?.apiUrl ? window.config.apiUrl : "/";
-
-export const getReadingListInstance = () => {
-  return initInstance(apiUrl);
-};

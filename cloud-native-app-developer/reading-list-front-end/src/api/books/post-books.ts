@@ -15,8 +15,7 @@
 // under the License.
 
 
-import { AxiosResponse } from "axios";
-import { getReadingListInstance, apiUrl } from "./instance";
+import { apiUrl } from "./constants";
 import { Book } from "./types/book";
 import { performRequestWithRetry } from "../retry";
 
@@ -28,6 +27,5 @@ export async function postBooks(payload?: Book) {
   };
 
   const response = await performRequestWithRetry(`${apiUrl}/books`, options);
-  // const response = await getReadingListInstance().post("/books", payload);
   return response;
 }
