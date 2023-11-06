@@ -17,13 +17,20 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import App from ".";
+import ErrorPage from "./error";
 import "./App.css";
 import "./index.css";
 
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-      <App />
+    <Router>
+      <Switch>
+        <Route path="/error" component={ErrorPage} />
+        <Route path="/" component={App} />
+      </Switch>
+    </Router>
   </React.StrictMode>
 );
