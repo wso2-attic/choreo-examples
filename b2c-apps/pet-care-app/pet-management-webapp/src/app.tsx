@@ -21,9 +21,9 @@ import React, { FunctionComponent, ReactElement } from "react";
 import { render } from "react-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./app.css";
-import { default as authConfig } from "./config.json";
 import { ErrorBoundary } from "./error-boundary";
 import { HomePage, NotFoundPage } from "./pages";
+import { getConfig } from "./util/getConfig";
 
 const AppContent: FunctionComponent = (): ReactElement => {
     const { error } = useAuthContext();
@@ -41,7 +41,7 @@ const AppContent: FunctionComponent = (): ReactElement => {
 };
 
 const App = () => (
-    <AuthProvider config={authConfig}>
+    <AuthProvider config={getConfig()}>
         <AppContent />
     </AuthProvider>
 );

@@ -1,6 +1,16 @@
 # Pet Management Application User Guide
 
-The Pet Management Application is a B2C (Business-to-Consumer) application that allows users to easily register and manage their pets. Users can enter vital information such as their pets' basic information and vaccination records into the app. They can then set up email alerts for their pets' upcoming vaccination dates. This guide will show you how to use [Choreo](https://wso2.com/choreo/) to expose a service endpoint as a REST API and safely consume the API from a web application. To secure user authentication to the web application and add CIAM features to your web application, you will use [Asgardeo](https://wso2.com/asgardeo/), WSO2's SaaS Customer IAM (CIAM) solution.
+The Pet Management Application is a B2C (Business-to-Consumer) application that allows users to easily register and manage their pets. Users can enter vital information such as their pets' basic information and vaccination records into the app. They can then set up email alerts for their pets' upcoming vaccination dates. The solution is based on [Ballerina](https://ballerina.io/), [Choreo](https://wso2.com/choreo/) and [Asgardeo](https://wso2.com/asgardeo/). 
+
+- [Ballerina](https://ballerina.io/) is an open-source language for cloud-native app development. It simplifies building microservices-based applications with modern syntax, built-in network support, service discovery, distributed transactions, and security features.
+
+- [Choreo](https://wso2.com/choreo/), a SaaS application development suite, streamlines integration creation and management in cloud-native environments. It empowers developers with tools to connect, orchestrate, and secure applications and services, expediting digital experience development.
+
+- [Asgardeo](https://wso2.com/asgardeo/), a Customer IAM (CIAM) solution by WSO2, offers extensive features for managing user identities, access privileges, and security in digital ecosystems. It caters to both B2C and B2B applications.
+
+In this solution, the pet management service is developed using Ballerina and deployed within Choreo. It's then made available as an API for use by various applications. The Pet management web application, which is built using React JS, is also hosted within Choreo using its hosting capabilities Asgardeo handles user authentication and leverages its Customer Identity and Access Management (CIAM) capabilities to enrich the overall user experience.
+
+![Alt text](readme-resources/pet-care-solution.png?raw=true "Pet Care Solution")
 
 This guide walks you through the following steps:
 
@@ -177,7 +187,7 @@ Similarly, you can expand and try out the other methods.
 
 ## Step 1.6: Publish the Service
 
-Now that yourService is tested, let's publish it and make it available for applications to consume.
+Now that your Service is tested, let's publish it and make it available for applications to consume.
 
 1. Navigate to the **Manage** section of the channel service and click **Lifecycle**.
 2. Click **Publish** to publish the Service to the **Developer Portal**. External applications can subscribe to the API via the Developer Portal.
@@ -238,9 +248,9 @@ You can skip this step if you are new to Choreo. If not, follow the below steps 
 
 ![Alt text](readme-resources/feature-preview.png?raw=true "Feature Preview")
 
-## Step 3.2: Configure the front-end application
+## Step 3.2: Create a web application component
 
-In this step, you are going to deploy the pet management front-end application in Choreo.
+In this step, you are going to create the pet management front-end application in Choreo.
 
 1. Navigate to **Choreo Console**.
 2. Navigate to the **Components** section from the left navigation menu.
@@ -262,59 +272,73 @@ In this step, you are going to deploy the pet management front-end application i
     | GitHub Account | Your account |
     | GitHub Repository | choreo-examples |
     | Branch | main |
-    | Build Preset | Dockerfile |
-    | Dockerfile Path | /b2c-apps/pet-care-app/pet-management-webapp/Dockerfile |
-    | Docker Context Path | /b2c-apps/pet-care-app/pet-management-webapp|
-    | Port |3000|
+    | Build Preset | Click **React SPA** since the frontend is a React application built with Vite |
+    | Build Context Path | /b2c-apps/pet-care-app/pet-management-webapp |
+    | Build Command | npm install && npm run build|
+    | Build Output |dist|
+    | Node Version |18|
 
-9. Click on the **Create** button.
-10. The Web Application opens on a separate page where you can see its overview.
+10. Click on the **Create** button.
+11. The Web Application opens on a separate page where you can see its overview.
 
-## Step 3.3: Update config.json of the front-end application
+## Step 3.3: Configure the front-end application
 
-1. Navigate to [config.json](pet-management-webapp/src/config.json) and take a copy of this file to your machine. 
-2. Fill the config.json values as follows.
+In this step, you are adding the configurations needed for the web app to successfully invoke thePet Management Service REST API. These configurations need to be updated for each environment you deploy the web app. Here you will be updating the configurations for the development environment.
 
-    - BASE-URL
+To configure the front-end application, follow the steps given below.
+1. While on the web application component page. Click and expand **Dev Ops** in the left menu.
+2. Select **Configs and Secrets** sub menu.
+3. Select **+Create**.
+4. Select the below mount configuration options and click **Next**.
+   | **Field** | **Description** |
+   | -------- | -------- |
+   | Config Type | Config Map |
+   | Mount Type | File Mount |
+5. Provide the below values for mount configuration
+   | **Field** | **Description** |
+   | -------- | -------- |
+   | Config Name | webapp-configs |
+   | Mount Path | **/usr/share/nginx/html/config.js**. Every config that needs to be exposed through the web server should be placed inside /usr/share/nginx/html/ |
+6. Copy the config details as a JSON file as shown below into the text area.
+   ```
+   window.config = {
+    baseUrl: "https://api.asgardeo.io/t/<your-org-name>",
+    clientID: "<asgardeo-client-id>",
+    signInRedirectURL: "<web-app-url>",
+    signOutRedirectURL: "<web-app-url>",
+    resourceServerURL: "<pet-management-service-url>"
+    };
+   ```
+ 7. Fill the placeholders with the values you copied from the previous steps as follows.
+    - baseUrl
         - Open the **application**(`Pet Management App`) you created previously via **Developer Portal**.
         - Click **Production** Keys in the left navigation menu.
         - Go to the **Endpoints** section.
         - Copy and paste the **Token Endpoint** value and remove `/oauth2/token` part from the url. eg: https://api.asgardeo.io/t/{organization_name}
 
-    - CLIENT-ID
+    - clientID
         - Open the **application**(`Pet Management App`) you created previously via **Developer Portal**.
         - Click **Production** Keys in the left navigation menu.
         - Copy and paste the value of the **Consumer Key**.
       
-    - API-ENDPOINT-OF-PET-MGT-SERVICE
+    - resourceServerURL
         - Open the **API** you created previously via **Developer Portal**.
         - In the **Overview** section of the API, you can find the **Endpoint(s)**.
         - Copy and paste the value of On the **Endpoint(s)** section.
 
-    - SIGN-IN-REDIRECT-URL and SIGN-OUT-REDIRECT-URL
-      - You will receive values for SIGN-IN-REDIRECT-URL and SIGN-OUT-REDIRECT-URL in the next sections. For now keep the default values for those configurations.
-
-3. Open the web application you created on **Choreo Console**. Click **DevOps** section in the component and click **Configs & Secrets**.
-4. Click **Create**.
-5. Select config type as **Secret** and mount type as **File Mount**. Then click **Next**.
-6. Provide the following information and click **Create**.
-
-    | Field | Value |
-    | -------- | -------- |
-    | Config Name | webapp-configs |
-    | Mount Path | /home/app/src/config.json |
-
-     Upload the locally saved config.json in the **Upload** section.
+    - signInRedirectURL and signOutRedirectURL
+      - You will receive values for signInRedirectURL and signOutRedirectURL in the next sections. For now keep the default values for those configurations.
+8. Click **Create**.
 
 ## Step 3.4: Deploy the front-end application
 
 1. Navigate to **Build and Deploy** section on the left navigation menu.
 2. Click **Deploy Manually** on the **Build Area**.
 3. When the application is deployed successfully you will get an url in the section **Web App URL**.
-4. Copy and paste the url as the **SIGN-IN-REDIRECT-URL** and **SIGN-OUT-REDIRECT-URL** in the config.json in **step 3.2**.
+4. Copy and paste the url as the **signInRedirectURL** and **signOutRedirectURL** in the config.js in **step 3.3**.
 5. Click **DevOps** section in the component and click **Configs & Secrets**.
-6. On the secret, webapp-configs you created, click the **edit icon** on the right side corner.
-7. Provide the config.json content and click **Save**.
+6. On the Config Map, webapp-configs you created, click the **edit icon** on the right side corner.
+7. Provide the config.js content and click **Save**.
 
 &nbsp;<br>
 # Step 4: Configure Asgardeo
@@ -377,7 +401,7 @@ In this step, you are going to deploy the pet management front-end application i
 &nbsp;<br>
 # Step 5: Consume the Pet Management Application
     
-1. Use **Web App URL** in **step 3.3** to access the Pet Management web application. 
+1. Use **Web App URL** in **step 3.4** to access the Pet Management web application. 
 
 ![Alt text](readme-resources/landing-page.png?raw=true "Landing Page")
 

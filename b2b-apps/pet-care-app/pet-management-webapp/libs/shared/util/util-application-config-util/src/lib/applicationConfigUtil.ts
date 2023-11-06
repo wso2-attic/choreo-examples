@@ -81,7 +81,7 @@ export function getManagementAPIServerBaseUrl() {
  */
 export function getTenantDomain() {
 
-    const baseOrganizationUrl = config.CommonConfig.AuthorizationConfig.BaseOrganizationUrl;
+    const baseOrganizationUrl = getConfig().CommonConfig.AuthorizationConfig.BaseOrganizationUrl;
     const url = baseOrganizationUrl.split("/");
     const path = url[url.length - 1];
 
