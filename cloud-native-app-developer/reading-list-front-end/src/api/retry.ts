@@ -27,23 +27,35 @@ export const performRequestWithRetry = async (url: string, options: AxiosRequest
   
         // Try to refresh the token
         try {
-          const refreshResponse = await axios.post('/auth/refresh');
-          if (refreshResponse.status === 401) {
-            // Session has expired (i.e., Refresh token has also expired).
-            // Redirect to the login page
-            window.location.href = '/auth/login';
-          } else if (refreshResponse.status !== 204) {
-            // We can't refresh the token due to a server error.
-            console.log('Failed to refresh token. Status: ' + refreshResponse.status);
+          await axios.post('/auth/refresh');
+          // const refreshResponse = await axios.post('/auth/refresh');
+          // if (refreshResponse.status === 401) {
+          //   // Session has expired (i.e., Refresh token has also expired).
+          //   // Redirect to the login page
+
+          //   window.location.href = '/auth/login';
+          // } else if (refreshResponse.status !== 204) {
+          //   // We can't refresh the token due to a server error.
+          //   console.log('Failed to refresh token. Status: ' + refreshResponse.status);
   
-            // Hence just throw the 401 error from the API.
-            throw error;
-          }
+          //   // Hence just throw the 401 error from the API.
+          //   throw error;
+          // }
+          
           // Token refresh successful. Retry the API call.
           const retryResponse = await axios(url, options);
           return retryResponse;
         } catch (refreshError) {
-          throw refreshError;
+          if (error.response && error.response.status === 401) {
+            // Session has expired (i.e., Refresh token has also expired).
+            // Redirect to the login page
+            console.log('Failed to refresh token. Status: ' + refreshError.response.status);
+            window.location.href = '/auth/login';
+          } else {
+            // We can't refresh the token due to a server error.
+            // Hence just throw the original 401 error from the API.
+            throw refreshError;
+          }
         }
       } else {
         throw error;
