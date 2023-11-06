@@ -38,21 +38,35 @@ export default function App() {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
-    const encodedUserInfo = sessionStorage.getItem("userInfo");
-    if (encodedUserInfo !== null) {
-      var userInfo = JSON.parse(atob(encodedUserInfo));
-      setSignedIn(true);
-      setUser(userInfo);
-    } else if (Cookies.get('userinfo')) {
+    if (Cookies.get('userinfo')) {
       const userInfoCookie = Cookies.get('userinfo')
       sessionStorage.setItem("userInfo", userInfoCookie);
       Cookies.remove('userinfo');
       var userInfo = JSON.parse(atob(userInfoCookie));
       setSignedIn(true);
       setUser(userInfo);
+    } else if (sessionStorage.getItem("userInfo")) {
+      var userInfo = JSON.parse(atob(sessionStorage.getItem("userInfo")!));
+      setSignedIn(true);
+      setUser(userInfo);
     } else {
       console.log("User is not signed in");
     }
+    // const encodedUserInfo = sessionStorage.getItem("userInfo");
+    // if (encodedUserInfo !== null) {
+    //   var userInfo = JSON.parse(atob(encodedUserInfo));
+    //   setSignedIn(true);
+    //   setUser(userInfo);
+    // } else if (Cookies.get('userinfo')) {
+    //   const userInfoCookie = Cookies.get('userinfo')
+    //   sessionStorage.setItem("userInfo", userInfoCookie);
+    //   Cookies.remove('userinfo');
+    //   var userInfo = JSON.parse(atob(userInfoCookie));
+    //   setSignedIn(true);
+    //   setUser(userInfo);
+    // } else {
+    //   console.log("User is not signed in");
+    // }
     setIsAuthLoading(false);
   }, []);
 
