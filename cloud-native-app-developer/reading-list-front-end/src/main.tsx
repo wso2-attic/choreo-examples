@@ -14,23 +14,17 @@
 // specific language governing permissions and limitations
 // under the License.
 
-
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import App from ".";
-import ErrorPage from "./error";
+import { ToastContainer } from 'react-toastify';
 import "./App.css";
 import "./index.css";
-
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <Router>
-      <Switch>
-        <Route path="/error" component={ErrorPage} />
-        <Route path="/" component={App} />
-      </Switch>
-    </Router>
-  </React.StrictMode>
+  <>
+    <App />
+    <ToastContainer />
+  </>
 );

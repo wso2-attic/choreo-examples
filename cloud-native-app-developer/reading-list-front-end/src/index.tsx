@@ -24,6 +24,7 @@ import AddItem from "./components/modal/fragments/add-item";
 import { deleteBooks } from "./api/books/delete-books";
 import { Dictionary } from "lodash";
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
+import { toast } from 'react-toastify';
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -55,6 +56,18 @@ export default function App() {
       console.log("User is not signed in");
     }
     setIsAuthLoading(false);
+  }, []);
+
+  useEffect(() => {
+    // Handle errors from Managed Authentication
+    const errorCode = new URLSearchParams(window.location.search).get('code');
+    const errorMessage = new URLSearchParams(window.location.search).get('message');
+    if (errorCode) {
+      toast.error(<>
+        <p className="text-[16px] font-bold text-slate-800">Something went wrong !</p>
+        <p className="text-[13px] text-slate-400 mt-1">Error Code : {errorCode}<br />Error Description: {errorMessage}</p>
+      </>);    
+    }
   }, []);
 
   useEffect(() => {
