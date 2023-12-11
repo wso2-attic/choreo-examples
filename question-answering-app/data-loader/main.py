@@ -23,19 +23,22 @@ import openai
 import pinecone
 from oauth2client.service_account import ServiceAccountCredentials
 
-from constants import GS_CREDENTIALS_PATH, EMBEDDING_MODEL, SHEET_ID, WORKSHEET_NAME, PINECONE_INDEX_NAME, \
-    OPENAI_API_TYPE, OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_API_VERSION, PINECONE_ENVIRONMENT, PINECONE_API_KEY
+from config_loader import load_configs
+from constants import *
 
 logging.basicConfig(level=logging.INFO)
 
+# Load configs
+config = load_configs()
+
 # Initialize OpenAI client
-openai.api_key = OPENAI_API_KEY
-openai.api_base = OPENAI_API_BASE
+openai.api_key = config["OPENAI_API_KEY"]
+openai.api_base = config["OPENAI_API_BASE"]
 openai.api_type = OPENAI_API_TYPE
 openai.api_version = OPENAI_API_VERSION
 
 # Initialize Pinecone client
-pinecone.init(api_key=PINECONE_API_KEY, environment=PINECONE_ENVIRONMENT)
+pinecone.init(api_key=config["PINECONE_API_KEY"], environment=config["PINECONE_ENVIRONMENT"])
 
 
 def get_embedding(text):
@@ -43,7 +46,7 @@ def get_embedding(text):
     Function to get embeddings using OpenAI
     """
     result = openai.Embedding.create(
-        engine=EMBEDDING_MODEL,
+        engine=config["OPENAI_EMBEDDING_MODEL"],
         input=text
     )
     return result["data"][0]["embedding"]
@@ -66,7 +69,7 @@ def read_data_from_google_sheets(sheet_id, sheet_name):
         values = worksheet.get_all_values()[1:]  # Skip the header
 
     except Exception as e:
-        logging.error("Error reading data from the google sheet and generating embeddings : " + str(e), exc_info=True)
+        logging.exception("Error reading data from the google sheet and generating embeddings")
         return
 
     try:
@@ -83,7 +86,7 @@ def read_data_from_google_sheets(sheet_id, sheet_name):
         return data
 
     except Exception as e:
-        logging.error("Error generating data vectors with embeddings : " + str(e), exc_info=True)
+        logging.exception("Error generating data vectors with embeddings")
         return
 
 
@@ -92,7 +95,7 @@ def main():
     Main function
     """
     # Read data from Google Sheets
-    data = read_data_from_google_sheets(SHEET_ID, WORKSHEET_NAME)
+    data = read_data_from_google_sheets(config["SHEET_ID"], config["WORKSHEET_NAME"])
 
     if data is None:
         return
@@ -102,7 +105,7 @@ def main():
         return
 
     # Insert data into Pinecone index
-    index = pinecone.Index(PINECONE_INDEX_NAME)
+    index = pinecone.Index(config["PINECONE_INDEX_NAME"])
     index.upsert(data)
 
     logging.info("Successfully inserted data into Pinecone.")

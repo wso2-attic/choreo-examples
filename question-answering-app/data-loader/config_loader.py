@@ -16,7 +16,22 @@
  under the License.
 """
 
-OPENAI_API_TYPE = "azure"
-OPENAI_API_VERSION = "2023-05-15"
+import os
 
-GS_CREDENTIALS_PATH = "./config/gs_credentials.json"
+
+def load_configs():
+    """
+    Load configs from environment variables.
+    """
+    config_keys = ["OPENAI_API_KEY", "OPENAI_API_BASE", "OPENAI_EMBEDDING_MODEL", "SHEET_ID", "WORKSHEET_NAME",
+                   "PINECONE_API_KEY", "PINECONE_INDEX_NAME", "PINECONE_ENVIRONMENT"]
+    loaded_configs = {}
+
+    for key in config_keys:
+        value = os.getenv(key)
+        if value is None:
+            raise ValueError(f"Missing environment variable: {key}")
+
+        loaded_configs[key] = value
+
+    return loaded_configs
