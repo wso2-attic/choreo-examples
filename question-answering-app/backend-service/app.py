@@ -22,10 +22,11 @@ import openai
 from flask import request, Flask
 
 from answer_generator import answer_query_with_context
-from constants import OPENAI_API_TYPE, AZURE_OPENAI_API_VERSION, OPENAI_API_KEY, OPENAI_API_BASE
+from config_loader import configs
+from constants import OPENAI_API_TYPE, AZURE_OPENAI_API_VERSION
 
-openai.api_key = OPENAI_API_KEY
-openai.api_base = OPENAI_API_BASE
+openai.api_key = configs["OPENAI_API_KEY"]
+openai.api_base = configs["OPENAI_API_BASE"]
 openai.api_type = OPENAI_API_TYPE
 openai.api_version = AZURE_OPENAI_API_VERSION
 
@@ -39,17 +40,15 @@ def generate_answer():
         question = json_body.get('question')
 
     except Exception as e:
-        logging.error("Request is not properly formatted: " + str(e), exc_info=True)
+        logging.exception("Request is not properly formatted")
         return "Request is not properly formatted.", 400
 
     try:
-        answer = answer_query_with_context(question)
-
         return {
-            'answer': answer
+            'answer': answer_query_with_context(question)
         }
     except Exception as e:
-        logging.error("Error generating answer: " + str(e), exc_info=True)
+        logging.exception("Error generating answer.")
         return "There was an error generating the answer", 500
 
 

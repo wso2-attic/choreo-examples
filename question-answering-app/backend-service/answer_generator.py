@@ -20,15 +20,15 @@ import openai
 import pinecone
 import tiktoken
 
-from constants import PINECONE_INDEX_NAME, PINECONE_API_KEY, PINECONE_ENVIRONMENT, EMBEDDING_MODEL, CHAT_MODEL, \
-    ENCODING, SEPARATOR, MAX_SECTION_LEN
+from config_loader import configs
+from constants import ENCODING, SEPARATOR, MAX_SECTION_LEN
 
-pinecone.init(api_key=PINECONE_API_KEY, environment=PINECONE_ENVIRONMENT)
+pinecone.init(api_key=configs["PINECONE_API_KEY"], environment=configs["PINECONE_ENVIRONMENT"])
 
 
 def get_embedding(text):
     result = openai.Embedding.create(
-        engine=EMBEDDING_MODEL,
+        engine=configs["OPENAI_EMBEDDING_MODEL"],
         input=text
     )
 
@@ -41,7 +41,7 @@ def fetch_document_sections(query, limit=5):
     to find the most relevant sections.
     """
 
-    index = pinecone.Index(PINECONE_INDEX_NAME)
+    index = pinecone.Index(configs["PINECONE_INDEX_NAME"])
     query_embedding = get_embedding(query)
     documents = index.query(
         top_k=limit,
@@ -68,14 +68,14 @@ def construct_prompt(question) -> str:
         if chosen_sections_len > MAX_SECTION_LEN:
             break
 
-        chosen_section = SEPARATOR + content
-        chosen_sections.append(chosen_section)
+        chosen_sections.append(content)
 
-    header = "Answer the question as truthfully and descriptively as possible using the provided context, " \
-             "and if the answer is not contained within the text below, say \"Sorry, I didn't understand the " \
-             "question. If it is about Choreo, could you please rephrase it and try again?\". "
+    instruction_prompt = "Answer the question as truthfully and descriptively as possible using the provided " \
+                         "context, and if the answer is not contained within the text below, say \"Sorry, " \
+                         "I didn't understand the question. If it is about Choreo, could you please rephrase it " \
+                         "and try again?\". "
 
-    return header + "".join(chosen_sections) + "\n\n Q: " + question + "\n A:"
+    return f"{instruction_prompt}\n{SEPARATOR.join(chosen_sections)}\n\nQ: {question}\nA:"
 
 
 def answer_query_with_context(query):
@@ -84,7 +84,7 @@ def answer_query_with_context(query):
     """
     prompt = construct_prompt(query)
     response = openai.ChatCompletion.create(
-        engine=CHAT_MODEL,
+        engine=configs["OPENAI_CHAT_MODEL"],
         messages=[{"role": "system", "content": prompt}]
     )
-    return response["choices"][0]["message"]["content"].strip(" \n")
+    return response["choices"][0]["message"]["content"].strip()

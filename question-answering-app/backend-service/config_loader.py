@@ -16,9 +16,26 @@
  under the License.
 """
 
-OPENAI_API_TYPE = "azure"
-AZURE_OPENAI_API_VERSION = "2023-05-15"
+import os
 
-MAX_SECTION_LEN = 1500
-SEPARATOR = "\n* "
-ENCODING = "cl100k_base"  # encoding for text-embedding-ada-002
+
+def load_configs():
+    """
+    Load configs from environment variables.
+    """
+    config_keys = ["OPENAI_API_KEY", "OPENAI_API_BASE", "OPENAI_CHAT_MODEL", "OPENAI_EMBEDDING_MODEL",
+                   "PINECONE_API_KEY", "PINECONE_INDEX_NAME", "PINECONE_ENVIRONMENT"]
+    loaded_configs = {}
+
+    for key in config_keys:
+        value = os.getenv(key)
+        if value is None:
+            raise ValueError(f"Missing environment variable: {key}")
+
+        loaded_configs[key] = value
+
+    return loaded_configs
+
+
+# Load configs
+configs = load_configs()
