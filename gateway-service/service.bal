@@ -46,7 +46,7 @@ const string PII_DETECTION_ERROR_MESSAGE = "PII detected in the request payload"
 # bound to port `9090`.
 service / on new http:Listener(9090) {
 
-    resource function post [string deploymentId]/completions(@http:Payload text:Deploymentid_completions_body request) returns http:Response|text:Inline_response_200|error {
+    resource function post [string deploymentId]/completions(@http:Payload text:Deploymentid_completions_body request) returns text:Inline_response_200|http:BadRequest|error {
 
         string|string[]? prompt = request?.prompt;
 
@@ -54,7 +54,9 @@ service / on new http:Listener(9090) {
         if prompt is string {
             if containsPii(prompt) {
                 log:printWarn(PII_DETECTION_ERROR_MESSAGE);
-                return generateResponse(PII_DETECTION_ERROR_MESSAGE, http:STATUS_BAD_REQUEST);
+                return {
+                    body:  PII_DETECTION_ERROR_MESSAGE
+                };
             }
         }
 
@@ -63,7 +65,9 @@ service / on new http:Listener(9090) {
                 if containsPii(promptItem) {
                     log:printWarn(PII_DETECTION_ERROR_MESSAGE);
                     // Return a 400 Bad Request response if PII is detected
-                    return generateResponse(PII_DETECTION_ERROR_MESSAGE, http:STATUS_BAD_REQUEST);
+                    return {
+                        body:  PII_DETECTION_ERROR_MESSAGE
+                    };
                 }
             }
         }
@@ -77,7 +81,7 @@ service / on new http:Listener(9090) {
         return response;
     }
 
-    resource function post [string deploymentId]/chat/completions(@http:Payload chat:CreateChatCompletionRequest request) returns http:Response|chat:CreateChatCompletionResponse|error {
+    resource function post [string deploymentId]/chat/completions(@http:Payload chat:CreateChatCompletionRequest request) returns chat:CreateChatCompletionResponse|http:BadRequest|error {
 
         // Check if the chat messages contains PII
         foreach chat:ChatCompletionRequestMessage message in request.messages {
@@ -86,7 +90,9 @@ service / on new http:Listener(9090) {
                 if containsPii(messageContent) {
                     log:printWarn(PII_DETECTION_ERROR_MESSAGE);
                     // Return a 400 Bad Request response if PII is detected
-                    return generateResponse(PII_DETECTION_ERROR_MESSAGE, http:STATUS_BAD_REQUEST);
+                    return {
+                        body:  PII_DETECTION_ERROR_MESSAGE
+                    };
                 }
             }
         }
@@ -100,7 +106,7 @@ service / on new http:Listener(9090) {
         return response;
     }
 
-    resource function post [string deploymentId]/embeddings(@http:Payload embeddings:Deploymentid_embeddings_body request) returns http:Response|embeddings:Inline_response_200|error {
+    resource function post [string deploymentId]/embeddings(@http:Payload embeddings:Deploymentid_embeddings_body request) returns embeddings:Inline_response_200|http:BadRequest|error {
 
         string|string[]? input = request?.input;
 
@@ -108,7 +114,9 @@ service / on new http:Listener(9090) {
         if input is string {
             if containsPii(input) {
                 log:printWarn(PII_DETECTION_ERROR_MESSAGE);
-                return generateResponse(PII_DETECTION_ERROR_MESSAGE, http:STATUS_BAD_REQUEST);
+                return {
+                    body:  PII_DETECTION_ERROR_MESSAGE
+                };
             }
         }
 
@@ -117,7 +125,9 @@ service / on new http:Listener(9090) {
                 if containsPii(inputItem) {
                     log:printWarn(PII_DETECTION_ERROR_MESSAGE);
                     // Return a 400 Bad Request response if PII is detected
-                    return generateResponse(PII_DETECTION_ERROR_MESSAGE, http:STATUS_BAD_REQUEST);
+                    return {
+                        body:  PII_DETECTION_ERROR_MESSAGE
+                    };
                 }
             }
         }
@@ -148,11 +158,4 @@ function containsPii(string text) returns boolean {
     }
 
     return false;
-}
-
-function generateResponse(string message, int statusCode) returns http:Response {
-    http:Response response = new ();
-    response.setTextPayload(message);
-    response.statusCode = statusCode;
-    return response;
 }
